@@ -1,15 +1,123 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-13
+> Letzte Aktualisierung: 2026-04-14
 
 ---
 
 ## Neueste Änderungen
 
-### Woche 15+ (7.–13. April 2026) — v2.1.92–v2.1.104
+### Woche 15+ (6.–13. April 2026) — v2.1.92–v2.1.105
 
 ---
+
+### [/autofix-pr aus dem Terminal]
+- **Was:** PR Auto-Fix direkt aus dem Terminal aktivieren. `/autofix-pr` erkennt den offenen PR für den aktuellen Branch und aktiviert Auto-Fix auf Claude Code Web — Claude beobachtet CI und Review-Kommentare und pusht Fixes bis alles grün ist.
+- **Einsatz:** `/autofix-pr` auf dem Branch mit offenem PR ausführen
+- **Mehrwert:** Kein Wechsel zum Browser mehr nötig um Auto-Fix zu aktivieren — ein Befehl und man kann sich anderem widmen.
+- **Version:** v2.1.101
+
+### [/loop Self-Pacing]
+- **Was:** `/loop` kann jetzt ohne Intervall-Angabe aufgerufen werden. Claude bestimmt selbst den optimalen Takt basierend auf der Aufgabe, oder nutzt das Monitor Tool um Polling ganz zu vermeiden.
+- **Einsatz:** `/loop check CI on my PR` (ohne Zeitangabe)
+- **Mehrwert:** Intelligenteres Polling — Claude wartet genau so lange wie nötig statt starre Intervalle abzuarbeiten.
+- **Version:** v2.1.101
+
+### [EnterWorktree `path` Parameter]
+- **Was:** Das EnterWorktree Tool akzeptiert jetzt einen `path` Parameter um in bestehende Worktrees zu wechseln statt immer einen neuen zu erstellen.
+- **Einsatz:** Automatisch aktiv — Claude kann bestehende Worktrees direkt nutzen
+- **Mehrwert:** Effizienter Umgang mit Git Worktrees, weniger unnötige Worktree-Erstellungen.
+- **Version:** v2.1.105
+
+### [PreCompact Hook]
+- **Was:** Neuer Hook-Event für Context-Kompaktierung. Hooks können die Kompaktierung mit Exit-Code 2 oder `{"decision":"block"}` blockieren.
+- **Einsatz:** `PreCompact` Hook in settings.json konfigurieren
+- **Mehrwert:** Kontrolle über den Zeitpunkt der Context-Kompaktierung — wichtig wenn bestimmte Informationen nicht verloren gehen dürfen.
+- **Version:** v2.1.105
+
+### [Plugin Background Monitors]
+- **Was:** Plugins können über einen `monitors` Schlüssel im Manifest Background-Monitore registrieren, die Events in den Konversationsstream einspeisen.
+- **Einsatz:** `"monitors"` in plugin.json definieren
+- **Mehrwert:** Plugins können Live-Daten (Logs, Metriken, Events) direkt in die Konversation streamen.
+- **Version:** v2.1.105
+
+### [/proactive als Alias für /loop]
+- **Was:** `/proactive` ist ein neuer Alias für den `/loop` Befehl.
+- **Einsatz:** `/proactive` statt `/loop` verwenden
+- **Mehrwert:** Intuitiverer Befehlsname für proaktives Monitoring und wiederkehrende Aufgaben.
+- **Version:** v2.1.105
+
+### [MCP Truncation-Hinweise mit Format-Rezepten]
+- **Was:** Wenn MCP-Ergebnisse abgeschnitten werden, zeigt Claude jetzt format-spezifische Hinweise (z.B. `jq` für JSON) wie man die Daten gezielter abfragen kann.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Statt stumpfer Abschneidung bekommt man actionable Tipps zur gezielteren Datenabfrage.
+- **Version:** v2.1.105
+
+### [Verbessertes Stalled-Stream-Handling]
+- **Was:** Hängende API-Streams werden nach 5 Minuten abgebrochen und als Non-Streaming-Request wiederholt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine endlosen Wartezeiten mehr bei Netzwerkproblemen — automatischer Fallback.
+- **Version:** v2.1.105
+
+### [/doctor mit Status-Icons und Auto-Fix]
+- **Was:** `/doctor` zeigt jetzt Status-Icons für jede Prüfung. Mit `f` kann Claude erkannte Probleme automatisch beheben.
+- **Einsatz:** `/doctor` ausführen, dann `f` für Auto-Fix
+- **Mehrwert:** Schnellere Diagnose und Ein-Klick-Behebung von Setup-Problemen.
+- **Version:** v2.1.105
+
+### [Skill Description Limit auf 1.536 Zeichen]
+- **Was:** Das Zeichenlimit für Skill-Beschreibungen wurde von 250 auf 1.536 Zeichen angehoben.
+- **Einsatz:** Automatisch aktiv — längere Beschreibungen in Skill-Definitionen möglich
+- **Mehrwert:** Skills können detailliertere Beschreibungen haben, was bessere Erkennung und Nutzung ermöglicht.
+- **Version:** v2.1.105
+
+### [SSH/Mosh 16-Color-Palette repariert]
+- **Was:** Ausgewaschene Farben über SSH/mosh auf Ghostty, Kitty, Alacritty, WezTerm, foot, rio und Contour behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrekte Farbdarstellung bei Remote-Nutzung über moderne Terminal-Emulatoren.
+- **Version:** v2.1.105
+
+### [Vim-Modus History-Navigation]
+- **Was:** Im Vim-Modus navigieren `j`/`k` im NORMAL-Modus durch die Eingabe-History.
+- **Einsatz:** Vim-Modus aktivieren (`/config` → Editor mode), dann `j`/`k` im Normal-Modus
+- **Mehrwert:** Natürliche Vim-Navigation durch frühere Eingaben.
+- **Version:** v2.1.98
+
+### [Accept Edits Auto-Approval]
+- **Was:** Accept Edits Mode genehmigt jetzt automatisch sichere Befehle mit Umgebungsvariablen-Prefixes und Prozess-Wrappern.
+- **Einsatz:** Automatisch aktiv im Accept Edits Mode
+- **Mehrwert:** Weniger manuelle Genehmigungen für offensichtlich sichere Befehle.
+- **Version:** v2.1.97
+
+### [Cedar Policy Syntax-Highlighting]
+- **Was:** Syntax-Highlighting für Cedar Policy-Dateien (`.cedar`, `.cedarpolicy`).
+- **Einsatz:** Automatisch aktiv bei Anzeige von Cedar-Dateien
+- **Mehrwert:** Bessere Lesbarkeit von Cedar Policy-Definitionen in Claude Code.
+- **Version:** v2.1.97
+
+### [Session-Titel in UserPromptSubmit Hooks]
+- **Was:** `UserPromptSubmit` Hooks können den Session-Titel über `hookSpecificOutput.sessionTitle` setzen.
+- **Einsatz:** In UserPromptSubmit Hook `sessionTitle` im Output setzen
+- **Mehrwert:** Automatische Session-Benennung basierend auf dem ersten Prompt oder Custom-Logik.
+- **Version:** v2.1.94
+
+### [CLAUDE_CODE_SCRIPT_CAPS]
+- **Was:** Neue Umgebungsvariable um die maximale Anzahl von Script-Aufrufen pro Session zu begrenzen.
+- **Einsatz:** `CLAUDE_CODE_SCRIPT_CAPS=100` setzen
+- **Mehrwert:** Schutz vor Endlosschleifen und unkontrolliertem Script-Verbrauch in automatisierten Setups.
+- **Version:** v2.1.98
+
+### [Prompt-Cache-Ablauf-Hinweis]
+- **Was:** Pro-User sehen im Footer einen Hinweis wenn der Prompt-Cache abläuft.
+- **Einsatz:** Automatisch aktiv für Pro-Subscription
+- **Mehrwert:** Bewussterer Umgang mit Pausen — man weiß wann der Cache verfällt und die nächste Anfrage teurer wird.
+- **Version:** v2.1.92
+
+### [Remote Control Session-Namen]
+- **Was:** Remote Control Sessions verwenden automatisch den Hostnamen als Prefix (überschreibbar mit `--remote-control-session-name-prefix`).
+- **Einsatz:** Automatisch aktiv; `--remote-control-session-name-prefix "mein-name"` zum Überschreiben
+- **Mehrwert:** Einfachere Identifikation von Remote Sessions bei mehreren verbundenen Rechnern.
+- **Version:** v2.1.92
 
 ### [Team-Onboarding-Befehl]
 - **Was:** Neuer `/team-onboarding` Befehl generiert einen Einarbeitungsleitfaden für neue Teammitglieder basierend auf der lokalen Claude Code Nutzung.
@@ -191,6 +299,18 @@
 - **Mehrwert:** CLI-Helfer können als bare Commands aufgerufen werden — kein absoluter Pfad oder Wrapper-Skript nötig.
 - **Version:** v2.1.91
 
+### [Voice Mode Verbesserungen]
+- **Was:** Push-to-Talk Modifier-Kombinationen, Windows WebSocket-Unterstützung und macOS Apple Silicon Mikrofon-Berechtigung für Voice Mode.
+- **Einsatz:** Voice Mode aktivieren — Verbesserungen automatisch aktiv
+- **Mehrwert:** Zuverlässigere Sprachsteuerung auf allen Plattformen.
+- **Version:** v2.1.86–v2.1.91
+
+### [Hook Output auf Disk bei >50K]
+- **Was:** Hook-Output über 50K Zeichen wird jetzt auf Disk gespeichert mit Pfad und Preview statt direkt in den Kontext injiziert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verhindert Context-Überflutung durch große Hook-Outputs bei gleichzeitigem Zugriff auf die Daten.
+- **Version:** v2.1.86–v2.1.91
+
 ### [PermissionDenied Hook für Auto Mode]
 - **Was:** Neuer `PermissionDenied` Hook feuert bei Classifier-Ablehnungen in Auto Mode. Mit `retry: true` kann Claude einen anderen Ansatz versuchen.
 - **Einsatz:** `PermissionDenied` Hook in settings.json konfigurieren; `/permissions` → Recent zeigt Ablehnungen mit `r` zum Retry
@@ -262,6 +382,30 @@
 - **Einsatz:** In settings.json Hook mit `"if": "Bash(git commit *)"` konfigurieren
 - **Mehrwert:** Weniger Prozess-Overhead da Hooks nur bei passenden Befehlen feuern statt bei jeder Bash-Ausführung.
 - **Version:** v2.1.85
+
+### [Bild-Chips beim Einfügen]
+- **Was:** Eingefügte Bilder erzeugen `[Image #N]` Chips die man positionell referenzieren kann.
+- **Einsatz:** Bild einfügen, dann z.B. "In Image #1, fix the alignment" schreiben
+- **Mehrwert:** Klare Referenzierung von mehreren eingefügten Bildern in einem Prompt.
+- **Version:** v2.1.83–v2.1.85
+
+### [/status während Claude antwortet]
+- **Was:** `/status` funktioniert jetzt auch während Claude gerade eine Antwort generiert.
+- **Einsatz:** `/status` jederzeit ausführen
+- **Mehrwert:** Live-Einblick in Session-Status ohne warten zu müssen bis Claude fertig ist.
+- **Version:** v2.1.83–v2.1.85
+
+### [Idle-Return-Hinweis]
+- **Was:** Nach 75+ Minuten Inaktivität zeigt Claude Code einen Hinweis zum `/clear` an, da der Prompt-Cache verfallen ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bewusstere Entscheidung ob man die Session fortsetzt oder besser einen frischen Kontext startet.
+- **Version:** v2.1.83–v2.1.85
+
+### [Interrupt-Wiederherstellung]
+- **Was:** Unterbrechung bevor Claude antwortet stellt die Eingabe automatisch wieder her.
+- **Einsatz:** `Ctrl+C` drücken bevor eine Antwort kommt — Eingabe bleibt erhalten
+- **Mehrwert:** Kein Verlust der getippten Nachricht mehr bei versehentlichem oder bewusstem Abbruch.
+- **Version:** v2.1.83–v2.1.85
 
 ### [Plugin userConfig]
 - **Was:** Plugins können jetzt bei Aktivierung nach Settings fragen und Secrets Keychain-backed speichern.
