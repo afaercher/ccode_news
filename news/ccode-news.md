@@ -1,15 +1,87 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-14
+> Letzte Aktualisierung: 2026-04-14 19:00 UTC
 
 ---
 
 ## Neueste Änderungen
 
-### Woche 15+ (6.–13. April 2026) — v2.1.92–v2.1.105
+### Woche 15+ (6.–14. April 2026) — v2.1.92–v2.1.107
 
 ---
+
+### [Routines — Automatisierungen auf Claudes Web-Infrastruktur]
+- **Was:** Routines sind konfigurierbare Automatisierungen (Prompt + Repo + Connectors), die auf Claudes Web-Infrastruktur laufen — kein offener Laptop nötig. Drei Ausführungsmodelle: **Scheduled** (Cron-artig, z.B. nächtliche Bug-Triage), **API-triggered** (eigener Endpoint pro Routine, z.B. Deploy-Verifizierung bei Alert), **Webhook** (GitHub Events, z.B. Custom Code Review bei PRs auf bestimmte Pfade).
+- **Einsatz:** Über `claude.ai/code` oder `/schedule` CLI-Befehl einrichten. Limits: Pro 5/Tag, Max 15/Tag, Team/Enterprise 25/Tag.
+- **Mehrwert:** Wiederkehrende Aufgaben wie Backlog-Triage, Dokumentations-Drift-Erkennung, Alert-Triage oder Cross-SDK-Portierung laufen vollautomatisch im Hintergrund.
+- **Version:** Blog-Ankündigung 14. April 2026
+
+### [Thinking Hints erscheinen früher]
+- **Was:** Thinking Hints (Denkhinweise) werden bei lang andauernden Operationen früher angezeigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Besseres Feedback während Claude an komplexen Aufgaben arbeitet — man sieht früher, woran Claude denkt.
+- **Version:** v2.1.107
+
+### [WebFetch filtert Style/Script-Inhalte]
+- **Was:** WebFetch entfernt jetzt `<style>` und `<script>` Inhalte aus abgerufenen Seiten, damit CSS-lastige Seiten nicht das Content-Budget aufbrauchen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deutlich bessere Ergebnisse beim Abrufen von Webseiten — mehr relevanter Text statt CSS/JS-Ballast.
+- **Version:** v2.1.105
+
+### [Verbesserte Netzwerk-Fehlermeldungen]
+- **Was:** Verbindungsfehler zeigen sofort eine Retry-Nachricht statt eines stillen Spinners.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sofortiges Feedback bei Netzwerkproblemen statt ratlosem Warten.
+- **Version:** v2.1.105
+
+### [Lange Einzeiler-Writes werden abgeschnitten]
+- **Was:** Lange einzeilige Schreiboperationen (z.B. minifiziertes JSON) werden in der UI abgeschnitten statt über viele Bildschirmseiten zu paginieren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine endlosen Seiten bei minifiziertem JSON oder ähnlichen Einzeilern mehr.
+- **Version:** v2.1.105
+
+### [Fix: Bilder in Queued Messages]
+- **Was:** Bilder, die an Nachrichten angehängt werden während Claude arbeitet, wurden bisher still verworfen. Jetzt werden sie korrekt übermittelt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bilder gehen nicht mehr verloren, wenn man sie sendet während Claude noch beschäftigt ist.
+- **Version:** v2.1.105
+
+### [Fix: Leading Whitespace in Antworten]
+- **Was:** Führende Leerzeichen in Claudes Antworten wurden abgeschnitten, was ASCII Art und eingerückte Diagramme zerstörte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** ASCII Art, Code-Diagramme und eingerückte Ausgaben werden korrekt dargestellt.
+- **Version:** v2.1.105
+
+### [Fix: Bash-Output mit Clickable File Links]
+- **Was:** Bash-Output wurde verstümmelt wenn Befehle anklickbare Datei-Links ausgeben (z.B. Python `rich`/`loguru` Logging).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrekte Darstellung von Terminal-Output mit Rich-Formatierung.
+- **Version:** v2.1.105
+
+### [Fix: One-Shot Scheduled Tasks feuerten wiederholt]
+- **Was:** Einmalig geplante Tasks feuerten wiederholt, wenn der File-Watcher das Post-Fire-Cleanup verpasste.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Einmalige Scheduled Tasks laufen jetzt tatsächlich nur einmal.
+- **Version:** v2.1.105
+
+### [Fix: Channel-Benachrichtigungen für Team/Enterprise]
+- **Was:** Eingehende Channel-Benachrichtigungen wurden nach der ersten Nachricht für Team/Enterprise-Nutzer still verworfen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Zuverlässige Benachrichtigungen für Team- und Enterprise-Nutzer.
+- **Version:** v2.1.105
+
+### [Fix: Marketplace Plugin Dependencies]
+- **Was:** Marketplace-Plugins mit `package.json` und Lockfile bekamen ihre Dependencies nicht automatisch installiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugins funktionieren sofort nach Installation ohne manuelles `npm install`.
+- **Version:** v2.1.105
+
+### [Fix: 429 Rate-Limit-Anzeige]
+- **Was:** 429 Rate-Limit-Fehler zeigten einen rohen JSON-Dump statt einer sauberen Meldung für API-Key, Bedrock und Vertex-Nutzer.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lesbare Fehlermeldungen statt kryptischer JSON-Dumps bei Rate-Limits.
+- **Version:** v2.1.105
 
 ### [/autofix-pr aus dem Terminal]
 - **Was:** PR Auto-Fix direkt aus dem Terminal aktivieren. `/autofix-pr` erkennt den offenen PR für den aktuellen Branch und aktiviert Auto-Fix auf Claude Code Web — Claude beobachtet CI und Review-Kommentare und pusht Fixes bis alles grün ist.
