@@ -1,15 +1,105 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-14 19:00 UTC
+> Letzte Aktualisierung: 2026-04-15 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
 
-### Woche 15+ (6.–14. April 2026) — v2.1.92–v2.1.107
+### Woche 15+ (6.–15. April 2026) — v2.1.92–v2.1.109
 
 ---
+
+### [Desktop Redesign für parallele Agents]
+- **Was:** Komplett überarbeitete Claude Code Desktop-App für paralleles Arbeiten an mehreren Projekten. Neue Sidebar für aktive/letzte Sessions, integriertes Terminal, In-App Datei-Editor, überarbeiteter Diff-Viewer für große Changesets, HTML/PDF-Vorschau, und Drag-and-Drop Layout.
+- **Einsatz:** Desktop-App aktualisieren. Side Chat mit `⌘+;` / `Ctrl+;` öffnen für Zwischenfragen ohne den Hauptthread zu stören. Drei View-Modi: Verbose, Normal, Summary.
+- **Mehrwert:** Mehrere Repos gleichzeitig bearbeiten, Sessions nach Status/Projekt filtern, und ein Side Chat der Kontext aus dem Hauptthread zieht ohne ihn zu verändern.
+- **Version:** Blog-Ankündigung 14. April 2026
+
+### [Recap-Feature für Session-Rückkehr]
+- **Was:** Neues Recap-Feature liefert Kontext-Zusammenfassung wenn man zu einer Session zurückkehrt. Konfigurierbar in `/config`, manuell aufrufbar mit `/recap`.
+- **Einsatz:** `/recap` ausführen oder in `/config` aktivieren. `CLAUDE_CODE_ENABLE_AWAY_SUMMARY` zum Erzwingen bei deaktivierter Telemetrie.
+- **Mehrwert:** Sofortiger Überblick wo man war und was passiert ist, statt sich durch den Verlauf scrollen zu müssen.
+- **Version:** v2.1.108
+
+### [1-Stunden Prompt-Cache TTL]
+- **Was:** Neue Umgebungsvariable `ENABLE_PROMPT_CACHING_1H` für 1-Stunden Prompt-Cache TTL auf API-Key, Bedrock, Vertex und Foundry. `FORCE_PROMPT_CACHING_5M` erzwingt 5-Minuten TTL.
+- **Einsatz:** `ENABLE_PROMPT_CACHING_1H=1` setzen. `CLAUDE_CODE_SKIP_BEDROCK_AUTH` ist deprecated aber funktioniert noch.
+- **Mehrwert:** Längere Cache-Dauer reduziert Kosten und Latenz bei häufiger Nutzung über API-Key oder Cloud-Provider.
+- **Version:** v2.1.108
+
+### [Skills via Skill Tool aufrufbar]
+- **Was:** Das Modell kann jetzt eingebaute Slash-Commands wie `/init`, `/review` und `/security-review` über das Skill Tool entdecken und aufrufen.
+- **Einsatz:** Automatisch aktiv — Claude kann Skills eigenständig nutzen
+- **Mehrwert:** Claude kann proaktiv relevante Skills einsetzen ohne dass man sie manuell aufrufen muss.
+- **Version:** v2.1.108
+
+### [/undo als Alias für /rewind]
+- **Was:** `/undo` ist jetzt ein Alias für den `/rewind` Befehl.
+- **Einsatz:** `/undo` statt `/rewind` verwenden
+- **Mehrwert:** Intuitiverer Befehlsname zum Rückgängigmachen von Aktionen.
+- **Version:** v2.1.108
+
+### [Verbesserte /model Warnung]
+- **Was:** `/model` warnt jetzt vor dem Wechsel mitten in einer Konversation, da die nächste Antwort die gesamte History uncached neu einliest.
+- **Einsatz:** Automatisch aktiv bei `/model` Nutzung
+- **Mehrwert:** Bewusste Entscheidung über Modellwechsel — man weiß was es kostet.
+- **Version:** v2.1.108
+
+### [Verbesserte /resume Filterung]
+- **Was:** `/resume` Picker zeigt standardmäßig Sessions aus dem aktuellen Verzeichnis. `Ctrl+A` zeigt alle Projekte.
+- **Einsatz:** `/resume` ausführen — `Ctrl+A` für alle Projekte
+- **Mehrwert:** Schnellerer Zugriff auf relevante Sessions ohne durch projektfremde Sessions scrollen zu müssen.
+- **Version:** v2.1.108
+
+### [Bessere Fehlermeldungen]
+- **Was:** Server-Rate-Limits werden jetzt von Plan-Usage-Limits unterschieden. 5xx/529 Fehler zeigen Link zu status.claude.com. Unbekannte Slash-Commands schlagen den nächsten Match vor.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Klarere Fehlerdiagnose — man weiß sofort ob es am Server, am Plan oder an einem Tippfehler liegt.
+- **Version:** v2.1.108
+
+### [Reduzierter Memory-Footprint]
+- **Was:** Sprachgrammatiken für File Reads, Edits und Syntax-Highlighting werden jetzt on-demand geladen statt alle beim Start.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Geringerer Speicherverbrauch, besonders bei langen Sessions mit vielen verschiedenen Dateitypen.
+- **Version:** v2.1.108
+
+### [Warnung bei deaktiviertem Prompt-Caching]
+- **Was:** Beim Start wird jetzt gewarnt wenn Prompt-Caching über `DISABLE_PROMPT_CACHING*` Umgebungsvariablen deaktiviert ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verhindert versehentlich teuren Betrieb mit deaktiviertem Cache.
+- **Version:** v2.1.108
+
+### [Fix: Paste im /login Code-Prompt]
+- **Was:** Einfügen funktionierte nicht im `/login` Code-Prompt (Regression seit v2.1.105).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Login-Flow funktioniert wieder korrekt mit Copy-Paste.
+- **Version:** v2.1.108
+
+### [Fix: Telemetrie-Deaktivierung und Cache-TTL]
+- **Was:** Subscriber die `DISABLE_TELEMETRY` setzen fielen auf 5-Minuten Prompt-Cache TTL zurück statt 1 Stunde zu nutzen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrekte Cache-Dauer auch bei deaktivierter Telemetrie — keine unnötigen Kosten mehr.
+- **Version:** v2.1.108
+
+### [Fix: Session-Titel bei kurzen Grüßen]
+- **Was:** Session-Titel zeigten Platzhalter-Beispieltext wenn die erste Nachricht ein kurzer Gruß war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sinnvolle Session-Titel auch bei kurzen Startmeldungen.
+- **Version:** v2.1.108
+
+### [Fix: Diakritische Zeichen in Antworten]
+- **Was:** Akzente, Umlaute und Cedillen wurden aus Antworten entfernt wenn die `language` Einstellung konfiguriert war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrekte Darstellung von Sonderzeichen in allen Sprachen — besonders wichtig für Deutsch, Französisch etc.
+- **Version:** v2.1.108
+
+### [Verbesserter Extended-Thinking-Indikator]
+- **Was:** Der Extended-Thinking-Indikator zeigt jetzt einen rotierenden Fortschrittshinweis.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Besseres visuelles Feedback während Claude denkt — man sieht dass etwas passiert.
+- **Version:** v2.1.109
 
 ### [Routines — Automatisierungen auf Claudes Web-Infrastruktur]
 - **Was:** Routines sind konfigurierbare Automatisierungen (Prompt + Repo + Connectors), die auf Claudes Web-Infrastruktur laufen — kein offener Laptop nötig. Drei Ausführungsmodelle: **Scheduled** (Cron-artig, z.B. nächtliche Bug-Triage), **API-triggered** (eigener Endpoint pro Routine, z.B. Deploy-Verifizierung bei Alert), **Webhook** (GitHub Events, z.B. Custom Code Review bei PRs auf bestimmte Pfade).
