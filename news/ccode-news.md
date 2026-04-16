@@ -1,15 +1,135 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-15 12:00 UTC
+> Letzte Aktualisierung: 2026-04-16 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
 
-### Woche 15+ (6.–15. April 2026) — v2.1.92–v2.1.109
+### Woche 15+ (6.–16. April 2026) — v2.1.92–v2.1.110
 
 ---
+
+### [/tui Befehl — Flicker-Free Rendering im laufenden Gespräch]
+- **Was:** Neuer `/tui` Befehl und `tui` Setting ermöglichen den Wechsel zur flicker-freien Fullscreen-Darstellung mitten in einer Konversation, ohne die Session neu starten zu müssen.
+- **Einsatz:** `/tui fullscreen` ausführen — Wechsel erfolgt in derselben Session
+- **Mehrwert:** Nahtloser Wechsel zur stabilen Fullscreen-Ansicht wenn man merkt, dass man sie braucht — kein Session-Neustart mehr nötig.
+- **Version:** v2.1.110
+
+### [/focus Befehl — Fokus-Ansicht separat steuerbar]
+- **Was:** `Ctrl+O` wechselt jetzt nur noch zwischen normalem und ausführlichem Transcript. Die Fokus-Ansicht wird separat mit dem neuen `/focus` Befehl gesteuert.
+- **Einsatz:** `/focus` für Fokus-Ansicht, `Ctrl+O` für Transcript-Detailgrad
+- **Mehrwert:** Klarere Trennung zwischen Transcript-Verbosity und Fokus-Modus — jede Funktion hat ihren eigenen Schalter.
+- **Version:** v2.1.110
+
+### [Push-Benachrichtigungen ans Handy]
+- **Was:** Neues Push-Notification Tool — Claude kann mobile Push-Benachrichtigungen senden wenn Remote Control aktiv ist und "Push when Claude decides" in der Config aktiviert wurde.
+- **Einsatz:** Remote Control einrichten, dann in `/config` "Push when Claude decides" aktivieren
+- **Mehrwert:** Claude benachrichtigt dich aufs Handy wenn etwas Wichtiges passiert — kein aktives Beobachten der Terminal-Session mehr nötig.
+- **Version:** v2.1.110
+
+### [Auto-Scroll deaktivierbar im Fullscreen]
+- **Was:** Neues `autoScrollEnabled` Config-Setting um automatisches Scrollen im Fullscreen-Modus zu deaktivieren.
+- **Einsatz:** In `/config` `autoScrollEnabled` auf `false` setzen
+- **Mehrwert:** Manuelles Scrollen wird nicht mehr durch neue Ausgaben unterbrochen — ideal beim Lesen von Code-Diffs.
+- **Version:** v2.1.110
+
+### [Claudes letzte Antwort als Kontext im externen Editor]
+- **Was:** Optionale Anzeige von Claudes letzter Antwort als kommentierter Kontext im `Ctrl+G` externen Editor.
+- **Einsatz:** In `/config` aktivieren, dann `Ctrl+G` drücken — Claudes Antwort erscheint als Kommentar
+- **Mehrwert:** Beim Schreiben längerer Follow-Up-Prompts im Editor hat man Claudes letzte Antwort direkt im Blick.
+- **Version:** v2.1.110
+
+### [Verbesserter /plugin Installed Tab]
+- **Was:** Items die Aufmerksamkeit benötigen und Favoriten erscheinen oben, deaktivierte Items sind hinter einem Fold versteckt, `f` favorisiert das ausgewählte Item.
+- **Einsatz:** `/plugin` öffnen, `f` zum Favorisieren
+- **Mehrwert:** Bessere Übersicht über installierte Plugins — Wichtiges oben, Rest aufgeräumt.
+- **Version:** v2.1.110
+
+### [/doctor warnt bei doppelten MCP-Server-Definitionen]
+- **Was:** `/doctor` warnt jetzt wenn ein MCP-Server in mehreren Config-Scopes mit unterschiedlichen Endpoints definiert ist.
+- **Einsatz:** `/doctor` ausführen
+- **Mehrwert:** Erkennt Konfigurationskonflikte bei MCP-Servern bevor sie zu unerklärlichem Verhalten führen.
+- **Version:** v2.1.110
+
+### [--resume/--continue stellt Scheduled Tasks wieder her]
+- **Was:** `--resume` und `--continue` reaktivieren jetzt noch nicht abgelaufene geplante Tasks aus der vorherigen Session.
+- **Einsatz:** `claude --resume` — Scheduled Tasks werden automatisch fortgesetzt
+- **Mehrwert:** Geplante Monitoring-Tasks überleben Session-Neustarts.
+- **Version:** v2.1.110
+
+### [Remote Control: Mehr Befehle verfügbar]
+- **Was:** `/autocompact`, `/context`, `/exit` und `/reload-plugins` funktionieren jetzt über Remote Control (Mobile/Web Clients).
+- **Einsatz:** Über claude.ai oder Mobile App die Befehle ausführen
+- **Mehrwert:** Mehr Kontrolle über die CLI-Session vom Handy oder Browser aus.
+- **Version:** v2.1.110
+
+### [Write Tool meldet User-Edits im IDE Diff]
+- **Was:** Das Write Tool informiert jetzt das Modell wenn der User den vorgeschlagenen Inhalt im IDE-Diff-View bearbeitet hat bevor er akzeptiert wurde.
+- **Einsatz:** Automatisch aktiv — Claude sieht wenn du seinen Vorschlag vor dem Akzeptieren änderst
+- **Mehrwert:** Claude lernt aus deinen Korrekturen und kann den Kontext im Gespräch besser nachvollziehen.
+- **Version:** v2.1.110
+
+### [Bash Tool erzwingt dokumentiertes Timeout-Maximum]
+- **Was:** Das Bash Tool erzwingt jetzt das dokumentierte maximale Timeout und akzeptiert keine beliebig großen Werte mehr.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verhindert versehentlich ewig laufende Befehle.
+- **Version:** v2.1.110
+
+### [SDK/Headless Distributed Tracing]
+- **Was:** SDK- und Headless-Sessions lesen `TRACEPARENT`/`TRACESTATE` aus der Umgebung für Distributed-Trace-Linking.
+- **Einsatz:** `TRACEPARENT` und `TRACESTATE` Umgebungsvariablen setzen
+- **Mehrwert:** Claude Code Sessions lassen sich in bestehende Observability-Infrastruktur (OpenTelemetry) einbinden.
+- **Version:** v2.1.110
+
+### [Session Recap für Telemetrie-deaktivierte User]
+- **Was:** Session Recap ist jetzt auch für User mit deaktivierter Telemetrie aktiv (Bedrock, Vertex, Foundry, `DISABLE_TELEMETRY`).
+- **Einsatz:** Automatisch aktiv. Opt-out via `/config` oder `CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0`.
+- **Mehrwert:** Alle Nutzer profitieren vom Kontext-Recap, unabhängig von Telemetrie-Einstellungen.
+- **Version:** v2.1.110
+
+### [Fix: MCP Tool Calls hängen bei Verbindungsabbruch]
+- **Was:** MCP Tool Calls hingen endlos wenn die Server-Verbindung mitten in einer Antwort auf SSE/HTTP-Transports abbrach.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine endlosen Wartezeiten mehr bei instabilen MCP-Server-Verbindungen.
+- **Version:** v2.1.110
+
+### [Fix: Hohe CPU-Last bei Textselektion im Fullscreen]
+- **Was:** Hohe CPU-Auslastung im Fullscreen wenn Text selektiert war während ein Tool läuft.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein CPU-Spike mehr beim Markieren von Text während Claude arbeitet.
+- **Version:** v2.1.110
+
+### [Fix: Verlorene Tastenanschläge nach CLI-Relaunch]
+- **Was:** Nach einem CLI-Relaunch (z.B. `/tui`, Provider-Setup-Wizards) gingen Tastenanschläge verloren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Flüssiges Tippen direkt nach CLI-Neustarts.
+- **Version:** v2.1.110
+
+### [Fix: Verstümmelte Darstellung in macOS Terminal.app]
+- **Was:** Verstümmelte Startup-Darstellung in macOS Terminal.app und anderen Terminals ohne Synchronized-Output-Support.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberer Start auch in Standard-macOS-Terminal.
+- **Version:** v2.1.110
+
+### [Sicherheit: "Open in Editor" gegen Command Injection gehärtet]
+- **Was:** "Open in editor" Aktionen sind jetzt gegen Command Injection durch nicht vertrauenswürdige Dateinamen geschützt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Erhöhte Sicherheit bei der Arbeit mit Dateien aus externen Quellen.
+- **Version:** v2.1.110
+
+### [Fix: Plugin-Dependencies aus plugin.json]
+- **Was:** Plugin-Installation beachtet jetzt Dependencies aus `plugin.json` auch wenn der Marketplace-Eintrag sie nicht aufführt. `/plugin` install zeigt auto-installierte Dependencies.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugins funktionieren zuverlässiger direkt nach Installation.
+- **Version:** v2.1.110
+
+### [Fix: MCP stdio Server mit Nicht-JSON stdout]
+- **Was:** MCP stdio Server die versehentlich Nicht-JSON-Zeilen auf stdout ausgeben wurden bei der ersten solchen Zeile getrennt (Regression seit v2.1.105). Jetzt werden sie toleriert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Robustere MCP-Server-Verbindungen bei unperfekten Server-Implementierungen.
+- **Version:** v2.1.110
 
 ### [Desktop Redesign für parallele Agents]
 - **Was:** Komplett überarbeitete Claude Code Desktop-App für paralleles Arbeiten an mehreren Projekten. Neue Sidebar für aktive/letzte Sessions, integriertes Terminal, In-App Datei-Editor, überarbeiteter Diff-Viewer für große Changesets, HTML/PDF-Vorschau, und Drag-and-Drop Layout.
