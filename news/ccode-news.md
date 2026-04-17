@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-17
+> Letzte Aktualisierung: 2026-04-17 12:03
 
 ---
 
@@ -93,6 +93,48 @@
 - **Was:** `--output-format stream-json` liefert `plugin_errors` im Init-Event, wenn Plugins durch unerfüllte Dependencies degradiert wurden.
 - **Einsatz:** `claude -p --output-format stream-json ...` und `init` Event inspizieren
 - **Mehrwert:** Programmatische Erkennung von Plugin-Problemen in automatisierten Setups.
+- **Version:** v2.1.111
+
+### [Ctrl+L erzwingt Screen-Redraw]
+- **Was:** `Ctrl+L` erzwingt einen vollständigen Redraw des Terminal-Screens.
+- **Einsatz:** `Ctrl+L` drücken
+- **Mehrwert:** Schnelles Aufräumen bei Rendering-Artefakten ohne Session-Neustart.
+- **Version:** v2.1.111
+
+### [Transcript-Viewer Shortcuts: `[` und `v`]
+- **Was:** Im Transcript-Viewer sind neue Footer-Shortcuts verfügbar: `[` dumpt den Transcript-Inhalt ins Scrollback-Puffer, `v` öffnet ihn im externen Editor.
+- **Einsatz:** Im Transcript-Viewer `[` oder `v` drücken
+- **Mehrwert:** Schnelles Exportieren oder Weiterverarbeiten des Session-Transcripts.
+- **Version:** v2.1.111
+
+### [OTEL_LOG_RAW_API_BODIES für API-Debugging]
+- **Was:** Neue Umgebungsvariable `OTEL_LOG_RAW_API_BODIES` loggt die kompletten API-Request- und Response-Bodies als OpenTelemetry-Events.
+- **Einsatz:** `OTEL_LOG_RAW_API_BODIES=1` setzen (zusätzlich zu bestehender OTEL-Konfiguration)
+- **Mehrwert:** Tiefe API-Diagnose bei Debugging-Bedarf — ideal für Enterprise-Support-Cases.
+- **Version:** v2.1.111
+
+### [Bare URLs bei Line-Wrapping clickable]
+- **Was:** Nackte URLs in Bash-, PowerShell- und MCP-Output werden auch dann anklickbar, wenn sie über Zeilenumbrüche laufen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** URLs aus Tool-Output sind zuverlässig klickbar, unabhängig von Terminal-Breite.
+- **Version:** v2.1.111
+
+### [Lange Pastes: „+N lines" Marker]
+- **Was:** Bei sehr langen Pastes zeigt die UI einen „+N lines" Marker als Full-Width-Regel statt jede Zeile einzeln zu rendern.
+- **Einsatz:** Automatisch aktiv beim Einfügen langer Inhalte
+- **Mehrwert:** Übersichtlichere Anzeige großer Paste-Operationen.
+- **Version:** v2.1.111
+
+### [Windows: CLAUDE_ENV_FILE und SessionStart-Hook Env-Files]
+- **Was:** Auf Windows werden die in `CLAUDE_ENV_FILE` bzw. von SessionStart-Hooks gesetzten Umgebungsvariablen jetzt korrekt übernommen.
+- **Einsatz:** Automatisch aktiv (Windows)
+- **Mehrwert:** Konsistentes Env-Handling zwischen Windows und Unix-Systemen.
+- **Version:** v2.1.111
+
+### [Windows: Permission Rules mit Drive-Letter-Paths]
+- **Was:** Permission-Rules mit Windows-Drive-Letter-Pfaden (z.B. `C:\\...`) werden nun korrekt an den Root verankert und matchen nicht mehr unbeabsichtigt andere Pfade.
+- **Einsatz:** Automatisch aktiv (Windows)
+- **Mehrwert:** Sichere und vorhersehbare Permission-Konfiguration auf Windows.
 - **Version:** v2.1.111
 
 ### [Fix: Terminal Display Tearing in iTerm2 + tmux]
