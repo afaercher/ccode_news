@@ -1,11 +1,167 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-16 12:00 UTC
+> Letzte Aktualisierung: 2026-04-17
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 16 (13.–17. April 2026) — v2.1.111–v2.1.112 + Opus 4.7
+
+---
+
+### [Claude Opus 4.7 veröffentlicht]
+- **Was:** Opus 4.7 ist jetzt GA — neueste Generation für komplexes Reasoning und agentisches Coding. Gleicher Preis wie Opus 4.6 ($5/$25 per MTok), neuer Tokenizer, Capability-Verbesserungen. API Breaking Changes gegenüber 4.6.
+- **Einsatz:** Model via `/model` oder `--model claude-opus-4-7` wählen. Vor Upgrade Migrations-Guide lesen.
+- **Mehrwert:** Mehr Intelligenz ohne Mehrkosten — Claude Code nutzt es als neues Default-Modell.
+- **Version:** Platform Release 16. April 2026
+
+### [Opus 4.7 `xhigh` Effort-Level & interaktiver /effort Slider]
+- **Was:** Neues Effort-Level `xhigh` für Opus 4.7 zwischen `high` und `max`. `/effort` ohne Argumente öffnet einen interaktiven Schieberegler für Geschwindigkeit vs. Intelligenz.
+- **Einsatz:** `/effort` (Slider) oder `/effort xhigh`
+- **Mehrwert:** Feinere Dosierung zwischen schnellen und maximal gründlichen Antworten — besonders nützlich bei langen Coding-Sessions.
+- **Version:** v2.1.111
+
+### [Auto Mode für Max-Abonnenten verfügbar]
+- **Was:** Der in v2.1.83 eingeführte Auto Mode läuft nun für Max-Abonnenten mit Opus 4.7 und braucht kein `--enable-auto-mode` mehr.
+- **Einsatz:** `Shift+Tab` zwischen Modi oder `"permissions": { "defaultMode": "auto" }` in settings.json
+- **Mehrwert:** Weniger Permission-Prompts bei sicheren Aktionen auf dem leistungsfähigsten Modell — ohne Sicherheit aufzugeben.
+- **Version:** v2.1.111
+
+### [/ultrareview — Cloud-basierte Multi-Agent Code Review]
+- **Was:** Neuer `/ultrareview` Befehl startet eine umfassende Code Review in der Cloud mit paralleler Multi-Agent-Analyse.
+- **Einsatz:** `/ultrareview` (aktueller Branch) oder `/ultrareview <PR#>` (spezifische GitHub PR)
+- **Mehrwert:** Tiefere Review durch mehrere spezialisierte Agents parallel — findet Dinge, die ein einzelner Pass übersieht.
+- **Version:** v2.1.111
+
+### [/less-permission-prompts Skill]
+- **Was:** Skill scannt Transkripte nach häufigen Read-Only Bash- und MCP-Tool-Calls und generiert eine priorisierte Allowlist für `.claude/settings.json`.
+- **Einsatz:** `/less-permission-prompts` ausführen
+- **Mehrwert:** Automatisches Permission-Tuning basierend auf tatsächlichem Nutzungsverhalten — weniger Unterbrechungen ohne manuelles Allowlist-Editing.
+- **Version:** v2.1.111
+
+### [Read-Only Bash-Commands mit Glob-Patterns ohne Permission-Prompt]
+- **Was:** Read-Only Befehle mit Glob-Patterns (z.B. `ls *.ts`) und `cd <dir> && ...` lösen keine Permission-Prompts mehr aus.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Unterbrechungen bei gängigen Navigations- und List-Operationen.
+- **Version:** v2.1.111
+
+### [PowerShell Tool im Windows-Rollout]
+- **Was:** Das in v2.1.84 als Preview eingeführte PowerShell Tool rollt jetzt breit auf Windows aus. `CLAUDE_CODE_USE_POWERSHELL_TOOL=1/0` steuert die Aktivierung.
+- **Einsatz:** `CLAUDE_CODE_USE_POWERSHELL_TOOL=1` in settings.json
+- **Mehrwert:** Native Windows-Erfahrung mit PowerShell-Cmdlets und Objekt-Pipes statt Git-Bash-Umwege.
+- **Version:** v2.1.111
+
+### [Plan-Dateien mit sprechenden Namen]
+- **Was:** Plan-Dateien werden jetzt nach dem Prompt benannt (z.B. `fix-auth-race-snug-otter.md`) statt mit rein zufälligen Wörtern.
+- **Einsatz:** Automatisch aktiv bei Plan-Erstellung
+- **Mehrwert:** Pläne sind im Filesystem wiederauffindbar, ohne sie öffnen zu müssen.
+- **Version:** v2.1.111
+
+### [/skills Menu mit Token-Count Sortierung]
+- **Was:** Im `/skills` Menu lassen sich Skills per `t` nach Token-Count sortieren.
+- **Einsatz:** `/skills`, dann `t` zum Umschalten der Sortierung
+- **Mehrwert:** Teure Skills schnell identifizieren und hinterfragen, ob der Token-Footprint gerechtfertigt ist.
+- **Version:** v2.1.111
+
+### [Verbesserter /setup-vertex und /setup-bedrock]
+- **Was:** Die Setup-Wizards zeigen den tatsächlichen settings.json-Pfad (wenn `CLAUDE_CONFIG_DIR` gesetzt ist), schlagen beim Re-Run bisherige Model-Kandidaten vor und bieten "with 1M context" Option für unterstützte Modelle.
+- **Einsatz:** `/setup-vertex` oder `/setup-bedrock`
+- **Mehrwert:** Schnelleres Re-Setup und klarere Pfad-Anzeige in angepassten Config-Umgebungen.
+- **Version:** v2.1.111
+
+### ["Auto (match terminal)" Theme]
+- **Was:** Neue Theme-Option passt sich automatisch an Dark/Light-Mode des Terminals an.
+- **Einsatz:** `/theme` → "Auto (match terminal)" wählen
+- **Mehrwert:** Ein Setup für Tag und Nacht — keine manuellen Theme-Wechsel mehr.
+- **Version:** v2.1.111
+
+### [Ctrl+U löscht kompletten Input-Buffer]
+- **Was:** `Ctrl+U` löscht nun den gesamten Input-Buffer (vorher nur bis Zeilenanfang). `Ctrl+Y` stellt ihn wieder her.
+- **Einsatz:** `Ctrl+U` zum Löschen, `Ctrl+Y` zum Wiederherstellen
+- **Mehrwert:** Readline-konformes Verhalten mit Undo-Möglichkeit.
+- **Version:** v2.1.111
+
+### [Typo-Vorschläge für CLI-Befehle]
+- **Was:** Vertippte Aufrufe wie `claude udpate` zeigen einen Vorschlag: "Did you mean `claude update`?"
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schnellere Korrektur häufiger Tippfehler.
+- **Version:** v2.1.111
+
+### [Headless Mode: plugin_errors im Init-Event]
+- **Was:** `--output-format stream-json` liefert `plugin_errors` im Init-Event, wenn Plugins durch unerfüllte Dependencies degradiert wurden.
+- **Einsatz:** `claude -p --output-format stream-json ...` und `init` Event inspizieren
+- **Mehrwert:** Programmatische Erkennung von Plugin-Problemen in automatisierten Setups.
+- **Version:** v2.1.111
+
+### [Fix: Terminal Display Tearing in iTerm2 + tmux]
+- **Was:** Behebt Display-Tearing, zufällige Zeichen und driftenden Input in iTerm2 mit tmux.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabile Darstellung in der beliebten iTerm2+tmux-Kombination.
+- **Version:** v2.1.111
+
+### [Fix: @-Datei-Suggestions in nicht-Git Verzeichnissen]
+- **Was:** `@` Datei-Suggestions scannen nicht mehr das gesamte Projekt in nicht-git Verzeichnissen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deutlich schnelleres Autocomplete in Projekten ohne Git.
+- **Version:** v2.1.111
+
+### [Fix: `/clear` behält Session-Namen]
+- **Was:** `/clear` behält jetzt einen mit `/rename` gesetzten Session-Namen (vorher wurde er verworfen).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Session-Identität überlebt Context-Clearing.
+- **Version:** v2.1.111
+
+### [Fix: 429 Rate-Limit auf Bedrock/Vertex/Foundry]
+- **Was:** Behebt fehlerhafte 429-Behandlung auf Bedrock, Vertex und Foundry.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Zuverlässigere Fehlerbehandlung bei Cloud-Provider-Rate-Limits.
+- **Version:** v2.1.111
+
+### [Fix: Opus 4.7 "temporarily unavailable" im Auto Mode]
+- **Was:** Behebt den Fehler "claude-opus-4-7 is temporarily unavailable" im Auto Mode.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auto Mode funktioniert zuverlässig mit Opus 4.7 direkt nach Release.
+- **Version:** v2.1.112
+
+### [Advisor Tool — Executor/Advisor-Paar für lange Agent-Workloads]
+- **Was:** Neues Advisor Tool (public beta) kombiniert ein schnelleres Executor-Modell mit einem intelligenteren Advisor-Modell, das strategische Hinweise mitten in der Generation einstreut. Long-Horizon Agent-Workloads erreichen Advisor-Qualität, während die meiste Token-Generierung zum günstigeren Executor-Tarif läuft.
+- **Einsatz:** API-Beta-Header `advisor-tool-2026-03-01` in Requests einbinden
+- **Mehrwert:** Deutlich bessere Qualität bei langen agentischen Aufgaben ohne voll-auf-Opus-Kosten.
+- **Version:** Platform Release 9. April 2026 (public beta)
+
+### [Claude Managed Agents]
+- **Was:** Vollständig gemanagter Agent-Harness (public beta). Claude läuft als autonomer Agent mit sicherem Sandboxing, eingebauten Tools und Server-Sent-Event-Streaming. Agents erstellen, Container konfigurieren und Sessions über die API steuern.
+- **Einsatz:** API-Beta-Header `managed-agents-2026-04-01`. Managed-Agents-Overview in der Platform-Doku.
+- **Mehrwert:** Produktionsreife Agents ohne eigene Harness-Infrastruktur — laut Anthropic bis zu 10× schneller zum Production-Deploy.
+- **Version:** Platform Release 8. April 2026 (public beta)
+
+### [ant CLI — Command-Line Client für die Claude API]
+- **Was:** Neue `ant` CLI für direkte Claude-API-Interaktion mit nativer Claude-Code-Integration und YAML-basierter Versionierung von API-Ressourcen.
+- **Einsatz:** Siehe CLI-Reference in der Platform-Doku
+- **Mehrwert:** Klare Trennung zwischen Claude Code (agentisches Coding) und direkter API-Nutzung — plus Git-fähige YAML-Versionierung von Managed-Agent-Resources.
+- **Version:** Platform Release 8. April 2026
+
+### [Claude Mythos Preview — Project Glasswing]
+- **Was:** Claude Mythos (gated Research Preview) ist für defensive Cybersecurity-Arbeit als Teil von Project Glasswing verfügbar. Zugang nur auf Einladung.
+- **Einsatz:** Zugang über anthropic.com/glasswing anfragen
+- **Mehrwert:** Spezialisiertes Claude-Modell für Defensive-Security-Workloads.
+- **Version:** Platform Release 7. April 2026
+
+### [Claude in Amazon Bedrock — Messages API]
+- **Was:** Die Messages API ist als Research Preview auf Amazon Bedrock verfügbar (`/anthropic/v1/messages`). Gleiches Request-Format wie die 1P Claude API, läuft auf AWS-managed Infrastructure mit Zero-Operator-Access. Aktuell in `us-east-1`.
+- **Einsatz:** Zugang über Anthropic Account Executive anfragen
+- **Mehrwert:** Volle Messages-API-Features auf AWS — kein API-Format-Mapping mehr zwischen 1P und Bedrock.
+- **Version:** Platform Release 7. April 2026
+
+### [Model Deprecation: Sonnet 4 und Opus 4]
+- **Was:** Sonnet 4 (`claude-sonnet-4-20250514`) und Opus 4 (`claude-opus-4-20250514`) werden am 15. Juni 2026 auf der Claude API retired. Empfehlung: Migration zu Sonnet 4.6 bzw. Opus 4.7.
+- **Einsatz:** Model-ID in API-Calls und Claude-Code-Config auf Nachfolger umstellen
+- **Mehrwert:** Rechtzeitige Migrationswarnung — Claude Code und eigene Integrationen lassen sich umstellen, bevor Requests fehlschlagen.
+- **Version:** Angekündigt 14. April 2026
+
+---
 
 ### Woche 15+ (6.–16. April 2026) — v2.1.92–v2.1.110
 
