@@ -1,15 +1,117 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-17 18:04
+> Letzte Aktualisierung: 2026-04-18 12:00
 
 ---
 
 ## Neueste Änderungen
 
-### Woche 16 (13.–17. April 2026) — v2.1.111–v2.1.112 + Opus 4.7
+### Woche 16 (13.–18. April 2026) — v2.1.111–v2.1.114 + Opus 4.7
 
 ---
+
+### [Fix: Crash im Permission-Dialog bei Agent-Team Anfragen]
+- **Was:** Behebt einen Absturz im Permission-Dialog, wenn ein Agent-Teams-Teammate eine Tool-Berechtigung anfordert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabile Permission-Dialoge auch bei komplexen Agent-Team-Szenarien.
+- **Version:** v2.1.114
+
+### [Native Claude-Code-Binary per Plattform]
+- **Was:** Die CLI startet jetzt eine native Claude-Code-Binary (per-Plattform Optional-Dependency) statt das gebündelte JavaScript auszuführen.
+- **Einsatz:** Automatisch aktiv nach Update
+- **Mehrwert:** Schnellerer Startup und geringerer Speicherverbrauch durch Verzicht auf zusätzliche Node-Laufzeit.
+- **Version:** v2.1.113
+
+### [sandbox.network.deniedDomains]
+- **Was:** Neues Setting `sandbox.network.deniedDomains` zum Blockieren spezifischer Domains im Sandbox-Netzwerk.
+- **Einsatz:** `"sandbox": { "network": { "deniedDomains": ["example.com"] } }` in settings.json
+- **Mehrwert:** Feingranulare Netzwerk-Policy für Sandbox-Umgebungen — Blocklisting für unerwünschte Endpoints.
+- **Version:** v2.1.113
+
+### [Fullscreen: Shift+↑/↓ scrollt Viewport]
+- **Was:** Im Fullscreen-Mode scrollen `Shift+↑` und `Shift+↓` den Viewport, während eine Selection erweitert wird.
+- **Einsatz:** Im Fullscreen-Mode `Shift+↑`/`Shift+↓` drücken
+- **Mehrwert:** Flüssiges Markieren über den sichtbaren Bereich hinaus in langen Transcripts.
+- **Version:** v2.1.113
+
+### [Ctrl+A / Ctrl+E für Zeilen-Enden im Multiline-Input]
+- **Was:** `Ctrl+A` und `Ctrl+E` springen im Multiline-Input zum Anfang bzw. Ende der logischen Zeile (statt der gesamten Eingabe).
+- **Einsatz:** `Ctrl+A` / `Ctrl+E` im Multiline-Editor
+- **Mehrwert:** Readline-konforme Zeilennavigation — vertraute Shortcuts funktionieren wie erwartet.
+- **Version:** v2.1.113
+
+### [Windows: Ctrl+Backspace löscht Wort]
+- **Was:** Auf Windows löscht `Ctrl+Backspace` das vorherige Wort in der Eingabe.
+- **Einsatz:** Automatisch aktiv (Windows)
+- **Mehrwert:** Gewohnter Word-Delete-Shortcut auf Windows, entsprechend macOS-`Opt+Backspace`.
+- **Version:** v2.1.113
+
+### [/ultrareview: Schnellerer Start & parallelisierte Checks]
+- **Was:** Der `/ultrareview` Befehl startet spürbar schneller, führt Checks parallelisiert aus und zeigt animierte States pro Phase.
+- **Einsatz:** `/ultrareview` wie gewohnt nutzen
+- **Mehrwert:** Kürzere Wartezeit und besserer Live-Überblick über den Fortschritt der Multi-Agent-Review.
+- **Version:** v2.1.113
+
+### [Remote Control: @-Datei-Autocomplete]
+- **Was:** Remote-Control-Clients können `@`-Datei-Autocomplete-Suggestions über die CLI abfragen.
+- **Einsatz:** Aus Remote-Control-Client heraus `@`-Completion anfordern
+- **Mehrwert:** Konsistente Datei-Auswahl in Web/Mobile-UIs wie in der lokalen CLI.
+- **Version:** v2.1.113
+
+### [macOS: /private/{etc,var,tmp,home} als gefährlich]
+- **Was:** Auf macOS werden `/private/{etc,var,tmp,home}` jetzt als gefährliche Removal-Targets behandelt und gesondert abgesichert.
+- **Einsatz:** Automatisch aktiv (macOS)
+- **Mehrwert:** Schützt gegen unbeabsichtigtes `rm -rf` auf Symlink-Zielen von System-Verzeichnissen.
+- **Version:** v2.1.113
+
+### [Bash Deny Rules matchen Wrapper]
+- **Was:** Bash Deny Rules matchen jetzt auch Befehle, die in `env`, `sudo`, `watch`, `ionice` oder `setsid` gewrappt sind.
+- **Einsatz:** Automatisch aktiv — bestehende Deny-Rules sind robuster gegen Bypass
+- **Mehrwert:** Sicherheitslücke geschlossen: Deny-Rules lassen sich nicht mehr durch Prozess-Wrapper umgehen.
+- **Version:** v2.1.113
+
+### [Bash(find:*) genehmigt -exec/-delete nicht mehr]
+- **Was:** `Bash(find:*)` Permission-Rules genehmigen `find -exec`/`-delete` nicht mehr automatisch — diese erfordern explizite Zustimmung.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Zerstörerische `find`-Ausführungen werden nicht mehr implizit durch broad Allow-Rules erlaubt.
+- **Version:** v2.1.113
+
+### [Fix: Markdown-Tabellen mit Pipe in Inline-Code]
+- **Was:** Markdown-Tabellen wurden bei Pipe-Zeichen in Inline-Code zerschossen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrekte Tabellen-Darstellung auch bei Code-Snippets mit `|` (z.B. Regex, Shell-Pipes).
+- **Version:** v2.1.113
+
+### [Fix: Session-Recap feuerte beim Tippen]
+- **Was:** Der Session-Recap feuerte automatisch, während der User gerade noch Text verfasst hatte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein ungewollter Recap-Lauf mehr, der den Tipp-Flow unterbricht.
+- **Version:** v2.1.113
+
+### [Fix: /copy Tabellen für GitHub/Notion/Slack]
+- **Was:** Das `/copy` Tabellen-Format für GitHub, Notion und Slack wurde korrigiert.
+- **Einsatz:** `/copy` in Tabellen verwenden
+- **Mehrwert:** Übernahme von Tabellen in externe Tools funktioniert wieder sauber.
+- **Version:** v2.1.113
+
+### [Fix: Bash dangerouslyDisableSandbox Permission-Prompts]
+- **Was:** Fehlende Permission-Prompts bei Bash-Ausführung mit `dangerouslyDisableSandbox` wurden nachgezogen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sandbox-Bypass löst jetzt immer einen expliziten Prompt aus — kein stummes Durchwinken mehr.
+- **Version:** v2.1.113
+
+### [Fix: /insights EBUSY-Crash auf Windows]
+- **Was:** `/insights` stürzte auf Windows mit `EBUSY`-Fehler ab.
+- **Einsatz:** Automatisch aktiv (Windows)
+- **Mehrwert:** `/insights` funktioniert zuverlässig auf Windows.
+- **Version:** v2.1.113
+
+### [Fix: Exit-Confirmation bei One-Shot-Tasks]
+- **Was:** Die Exit-Confirmation labelte One-Shot-Tasks fälschlich als „recurring".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrekte Hinweise beim Beenden — kein falscher Verlust-Eindruck bei einmaligen Tasks.
+- **Version:** v2.1.113
 
 ### [Claude Opus 4.7 veröffentlicht]
 - **Was:** Opus 4.7 ist jetzt GA — neueste Generation für komplexes Reasoning und agentisches Coding. Gleicher Preis wie Opus 4.6 ($5/$25 per MTok), neuer Tokenizer, Capability-Verbesserungen. API Breaking Changes gegenüber 4.6.
