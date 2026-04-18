@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-18 18:00
+> Letzte Aktualisierung: 2026-04-18 18:03
 
 ---
 
@@ -159,6 +159,60 @@
 - **Was:** Behebt `thinking.type.enabled is not supported` 400-Fehler bei Opus 4.7 über Bedrock Application Inference Profile ARNs.
 - **Einsatz:** Automatisch aktiv
 - **Mehrwert:** Opus 4.7 mit Extended Thinking läuft zuverlässig in AWS-Enterprise-Setups mit Application Inference Profiles.
+- **Version:** v2.1.113
+
+### [Fix: User-Input beim Subagent-Viewer ging verloren]
+- **Was:** Beim Beobachten eines laufenden Subagenten getippte Nachrichten wurden aus dem Transcript versteckt und fälschlich dem Parent-AI zugeschrieben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein unbemerktes Verschwinden von User-Kommentaren mehr während paralleler Subagent-Beobachtung.
+- **Version:** v2.1.113
+
+### [Fix: Compacting langer Long-Context-Sessions]
+- **Was:** Beim Resume langer Long-Context-Sessions schlug `/compact` mit „Extra usage is required for long context requests" fehl.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Fortsetzen großer Sessions ohne Rebuild — Compact funktioniert nach Resume wieder zuverlässig.
+- **Version:** v2.1.113
+
+### [Fix: Remote-Control-Sessions werden beim Exit archiviert]
+- **Was:** Remote-Control-Sessions wurden beim Beenden von Claude Code nicht korrekt archiviert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verlässliche Session-History im Web/Mobile-Client nach dem Schließen der lokalen CLI.
+- **Version:** v2.1.113
+
+### [Fix: Plugin Install bei Dependency-Konflikten]
+- **Was:** `plugin install` galt als erfolgreich, auch wenn die geforderte Dependency-Version mit einem bereits installierten Plugin kollidierte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Frühe, klare Fehlermeldung statt später Laufzeit-Probleme durch inkompatible Plugin-Dependencies.
+- **Version:** v2.1.113
+
+### [Fix: ToolSearch-Ranking für eingefügte MCP Tool-Namen]
+- **Was:** Wird ein MCP-Tool-Name wörtlich eingefügt, liefert `ToolSearch` jetzt zuverlässig genau dieses Tool statt Treffer mit ähnlichen Namen.
+- **Einsatz:** MCP-Tool-Namen direkt in die Query pasten
+- **Mehrwert:** Gezielte Tool-Auswahl bei großen MCP-Setups ohne Rauschen.
+- **Version:** v2.1.113
+
+### [Fix: Ctrl+U / Cmd-Backspace löscht bis Zeilenanfang]
+- **Was:** `Cmd-Backspace` und `Ctrl+U` löschen jetzt korrekt vom Cursor bis zum Anfang der Zeile.
+- **Einsatz:** `Ctrl+U` bzw. `Cmd-Backspace` im Prompt
+- **Mehrwert:** Readline-konformes Verhalten — vertraute Editier-Shortcuts funktionieren wie in Shell und Editor.
+- **Version:** v2.1.113
+
+### [Fix: „Refine with Ultraplan" zeigt Remote-Session-URL]
+- **Was:** „Refine with Ultraplan" zeigte die Remote-Session-URL nicht mehr im Transcript an.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Direkter Zugriff auf die Cloud-Plan-Session — kein Umweg über die Web-UI nötig.
+- **Version:** v2.1.113
+
+### [Fix: Prompt-Cursor bei `NO_COLOR`]
+- **Was:** Der Prompt-Cursor verschwand, wenn `NO_COLOR` gesetzt war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Nutzbare CLI auch in Color-off-Setups (Terminals ohne ANSI-Farben, Screenreader, CI-Logs).
+- **Version:** v2.1.113
+
+### [Fix: MCP Concurrent-Call Watchdog]
+- **Was:** Bei parallelen MCP-Tool-Calls konnte eine Nachricht den Watchdog-Timer eines anderen Calls stillschweigend deaktivieren — dieser Hänger-Fall wurde behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Robuste Timeouts bei paralleler MCP-Tool-Nutzung — keine unerkannt hängenden Calls mehr.
 - **Version:** v2.1.113
 
 ### [Claude Opus 4.7 veröffentlicht]
