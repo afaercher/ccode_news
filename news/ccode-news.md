@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-18 12:00
+> Letzte Aktualisierung: 2026-04-18 18:00
 
 ---
 
@@ -111,6 +111,54 @@
 - **Was:** Die Exit-Confirmation labelte One-Shot-Tasks fälschlich als „recurring".
 - **Einsatz:** Automatisch aktiv
 - **Mehrwert:** Korrekte Hinweise beim Beenden — kein falscher Verlust-Eindruck bei einmaligen Tasks.
+- **Version:** v2.1.113
+
+### [Lange URLs bei Zeilenumbruch klickbar (OSC 8)]
+- **Was:** Lange URLs in Claude-Antworten und Bash-Output bleiben auch dann anklickbar, wenn sie über mehrere Zeilen umbrechen — via OSC 8 Hyperlinks.
+- **Einsatz:** Automatisch aktiv (Terminal muss OSC 8 unterstützen)
+- **Mehrwert:** Keine kaputten Links mehr in schmalen Terminals oder bei langen Query-Strings.
+- **Version:** v2.1.113
+
+### [/loop: Esc bricht ausstehende Wakeups ab]
+- **Was:** Im `/loop`-Befehl bricht `Esc` jetzt ausstehende Wakeups ab. Wakeups werden als „Claude resuming /loop wakeup" angezeigt.
+- **Einsatz:** Während `/loop` läuft `Esc` drücken, um geplante Wakeups zu stoppen
+- **Mehrwert:** Saubere Unterbrechung laufender Polling-Loops ohne Session-Neustart oder Kill-Kommando.
+- **Version:** v2.1.113
+
+### [/extra-usage via Remote Control]
+- **Was:** `/extra-usage` funktioniert jetzt auch aus Remote-Control-Clients (Mobile/Web) heraus.
+- **Einsatz:** Im claude.ai-Client oder der Mobile App `/extra-usage` ausführen
+- **Mehrwert:** Token-Verbrauch und verbleibende Usage-Limits auch unterwegs im Blick.
+- **Version:** v2.1.113
+
+### [Fix: Stalled Subagents terminieren nach 10 Minuten]
+- **Was:** Subagents, die mitten im Stream hängen bleiben, scheitern jetzt nach 10 Minuten mit klarer Fehlermeldung statt still weiter zu laufen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine unendlich blockierten Subagent-Sessions mehr — klare Diagnose statt stummem Hang.
+- **Version:** v2.1.113
+
+### [Fix: `cd <aktuelles-Verzeichnis> && git …` kein Permission-Prompt]
+- **Was:** Wenn `cd` in das aktuelle Verzeichnis ein No-Op ist, löst `cd <dir> && git …` keinen Permission-Prompt mehr aus.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Unterbrechungen bei Git-Befehlen, die durch ein inertes `cd` gewrappt sind.
+- **Version:** v2.1.113
+
+### [Fix: SDK-Image-Content-Blocks stürzen Session nicht mehr ab]
+- **Was:** Bild-Content-Blöcke, die der SDK nicht verarbeiten kann, stürzen die Session nicht mehr ab.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Robuste SDK-Integration auch bei korrupten oder ungewöhnlichen Bildformaten in Messages.
+- **Version:** v2.1.113
+
+### [Fix: Remote-Control-Sessions streamen Subagent-Transcripts]
+- **Was:** Remote-Control-Sessions übertragen jetzt Subagent-Transcripts live in den Client und archivieren Sessions beim Exit korrekt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Vollständige Transparenz über Subagent-Arbeit aus Mobile/Web-Clients — nichts geht beim Session-Ende verloren.
+- **Version:** v2.1.113
+
+### [Fix: Opus 4.7 via Bedrock Application Inference Profile ARN]
+- **Was:** Behebt `thinking.type.enabled is not supported` 400-Fehler bei Opus 4.7 über Bedrock Application Inference Profile ARNs.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Opus 4.7 mit Extended Thinking läuft zuverlässig in AWS-Enterprise-Setups mit Application Inference Profiles.
 - **Version:** v2.1.113
 
 ### [Claude Opus 4.7 veröffentlicht]
@@ -268,6 +316,12 @@
 - **Einsatz:** Automatisch aktiv
 - **Mehrwert:** Auto Mode funktioniert zuverlässig mit Opus 4.7 direkt nach Release.
 - **Version:** v2.1.112
+
+### [Claude Cowork Enterprise-Ready]
+- **Was:** Claude Cowork erhielt Enterprise-Upgrades: SSO, Audit-Logs, Admin-Controls für Team-weite Policies, und erhöhte Reliability-SLAs. Positionierung als produktionsreife Plattform für asynchrone Multi-User-Zusammenarbeit mit Claude.
+- **Einsatz:** Enterprise-Admin-Panel zur Konfiguration von Policies, SSO, und Team-Access
+- **Mehrwert:** Claude Cowork für Teams produktionsreif — zentrale Governance, keine Shadow-IT mehr bei Claude-Zugriffen.
+- **Version:** Blog-Ankündigung 9. April 2026
 
 ### [Advisor Tool — Executor/Advisor-Paar für lange Agent-Workloads]
 - **Was:** Neues Advisor Tool (public beta) kombiniert ein schnelleres Executor-Modell mit einem intelligenteren Advisor-Modell, das strategische Hinweise mitten in der Generation einstreut. Long-Horizon Agent-Workloads erreichen Advisor-Qualität, während die meiste Token-Generierung zum günstigeren Executor-Tarif läuft.
