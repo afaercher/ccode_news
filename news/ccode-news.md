@@ -1,11 +1,161 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-20 18:00 (keine neuen Releases seit v2.1.114 vom 18.04.2026)
+> Letzte Aktualisierung: 2026-04-21 (v2.1.116 vom 20.04.2026 ergänzt; v2.1.115 wurde übersprungen)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 17 (20. April 2026) — v2.1.116
+
+---
+
+### [/resume auf großen Sessions bis zu 67% schneller]
+- **Was:** `/resume` bei Sessions über 40 MB läuft deutlich schneller (bis zu 67%) und verarbeitet Sessions mit vielen Dead-Fork-Einträgen effizienter.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange laufende Projekt-Sessions lassen sich ohne spürbare Wartezeit fortsetzen — auch bei massivem Verlauf.
+- **Version:** v2.1.116
+
+### [Schnellerer MCP-Startup bei mehreren stdio-Servern]
+- **Was:** MCP-Startup ist spürbar schneller, wenn mehrere stdio-Server konfiguriert sind; `resources/templates/list` wird erst beim ersten `@`-Mention aufgerufen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kürzere Startzeit bei umfangreichen MCP-Setups — kein Warten mehr beim Session-Start.
+- **Version:** v2.1.116
+
+### [Glatteres Fullscreen-Scrolling in VS Code / Cursor / Windsurf]
+- **Was:** Fullscreen-Scrolling in den integrierten Terminals von VS Code, Cursor und Windsurf ist flüssiger; `/terminal-setup` konfiguriert die Scroll-Sensitivität des Editors mit.
+- **Einsatz:** `/terminal-setup` ausführen; Scroll-Verbesserungen automatisch aktiv
+- **Mehrwert:** Deutlich angenehmeres Navigieren in IDE-Terminals — keine ruckeligen Sprünge beim Scrollen mehr.
+- **Version:** v2.1.116
+
+### [Thinking-Spinner mit Inline-Progress-Hinweisen]
+- **Was:** Der Thinking-Spinner zeigt seinen Status inline an ("still thinking", "thinking more", "almost done thinking") statt über eine separate Hinweis-Zeile.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kompakterer Output und besseres Gefühl für den Fortschritt bei langen Denkphasen.
+- **Version:** v2.1.116
+
+### [/config Search matcht auch Option-Values]
+- **Was:** Die Suche in `/config` trifft jetzt auch Werte einzelner Optionen — z.B. findet `vim` die Editor-Mode-Einstellung.
+- **Einsatz:** In `/config` nach einem Wert statt nach dem Options-Namen suchen
+- **Mehrwert:** Settings schneller finden, auch wenn man nur den gewünschten Wert im Kopf hat.
+- **Version:** v2.1.116
+
+### [/doctor öffnen während Claude antwortet]
+- **Was:** `/doctor` kann jetzt aufgerufen werden, während Claude gerade noch antwortet, ohne auf das Ende des Turns warten zu müssen.
+- **Einsatz:** `/doctor` jederzeit ausführen
+- **Mehrwert:** Setup-Probleme sofort diagnostizieren — auch mitten in einer laufenden Antwort.
+- **Version:** v2.1.116
+
+### [/reload-plugins installiert fehlende Dependencies]
+- **Was:** `/reload-plugins` und der Background-Auto-Update-Mechanismus installieren jetzt fehlende Plugin-Dependencies aus bereits hinzugefügten Marketplaces automatisch nach.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugin-Updates und -Reloads funktionieren ohne manuelle Dependency-Installation.
+- **Version:** v2.1.116
+
+### [Bash-Tool Hint bei GitHub API Rate Limit]
+- **Was:** Das Bash-Tool zeigt einen Hinweis, wenn `gh`-Befehle in GitHubs API-Rate-Limit laufen — Agents können zurückskalieren statt blind zu wiederholen.
+- **Einsatz:** Automatisch aktiv bei `gh`-Befehlen
+- **Mehrwert:** Kein Requests-Sturm mehr bei Rate-Limits; Agents reagieren sinnvoll auf API-Drosselung.
+- **Version:** v2.1.116
+
+### [Usage-Tab zeigt 5h- und Wochen-Nutzung sofort]
+- **Was:** Der Usage-Tab in den Settings zeigt 5-Stunden- und wöchentliche Nutzung sofort an und scheitert nicht mehr, wenn der Usage-Endpoint selbst rate-limited ist.
+- **Einsatz:** Settings → Usage öffnen
+- **Mehrwert:** Verlässlicher Blick auf Verbrauch — selbst dann, wenn der Backend-Endpoint unter Last steht.
+- **Version:** v2.1.116
+
+### [Agent frontmatter hooks feuern bei `--agent`]
+- **Was:** Die in der Agent-Frontmatter deklarierten `hooks:` werden jetzt auch ausgelöst, wenn der Agent als Main-Thread-Agent über `--agent` läuft.
+- **Einsatz:** `hooks:` in Agent-Frontmatter definieren; `claude --agent <name>` startet
+- **Mehrwert:** Konsistentes Hook-Verhalten unabhängig davon, ob der Agent als Subagent oder als Main-Thread läuft.
+- **Version:** v2.1.116
+
+### [Slash-Command-Menu: "No commands match"]
+- **Was:** Das Slash-Command-Menu zeigt "No commands match", wenn der Filter keine Treffer hat, statt einfach zu verschwinden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Klares Feedback bei Tippfehlern oder nicht existierenden Befehlen — kein Rätselraten mehr.
+- **Version:** v2.1.116
+
+### [Security: Sandbox auto-allow umgeht keinen dangerous-path Check mehr]
+- **Was:** Sandbox auto-allow umgeht nicht mehr den dangerous-path Safety-Check für `rm`/`rmdir` mit Zielen `/`, `$HOME` oder anderen kritischen System-Verzeichnissen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auto-Allow darf nicht mehr `rm -rf /` oder ähnlich Katastrophales durchwinken — harte Safety-Grenze bleibt bestehen.
+- **Version:** v2.1.116
+
+### [Fix: Devanagari/Indic-Scripts Column-Alignment]
+- **Was:** Devanagari und andere indische Schriften wurden im Terminal-UI mit fehlerhafter Spaltenausrichtung gerendert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrekte Darstellung für indische Sprachen — kein zerschossenes Layout mehr bei Hindi, Sanskrit etc.
+- **Version:** v2.1.116
+
+### [Fix: Ctrl+- Undo mit Kitty-Keyboard-Protocol]
+- **Was:** `Ctrl+-` löste in Terminals mit Kitty-Keyboard-Protocol (iTerm2, Ghostty, kitty, WezTerm, Windows Terminal) kein Undo aus.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Undo-Shortcut funktioniert jetzt zuverlässig in modernen Terminals mit erweiterten Keyboard-Events.
+- **Version:** v2.1.116
+
+### [Fix: Cmd+Left/Right Line-Navigation in Kitty-Protokoll-Terminals]
+- **Was:** `Cmd+Left`/`Cmd+Right` sprangen in Terminals mit Kitty-Keyboard-Protocol (Warp Fullscreen, kitty, Ghostty, WezTerm) nicht an Zeilenanfang/-ende.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Gewohnte macOS-Zeilen-Navigation funktioniert auch in modernen Terminal-Emulatoren.
+- **Version:** v2.1.116
+
+### [Fix: Ctrl+Z Hang via Wrapper-Prozesse]
+- **Was:** `Ctrl+Z` hing das Terminal ein, wenn Claude Code über einen Wrapper (`npx`, `bun run`) gestartet wurde.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Suspend/Resume funktioniert auch bei Wrapper-Launch — kein Reboot-Bedarf mehr nach versehentlichem `Ctrl+Z`.
+- **Version:** v2.1.116
+
+### [Fix: Scrollback-Duplikation im Inline-Modus]
+- **Was:** Im Inline-Modus wurden frühere Konversations-Segmente wiederholt, wenn das Terminal skaliert oder große Output-Bursts gerendert wurden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberer Scrollback — keine Duplikate mehr bei Resize oder großem Output.
+- **Version:** v2.1.116
+
+### [Fix: Modal-Search-Dialogs bei kurzer Terminal-Höhe]
+- **Was:** Modal-Search-Dialogs lief bei kurzer Terminal-Höhe über den Bildschirmrand — Such-Box und Keyboard-Hints wurden versteckt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Such-UI bleibt benutzbar auch in kleinen/geteilten Terminal-Fenstern.
+- **Version:** v2.1.116
+
+### [Fix: Verstreute Blank-Cells in VS Code Integrated Terminal]
+- **Was:** Im integrierten Terminal von VS Code erschienen beim Scrollen verstreute leere Zellen und die Composer-Chrome verschwand zeitweise.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberes Rendering in VS Code — keine Geisterzellen mehr und stabile Composer-Anzeige.
+- **Version:** v2.1.116
+
+### [Fix: API 400 Cache-Control TTL Ordering]
+- **Was:** Ein intermittierender API-400-Fehler durch Cache-Control-TTL-Ordering konnte auftreten, wenn ein paralleler Request während des Request-Setups abgeschlossen wurde.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere API-Calls bei paralleler Nutzung — keine seltenen 400er-Abbrüche mehr durch Race-Conditions.
+- **Version:** v2.1.116
+
+### [Fix: /branch akzeptiert Transcripts > 50MB]
+- **Was:** `/branch` lehnte Konversationen mit Transcripts über 50 MB ab.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auch sehr lange Sessions können verzweigt werden — keine künstliche Größen-Blockade mehr.
+- **Version:** v2.1.116
+
+### [Fix: /resume zeigt Fehler bei großen Session-Files]
+- **Was:** `/resume` zeigte bei großen Session-Files still eine leere Konversation statt den Lade-Fehler zu melden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Klare Fehlerdiagnose statt scheinbar leerer Session — man weiß, dass etwas schiefging.
+- **Version:** v2.1.116
+
+### [Fix: /plugin Installed-Tab Duplikate]
+- **Was:** Der `/plugin` Installed-Tab zeigte denselben Eintrag doppelt, wenn er sowohl unter „Needs attention" als auch „Favorites" stand.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Saubere Plugin-Übersicht ohne verwirrende Duplikate.
+- **Version:** v2.1.116
+
+### [Fix: /update und /tui nach Worktree-Wechsel]
+- **Was:** `/update` und `/tui` funktionierten nicht mehr, wenn man mitten in der Session in einen Worktree gewechselt hatte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Seamless Update und UI-Toggles auch nach `EnterWorktree` — kein Session-Neustart mehr nötig.
+- **Version:** v2.1.116
+
+---
 
 ### Woche 16 (13.–18. April 2026) — v2.1.111–v2.1.114 + Opus 4.7
 
