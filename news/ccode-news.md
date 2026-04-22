@@ -1,11 +1,185 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-21 18:01 (Re-Check: v2.1.116 weiterhin aktuell; keine neuen Blog-Announcements seit 14.04.2026)
+> Letzte Aktualisierung: 2026-04-22 (v2.1.117 eingepflegt)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 17 (22. April 2026) — v2.1.117
+
+---
+
+### [Forked Subagents auf externen Builds]
+- **Was:** Forked Subagents können jetzt auch in externen (Nicht-Anthropic-) Builds aktiviert werden.
+- **Einsatz:** Umgebungsvariable `CLAUDE_CODE_FORK_SUBAGENT=1` setzen
+- **Mehrwert:** Community-Builds und Enterprise-Forks bekommen Zugriff auf parallele Subagenten, bisher nur offiziellen Builds vorbehalten.
+- **Version:** v2.1.117
+
+### [Agent-Frontmatter `mcpServers` für Main-Thread-Sessions]
+- **Was:** Im Agent-Frontmatter deklarierte `mcpServers` werden jetzt auch geladen, wenn der Agent über `--agent` als Main-Thread-Session gestartet wird.
+- **Einsatz:** `claude --agent <name>` mit MCP-Servern im Frontmatter
+- **Mehrwert:** Agent-Definitionen sind portabler — ein Agent bringt seine MCP-Server mit, egal ob als Subagent oder Main-Session.
+- **Version:** v2.1.117
+
+### [`/model` Auswahl überlebt Neustart]
+- **Was:** Das über `/model` gewählte Modell bleibt über Session-Neustarts hinweg erhalten, selbst wenn das Projekt ein anderes Modell pinnt. Der Startup-Header zeigt an, ob das aktive Modell aus Projekt- oder Managed-Settings stammt.
+- **Einsatz:** `/model` einmal setzen — bleibt persistent
+- **Mehrwert:** Kein wiederholtes Umstellen auf das Wunsch-Modell bei jedem Session-Start; Transparenz über die Quelle des Pins.
+- **Version:** v2.1.117
+
+### [`/resume` bietet Zusammenfassung alter großer Sessions]
+- **Was:** Bei sehr großen, alten Sessions schlägt `/resume` vor, eine Zusammenfassung zu erstellen, statt die ganze Session neu einzulesen (analog `--resume`).
+- **Einsatz:** `/resume` auf einer alten, großen Session aufrufen und Angebot annehmen
+- **Mehrwert:** Alte Projekt-Sessions lassen sich ohne Wartezeit und ohne Kontext-Overflow fortsetzen.
+- **Version:** v2.1.117
+
+### [Paralleles MCP-Server-Connect als Default]
+- **Was:** Lokale und claude.ai-MCP-Server werden jetzt standardmäßig parallel verbunden, wenn beides konfiguriert ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar schnellerer Startup in Hybrid-Setups mit Remote- und lokalen MCP-Servern.
+- **Version:** v2.1.117
+
+### [`plugin install` ergänzt fehlende Dependencies]
+- **Was:** Ein erneutes `plugin install` auf einem bereits installierten Plugin bricht nicht mehr ab, sondern installiert fehlende Dependencies nach. `claude plugin marketplace add` löst fehlende Dependencies automatisch auf.
+- **Einsatz:** `plugin install <name>` erneut ausführen — Dependencies werden nachgezogen
+- **Mehrwert:** Selbstheilende Plugin-Umgebung ohne manuelles Uninstall/Reinstall.
+- **Version:** v2.1.117
+
+### [Managed-Settings: `blockedMarketplaces` / `strictKnownMarketplaces` strikter durchgesetzt]
+- **Was:** Die Managed-Settings `blockedMarketplaces` und `strictKnownMarketplaces` greifen jetzt bei Install, Update, Refresh und Autoupdate — nicht nur beim ersten Add.
+- **Einsatz:** In `managed-settings.json` setzen; wird automatisch bei allen Plugin-Ops durchgesetzt
+- **Mehrwert:** Enterprise-Admins können Marketplace-Policies zuverlässig durchziehen, ohne Schlupflöcher bei Updates.
+- **Version:** v2.1.117
+
+### [Advisor-Tool (experimentell) mit klarer Kennzeichnung]
+- **Was:** Der Advisor-Tool-Dialog zeigt jetzt ein "experimental"-Label plus Learn-More-Link; beim Start gibt es eine Benachrichtigung, wenn das Tool aktiv ist. Der Fehler "Advisor tool result content could not be processed" bei jedem Prompt ist behoben.
+- **Einsatz:** Advisor-Tool aktivieren; Hinweise erscheinen automatisch
+- **Mehrwert:** Transparenter Umgang mit experimentellen Features — kein Rätselraten mehr, was aktiv ist.
+- **Version:** v2.1.117
+
+### [`cleanupPeriodDays` räumt auch tasks/shell-snapshots/backups auf]
+- **Was:** Die `cleanupPeriodDays`-Aufräumroutine deckt jetzt auch `~/.claude/tasks/`, `~/.claude/shell-snapshots/` und `~/.claude/backups/` ab.
+- **Einsatz:** `cleanupPeriodDays` in Settings setzen — wirkt automatisch weiter
+- **Mehrwert:** Claude-Home-Verzeichnis bleibt schlank; keine manuellen Putz-Aktionen für Snapshots und Backups nötig.
+- **Version:** v2.1.117
+
+### [Native Builds: `Glob` und `Grep` als embedded bfs/ugrep]
+- **Was:** Auf macOS- und Linux-Native-Builds werden die `Glob`- und `Grep`-Tools durch eingebettete `bfs`- und `ugrep`-Binaries via Bash-Tool ersetzt. Windows- und npm-installierte Builds unverändert.
+- **Einsatz:** Automatisch aktiv auf Native-Builds
+- **Mehrwert:** Schnellere Suchen ohne separaten Tool-Round-Trip; weniger Latenz bei Datei-Exploration.
+- **Version:** v2.1.117
+
+### [Windows: `where.exe`-Lookups werden gecacht]
+- **Was:** Auf Windows werden `where.exe`-Executable-Lookups pro Prozess zwischengespeichert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deutlich schnellere Subprocess-Starts auf Windows — insbesondere bei vielen Bash-/Tool-Aufrufen.
+- **Version:** v2.1.117
+
+### [Default Effort `high` für Pro/Max auf Opus 4.6 & Sonnet 4.6]
+- **Was:** Pro- und Max-Subscriber laufen auf Opus 4.6 und Sonnet 4.6 jetzt standardmäßig mit Effort-Level `high` (vorher `medium`).
+- **Einsatz:** Automatisch aktiv für Pro/Max
+- **Mehrwert:** Bessere Antwortqualität out-of-the-box, ohne dass man `/effort high` manuell setzen muss.
+- **Version:** v2.1.117
+
+### [OpenTelemetry: `command_name` / `command_source` in user_prompt Events]
+- **Was:** `user_prompt`-Events enthalten jetzt `command_name` und `command_source`, wenn ein Slash-Command genutzt wurde. Custom/MCP-Command-Namen sind standardmäßig redacted (außer mit `OTEL_LOG_TOOL_DETAILS=1`).
+- **Einsatz:** OTEL-Export aktiv; Felder erscheinen automatisch in Telemetrie-Events
+- **Mehrwert:** Bessere Observability über Slash-Command-Nutzung, ohne sensible Custom-Command-Namen zu leaken.
+- **Version:** v2.1.117
+
+### [OpenTelemetry: `effort`-Attribut in Cost/Token/API-Events]
+- **Was:** `cost.usage`, `token.usage`, `api_request` und `api_error` enthalten jetzt ein `effort`-Attribut (sofern vom Modell unterstützt).
+- **Einsatz:** Automatisch aktiv bei OTEL-Export
+- **Mehrwert:** Kostenanalyse kann jetzt nach Effort-Level gruppiert werden — nützlich fürs Controlling.
+- **Version:** v2.1.117
+
+### [Fix: Plain-CLI OAuth-Sessions refreshen Token reaktiv auf 401]
+- **Was:** OAuth-Sessions im Plain-CLI sterben nicht mehr mit "Please run /login", sondern refreshen das Token reaktiv bei 401.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine Unterbrechungen mehr durch abgelaufene Tokens mitten in der Arbeit.
+- **Version:** v2.1.117
+
+### [Fix: `WebFetch` hängt nicht mehr bei sehr großen HTML-Seiten]
+- **Was:** Input wird vor der HTML-zu-Markdown-Konvertierung gekürzt, damit `WebFetch` nicht mehr auf riesigen Seiten hängt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Recherche-Workflows mit großen Dokumentations-Seiten laufen zuverlässig durch.
+- **Version:** v2.1.117
+
+### [Fix: Klare Fehlermeldung bei HTTP 204 vom Proxy]
+- **Was:** Wenn ein Proxy HTTP 204 No Content zurückgibt, gibt es jetzt eine klare Fehlermeldung statt eines `TypeError`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Einfachere Diagnose bei Proxy-Problemen in Corporate-Netzwerken.
+- **Version:** v2.1.117
+
+### [Fix: `/login` mit abgelaufenem `CLAUDE_CODE_OAUTH_TOKEN`]
+- **Was:** `/login` funktioniert jetzt auch, wenn die Env-Variable `CLAUDE_CODE_OAUTH_TOKEN` mit abgelaufenem Token gesetzt ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein Env-Cleanup mehr nötig, um sich neu einzuloggen.
+- **Version:** v2.1.117
+
+### [Fix: Prompt-Input-Undo (Ctrl+_) direkt nach Eingabe]
+- **Was:** `Ctrl+_` (Undo) funktioniert jetzt auch unmittelbar nach einer Eingabe.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Flüssige Text-Editierung im Prompt-Input, ohne Zwischenschritte.
+- **Version:** v2.1.117
+
+### [Fix: `NO_PROXY` wird unter Bun respektiert]
+- **Was:** Remote-API-Requests unter der Bun-Runtime beachten jetzt die `NO_PROXY`-Env-Variable.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrektes Proxy-Bypass-Verhalten in Bun-basierten Setups — wichtig für Intranet-APIs.
+- **Version:** v2.1.117
+
+### [Fix: Spurious Escape/Return-Trigger bei langsamen Verbindungen]
+- **Was:** Bei langsamen Verbindungen werden keine versehentlichen Escape- oder Return-Ereignisse mehr ausgelöst.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabileres Verhalten über SSH oder schwache WLAN-Verbindungen.
+- **Version:** v2.1.117
+
+### [Fix: SDK `reload_plugins` verbindet MCP-Server parallel]
+- **Was:** SDK-`reload_plugins` verbindet User-MCP-Server jetzt parallel statt seriell.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schnellerer Plugin-Reload in SDK-getriebenen Integrationen.
+- **Version:** v2.1.117
+
+### [Fix: Bedrock-Requests mit Opus 4.7 ohne Thinking]
+- **Was:** Bedrock-Requests mit Opus 4.7 und deaktiviertem Thinking schlagen nicht mehr fehl.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** AWS-Bedrock-Nutzer können Opus 4.7 auch ohne Extended Thinking zuverlässig einsetzen.
+- **Version:** v2.1.117
+
+### [Fix: MCP `elicitation/create` im Print/SDK-Mode]
+- **Was:** MCP-`elicitation/create`-Requests werden im Print-/SDK-Modus nicht mehr automatisch gecancelt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Interaktive MCP-Tools funktionieren jetzt auch in nicht-interaktiven Pipelines.
+- **Version:** v2.1.117
+
+### [Fix: Subagents mit anderem Modell zeigen keine falschen Malware-Warnungen]
+- **Was:** Subagents, die ein anderes Modell nutzen, lösen keine falschen Malware-Warnungen mehr aus.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Schreckmomente bei Multi-Modell-Agent-Setups.
+- **Version:** v2.1.117
+
+### [Fix: Idle Re-Render Loop mit Background-Tasks]
+- **Was:** Speicherwachstum durch eine Idle-Re-Render-Schleife bei laufenden Background-Tasks ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabile Speichernutzung in langen Sessions mit parallelen Background-Agents.
+- **Version:** v2.1.117
+
+### [Fix: VSCode "Manage Plugins"-Panel mit großen Marketplaces]
+- **Was:** Das "Manage Plugins"-Panel in VSCode bricht nicht mehr bei Marketplaces mit vielen Plugins.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugin-Verwaltung bleibt auch in Enterprise-Setups mit großem Marketplace nutzbar.
+- **Version:** v2.1.117
+
+### [Fix: Opus 4.7 `/context`-Prozentsatz rechnet mit 1M-Fenster]
+- **Was:** Opus 4.7 zeigt in `/context` korrekte Prozentsätze basierend auf dem 1M-Kontext-Fenster statt fälschlich mit 200K zu rechnen.
+- **Einsatz:** `/context` bei Opus 4.7 nutzen
+- **Mehrwert:** Verlässliche Kontext-Auslastungsanzeige — wichtig, um das 1M-Fenster nicht ungewollt zu sprengen.
+- **Version:** v2.1.117
+
+---
 
 ### Woche 17 (20. April 2026) — v2.1.116
 
