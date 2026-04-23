@@ -1,11 +1,227 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-22 (v2.1.117 — Re-Check ohne neue Einträge)
+> Letzte Aktualisierung: 2026-04-23 (v2.1.118)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 17 (23. April 2026) — v2.1.118
+
+---
+
+### [Vim Visual Mode (`v` / `V`)]
+- **Was:** Vim-Keybindings im Prompt-Input bekommen Visual Mode (`v`) und Visual-Line Mode (`V`) mit Selektion, Operatoren und visuellem Feedback.
+- **Einsatz:** In Vim-Mode `v` oder `V` drücken, dann navigieren und Operatoren (`d`, `y`, `c` …) anwenden
+- **Mehrwert:** Vertrautes Vim-Editing auch für Block- und Zeilen-Operationen — deutlich schneller beim Umbauen längerer Prompts.
+- **Version:** v2.1.118
+
+### [`/cost` und `/stats` → `/usage`]
+- **Was:** Die Befehle `/cost` und `/stats` sind in `/usage` zusammengeführt; beide bleiben als Tipp-Shortcuts erhalten und öffnen jeweils den passenden Tab.
+- **Einsatz:** `/usage` aufrufen — oder wie gewohnt `/cost` / `/stats` tippen
+- **Mehrwert:** Ein einheitliches Dashboard statt zwei getrennter Ansichten; weniger Kontextwechsel bei Nutzungs-Checks.
+- **Version:** v2.1.118
+
+### [Benannte Custom-Themes via `/theme`]
+- **Was:** Eigene Themes lassen sich jetzt über `/theme` anlegen, benennen und wechseln; alternativ per JSON in `~/.claude/themes/`. Plugins können eigene Themes über ein `themes/`-Verzeichnis ausliefern.
+- **Einsatz:** `/theme` → Custom Theme erstellen; oder JSON-Datei unter `~/.claude/themes/<name>.json` hinterlegen
+- **Mehrwert:** Teams/Plugins können konsistente Look-and-Feels verteilen; individuelles Tuning ohne Patchen der Core-Themes.
+- **Version:** v2.1.118
+
+### [Hooks können MCP-Tools direkt aufrufen (`type: "mcp_tool"`)]
+- **Was:** Hooks können jetzt MCP-Tools direkt via `type: "mcp_tool"` ansprechen — ohne Umweg über Bash oder Wrapper-Skripte.
+- **Einsatz:** Hook-Config mit `type: "mcp_tool"` + Tool-Name + Parameter definieren
+- **Mehrwert:** Hooks werden zu vollwertigen Automations — z.B. beim Stop-Event automatisch eine MCP-Aktion auslösen, ohne Shell-Shim.
+- **Version:** v2.1.118
+
+### [`DISABLE_UPDATES` Env-Var blockt auch manuelle Updates]
+- **Was:** Neue Env-Var `DISABLE_UPDATES` blockiert alle Update-Pfade, inklusive manuellem `claude update` — strenger als `DISABLE_AUTOUPDATER`.
+- **Einsatz:** `export DISABLE_UPDATES=1` im Shell-Profil setzen
+- **Mehrwert:** Harte Version-Pins für Enterprise- oder Air-gapped-Setups — keine Updates mehr, egal wie sie angestoßen werden.
+- **Version:** v2.1.118
+
+### [WSL erbt Windows-Managed-Settings via `wslInheritsWindowsSettings`]
+- **Was:** WSL auf Windows kann Managed-Settings von der Windows-Seite übernehmen, wenn die Policy `wslInheritsWindowsSettings` gesetzt ist.
+- **Einsatz:** Policy-Key `wslInheritsWindowsSettings` in `managed-settings.json` aktivieren
+- **Mehrwert:** Eine zentrale Corporate-Policy deckt Windows- und WSL-Nutzung ab; keine Doppelpflege mehr.
+- **Version:** v2.1.118
+
+### [Auto-Mode: `"$defaults"` erweitert Regeln statt sie zu ersetzen]
+- **Was:** In `autoMode.allow`, `autoMode.soft_deny` und `autoMode.environment` kann man `"$defaults"` einschließen, um eigene Regeln *zusätzlich* zur Built-in-Liste zu führen.
+- **Einsatz:** `autoMode.allow: ["$defaults", "custom rule …"]`
+- **Mehrwert:** Custom-Policies erweitern die sicheren Defaults, ohne sie komplett ersetzen zu müssen — weniger Risiko, Sicherheits-Regeln zu verlieren.
+- **Version:** v2.1.118
+
+### [Auto-Mode Opt-in: "Don't ask again"]
+- **Was:** Der Auto-Mode Opt-in-Prompt bietet eine "Don't ask again"-Option.
+- **Einsatz:** Beim ersten Auto-Mode-Prompt die Option wählen
+- **Mehrwert:** Einmaliger Consent statt wiederholter Rückfragen — angenehmer für Nutzer, die Auto-Mode bewusst aktiviert haben.
+- **Version:** v2.1.118
+
+### [`claude plugin tag` für Release-Tags mit Version-Validierung]
+- **Was:** Neuer Befehl `claude plugin tag` erzeugt Git-Release-Tags für Plugins inklusive Versions-Validierung.
+- **Einsatz:** Im Plugin-Repo `claude plugin tag` ausführen
+- **Mehrwert:** Sauberer Plugin-Release-Workflow aus dem CLI heraus — fehlerhafte Versions-Strings werden abgefangen, bevor Tags rausgehen.
+- **Version:** v2.1.118
+
+### [`--continue` / `--resume` finden Sessions mit `/add-dir`]
+- **Was:** `--continue` und `--resume` finden jetzt auch Sessions, deren aktuelles Verzeichnis nur via `/add-dir` hinzugefügt wurde.
+- **Einsatz:** `claude --continue` oder `claude --resume` aus einem Verzeichnis starten, das ursprünglich über `/add-dir` eingebunden wurde
+- **Mehrwert:** Keine verlorenen Sessions mehr bei Multi-Directory-Workflows — das richtige Verzeichnis reicht zum Wiederaufnehmen.
+- **Version:** v2.1.118
+
+### [`/color` synchronisiert Accent-Farbe mit claude.ai/code]
+- **Was:** `/color` überträgt die Session-Accent-Farbe an claude.ai/code, wenn Remote Control verbunden ist.
+- **Einsatz:** `/color <farbe>` bei aktivem Remote Control
+- **Mehrwert:** Session-Identität (z.B. prod vs. dev) ist auch im Web-UI sofort sichtbar — weniger Verwechslungen bei parallelen Sessions.
+- **Version:** v2.1.118
+
+### [`/model`-Picker respektiert `ANTHROPIC_DEFAULT_*`-Overrides bei Custom-Gateways]
+- **Was:** Der `/model`-Picker berücksichtigt jetzt `ANTHROPIC_DEFAULT_*_MODEL_NAME` und `_DESCRIPTION`-Overrides, auch wenn ein Custom-`ANTHROPIC_BASE_URL`-Gateway genutzt wird.
+- **Einsatz:** Env-Vars wie `ANTHROPIC_DEFAULT_OPUS_MODEL_NAME` mit Custom-Gateway kombinieren
+- **Mehrwert:** Eigene Proxy-/Gateway-Setups zeigen korrekte Modellnamen — kein "unknown model" mehr im Picker.
+- **Version:** v2.1.118
+
+### [Skipped-Plugin-Updates sichtbar in `/doctor` und `/plugin` Errors]
+- **Was:** Wenn Auto-Update ein Plugin wegen einer Versions-Constraint eines anderen Plugins überspringt, erscheint der Skip jetzt in `/doctor` und im `/plugin`-Errors-Tab.
+- **Einsatz:** Automatisch aktiv; `/doctor` oder `/plugin` → Errors öffnen
+- **Mehrwert:** Keine stillen Update-Ausfälle mehr — Dependency-Konflikte werden sichtbar diagnostizierbar.
+- **Version:** v2.1.118
+
+### [Fix: `/mcp` versteckte OAuth-Actions bei `headersHelper`]
+- **Was:** Im `/mcp`-Menü fehlten die OAuth-Authenticate/Re-authenticate-Actions für Server mit `headersHelper`; HTTP/SSE-MCP-Server mit Custom-Headern blieben nach transient-401 in "needs authentication" hängen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** MCP-Auth-Flows funktionieren zuverlässig auch mit Custom-Header-Setups.
+- **Version:** v2.1.118
+
+### [Fix: MCP ohne `expires_in` erzwang stündliche Re-Auth]
+- **Was:** MCP-Server, deren OAuth-Token-Response kein `expires_in` liefert, forderten bisher stündlich eine Re-Authentifizierung.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Nahtlose MCP-Nutzung auch bei minimalen OAuth-Responses — keine ständigen Login-Unterbrechungen.
+- **Version:** v2.1.118
+
+### [Fix: MCP Step-up Auth prompt bei `insufficient_scope`]
+- **Was:** MCP-Step-up-Authorization refreshte bisher stumm, wenn der Server per `insufficient_scope`-403 einen Scope nannte, den das Token bereits hatte — jetzt gibt es einen Re-Consent-Prompt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrektes OAuth-Verhalten — der User bekommt die Zustimmungs-Aufforderung, die der Protokoll-Standard vorsieht.
+- **Version:** v2.1.118
+
+### [Fix: Unhandled Promise-Rejection bei MCP-OAuth Timeout/Cancel]
+- **Was:** Wenn der OAuth-Flow eines MCP-Servers timeoutet oder gecancelt wird, gibt es keine Unhandled Promise Rejection mehr.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabile Session auch bei fehlgeschlagener MCP-Auth — kein Crash, kein Log-Rauschen.
+- **Version:** v2.1.118
+
+### [Fix: MCP-OAuth-Refresh respektiert Cross-Process-Lock]
+- **Was:** MCP-OAuth-Refresh lief bisher unter Contention auch ohne Cross-Process-Lock — das ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Mehrere parallele Claude-Instanzen kollidieren nicht mehr bei Token-Refresh — sauberes Locking über Prozesse hinweg.
+- **Version:** v2.1.118
+
+### [Fix: macOS-Keychain Race beim MCP-Token-Refresh]
+- **Was:** Ein Race auf der macOS-Keychain führte dazu, dass ein paralleler MCP-Token-Refresh ein frisch refreshtes OAuth-Token überschreiben konnte — mit fälschlichem "Please run /login".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine mysteriösen Logout-Aufforderungen mehr auf macOS bei aktiven MCP-Sessions.
+- **Version:** v2.1.118
+
+### [Fix: OAuth-Refresh bei server-seitig früh-revozierten Tokens]
+- **Was:** OAuth-Token-Refresh schlug fehl, wenn der Server ein Token vor dessen lokaler Ablaufzeit revozierte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Robusteres Login-Handling — Revocations serverseitig führen nicht mehr zu Crash-Refresh.
+- **Version:** v2.1.118
+
+### [Fix: Credential-Save-Crash korrumpierte `.credentials.json`]
+- **Was:** Ein Crash beim Speichern von Credentials konnte auf Linux/Windows die Datei `~/.claude/.credentials.json` korrumpieren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine zerschossenen Credential-Dateien mehr — kein Repair-Aufwand nach Crashes.
+- **Version:** v2.1.118
+
+### [Fix: `/login` in Sessions mit gesetztem `CLAUDE_CODE_OAUTH_TOKEN`]
+- **Was:** `/login` wirkte bisher nicht, wenn die Session mit einem gesetzten `CLAUDE_CODE_OAUTH_TOKEN` gestartet wurde — das Env-Token wird jetzt gelöscht, damit Disk-Credentials greifen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** `/login` tut zuverlässig das Erwartete — auch in Env-basierten Setups.
+- **Version:** v2.1.118
+
+### [Fix: Lesbarkeit von "new messages"-Pille und `/plugin`-Badges]
+- **Was:** Der Text in der "new messages"-Scroll-Pille und in `/plugin`-Badges war schwer lesbar.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bessere UI-Lesbarkeit — kein Augen-Kneifen bei Scroll- und Plugin-Ansichten.
+- **Version:** v2.1.118
+
+### [Fix: Plan-Dialog mit `--dangerously-skip-permissions`]
+- **Was:** Der Plan-Acceptance-Dialog bot fälschlich "auto mode" statt "bypass permissions" an, wenn Claude mit `--dangerously-skip-permissions` lief.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Dialog-Text matcht den tatsächlich aktiven Modus — keine Missverständnisse beim Accept.
+- **Version:** v2.1.118
+
+### [Fix: Agent-Hooks auf anderen Events als `Stop`/`SubagentStop`]
+- **Was:** Agent-Type-Hooks schlugen mit "Messages are required for agent hooks" fehl, wenn sie für andere Events als `Stop`/`SubagentStop` konfiguriert waren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Agent-Hooks lassen sich auf beliebigen Events nutzen — deutlich flexiblerer Automations-Baukasten.
+- **Version:** v2.1.118
+
+### [Fix: `prompt`-Hooks feuern nicht auf Verifier-Subagent-Tool-Calls]
+- **Was:** `prompt`-Hooks feuerten bisher nochmal bei Tool-Calls eines Agent-Hook-Verifier-Subagents — das ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine rekursiven Hook-Trigger mehr — Verifier-Subagents stören den Hook-Flow nicht.
+- **Version:** v2.1.118
+
+### [Fix: `/fork` speichert Pointer statt vollständige Parent-Konversation]
+- **Was:** `/fork` schrieb bisher die komplette Parent-Konversation pro Fork auf Disk — jetzt wird ein Pointer geschrieben und beim Lesen hydratisiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deutlich weniger Disk-Verbrauch und schnellere Forks — besonders bei langen Sessions.
+- **Version:** v2.1.118
+
+### [Fix: Alt+K / Alt+X / Alt+^ / Alt+_ fror Keyboard-Input ein]
+- **Was:** Die Tasten-Kombos Alt+K / Alt+X / Alt+^ / Alt+_ froren den Keyboard-Input ein.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine versehentlichen UI-Lockups mehr durch exotische Alt-Kombos.
+- **Version:** v2.1.118
+
+### [Fix: Remote-Session überschrieb lokales `model`-Setting nicht mehr]
+- **Was:** Connecten auf eine Remote-Session überschrieb bisher das lokale `model`-Setting in `~/.claude/settings.json`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lokale Modell-Präferenzen bleiben bestehen, egal welche Remote-Session man nutzt.
+- **Version:** v2.1.118
+
+### [Fix: Typeahead "No commands match" beim Einfügen von `/`-Pfaden]
+- **Was:** Der Typeahead zeigte "No commands match", wenn man Dateipfade einfügte, die mit `/` beginnen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Pfade im Prompt-Input einfügen ohne nervigen False-Positive-Error.
+- **Version:** v2.1.118
+
+### [Fix: `plugin install` re-resolvt falsche Dependency-Version]
+- **Was:** `plugin install` auf einem bereits installierten Plugin löste eine in falscher Version installierte Dependency nicht mehr auf — das ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugin-Ökosystem bleibt konsistent — keine hängen gebliebenen Fehl-Versionen nach Neu-Installs.
+- **Version:** v2.1.118
+
+### [Fix: File-Watcher crasht nicht bei invaliden Pfaden / fd-Exhaustion]
+- **Was:** Unhandled Errors vom File-Watcher bei invaliden Pfaden oder File-Descriptor-Erschöpfung sind behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere Langläufer-Sessions in großen Projekten mit vielen watched Paths.
+- **Version:** v2.1.118
+
+### [Fix: Remote-Control-Sessions überleben CCR-JWT-Refresh-Blips]
+- **Was:** Remote-Control-Sessions wurden bei transienten CCR-Init-Blips während JWT-Refresh archiviert — das ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Remote-Sessions bleiben auch bei kurzen Netz-/Auth-Hickups verbunden.
+- **Version:** v2.1.118
+
+### [Fix: Per `SendMessage` fortgeführte Subagents restaurieren `cwd`]
+- **Was:** Subagents, die per `SendMessage` fortgeführt wurden, restaurierten den beim Spawn expliziten `cwd` nicht — das ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Korrektes Working-Directory-Verhalten bei fortgesetzten Subagents — keine überraschenden Pfad-Fehler.
+- **Version:** v2.1.118
+
+### [Blog-Ankündigung: "New connectors in Claude for everyday life" (2026-04-23)]
+- **Was:** Neue Connectors für claude.ai speziell für Alltagsaufgaben werden eingeführt (Details im Blog-Post).
+- **Einsatz:** Über claude.ai → Connectors aktivieren; betrifft primär die Produktseite, nicht Claude Code CLI
+- **Mehrwert:** Breitere Integration in Alltags-Workflows — für Claude Code relevant, soweit diese Connectors später auch im CLI via MCP/Plugins erscheinen.
+- **Version:** Ankündigung 2026-04-23
+
+---
 
 ### Woche 17 (22. April 2026) — v2.1.117
 
