@@ -1,11 +1,311 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-23 (v2.1.118)
+> Letzte Aktualisierung: 2026-04-24 (v2.1.119)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 17 (24. April 2026) — v2.1.119
+
+---
+
+### [`/config`-Settings persistieren mit Override-Hierarchie]
+- **Was:** Änderungen via `/config` werden in `~/.claude/settings.json` geschrieben — mit klarer Präzedenz: project > local > policy.
+- **Einsatz:** `/config` öffnen, Werte anpassen — landen automatisch in der richtigen Settings-Schicht
+- **Mehrwert:** Keine verlorenen Einstellungen mehr zwischen Sessions; Team-Policies bleiben trotzdem verbindlich.
+- **Version:** v2.1.119
+
+### [`prUrlTemplate` für eigene Code-Review-Hosts]
+- **Was:** Statt fest `github.com` zu linken, lässt sich per `prUrlTemplate` eine beliebige Review-URL (GitLab, Gitea, interner Host) einsetzen.
+- **Einsatz:** `prUrlTemplate` in den Settings auf z.B. `https://gitlab.corp/${owner}/${repo}/-/merge_requests/${number}` setzen
+- **Mehrwert:** Enterprise-Setups mit Self-Hosted-Git bekommen korrekte Review-Links, ohne GitHub-Hardcoding.
+- **Version:** v2.1.119
+
+### [`CLAUDE_CODE_HIDE_CWD` versteckt CWD im Startup-Logo]
+- **Was:** Neue Env-Var `CLAUDE_CODE_HIDE_CWD` blendet das aktuelle Arbeitsverzeichnis im Startup-Banner aus.
+- **Einsatz:** `export CLAUDE_CODE_HIDE_CWD=1`
+- **Mehrwert:** Screen-Sharing, Demos und Aufzeichnungen leaken keine internen Pfadstrukturen mehr.
+- **Version:** v2.1.119
+
+### [`--from-pr` unterstützt GitLab, Bitbucket und GitHub Enterprise]
+- **Was:** Der `--from-pr`-Flag akzeptiert jetzt zusätzlich GitLab-, Bitbucket- und GHE-Merge-Request-/PR-URLs.
+- **Einsatz:** `claude --from-pr https://gitlab.com/org/repo/-/merge_requests/42`
+- **Mehrwert:** PR-Reviews aus beliebigen Git-Hostern starten, ohne Branch vorher lokal auschecken zu müssen.
+- **Version:** v2.1.119
+
+### [`--print` respektiert Agent-`tools:` / `disallowedTools:`]
+- **Was:** Im `--print`-Modus werden die in der Agent-Frontmatter deklarierten `tools:` und `disallowedTools:` korrekt erzwungen.
+- **Einsatz:** `claude --print --agent <name>` mit Agent-Definition, die Tool-Scoping setzt
+- **Mehrwert:** Non-interactive Runs kriegen dieselben Sicherheits-Boundaries wie interaktive — weniger Risiko bei Agenten-Pipelines.
+- **Version:** v2.1.119
+
+### [`--agent` erbt `permissionMode` für Built-in-Agents]
+- **Was:** `--agent <name>` übernimmt auch bei Built-in-Agents den in der Agent-Definition gesetzten `permissionMode`.
+- **Einsatz:** Agent-File mit `permissionMode: plan` o.ä. anlegen und via `--agent` starten
+- **Mehrwert:** Agenten laufen zuverlässig im gewünschten Sicherheits-Level, egal ob extern oder built-in.
+- **Version:** v2.1.119
+
+### [PowerShell-Tool-Kommandos auto-approvable]
+- **Was:** Kommandos des PowerShell-Tools können jetzt über Permission-Rules automatisch freigegeben werden (wie Bash).
+- **Einsatz:** Permission-Entries wie `PowerShell(Get-*)` in den Allow-Rules definieren
+- **Mehrwert:** Windows-Workflows werden flüssiger — keine Dauer-Rückfragen mehr für harmlose PowerShell-Reads.
+- **Version:** v2.1.119
+
+### [Hook-Payload enthält `duration_ms`]
+- **Was:** Hook-Events bekommen ein neues Feld `duration_ms` mit der Ausführungszeit des Tools.
+- **Einsatz:** In Hook-Skripten auf `duration_ms` zugreifen, z.B. für Latenz-Logging
+- **Mehrwert:** Observability ohne Wrapper — Tool-Performance direkt aus Hooks messbar.
+- **Version:** v2.1.119
+
+### [Parallele (Re-)Verbindung für Subagent- und SDK-MCP-Server]
+- **Was:** Bei Subagent- und SDK-MCP-Reconfiguration werden alle Server parallel verbunden, nicht sequentiell.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar kürzere Startup-Zeit bei Projekten mit vielen MCP-Servern.
+- **Version:** v2.1.119
+
+### [Plugin-Version-Constraints: Auto-Update zum höchsten Match]
+- **Was:** Plugins mit Version-Constraints (z.B. `^1.2.0`) bekommen automatisch das höchste passende Git-Tag beim Auto-Update.
+- **Einsatz:** Plugin mit Version-Constraint installieren; Auto-Update folgt Semver
+- **Mehrwert:** Bugfix-Releases werden automatisch eingezogen, ohne Breaking-Changes zu riskieren.
+- **Version:** v2.1.119
+
+### [Vim-Mode: Esc im INSERT lässt Queued-Messages in Ruhe]
+- **Was:** Esc beim Verlassen des Vim INSERT-Modes zieht nicht mehr versehentlich bereits gequeuete Nachrichten zurück ins Eingabefeld.
+- **Einsatz:** Automatisch aktiv im Vim-Mode
+- **Mehrwert:** Vim-Nutzer können ohne Angst vor Message-Merges zwischen Modes wechseln.
+- **Version:** v2.1.119
+
+### [Slash-Command-Picker: Highlight + Line-Wrap]
+- **Was:** Slash-Command-Vorschläge heben die gematchten Zeichen im Namen hervor, und lange Beschreibungen werden umgebrochen statt abgeschnitten.
+- **Einsatz:** Automatisch aktiv; `/` tippen und mitschreiben
+- **Mehrwert:** Schnellerer Scan der Treffer, komplette Infos sichtbar — Fuzzy-Matching wird transparenter.
+- **Version:** v2.1.119
+
+### [`owner/repo#N`-Shorthand nutzt Git-Remote-Host]
+- **Was:** Der Kurzlink `owner/repo#123` wird jetzt gegen den tatsächlichen Git-Remote-Host aufgelöst — nicht mehr fest gegen `github.com`.
+- **Einsatz:** `owner/repo#123` in einer Nachricht eingeben; Claude folgt dem Remote
+- **Mehrwert:** Korrekte Deep-Links auch in GitLab-/GHE-/Gitea-Repos — kein manuelles Ausschreiben der vollen URL.
+- **Version:** v2.1.119
+
+### [`blockedMarketplaces`: `hostPattern`/`pathPattern` wirken]
+- **Was:** Die Policy `blockedMarketplaces` enforced jetzt auch ihre `hostPattern`- und `pathPattern`-Einträge.
+- **Einsatz:** Im Managed-Settings-File `blockedMarketplaces`-Einträge mit Patterns hinterlegen
+- **Mehrwert:** Enterprise kann Plugin-Quellen granular blockieren, nicht nur per exakter Marketplace-ID.
+- **Version:** v2.1.119
+
+### [OpenTelemetry-Events: `tool_use_id` in `tool_result` / `tool_decision`]
+- **Was:** Die OTel-Events `tool_result` und `tool_decision` enthalten jetzt die `tool_use_id`.
+- **Einsatz:** Automatisch aktiv; in Collector-Queries nach `tool_use_id` joinen
+- **Mehrwert:** Events desselben Tool-Calls lassen sich sauber korrelieren — End-to-End-Traces ohne Heuristik.
+- **Version:** v2.1.119
+
+### [Statusline-Stdin JSON: `effort.level` + `thinking.enabled`]
+- **Was:** Das JSON, das an Statusline-Skripte per Stdin übergeben wird, enthält jetzt `effort.level` und `thinking.enabled`.
+- **Einsatz:** Statusline-Skript um Parsing dieser Felder erweitern
+- **Mehrwert:** Statusline kann anzeigen, ob Extended Thinking läuft und in welchem Effort-Level — sichtbarer als bisher.
+- **Version:** v2.1.119
+
+### [Fix: CRLF-Paste erzeugte Leerzeilen]
+- **Was:** Einfügen von Text mit Windows-Line-Endings (CRLF) fügte keine zusätzlichen Leerzeilen mehr ein.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Cross-Platform-Copy/Paste funktioniert jetzt verlustfrei — kein Cleanup mehr nötig.
+- **Version:** v2.1.119
+
+### [Fix: Multi-Line-Paste im Kitty-Protocol]
+- **Was:** Mehrzeilige Pastes in Terminals mit Kitty-Keyboard-Protocol verloren keine Newlines mehr.
+- **Einsatz:** Automatisch aktiv in Kitty/Wezterm/Ghostty
+- **Mehrwert:** Modern-Terminal-User können wieder zuverlässig mehrzeiligen Code einfügen.
+- **Version:** v2.1.119
+
+### [Fix: Glob/Grep verschwanden bei Bash-Deny]
+- **Was:** Wenn Bash per Permissions verboten war, verschwanden irrtümlich auch `Glob`/`Grep` aus dem Tool-Katalog.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sichere Setups ohne Bash funktionieren jetzt normal — Datei-Suche bleibt verfügbar.
+- **Version:** v2.1.119
+
+### [Fix: Fullscreen-Scrolling springt nicht mehr nach unten]
+- **Was:** Im Fullscreen-Modus sprang die Scroll-Position nach Tool-Ende nicht mehr automatisch an den Unterrand.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Review langer Tool-Outputs ohne ständiges Zurückscrollen.
+- **Version:** v2.1.119
+
+### [Fix: MCP-HTTP OAuth-Discovery]
+- **Was:** MCP-HTTP-Verbindungen schlugen bei fehlerhaft-geformten OAuth-Discovery-Antworten nicht mehr fehl.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Robuster MCP-OAuth-Flow auch gegen minder-spec-konforme Server.
+- **Version:** v2.1.119
+
+### [Fix: Rewind-Overlay zeigte „(no prompt)" bei Bild-Messages]
+- **Was:** Rewind-Overlay zeigte für Nachrichten mit Bildanhängen nicht mehr „(no prompt)", sondern den echten Prompt-Text.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Rewind über Multimodal-Messages bleibt les- und navigierbar.
+- **Version:** v2.1.119
+
+### [Fix: Auto-Mode überschrieb Plan-Mode]
+- **Was:** Auto-Mode überstimmte Plan-Mode-Anweisungen nicht mehr bei widersprüchlicher Konfiguration.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plan-Mode behält die Oberhand bei Konflikten — vorhersehbares Verhalten.
+- **Version:** v2.1.119
+
+### [Fix: Async `PostToolUse`-Hooks schrieben leere Transcript-Einträge]
+- **Was:** Asynchrone `PostToolUse`-Hooks schrieben keine leeren Einträge mehr ins Transcript.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberer Conversation-Verlauf auch bei Async-Hooks.
+- **Version:** v2.1.119
+
+### [Tool-Search standardmäßig aus auf Vertex AI]
+- **Was:** Auf Vertex AI ist Tool-Search per Default deaktiviert — Feature war dort nicht zuverlässig.
+- **Einsatz:** Automatisch aktiv bei Vertex-Deploys
+- **Mehrwert:** Keine irreführenden Fehler mehr bei Vertex-Kunden; bewusst aktivierbar, wenn gewünscht.
+- **Version:** v2.1.119
+
+### [Fix: `@-File`-Tab-Completion in Slash-Commands]
+- **Was:** Tab-Completion für `@file`-Pfade in Slash-Commands ersetzte nicht mehr den ganzen Prompt, sondern nur das `@`-Token.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Dateipfade ergänzen, ohne den eingetippten Command zu verlieren.
+- **Version:** v2.1.119
+
+### [Fix: Stray `p` auf macOS-Terminal via Docker/SSH]
+- **Was:** Der spurious `p`-Character beim Start in macOS Terminal.app über Docker/SSH taucht nicht mehr auf.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberer erster Frame auch in Remote-/Container-Workflows.
+- **Version:** v2.1.119
+
+### [Fix: `${ENV_VAR}` in MCP-Headers]
+- **Was:** `${ENV_VAR}`-Platzhalter in MCP-Server-Headers werden jetzt korrekt aus der Umgebung substituiert.
+- **Einsatz:** Automatisch aktiv; Header-Config mit `${MY_TOKEN}` nutzen
+- **Mehrwert:** Secrets können via Env-Var injiziert werden, ohne in `.json`-Configs zu landen.
+- **Version:** v2.1.119
+
+### [Fix: MCP OAuth-Client-Secret beim Token-Exchange]
+- **Was:** Der MCP OAuth-Client-Secret wurde beim Token-Exchange nicht mehr verschluckt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** OAuth-Server, die Client-Secret erwarten (Standard!), funktionieren jetzt zuverlässig.
+- **Version:** v2.1.119
+
+### [Fix: `/skills`-Enter füllt Command vor]
+- **Was:** Enter im `/skills`-Dialog schließt nicht mehr den Dialog, sondern füllt den gewählten Skill als Command vor.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Intuitive Skill-Auswahl — genau das passiert, was man erwartet.
+- **Version:** v2.1.119
+
+### [Fix: `/agents` labelt Built-in-Tools nicht mehr als „Unrecognized"]
+- **Was:** Im `/agents`-Menü tauchten Built-in-Tools, die gerade nicht verfügbar sind, fälschlich als „Unrecognized" auf.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Verwirrung bei Agent-Konfiguration — Tools werden korrekt kategorisiert.
+- **Version:** v2.1.119
+
+### [Fix: Plugin-MCP-Server starten auf Windows mit unvollständigem Cache]
+- **Was:** MCP-Server aus Plugins spawnen jetzt auch dann, wenn der Plugin-Cache auf Windows partiell ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Windows-Setups bleiben funktional auch nach abgebrochenen Installs.
+- **Version:** v2.1.119
+
+### [Fix: `/export` zeigt Conversation-Model statt Current-Model]
+- **Was:** `/export` dokumentiert jetzt das tatsächlich in der Conversation genutzte Modell, nicht das aktuell in der Session eingestellte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Exportierte Transcripts sind historisch korrekt — wichtig für Audit/Repro.
+- **Version:** v2.1.119
+
+### [Fix: Verbose-Output persistiert über Restarts]
+- **Was:** Das Verbose-Output-Setting überlebt jetzt Neustarts.
+- **Einsatz:** Automatisch aktiv; Einstellung via `/config` oder Settings-Datei
+- **Mehrwert:** Debugging-Preferences bleiben erhalten — keine Reconfiguration nach jedem Restart.
+- **Version:** v2.1.119
+
+### [Fix: `/usage`-Progress-Bars überlappen nicht mehr mit Labels]
+- **Was:** Die Progress-Bars im `/usage`-Dashboard kollidieren optisch nicht mehr mit ihren Labels.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Usage-Zahlen sind in engen Terminals wieder lesbar.
+- **Version:** v2.1.119
+
+### [Fix: Plugin-MCP mit optionalen `${user_config.*}`-Referenzen]
+- **Was:** Plugin-MCP-Server mit optionalen `${user_config.*}`-Placeholdern scheitern nicht mehr, wenn diese Felder leer sind.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Optional-Config-Felder bleiben optional — Plugins funktionieren auch ohne volle User-Config.
+- **Version:** v2.1.119
+
+### [Fix: List-Items mit Satzend-Zahlen brechen korrekt um]
+- **Was:** Listen-Einträge, deren Text mit einer Zahl endet (z.B. „released v2.1.119"), brechen nicht mehr seltsam um.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kosmetisch — Output wirkt nicht mehr „gestört" bei Versions-Nennungen.
+- **Version:** v2.1.119
+
+### [Fix: `/plan open` greift auf existierenden Plan zu]
+- **Was:** `/plan open` tut nichts mehr ins Leere, sondern öffnet tatsächlich den vorhandenen Plan.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plan-Workflow funktioniert wie erwartet, inkl. Reopening aus Sessions.
+- **Version:** v2.1.119
+
+### [Fix: Skills nach Auto-Compaction]
+- **Was:** Skills, die vor Auto-Compaction invoked wurden, laufen nicht mehr fälschlich bei der nächsten Message nochmal los.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabileres Skill-Verhalten bei langen Sessions mit Compaction.
+- **Version:** v2.1.119
+
+### [Fix: `/reload-plugins` und `/doctor` ignorieren disabled Plugins]
+- **Was:** `/reload-plugins` und `/doctor` melden keine Load-Errors mehr für bewusst deaktivierte Plugins.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine falschen Warnungen bei absichtlich stillgelegten Plugins.
+- **Version:** v2.1.119
+
+### [Fix: Agent-Tool mit `isolation: "worktree"` nutzt keine stale Worktrees]
+- **Was:** `Agent` mit `isolation: "worktree"` greift nicht mehr auf veraltete Worktrees zurück.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Parallele Agent-Runs in Worktrees bleiben sauber voneinander isoliert.
+- **Version:** v2.1.119
+
+### [Fix: Disabled MCP-Server nicht mehr als „failed"]
+- **Was:** Deaktivierte MCP-Server zeigen nicht mehr „failed"-Status im Status-Panel.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Status-Übersicht bleibt aussagekräftig — echte Fehler heben sich visuell ab.
+- **Version:** v2.1.119
+
+### [Fix: `TaskList` gibt sortierte Tasks zurück]
+- **Was:** `TaskList` liefert die Tasks in deterministischer Reihenfolge.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Reproduzierbare Todo-Übersichten — wichtig für UI-/Script-Nachverarbeitung.
+- **Version:** v2.1.119
+
+### [Fix: Keine falschen „GitHub API rate limit"-Hints]
+- **Was:** Wenn PR-Titel eine Zahl enthalten (z.B. `#123`), triggert das keine fälschlichen Rate-Limit-Warnungen mehr.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger irreführende Error-Meldungen beim PR-Handling.
+- **Version:** v2.1.119
+
+### [Fix: SDK/Bridge-`read_file` enforced Größen-Cap bei wachsenden Dateien]
+- **Was:** `read_file` im SDK/Bridge-Pfad respektiert jetzt auch bei Dateien, die während des Reads wachsen, das Size-Cap.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schutz gegen Memory-Blowup beim Lesen von Log-Dateien o.ä.
+- **Version:** v2.1.119
+
+### [Fix: PR-Verknüpfung zur Session in Git-Worktrees]
+- **Was:** Wird ein PR aus einer Worktree-Session erzeugt, ist er jetzt korrekt mit dieser Session verlinkt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Session-↔-PR-Nachvollziehbarkeit auch für Multi-Worktree-Workflows.
+- **Version:** v2.1.119
+
+### [Fix: `/doctor` warnt nicht über überschriebene MCP-Einträge]
+- **Was:** `/doctor` meldet keine spurious Warnings mehr, wenn MCP-Server-Configs via Override bewusst überschrieben werden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Cleanere `/doctor`-Ausgabe bei legitimen Overrides.
+- **Version:** v2.1.119
+
+### [Fix: Windows — kein falscher „cmd /c wrapper"-Hinweis mehr]
+- **Was:** Auf Windows wird der False-Positive-Hinweis „requires cmd /c wrapper" bei Bash-Kommandos unterdrückt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Windows-User bekommen nur echte Relevant-Warnings.
+- **Version:** v2.1.119
+
+### [Fix: VSCode — Voice-Dictation während Permission-Prompt]
+- **Was:** Voice-Dictation auf macOS erzeugt nicht mehr leeren Output, wenn ein Permission-Prompt offen ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Diktat-Workflows bleiben funktional auch bei Consent-Dialogen.
+- **Version:** v2.1.119
+
+---
 
 ### Woche 17 (23. April 2026) — v2.1.118
 
