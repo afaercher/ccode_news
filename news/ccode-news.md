@@ -1,11 +1,231 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-27 12:03 UTC (v2.1.119 — keine neuen Releases seit 2026-04-23)
+> Letzte Aktualisierung: 2026-04-28 09:00 UTC (v2.1.121 — neues Release am 28.04.2026)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 18 (28. April 2026) — v2.1.120 / v2.1.121
+
+---
+
+### [`alwaysLoad` für MCP-Server: Tools ohne Tool-Search-Deferral]
+- **Was:** Neue Option `alwaysLoad: true` in der MCP-Server-Config — alle Tools des Servers überspringen die Tool-Search-Deferral und sind sofort verfügbar.
+- **Einsatz:** In der MCP-Server-Config `"alwaysLoad": true` setzen
+- **Mehrwert:** Kritische MCP-Tools werden zuverlässig geladen, ohne dass Tool-Search sie versteckt — wichtig bei kleinen, fokussierten MCP-Servern.
+- **Version:** v2.1.121
+
+### [`claude plugin prune`: orphaned Plugin-Dependencies aufräumen]
+- **Was:** Neuer Befehl `claude plugin prune` entfernt verwaiste, automatisch installierte Plugin-Dependencies; `plugin uninstall --prune` cascadiert ebenfalls.
+- **Einsatz:** `claude plugin prune` oder `claude plugin uninstall <name> --prune`
+- **Mehrwert:** Plugin-Verwaltung bleibt sauber — keine Karteileichen nach Deinstallationen.
+- **Version:** v2.1.121
+
+### [`/skills`: Type-to-Filter-Suchbox]
+- **Was:** Im `/skills`-Dialog gibt es jetzt ein Suchfeld zum Filtern — kein Scrollen mehr durch lange Skill-Listen.
+- **Einsatz:** `/skills` öffnen und einfach tippen
+- **Mehrwert:** Bei vielen installierten Skills (Plugins) findet man den richtigen sofort.
+- **Version:** v2.1.121
+
+### [PostToolUse-Hooks: Tool-Output für alle Tools ersetzen]
+- **Was:** PostToolUse-Hooks können nun via `hookSpecificOutput.updatedToolOutput` das Tool-Output für **alle** Tools ersetzen (vorher nur MCP-Tools).
+- **Einsatz:** Im PostToolUse-Hook `hookSpecificOutput.updatedToolOutput` setzen
+- **Mehrwert:** Mächtiges Filtering/Redaction (z.B. Secrets aus Bash-Output) jetzt einheitlich für jedes Tool möglich.
+- **Version:** v2.1.121
+
+### [Fullscreen: Scroll-Position bleibt beim Tippen erhalten]
+- **Was:** Tippen ins Prompt-Feld scrollt im Fullscreen-Mode nicht mehr automatisch zurück nach unten, wenn man nach oben gescrollt hat.
+- **Einsatz:** Automatisch aktiv im Fullscreen
+- **Mehrwert:** Frühere Output-Stellen bleiben sichtbar während des Tippens — viel weniger Scroll-Frust.
+- **Version:** v2.1.121
+
+### [Scrollbare Dialoge bei Terminal-Overflow]
+- **Was:** Dialoge, die das Terminal überfüllen, lassen sich jetzt mit Pfeiltasten, PgUp/PgDn, Home/End und Mausrad scrollen — sowohl im Fullscreen als auch im Standard-Mode.
+- **Einsatz:** Automatisch aktiv; in großen Dialogen einfach scrollen
+- **Mehrwert:** Lange Listen (Settings, Permissions, etc.) werden auf kleinen Terminals endlich vollständig nutzbar.
+- **Version:** v2.1.121
+
+### [Lange URLs: Klick auf jede Zeile öffnet vollen Link]
+- **Was:** Bei URLs, die im Fullscreen über mehrere Zeilen umbrechen, öffnet ein Klick auf **jede** Zeile die komplette URL.
+- **Einsatz:** Automatisch aktiv im Fullscreen
+- **Mehrwert:** Keine Frickelei mehr beim Treffen der ersten Zeile — Links sind robuster klickbar.
+- **Version:** v2.1.121
+
+### [`CLAUDE_CODE_FORK_SUBAGENT=1` auch im SDK / `claude -p`]
+- **Was:** Die Env-Variable `CLAUDE_CODE_FORK_SUBAGENT=1` funktioniert jetzt auch in non-interactive Sessions (SDK, `claude -p`).
+- **Einsatz:** `CLAUDE_CODE_FORK_SUBAGENT=1 claude -p "<prompt>"`
+- **Mehrwert:** Subagent-Forking konsistent in allen Run-Modes — wichtig für CI-Pipelines und automatisierte Skripte.
+- **Version:** v2.1.121
+
+### [`--dangerously-skip-permissions` fragt nicht mehr für `.claude/`-Configs]
+- **Was:** Mit `--dangerously-skip-permissions` werden Writes in `.claude/skills/`, `.claude/agents/` und `.claude/commands/` nicht mehr unterbrochen.
+- **Einsatz:** `claude --dangerously-skip-permissions`
+- **Mehrwert:** Skill-/Agent-/Command-Setup in CI-Runs läuft ohne Permission-Block durch.
+- **Version:** v2.1.121
+
+### [`/terminal-setup` aktiviert iTerm2 Clipboard-Setting für tmux]
+- **Was:** `/terminal-setup` schaltet iTerm2's „Applications in terminal may access clipboard"-Setting an, damit `/copy` auch aus tmux funktioniert.
+- **Einsatz:** `/terminal-setup` ausführen (iTerm2 + tmux)
+- **Mehrwert:** Endlich funktioniert `/copy` zuverlässig im typischen iTerm2/tmux-Setup vieler Devs.
+- **Version:** v2.1.121
+
+### [MCP-Server: Auto-Retry (3×) bei Startup-Errors]
+- **Was:** MCP-Server, die beim Startup einen transienten Fehler werfen, werden bis zu 3× automatisch erneut verbunden — statt dauerhaft disconnected zu bleiben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabile MCP-Pipelines auch bei flaky Netzwerk- oder Auth-Hängern beim Start.
+- **Version:** v2.1.121
+
+### [Terminal-Tab-Titel respektiert `language`-Setting]
+- **Was:** Der Terminal-Tab-Titel wird in der konfigurierten `language`-Sprache erzeugt.
+- **Einsatz:** Sprache via Settings / `language` setzen
+- **Mehrwert:** Konsistente UI-Sprache bis in den Tab-Titel — wichtig für nicht-englische Nutzer.
+- **Version:** v2.1.121
+
+### [claude.ai Connectors: Deduplication bei gleicher Upstream-URL]
+- **Was:** Connectors mit identischer Upstream-URL werden zusammengefasst, statt doppelt in der Liste aufzutauchen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Übersichtliche Connector-Liste auf claude.ai — keine verwirrenden Duplikate.
+- **Version:** v2.1.121
+
+### [Vertex AI: X.509 Workload Identity Federation (mTLS ADC)]
+- **Was:** Vertex AI unterstützt jetzt zertifikatbasierte Workload Identity Federation per X.509 (mTLS Application Default Credentials).
+- **Einsatz:** ADC mit X.509-Zertifikat einrichten — Claude Code nutzt es automatisch
+- **Mehrwert:** Enterprise-konforme Vertex-AI-Authentifizierung ohne langlebige Service-Account-Keys.
+- **Version:** v2.1.121
+
+### [Schnellerer Startup nach Upgrade (Recent Activity entfernt)]
+- **Was:** Nach Upgrades startet Claude Code spürbar schneller — das Recent-Activity-Panel im Release-Notes-Splash wurde entfernt.
+- **Einsatz:** Automatisch aktiv nach jedem Upgrade
+- **Mehrwert:** Weniger Wartezeit nach `claude upgrade` — schneller wieder produktiv.
+- **Version:** v2.1.121
+
+### [LSP-Diagnose-Summaries: expand on click / Ctrl+O]
+- **Was:** LSP-Diagnostic-Summaries lassen sich per Klick oder `Ctrl+O` aufklappen; ein Hinweis zeigt, dass es geht.
+- **Einsatz:** Auf eine Diagnose-Zeile klicken oder `Ctrl+O` drücken
+- **Mehrwert:** Lange Type-/Compiler-Errors werden bei Bedarf voll lesbar, ohne den Default-View zu zumüllen.
+- **Version:** v2.1.121
+
+### [SDK: `mcp_authenticate` mit `redirectUri`]
+- **Was:** Das SDK-API `mcp_authenticate` akzeptiert jetzt `redirectUri` für Custom-Scheme-Completion und claude.ai-Connectors.
+- **Einsatz:** Im SDK `mcp_authenticate({ redirectUri: '<scheme>://...' })`
+- **Mehrwert:** OAuth-Flows aus Desktop-/Custom-Apps schließen sauber — kein manuelles Code-Paste-Drama mehr.
+- **Version:** v2.1.121
+
+### [OpenTelemetry: `stop_reason`, `finish_reasons`, optional `user_system_prompt`]
+- **Was:** LLM-Request-Spans bekommen `stop_reason`, `gen_ai.response.finish_reasons` und (per `OTEL_LOG_USER_PROMPTS` gegated) `user_system_prompt`.
+- **Einsatz:** OTel-Collector queryen; für User-Prompt-Logging `OTEL_LOG_USER_PROMPTS=1` setzen
+- **Mehrwert:** Bessere Observability für Stop-Reasons und Prompts — Debugging und Analytics werden viel präziser.
+- **Version:** v2.1.121
+
+### [VSCode: Voice-Dictation respektiert `speechLanguage`]
+- **Was:** Voice-Dictation in der VSCode-Extension nutzt das `accessibility.voice.speechLanguage`-Setting, wenn keine Claude-Code-Sprache gesetzt ist.
+- **Einsatz:** In VSCode `accessibility.voice.speechLanguage` setzen
+- **Mehrwert:** Diktieren in der korrekten Sprache funktioniert ohne separate Claude-Code-Konfig.
+- **Version:** v2.1.121
+
+### [VSCode: `/context` öffnet nativen Token-Usage-Dialog]
+- **Was:** `/context` zeigt in der VSCode-Extension einen nativen Dialog mit Token-Usage statt Inline-Output.
+- **Einsatz:** In VSCode `/context` ausführen
+- **Mehrwert:** Übersichtliche Token-Auswertung als Dialog — schneller scanbar als Text-Output.
+- **Version:** v2.1.121
+
+### [Memory-Leaks behoben: Images, `/usage`, long-running Tools]
+- **Was:** Mehrere Memory-Leaks gefixt — unbeschränktes RSS-Wachstum bei vielen Bildern, ~2GB Leak in `/usage` bei großen Transcripts, Leak bei Tools ohne klare Progress-Events.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Sessions bleiben stabil; kein RAM-Frust mehr bei Image-lastigen oder lang laufenden Workflows.
+- **Version:** v2.1.121
+
+### [Fix: Bash-Tool überlebt CWD-Wechsel/Löschung]
+- **Was:** Wenn das Verzeichnis, in dem Claude gestartet wurde, mid-session gelöscht oder verschoben wird, bleibt das Bash-Tool nutzbar.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Unterbrechungsfreies Arbeiten bei Branch-Switches mit Verzeichnisumstellungen.
+- **Version:** v2.1.121
+
+### [Fix: `--resume` robuster bei großen / korrupten Sessions]
+- **Was:** `--resume` crasht nicht mehr beim Startup in External Builds; korrupte Transcript-Zeilen (z.B. nach Unclean Shutdown) werden übersprungen statt geblockt.
+- **Einsatz:** `claude --resume`
+- **Mehrwert:** Wiederherstellung großer/halbabgebrochener Sessions klappt zuverlässig.
+- **Version:** v2.1.121
+
+### [Fix: Bedrock `thinking.type.enabled` mit Application Inference Profile ARNs]
+- **Was:** Der Fehler „thinking.type.enabled is not supported" tritt bei Bedrock Application-Inference-Profile-ARNs nicht mehr auf.
+- **Einsatz:** Automatisch aktiv bei Bedrock
+- **Mehrwert:** Thinking-Mode funktioniert in allen unterstützten Bedrock-Setups.
+- **Version:** v2.1.121
+
+### [Fix: Microsoft 365 MCP-OAuth — duplicate `prompt` Parameter]
+- **Was:** Der M365-MCP-OAuth-Flow scheitert nicht mehr an doppelten/unsupported `prompt`-Parametern.
+- **Einsatz:** Automatisch aktiv für M365 MCP
+- **Mehrwert:** Microsoft-365-Integration läuft direkt durch — weniger Setup-Frust für Enterprise.
+- **Version:** v2.1.121
+
+### [Fix: Scrollback-Duplication in tmux / GNOME / Windows Terminal / Konsole]
+- **Was:** Ctrl+L oder Redraws im Non-Fullscreen-Mode duplizieren keinen Scrollback mehr in tmux, GNOME Terminal, Windows Terminal und Konsole.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberes Terminal-Erscheinungsbild über alle gängigen Setups hinweg.
+- **Version:** v2.1.121
+
+### [Fix: claude.ai MCP-Connectors verschwinden bei Auth-Hänger]
+- **Was:** Connectors verschwinden nicht mehr stillschweigend, wenn der Connector-List-Fetch beim Startup einen transienten Auth-Error trifft.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Connectors bleiben auch bei flaky Authentication zuverlässig sichtbar.
+- **Version:** v2.1.121
+
+### [Fix: „Always allow"-Rules überleben Worker-Restart in Remote-Sessions]
+- **Was:** Built-in-Tool-Permissions mit „Always allow" werden in Remote-Sessions auch nach Worker-Restarts beibehalten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine wiederholten Permission-Prompts in lang laufenden Cloud-/Remote-Sessions.
+- **Version:** v2.1.121
+
+### [Fix: `NO_PROXY` aus `managed-settings.json` greift überall]
+- **Was:** `NO_PROXY`, gesetzt via `managed-settings.json`, wird im Native Build von **allen** HTTP-Clients respektiert.
+- **Einsatz:** Automatisch aktiv mit Managed Settings
+- **Mehrwert:** Konsistentes Proxy-Verhalten in Enterprise-Netzwerken — keine versehentlichen Proxy-Bypass-Lücken.
+- **Version:** v2.1.121
+
+### [Fix: Managed-Settings-Approval beendet Session nicht]
+- **Was:** Akzeptiert man den Managed-Settings-Approval-Prompt, wird die Session **fortgesetzt** statt beendet.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Reibungsloser erster Start in Enterprise-Setups mit Managed Settings.
+- **Version:** v2.1.121
+
+### [Fix: `/usage` refresht stale OAuth-Token automatisch]
+- **Was:** `/usage` liefert nicht mehr „rate limited" bei abgelaufenem OAuth-Token — der Token wird automatisch erneuert.
+- **Einsatz:** `/usage` aufrufen
+- **Mehrwert:** Verlässliche Limit-Anzeige ohne manuelles Re-Login.
+- **Version:** v2.1.121
+
+### [Fix: Invalid Legacy-Enum-Werte invalidieren nicht die ganze settings.json]
+- **Was:** Ein einzelner ungültiger Legacy-Enum-Wert macht nicht mehr die gesamte `settings.json` ungültig.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Robuste Settings — Migrationen alter Configs scheitern nicht mehr komplett an einem einzelnen Eintrag.
+- **Version:** v2.1.121
+
+### [Fix: `/usage`-Dialog ohne No-Flicker-Mode wird nicht mehr abgeschnitten]
+- **Was:** Der `/usage`-Dialog wird auch mit deaktiviertem No-Flicker-Mode vollständig dargestellt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Vollständige Usage-Info auch auf Terminals ohne No-Flicker-Support.
+- **Version:** v2.1.121
+
+### [Fix: `/focus` erklärt sich, wenn Fullscreen aus ist]
+- **Was:** Statt „Unknown command" zeigt `/focus` jetzt eine Erklärung, wie man den Fullscreen-Renderer aktiviert.
+- **Einsatz:** `/focus` ohne Fullscreen ausführen
+- **Mehrwert:** Selbsterklärendes UX statt verwirrendem Error.
+- **Version:** v2.1.121
+
+### [Fix: Embedded grep/find/rg-Wrapper falls Binary mid-session gelöscht]
+- **Was:** Wird das laufende Binary mid-session gelöscht (z.B. nach Upgrade), fallen die Shell-Wrapper für grep/find/rg auf das installierte System-Tool zurück.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Searches funktionieren auch über Upgrade-Brüche hinweg.
+- **Version:** v2.1.121
+
+### [Reduzierte File-Descriptor-Nutzung bei `find` auf großen Trees]
+- **Was:** `find` im Bash-Tool verbraucht spürbar weniger File Descriptors auf großen Verzeichnisbäumen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger „too many open files"-Fehler bei großen Monorepos.
+- **Version:** v2.1.121
 
 ### Woche 17 (24. April 2026) — v2.1.119
 
