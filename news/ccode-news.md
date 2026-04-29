@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-29 06:00 UTC (v2.1.123 — OAuth-Hotfix nach v2.1.122-Bugfix-Welle)
+> Letzte Aktualisierung: 2026-04-29 12:00 UTC (v2.1.123 aktuell; Managed-Agents-Memory-Beta vom 23. April nachgetragen)
 
 ---
 
@@ -860,6 +860,12 @@
 - **Einsatz:** Über claude.ai → Connectors aktivieren; betrifft primär die Produktseite, nicht Claude Code CLI
 - **Mehrwert:** Breitere Integration in Alltags-Workflows — für Claude Code relevant, soweit diese Connectors später auch im CLI via MCP/Plugins erscheinen.
 - **Version:** Ankündigung 2026-04-23
+
+### [Built-in Memory für Claude Managed Agents (Public Beta)]
+- **Was:** Claude Managed Agents bekommen eingebautes, persistentes Gedächtnis. Memories werden als Dateien in einem sandboxed Filesystem abgelegt — der Agent greift via Bash/Code-Execution darauf zu, Memories sind via API exportierbar, scoped und auditierbar.
+- **Einsatz:** Managed Agent über Claude Console / `ant` CLI deployen; Memory ist standardmäßig aktiv. Doku unter `platform.claude.com/docs/en/managed-agents/memory`.
+- **Mehrwert:** Kein eigener Retrieval-Layer mehr nötig — Agents lernen über Sessions hinweg, machen weniger Wiederholungsfehler (Anthropic nennt einen Kunden mit „97 % weniger First-Pass-Errors"). Workspace-scoped Boundaries halten Daten sauber getrennt.
+- **Version:** Platform-Ankündigung 2026-04-23 (public beta)
 
 ---
 
