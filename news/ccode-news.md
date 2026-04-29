@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-29 12:00 UTC (v2.1.123 aktuell; Managed-Agents-Memory-Beta vom 23. April nachgetragen)
+> Letzte Aktualisierung: 2026-04-29 18:02 UTC (v2.1.123 weiterhin aktuell; keine neuen Releases seit dem 12:00-UTC-Stand)
 
 ---
 
