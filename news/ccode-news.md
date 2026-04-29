@@ -1,11 +1,131 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-28 18:00 UTC (v2.1.121 — keine neuen Releases seit Mittags-Check)
+> Letzte Aktualisierung: 2026-04-29 06:00 UTC (v2.1.123 — OAuth-Hotfix nach v2.1.122-Bugfix-Welle)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 18 (28.–29. April 2026) — v2.1.122 / v2.1.123
+
+---
+
+### [Fix: OAuth-401-Retry-Loop bei `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1`]
+- **Was:** OAuth-Auth schlägt nicht mehr in einer 401-Retry-Schleife fehl, wenn die Env-Variable `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1` gesetzt ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hotfix für Enterprise-Setups, die experimentelle Betas deaktivieren — Login funktioniert wieder ohne Workaround.
+- **Version:** v2.1.123
+
+### [`ANTHROPIC_BEDROCK_SERVICE_TIER`: Bedrock-Service-Tier wählen]
+- **Was:** Neue Env-Variable wählt den AWS-Bedrock-Service-Tier (`default`, `flex` oder `priority`) und sendet ihn als `X-Amzn-Bedrock-Service-Tier`-Header.
+- **Einsatz:** `export ANTHROPIC_BEDROCK_SERVICE_TIER=priority` (oder `flex` / `default`)
+- **Mehrwert:** Bedrock-Nutzer können bewusst zwischen Latenz/Kosten-Profilen wählen — z.B. `priority` für interaktive Sessions, `flex` für Batch-Workloads.
+- **Version:** v2.1.122
+
+### [`/resume` findet Session per PR-URL]
+- **Was:** Wer eine PR-URL (GitHub, GitHub Enterprise, GitLab, Bitbucket) in das `/resume`-Suchfeld einfügt, springt direkt zur Session, die diese PR erzeugt hat.
+- **Einsatz:** `/resume` öffnen, PR-URL einfügen
+- **Mehrwert:** Vom PR-Review zurück in den Claude-Kontext in einem Schritt — kein manuelles Suchen nach der Session mehr.
+- **Version:** v2.1.122
+
+### [`/mcp` warnt vor versteckten claude.ai-Connectors]
+- **Was:** `/mcp` zeigt jetzt claude.ai-Connectors, die durch einen manuell konfigurierten MCP-Server mit gleicher URL verdeckt werden — inklusive Hinweis, das Duplikat zu entfernen.
+- **Einsatz:** Automatisch aktiv im `/mcp`-Output
+- **Mehrwert:** Endlich erkennbar, warum ein erwarteter Connector „fehlt" — Debugging-Zeit gespart.
+- **Version:** v2.1.122
+
+### [`/mcp`: klarere Meldung nach Browser-Sign-in]
+- **Was:** Die Nachricht im `/mcp`-Dialog, wenn ein MCP-Server nach dem Browser-Sign-in noch nicht autorisiert ist, wurde verständlicher formuliert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Verwirrung beim OAuth-Flow von MCP-Servern.
+- **Version:** v2.1.122
+
+### [OpenTelemetry: numerische Attribute als Zahlen]
+- **Was:** Numerische Attribute auf `api_request`-/`api_error`-Log-Events werden jetzt als Zahlen emittiert, nicht mehr als Strings.
+- **Einsatz:** Automatisch aktiv bei aktivem OTEL-Export
+- **Mehrwert:** Aggregationen (avg, max, percentile) in Grafana/Datadog funktionieren ohne String-zu-Number-Casts.
+- **Version:** v2.1.122
+
+### [OpenTelemetry: `claude_code.at_mention`-Event]
+- **Was:** Neues Log-Event `claude_code.at_mention` für `@`-Mention-Auflösung wird via OpenTelemetry emittiert.
+- **Einsatz:** Automatisch aktiv mit OTEL-Export
+- **Mehrwert:** Telemetrie zu Datei-/Symbol-Mentions — nützlich für Workflow-Analysen in Teams.
+- **Version:** v2.1.122
+
+### [Fix: `/branch` nach Rewind erzeugt keine kaputten Forks mehr]
+- **Was:** `/branch` produziert keine Forks mehr, die mit „tool_use ids were found without tool_result blocks" scheitern, wenn die Quell-Session Einträge aus zurückgespulten Timelines enthielt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Branching aus komplexen Sessions mit Rewinds funktioniert wieder zuverlässig.
+- **Version:** v2.1.122
+
+### [Fix: `/model`-Effort-Option für Bedrock Application Inference Profile ARNs]
+- **Was:** `/model` zeigt die Effort-Option nun auch für Bedrock-Application-Inference-Profile-ARNs an, und diese ARNs erhalten korrekt das `output_config.effort`-Feld.
+- **Einsatz:** Automatisch aktiv bei Bedrock-Inference-Profilen
+- **Mehrwert:** Effort-Tuning (low/medium/high/xhigh) jetzt auch in Bedrock-Enterprise-Setups verfügbar.
+- **Version:** v2.1.122
+
+### [Fix: Vertex AI / Bedrock — `output_config: Extra inputs are not permitted`]
+- **Was:** Vertex AI und Bedrock geben keinen `invalid_request_error: output_config: Extra inputs are not permitted` mehr bei Session-Title-Generation und anderen Structured-Output-Queries.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sessions auf Vertex/Bedrock bekommen wieder automatische Titel und sonstige strukturierte Antworten.
+- **Version:** v2.1.122
+
+### [Fix: Vertex AI `count_tokens` hinter Proxy-Gateways]
+- **Was:** Der Vertex-AI-`count_tokens`-Endpoint wirft hinter Proxy-Gateways keine 400-Fehler mehr.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Token-Counting (z.B. für Quota-Anzeigen) funktioniert auch in Enterprise-Netzen mit Proxy-Routing.
+- **Version:** v2.1.122
+
+### [Fix: `spinnerTipsOverride.excludeDefault` unterdrückt jetzt zeitbasierte Tips]
+- **Was:** Die Setting `spinnerTipsOverride.excludeDefault` greift nun auch bei den zeitbasierten Default-Spinner-Tips, nicht nur bei zustandsbasierten.
+- **Einsatz:** `"spinnerTipsOverride": { "excludeDefault": true }` in `settings.json`
+- **Mehrwert:** Wer eigene Tips definiert, sieht endlich nur noch die — keine Default-Texte mehr dazwischen.
+- **Version:** v2.1.122
+
+### [Fix: ToolSearch findet MCP-Tools, die nach Session-Start verbinden]
+- **Was:** ToolSearch findet im Nonblocking-Mode jetzt auch Tools von MCP-Servern, die erst **nach** Session-Start verbunden haben.
+- **Einsatz:** Automatisch aktiv im Nonblocking-MCP-Mode
+- **Mehrwert:** Spät startende MCP-Server (z.B. lange Auth-Flows) werden zuverlässig in Tool-Searches einbezogen.
+- **Version:** v2.1.122
+
+### [Fix: `!exit` / `!quit` im Bash-Mode beendet nicht mehr die CLI]
+- **Was:** `!exit` und `!quit` im Bash-Mode werden jetzt als Shell-Kommandos behandelt — nicht mehr fälschlich als CLI-Beenden interpretiert.
+- **Einsatz:** Automatisch aktiv im Bash-Mode (`!`-Prefix)
+- **Mehrwert:** Subshells/Skripte mit `exit` laufen wie erwartet — keine versehentlich beendeten Sessions mehr.
+- **Version:** v2.1.122
+
+### [Fix: Bilder werden korrekt auf 2000 px max statt 2576 px skaliert]
+- **Was:** Bilder, die an neuere Modelle gehen, werden wieder auf das korrekte Maximum von 2000 px pro Seite skaliert (vorher fälschlich 2576 px).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Vermeidet API-Fehler und unnötige Token-Kosten durch zu große Bilder.
+- **Version:** v2.1.122
+
+### [Fix: Remote-Control-Idle-Status flutet `tmux -CC` nicht mehr]
+- **Was:** Der Remote-Control-Session-Idle-Status redrawt nicht mehr 2× pro Sekunde — das hatte `tmux -CC`-Control-Pipes geflutet und das Terminal pausiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** `tmux -CC`-Nutzer (z.B. iTerm2-Integration) bekommen kein eingefrorenes Terminal mehr durch Claude Code.
+- **Version:** v2.1.122
+
+### [Fix: Assistant-Messages erscheinen nicht mehr leer]
+- **Was:** Eine veraltete View-Preference führte dazu, dass Assistant-Messages in manchen Sessions leer angezeigt wurden — behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Volle Antworten sichtbar, kein Reload-/Resume-Workaround mehr nötig.
+- **Version:** v2.1.122
+
+### [Fix: Defekter `hooks`-Eintrag macht `settings.json` nicht mehr ungültig]
+- **Was:** Eine fehlerhafte Hook-Definition in `settings.json` invalidiert nicht mehr die ganze Datei — andere Settings bleiben aktiv.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Fail-soft statt fail-hard — ein Tippfehler im Hook legt nicht mehr alle Permissions/Env-Vars lahm.
+- **Version:** v2.1.122
+
+### [Voice-Mode: Caps-Lock-Keybindings zeigen Fehler]
+- **Was:** Voice-Mode-Keybindings, die auf Caps Lock gebunden sind, zeigen jetzt einen Fehler an — Terminals liefern Caps Lock nicht als Key-Event.
+- **Einsatz:** Beim Konfigurieren eines Caps-Lock-Bindings im Voice-Mode
+- **Mehrwert:** Ehrliche Fehlermeldung statt stiller Stille — vermeidet stundenlanges Debugging warum's nicht klappt.
+- **Version:** v2.1.122
+
+---
 
 ### Woche 18 (28. April 2026) — v2.1.120 / v2.1.121
 
