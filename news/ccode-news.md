@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-30 06:01 UTC (v2.1.123 weiterhin aktuell; keine neuen Releases seit dem 29.04.)
+> Letzte Aktualisierung: 2026-04-30 12:00 UTC (v2.1.123 weiterhin aktuell; keine neuen Releases seit dem 29.04.)
 
 ---
 
