@@ -1,11 +1,23 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-30 12:00 UTC (v2.1.123 weiterhin aktuell; keine neuen Releases seit dem 29.04.)
+> Letzte Aktualisierung: 2026-04-30 18:00 UTC (Claude Security Public Beta ergänzt; v2.1.123 weiterhin aktueller Release)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 18 (30. April 2026) — Blog-Ankündigung
+
+---
+
+### [Blog-Ankündigung: "Claude Security is now in public beta" (2026-04-30)]
+- **Was:** Anthropic stellt Claude Security als eigenständigen Vulnerability-Scanner für Enterprise-Kunden in die Public Beta. Claude analysiert Code wie ein Security-Researcher (komponentenübergreifend, Datenfluss-basiert, nicht Pattern-Matching) und liefert Findings inkl. Confidence, Severity, Impact und Repro-Schritten. Eine mehrstufige Validierungs-Pipeline reduziert False Positives vor dem Analyst-Review.
+- **Einsatz:** Über `claude.ai/security` (Sidebar in claude.ai). Generierte Patch-Vorschläge lassen sich per Klick in **Claude Code on the Web** öffnen, um den Fix dort im Repo-Kontext zu durcharbeiten.
+- **Mehrwert:** Detection und Initial-Fix-Generierung in einem Tool — der Bridge-Punkt zu Claude Code on the Web macht den Übergang vom Finding zum Patch-PR nahtlos. Für Teams, die `/security-review` im CLI bereits nutzen, ergänzend gedacht (Bulk-/Continuous-Scanning vs. Inline-Review).
+- **Version:** Platform-Ankündigung 2026-04-30 (public beta, Enterprise)
+
+---
 
 ### Woche 18 (28.–29. April 2026) — v2.1.122 / v2.1.123
 
