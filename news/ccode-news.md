@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-01 06:00 UTC (v2.1.126 ergänzt — `claude project purge`, Gateway-`/v1/models`, Windows-PowerShell-Primary, OAuth-Code-Paste, viele Fixes)
+> Letzte Aktualisierung: 2026-05-01 12:00 UTC (timestamp refresh — keine neuen Releases seit v2.1.126)
 
 ---
 
