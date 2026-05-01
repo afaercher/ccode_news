@@ -1,11 +1,209 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-04-30 18:00 UTC (Claude Security Public Beta ergänzt; v2.1.123 weiterhin aktueller Release)
+> Letzte Aktualisierung: 2026-05-01 06:00 UTC (v2.1.126 ergänzt — `claude project purge`, Gateway-`/v1/models`, Windows-PowerShell-Primary, OAuth-Code-Paste, viele Fixes)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 18 (1. Mai 2026) — v2.1.126
+
+---
+
+### [`/model`-Picker liest Modelle aus Gateway-`/v1/models`]
+- **Was:** Wenn `ANTHROPIC_BASE_URL` auf ein Anthropic-kompatibles Gateway zeigt, listet der `/model`-Picker die verfügbaren Modelle direkt aus dem `/v1/models`-Endpoint des Gateways.
+- **Einsatz:** `export ANTHROPIC_BASE_URL=https://your-gateway.example/`, dann `/model` öffnen
+- **Mehrwert:** Gateway-Nutzer (LiteLLM, OpenRouter-kompatible Proxies, interne Routinger) sehen genau die Modelle, die ihr Gateway tatsächlich freigibt — keine hartkodierte Liste mehr.
+- **Version:** v2.1.126
+
+### [`claude project purge`: Komplette Projekt-State-Bereinigung]
+- **Was:** Neuer Befehl `claude project purge [path]` löscht den gesamten Claude-Code-State eines Projekts: Transkripte, Tasks, Datei-History, Config-Eintrag.
+- **Einsatz:** `claude project purge .` (mit Bestätigung); Flags `--dry-run`, `-y/--yes`, `-i/--interactive`, `--all` (alle Projekte)
+- **Mehrwert:** Sauberes Cleanup nach abgeschlossenen oder verworfenen Projekten — kein manuelles Suchen nach versteckten State-Verzeichnissen.
+- **Version:** v2.1.126
+
+### [`--dangerously-skip-permissions` umgeht jetzt auch `.git/`, `.vscode/`, Shell-Configs]
+- **Was:** Mit `--dangerously-skip-permissions` werden Writes zu `.claude/`, `.git/`, `.vscode/`, Shell-Config-Dateien und weiteren bisher geschützten Pfaden nicht mehr abgefragt. Katastrophale Remove-Befehle (z.B. `rm -rf /`) zeigen weiterhin einen Sicherheits-Prompt.
+- **Einsatz:** `claude --dangerously-skip-permissions`
+- **Mehrwert:** CI- und Setup-Skripte laufen ohne Permission-Unterbrechungen durch; das verbleibende Catastrophic-Prompt verhindert die wirklich destruktiven Unfälle.
+- **Version:** v2.1.126
+
+### [`claude auth login`: OAuth-Code per Paste in WSL2/SSH/Containern]
+- **Was:** Wenn der Browser-Callback localhost nicht erreichen kann (WSL2, SSH-Tunnel, Container ohne Port-Forwarding), akzeptiert `claude auth login` jetzt den OAuth-Code per Copy-Paste ins Terminal.
+- **Einsatz:** `claude auth login` und Code aus dem Browser einfügen, wenn Auto-Callback fehlschlägt
+- **Mehrwert:** Headless- und Container-Setups loggen sich endlich ohne SSH-Port-Forwarding-Frickelei ein.
+- **Version:** v2.1.126
+
+### [OpenTelemetry: `claude_code.skill_activated` mit `invocation_trigger`]
+- **Was:** Das OTel-Event `claude_code.skill_activated` feuert nun auch bei user-typed Slash-Commands und trägt ein neues Attribut `invocation_trigger` mit den Werten `user-slash`, `claude-proactive` oder `nested-skill`.
+- **Einsatz:** Automatisch aktiv mit OTEL-Export
+- **Mehrwert:** Telemetrie unterscheidet endlich, ob ein Skill bewusst vom User aufgerufen oder von Claude proaktiv aktiviert wurde — gold für Adoption-Reporting in Teams.
+- **Version:** v2.1.126
+
+### [Auto-Mode: Roter Spinner bei stockendem Permission-Check]
+- **Was:** Im Auto-Mode färbt sich der Spinner jetzt rot, wenn ein Permission-Check hängt — vorher sah es so aus, als würde das Tool noch arbeiten.
+- **Einsatz:** Automatisch aktiv im Auto-Mode
+- **Mehrwert:** Klares visuelles Signal, dass User-Eingriff nötig ist — kein minutenlanges Warten auf "still running" mehr.
+- **Version:** v2.1.126
+
+### [Host-Managed Deployments behalten Analytics auf Bedrock/Vertex/Foundry]
+- **Was:** `CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST`-Deployments deaktivieren Analytics auf Bedrock, Vertex und Foundry nicht mehr automatisch.
+- **Einsatz:** Automatisch aktiv für Host-Managed-Provider-Setups
+- **Mehrwert:** Enterprise-Hosts bekommen ihre Analytics-Daten zurück — nützlich für Adoption-Reports und Ratenbegrenzungen-Tuning.
+- **Version:** v2.1.126
+
+### [Windows: PowerShell 7 aus Microsoft Store / MSI / .NET Tool erkannt]
+- **Was:** Die Windows-Erkennung findet PowerShell 7 jetzt auch in Microsoft-Store-Installationen, MSI-Installationen ohne PATH-Eintrag und als `.NET global tool`.
+- **Einsatz:** Automatisch aktiv unter Windows
+- **Mehrwert:** Out-of-the-box-Erfahrung auf Windows ohne manuelle PATH-Pflege.
+- **Version:** v2.1.126
+
+### [Windows: PowerShell als Primary Shell statt Bash]
+- **Was:** Wenn das PowerShell-Tool aktiviert ist, behandelt Claude PowerShell als Primary Shell — vorher fiel es auf Bash zurück.
+- **Einsatz:** Automatisch aktiv, wenn PowerShell-Tool enabled
+- **Mehrwert:** Native Windows-Workflows funktionieren ohne ständiges Tool-Wechseln; PowerShell-spezifische Syntax läuft direkt durch.
+- **Version:** v2.1.126
+
+### [Read-Tool: Per-File-Malware-Reminder entfernt]
+- **Was:** Der per-Datei-Malware-Assessment-Reminder im Read-Tool wurde entfernt — er führte zu unnötigen Refusals und „this is not malware"-Kommentaren auf älteren Modellen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Lärm und Falsch-Refusals beim Lesen sicherheitsrelevanter Dateien (z.B. Security-Tooling, AV-Repos).
+- **Version:** v2.1.126
+
+### [Security-Fix: `allowManagedDomainsOnly` / `allowManagedReadPathsOnly` ohne `sandbox`-Block]
+- **Was:** Beide Settings wurden ignoriert, wenn eine höher priorisierte Managed-Settings-Quelle keinen `sandbox`-Block enthielt — gefixt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Enterprise-Domain-/Path-Allowlists greifen wieder zuverlässig, auch bei verschachtelten Managed-Settings-Stacks.
+- **Version:** v2.1.126
+
+### [Fix: Bilder >2000 px werden beim Paste runterskaliert]
+- **Was:** Pasten eines Bildes >2000 px hat die Session zerschossen. Jetzt werden Bilder beim Paste auf das Maximum runterskaliert; übergroße Bilder im History werden automatisch entfernt und der Request retried.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Screenshot-Workflows bleiben stabil; keine kaputten Sessions wegen versehentlich hochauflösender Bilder.
+- **Version:** v2.1.126
+
+### [Fix: „OAuth not allowed for organization" zeigt Admin-Hinweis statt Login-Screen]
+- **Was:** Bei `OAuth not allowed for organization`-Fehlern zeigt Claude jetzt einen klaren Hinweis, den Admin zu kontaktieren — nicht mehr den Login-Screen, der den Fehler nur wiederholt hätte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** SSO-Sperren werden sofort als Org-Policy-Issue erkannt — kein Endloskreis aus Login-Versuchen.
+- **Version:** v2.1.126
+
+### [Fix: OAuth-Login bei langsamen/proxied Verbindungen, IPv6-only Devcontainers]
+- **Was:** OAuth-Login schlägt nicht mehr mit Timeout fehl, wenn die Verbindung langsam/proxied ist, der Devcontainer IPv6-only ist oder der Browser-Callback localhost nicht erreichen kann.
+- **Einsatz:** Automatisch aktiv (mit dem neuen Code-Paste-Fallback)
+- **Mehrwert:** Login funktioniert in Enterprise-Netzen und modernen Devcontainer-Setups zuverlässig.
+- **Version:** v2.1.126
+
+### [Fix: Race Condition löscht keinen gültigen OAuth-Refresh-Token mehr]
+- **Was:** Eine seltene Race Condition, bei der ein paralleler Credential-Write den gültigen OAuth-Refresh-Token löschte, ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine spontanen „Re-Login nötig"-Erlebnisse mehr, wenn mehrere Claude-Instanzen parallel laufen.
+- **Version:** v2.1.126
+
+### [Fix: API-Retry-Countdown bleibt nicht mehr bei „0s" stehen]
+- **Was:** Der API-Retry-Countdown zählt zwischen Versuchen wieder korrekt herunter, statt bei „0s" zu kleben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sichtbare Wartezeit bei Rate-Limits — keine Verwirrung mehr, ob der Client noch lebt.
+- **Version:** v2.1.126
+
+### [Fix: Kein „Stream idle timeout" nach Mac-Sleep mid-request]
+- **Was:** Nach dem Aufwachen eines Macs mitten in einem Request kommt kein „Stream idle timeout"-Fehler mehr.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** MacBook-Klappe zu, später wieder auf — Session läuft weiter ohne manuellen Restart.
+- **Version:** v2.1.126
+
+### [Fix: Background/Remote-Sessions brechen nicht mehr bei langem Thinking ab]
+- **Was:** Background- und Remote-Sessions brechen nicht mehr fälschlich mit „Stream idle timeout" ab, während das Modell länger nachdenkt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Plan-/Reasoning-Phasen in Cloud- und Background-Runs überleben — wichtig für `/ultrareview`, `/loop`, Routinen.
+- **Version:** v2.1.126
+
+### [Fix: Hängende Assistant-Antworten nach leeren Turns]
+- **Was:** Ein seltener Hang, bei dem das Modell sein Thinking beendete, aber nach einer Folge leerer Turns keinen Output zeigte, ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine still-toten Sessions mehr nach komplexen Tool-Loops.
+- **Version:** v2.1.126
+
+### [Fix: Trackpad-Scrolling in Cursor und VS Code 1.92–1.104]
+- **Was:** In den integrierten Terminals von Cursor und VS Code 1.92–1.104 ist das übermäßig schnelle Trackpad-Scrolling gefixt.
+- **Einsatz:** Automatisch aktiv in Cursor/VS-Code-Terminals
+- **Mehrwert:** Scrollen durch Output bleibt kontrolliert — kein Vorbeischießen am gesuchten Punkt mehr.
+- **Version:** v2.1.126
+
+### [Fix: claude.ai-MCP-Connectors nicht mehr unterdrückt durch needs-auth-Server]
+- **Was:** claude.ai-MCP-Connectors wurden durch manuell konfigurierte Server unterdrückt, die in `needs-auth`-State festhingen — gefixt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Erwartete claude.ai-Connectors erscheinen, auch wenn ein anderer MCP-Server sich noch nicht eingeloggt hat.
+- **Version:** v2.1.126
+
+### [Fix: Japanisch/Koreanisch/Chinesisch im Windows-No-Flicker-Mode]
+- **Was:** CJK-Text wird im Windows-No-Flicker-Mode nicht mehr als Garbled-Characters gerendert.
+- **Einsatz:** Automatisch aktiv unter Windows
+- **Mehrwert:** Internationale Teams auf Windows können wieder ohne Render-Workaround arbeiten.
+- **Version:** v2.1.126
+
+### [Fix: `Ctrl+L` löscht das Prompt-Feld nicht mehr]
+- **Was:** `Ctrl+L` erzwingt jetzt nur noch ein Screen-Redraw und löscht nicht mehr den Prompt-Input — entspricht dem gewohnten readline-Verhalten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Muscle-Memory-konform; halb getippte Prompts überleben das Clear-Screen.
+- **Version:** v2.1.126
+
+### [Fix: Deferred Tools (WebSearch, WebFetch) in `context: fork`-Skills]
+- **Was:** Deferred Tools wie WebSearch und WebFetch waren in Skills mit `context: fork` und anderen Subagents im ersten Turn nicht verfügbar — gefixt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Forked-Subagent-Skills können sofort recherchieren, statt erst eine Runde leerlaufen zu müssen.
+- **Version:** v2.1.126
+
+### [Fix: Plan-Mode-Tools in `--channels`-Sessions verfügbar]
+- **Was:** Plan-Mode-Tools waren in interaktiven Sessions, die mit `--channels` gestartet wurden, nicht verfügbar — gefixt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Multi-Channel-Setups können wieder in den Plan-Mode wechseln.
+- **Version:** v2.1.126
+
+### [Fix: `/plugin` Uninstall meldet korrekt „Uninstalled"]
+- **Was:** Das Uninstall-Result von `/plugin` zeigte fälschlich „Enabled" — jetzt korrekt „Uninstalled".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein Zweifel mehr, ob ein Plugin wirklich weg ist.
+- **Version:** v2.1.126
+
+### [File-Modified-Reminders gebounded]
+- **Was:** Wenn ein Linter viele Dateien gleichzeitig anfasst, ist die Gesamtgröße der File-Modified-Reminders jetzt gebounded.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kontext explodiert nicht mehr nach `prettier --write .` oder `eslint --fix` über große Repos.
+- **Version:** v2.1.126
+
+### [Fix: `/remote-control`-Retries zeigen Status pro Versuch]
+- **Was:** `/remote-control`-Retries hingen optisch auf „connecting…" — jetzt zeigt jeder Retry-Versuch sein eigenes Ergebnis.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sichtbarer Verbindungsstatus während Retry-Loops — kein Rätselraten mehr.
+- **Version:** v2.1.126
+
+### [Fix: Remote-Control-Failure zeigt initialen Fehlergrund]
+- **Was:** Die Failure-Notification von Remote Control zeigt jetzt auch bei initialen Connection-Failures den genauen Fehlergrund.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schnellere Diagnose von Netzwerk-/Auth-Problemen bei Remote Control.
+- **Version:** v2.1.126
+
+### [Windows-Security: Clipboard-Writes verstecken Inhalt vor EDR/SIEM]
+- **Was:** Unter Windows landen kopierte Inhalte nicht mehr als Process-Command-Line-Argumente, die EDR-/SIEM-Telemetrie sehen würde. Außerdem: Selektionen >22 KB landen jetzt zuverlässig im Clipboard.
+- **Einsatz:** Automatisch aktiv unter Windows
+- **Mehrwert:** Sensible Daten (Tokens, Snippets) werden nicht mehr versehentlich in Security-Logs geleakt; große Code-Blöcke kopieren funktioniert wieder.
+- **Version:** v2.1.126
+
+### [PowerShell-Tool: bare `--` nicht mehr als `--%` interpretiert]
+- **Was:** Ein nacktes `--` (z.B. `git diff -- file`) wurde fälschlich als PowerShell-`--%`-Stop-Parsing-Token interpretiert — gefixt.
+- **Einsatz:** Automatisch aktiv im PowerShell-Tool
+- **Mehrwert:** Standard-Git/CLI-Argumente mit Pfad-Separator funktionieren in PowerShell wie erwartet.
+- **Version:** v2.1.126
+
+### [Fix: Agent-SDK hängt nicht mehr bei malformed parallel Tool Names]
+- **Was:** Das Agent-SDK hängte, wenn das Modell in einem parallelen Tool-Call-Batch einen malformed Tool-Namen emittierte — gefixt.
+- **Einsatz:** Automatisch aktiv (Agent SDK)
+- **Mehrwert:** Robustere Agent-Loops; ein einzelner kaputter Tool-Call killt nicht mehr die ganze Session.
+- **Version:** v2.1.126
+
+---
 
 ### Woche 18 (30. April 2026) — Blog-Ankündigung
 
