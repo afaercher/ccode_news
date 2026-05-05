@@ -1,11 +1,155 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-04 18:00 UTC (timestamp refresh — keine neuen Releases seit v2.1.126)
+> Letzte Aktualisierung: 2026-05-05 06:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (4. Mai 2026) — v2.1.128
+
+---
+
+### [`/mcp` zeigt Tool-Count und flagged Server mit 0 Tools]
+- **Was:** Die `/mcp`-Übersicht listet pro verbundenem Server jetzt die Anzahl angekündigter Tools und markiert Server, die mit 0 Tools verbunden haben — typisch ein Anzeichen für fehlerhafte Server-Konfig oder Auth-Probleme.
+- **Einsatz:** `/mcp` aufrufen und Tool-Counts prüfen
+- **Mehrwert:** Sofort sichtbar, wenn ein MCP-Server zwar verbunden, aber funktional kaputt ist — vorher musste man erst Tool-Aufrufe testen.
+- **Version:** v2.1.128
+
+### [`--plugin-dir` akzeptiert `.zip`-Plugin-Archive]
+- **Was:** Der CLI-Flag `--plugin-dir` lädt jetzt nicht nur entpackte Plugin-Verzeichnisse, sondern auch direkt `.zip`-Archive.
+- **Einsatz:** `claude --plugin-dir ./my-plugin.zip`
+- **Mehrwert:** Plugin-Distribution per E-Mail oder CI-Artefakt funktioniert ohne manuelles Entpacken — schneller Roundtrip beim Plugin-Sharing.
+- **Version:** v2.1.128
+
+### [`--channels` jetzt auch mit API-Key/Console-Auth]
+- **Was:** Der `--channels`-Flag funktioniert nun auch mit Console-API-Key-Authentifizierung. Console-Orgs mit Managed Settings müssen `channelsEnabled: true` in den Org-Settings setzen.
+- **Einsatz:** `claude --channels` mit `ANTHROPIC_API_KEY` (statt OAuth-Login)
+- **Mehrwert:** Channels (Slack/Discord-Integration) sind nicht mehr OAuth-only — passt zu CI-Pipelines und Service-Accounts.
+- **Version:** v2.1.128
+
+### [Bare `/color` würfelt zufällige Session-Farbe]
+- **Was:** `/color` ohne Argumente wählt jetzt eine zufällige Farbe für die aktuelle Session, statt die Liste zu zeigen.
+- **Einsatz:** `/color` (ohne Argument)
+- **Mehrwert:** Bei mehreren parallelen Sessions sofort visuelle Unterscheidung per Random-Pick — keine manuelle Auswahl nötig.
+- **Version:** v2.1.128
+
+### [`/model`-Picker: Opus-4.7-Duplikate kollabiert]
+- **Was:** Der `/model`-Picker fasst doppelte Opus-4.7-Einträge zusammen, und das aktuelle Opus-Modell zeigt sich als „Opus" statt „Opus 4.7".
+- **Einsatz:** `/model` öffnen
+- **Mehrwert:** Saubere Modellliste ohne Versions-Spam — der Picker bleibt auch bei vielen Aliases übersichtlich.
+- **Version:** v2.1.128
+
+### [Subprozesse erben keine `OTEL_*`-Variablen mehr]
+- **Was:** Bash-, Hook-, MCP- und LSP-Subprozesse erben die `OTEL_*`-Umgebungsvariablen der CLI nicht mehr — OTel-instrumentierte Apps, die per Bash-Tool gestartet werden, schicken ihre Telemetrie nicht mehr versehentlich an den OTLP-Endpoint der CLI.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Saubere Trennung der Telemetrie-Streams; Apps unter Test schreiben in ihren eigenen Collector statt in den der Claude-Code-Session.
+- **Version:** v2.1.128
+
+### [MCP: `workspace` ist reservierter Servername]
+- **Was:** Der Servername `workspace` ist für interne Nutzung reserviert. Bestehende MCP-Server-Konfigs mit diesem Namen werden mit Warnung übersprungen.
+- **Einsatz:** Eigene MCP-Server umbenennen, falls `workspace` verwendet wurde
+- **Mehrwert:** Verhindert Kollisionen mit kommenden Workspace-MCP-Features.
+- **Version:** v2.1.128
+
+### [MCP-Reconnect: Tool-Listen werden zusammengefasst]
+- **Was:** Wenn ein MCP-Server während der Session reconnected, wird die Tool-Liste nicht mehr in voller Länge in den Konversationskontext geschoben. Stattdessen erscheint eine Server-Prefix-Zusammenfassung.
+- **Einsatz:** Automatisch aktiv bei MCP-Server-Reconnects
+- **Mehrwert:** Spart Kontext-Tokens bei flaky MCP-Servern enorm — gerade Stdio-Server mit häufigen Reconnects fluten den Context jetzt nicht mehr.
+- **Version:** v2.1.128
+
+### [SDK: Persistente `localSettings`-Suggestion für Bash-Permissions]
+- **Was:** SDK-Hosts erhalten bei Bash-Permission-Prompts jetzt persistent eine `localSettings`-Suggestion. „Always allow" schreibt damit direkt in `.claude/settings.local.json`.
+- **Einsatz:** Automatisch aktiv in SDK-Anwendungen
+- **Mehrwert:** Ein einmaliges „Always allow" überlebt Session-Wechsel und CI-Reruns ohne manuelles Settings-Editing.
+- **Version:** v2.1.128
+
+### [`EnterWorktree` branched von lokalem HEAD]
+- **Was:** Das `EnterWorktree`-Tool erstellt den neuen Branch wieder von `local HEAD`, wie dokumentiert — vorher wurde fälschlich von `origin/<default-branch>` gebrancht. Unpushed Commits gehen damit nicht mehr verloren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Worktree-basierte Workflows (lokale Feature-Branches, in-progress Commits) funktionieren wieder verlustfrei.
+- **Version:** v2.1.128
+
+### [Auto-Mode: Hilfreiche Hints bei Classifier-Fehlern]
+- **Was:** Wenn der Auto-Mode-Classifier eine Aktion nicht bewerten kann, zeigt die Fehlermeldung jetzt konkrete Hints (Retry, `/compact` oder Run mit `--debug`).
+- **Einsatz:** Automatisch aktiv im Auto-Mode
+- **Mehrwert:** Schneller Recovery-Pfad statt Sackgassen — Power-User mit langen Sessions wissen sofort, was zu tun ist.
+- **Version:** v2.1.128
+
+### [Sub-Agent Prompt-Cache: ~3× weniger `cache_creation`]
+- **Was:** Sub-Agent-Progress-Summaries fehlten der Prompt-Cache. Mit dem Fix sinkt das `cache_creation`-Volumen für Sub-Agents um etwa Faktor 3.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Massive Kostenersparnis bei Workflows mit vielen Sub-Agent-Calls (parallele Recherche, Code-Reviews) — direkt in der Anthropic-API-Rechnung sichtbar.
+- **Version:** v2.1.128
+
+### [Idle Sub-Agents triggern keine Repeat-Summaries mehr]
+- **Was:** Sub-Agent-Summaries wurden bisher wiederholt aufgerufen, auch wenn das Transcript unverändert blieb. Worst-Case-Token-Kosten bei idle Sub-Agents sind jetzt gedeckelt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange laufende Sub-Agents (z.B. Watch/Polling-Loops) verbrennen keine Token mehr für identische Zustandsberichte.
+- **Version:** v2.1.128
+
+### [`/plugin update` erkennt npm-Plugin-Updates]
+- **Was:** `/plugin update` erkennt jetzt zuverlässig neue Versionen von Plugins, die per npm installiert wurden — vorher meldete es immer „up to date".
+- **Einsatz:** `/plugin update`
+- **Mehrwert:** npm-distributierte Plugins lassen sich endlich aus der CLI heraus aktualisieren, ohne manuelles `npm i -g …`.
+- **Version:** v2.1.128
+
+### [1M-Context: Falsches „Prompt is too long" vor Auto-Compact behoben]
+- **Was:** Sessions auf 1M-Context-Modellen mit kleinerem Auto-Compact-Window wurden fälschlich mit „Prompt is too long" geblockt, bevor das tatsächliche API-Limit erreicht war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Recherche- und Refactor-Sessions auf 1M-Modellen laufen wieder bis zum echten Limit durch.
+- **Version:** v2.1.128
+
+### [Parallele Shell-Calls: Fail in einem Tool killt Geschwister nicht mehr]
+- **Was:** Ein fehlschlagender Read-only-Shell-Call (z.B. `grep`, `git diff`, `ls`) bricht parallele Geschwister-Calls nicht mehr ab.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schneller bei parallelen Recherchen — ein No-Match in einem Grep verliert nicht die Ergebnisse der anderen Calls.
+- **Version:** v2.1.128
+
+### [Vim-Mode: `Space` bewegt Cursor in NORMAL]
+- **Was:** Im Vim-Mode bewegt `Space` im NORMAL-Modus den Cursor wie in vi/vim eine Position nach rechts.
+- **Einsatz:** Automatisch aktiv mit `editorMode: vim`
+- **Mehrwert:** Standard-vi-Verhalten ist wiederhergestellt — Muscle-Memory von Vim-Nutzern wird nicht mehr gebrochen.
+- **Version:** v2.1.128
+
+### [Bedrock: Default-Model nutzt Region-Prefix statt `global.*`]
+- **Was:** Auf Bedrock löste das Default-Model fälschlich zu `global.*` auf — jetzt wird der region-passende Prefix gewählt.
+- **Einsatz:** Automatisch aktiv für Bedrock-Setups
+- **Mehrwert:** Bedrock-Nutzer in nicht-globalen Regions vermeiden Cross-Region-Latenz und ggf. Compliance-Probleme.
+- **Version:** v2.1.128
+
+### [`/plugin` Components-Panel zeigt `--plugin-dir`-Plugins korrekt]
+- **Was:** Das Components-Panel zeigte für Plugins, die per `--plugin-dir` geladen wurden, fälschlich „Marketplace 'inline' not found". Jetzt funktioniert die Anzeige.
+- **Einsatz:** `/plugin` öffnen
+- **Mehrwert:** Lokale Plugin-Entwicklung ohne Marketplace ist wieder vollständig sichtbar im UI.
+- **Version:** v2.1.128
+
+### [MCP: Bilder bleiben erhalten bei strukturierten Tool-Results]
+- **Was:** MCP-Tool-Results, die sowohl `structuredContent` als auch Content-Blocks zurückgeben, verloren bisher die Bilder. Bilder bleiben jetzt erhalten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Tools, die Screenshots zusammen mit Strukturdaten liefern (Browser-MCP, Diagramm-MCPs), funktionieren wieder vollständig.
+- **Version:** v2.1.128
+
+### [MCP-Stdio: Argumente bleiben heil bei `CLAUDE_CODE_SHELL_PREFIX`]
+- **Was:** Wenn `CLAUDE_CODE_SHELL_PREFIX` gesetzt war und Argumente Leerzeichen oder Shell-Metazeichen enthielten, kamen MCP-Stdio-Server mit korrupten Argumenten an. Argumente bleiben jetzt korrekt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sandbox-/Container-Setups mit Shell-Wrapper liefern MCP-Servern wieder die exakten Argumente.
+- **Version:** v2.1.128
+
+### [Headless: `init.plugin_errors` enthält `--plugin-dir`-Loadfailures]
+- **Was:** Im Headless-Modus mit `--output-format stream-json` listet `init.plugin_errors` jetzt auch `--plugin-dir`-Loadfailures, nicht nur Dependency-Demotions.
+- **Einsatz:** `claude -p --output-format stream-json --plugin-dir ...`
+- **Mehrwert:** CI-Pipelines erkennen Plugin-Probleme zuverlässig im JSON-Stream — kein Silent-Failure mehr.
+- **Version:** v2.1.128
+
+### [Diverse UX-Fixes: Crashloops, Notifications, Clipboard, Terminal-Status]
+- **Was:** Sammlung kleinerer Fixes: `claude -p`-Crashloop bei >10 MB stdin, stray „4;0;"-Desktop-Notifications in Kitty/OSC9-Terminals, Drag-and-Drop-Image-Hang bei fehlgeschlagenem Read, Stale „remote-control is active"-Statuszeilen nach `--resume`/`--continue`, falsche `installed_plugins.json`-Einträge auf gelöschte Caches, Code-Block-Whitespace beim Clipboard-Copy, Tab-Navigation-Trap in `/config`, fehlende Markdown-Link-Labels auf Terminals ohne OSC-8, OSC-9;4-Progress-Indicator-Flackern zwischen Tool-Calls, `/rename` ohne Args auf Sessions mit Compact-Boundary als letztem Eintrag, `/fast` auf 3rd-Party-Providern matched zu falschem Skill, Banner-Anzeige „with X effort" auf Modellen ohne Effort, Focus-Mode-Dimming bei neuem Prompt, Remote-Control zeigt jetzt actionable Upsell-Optionen statt leerem „Opening your options…" bei Rate-Limits, lange URLs in Fullscreen sind in jedem wrapped Row klickbar.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar weniger Reibung in den alltäglichen Edge-Cases — viele kleine Annoyances auf einmal weg.
+- **Version:** v2.1.128
+
+---
 
 ### Woche 18 (1. Mai 2026) — v2.1.126
 
