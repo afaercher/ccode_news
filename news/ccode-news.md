@@ -1,11 +1,29 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-06 06:00 UTC
+> Letzte Aktualisierung: 2026-05-06 13:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (6. Mai 2026) — v2.1.131
+
+---
+
+### [VS Code Extension: Aktivierung unter Windows wieder funktional]
+- **Was:** Die VS Code Extension scheiterte unter Windows beim Aktivieren wegen eines hardcodierten Build-Pfads im gebündelten SDK (`createRequire`-Polyfill-Bug). Fix korrigiert die Pfad-Auflösung.
+- **Einsatz:** Automatisch aktiv nach Update auf v2.1.131
+- **Mehrwert:** Windows-VS-Code-Nutzer können die Extension wieder ohne Workaround verwenden — die Regression hat seit Erscheinen den IDE-Workflow blockiert.
+- **Version:** v2.1.131
+
+### [Mantle-Endpoint: `x-api-key`-Header wird wieder gesendet]
+- **Was:** Die Authentifizierung gegen Mantle-Endpoints schlug fehl, weil der `x-api-key`-Header nicht gesetzt wurde. Header wird jetzt korrekt mitgegeben.
+- **Einsatz:** Automatisch aktiv für Setups, die den Mantle-Endpoint nutzen
+- **Mehrwert:** Enterprise-Setups mit Mantle als Inference-Gateway können wieder authentifizieren — vorher kompletter Auth-Block.
+- **Version:** v2.1.131
+
+---
 
 ### Woche 19 (6. Mai 2026) — v2.1.129
 
