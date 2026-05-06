@@ -1,11 +1,179 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-05 18:00 UTC
+> Letzte Aktualisierung: 2026-05-06 06:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (6. Mai 2026) — v2.1.129
+
+---
+
+### [`--plugin-url` lädt Plugin-`.zip` direkt von URL]
+- **Was:** Neuer CLI-Flag `--plugin-url <url>` zieht ein Plugin-`.zip`-Archiv von einer URL und lädt es für die aktuelle Session.
+- **Einsatz:** `claude --plugin-url https://example.com/my-plugin.zip`
+- **Mehrwert:** Plugin-Distribution direkt von Release-Pages oder CI-Artefakten — kein vorheriger Download oder Entpacken nötig. Ergänzt das in v2.1.128 hinzugekommene `--plugin-dir` für lokale `.zip`s.
+- **Version:** v2.1.129
+
+### [`CLAUDE_CODE_FORCE_SYNC_OUTPUT` für synchronisierte Terminal-Ausgabe]
+- **Was:** Neue Env-Var `CLAUDE_CODE_FORCE_SYNC_OUTPUT=1` erzwingt synchronisierte Ausgabe in Terminals, die die Auto-Detection nicht erkennt (z.B. Emacs `eat`).
+- **Einsatz:** `CLAUDE_CODE_FORCE_SYNC_OUTPUT=1 claude`
+- **Mehrwert:** Beendet Render-Flicker und zerrissene Frames in exotischen Terminals — Workaround ohne Patch der Auto-Detection.
+- **Version:** v2.1.129
+
+### [`CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE` für Homebrew/WinGet]
+- **Was:** Wenn gesetzt, läuft das Upgrade-Kommando bei Homebrew- oder WinGet-Installationen im Hintergrund und Claude Code fragt nach einem Restart.
+- **Einsatz:** `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1` in der Shell-Config setzen
+- **Mehrwert:** Brew/WinGet-Nutzer bekommen ohne manuellen `brew upgrade` automatisch die neuesten Versionen — gleiche Update-Disziplin wie native Binaries.
+- **Version:** v2.1.129
+
+### [Plugin-Manifest: `themes` und `monitors` unter `experimental`]
+- **Was:** Im Plugin-Manifest gehören `themes` und `monitors` jetzt unter den Block `"experimental": { ... }`. Top-Level-Deklarationen funktionieren weiter, aber `claude plugin validate` warnt.
+- **Einsatz:** `themes`/`monitors` im Manifest in den `experimental`-Block verschieben
+- **Mehrwert:** Klare API-Stabilitätsmarkierung — Plugin-Autoren wissen jetzt, welche Plugin-Features stabil und welche experimentell sind.
+- **Version:** v2.1.129
+
+### [Gateway `/v1/models`-Discovery wieder Opt-In]
+- **Was:** Die Modell-Discovery via Gateway `/v1/models` für den `/model`-Picker ist jetzt opt-in via `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` (war in v2.1.126–v2.1.128 automatisch).
+- **Einsatz:** `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` setzen, wenn Gateway-Modelle im Picker erscheinen sollen
+- **Mehrwert:** Reduziert Startup-Latenz und unnötige Gateway-Calls für User, die keine Custom-Models nutzen — die Discovery war für Standard-Setups Overhead.
+- **Version:** v2.1.129
+
+### [Ctrl+R History-Picker: Default wieder „alle Prompts"]
+- **Was:** Der Ctrl+R-History-Picker durchsucht standardmäßig wieder alle Prompts über alle Projekte hinweg (Verhalten vor v2.1.124). Ctrl+S grenzt jetzt auf aktuelles Projekt/Session ein.
+- **Einsatz:** Ctrl+R für globale History; Ctrl+S innerhalb der History-Liste zum Filtern
+- **Mehrwert:** Behebt eine Regression — viele Nutzer suchen Prompts, die sie vor Wochen in einem anderen Projekt benutzt haben. Default-Verhalten wieder restored.
+- **Version:** v2.1.129
+
+### [Spinner-Tipps für Third-Party-Deployments unterdrückt]
+- **Was:** Bedrock-, Vertex-, Foundry- und `ANTHROPIC_BASE_URL`-Gateway-Deployments sehen keine Spinner-Tipps mehr, die auf First-Party-Anthropic-Surfaces zeigen.
+- **Einsatz:** Automatisch aktiv bei Third-Party-Endpoints
+- **Mehrwert:** Saubere UX in Enterprise-Setups — kein Verweis mehr auf Features, die im jeweiligen Deployment gar nicht verfügbar sind.
+- **Version:** v2.1.129
+
+### [`skillOverrides` ausgewertet: `off`, `user-invocable-only`, `name-only`]
+- **Was:** Das `skillOverrides`-Setting funktioniert jetzt: `off` versteckt eine Skill vor Modell und `/`, `user-invocable-only` versteckt sie vor dem Modell, `name-only` zeigt nur den Namen ohne Description.
+- **Einsatz:** `"skillOverrides": { "<skill>": "off" \| "user-invocable-only" \| "name-only" }` in `settings.json`
+- **Mehrwert:** Granulare Skill-Sichtbarkeit — Skill-Listen lassen sich für Modell-Kontext schlanker halten, ohne Skills zu deinstallieren.
+- **Version:** v2.1.129
+
+### [OTel: `claude_code.pull_request.count` zählt MCP-PRs]
+- **Was:** Die OTel-Metrik `claude_code.pull_request.count` zählt jetzt auch via MCP-Tools erstellte PRs/MRs, nicht nur per Shell-Kommando angelegte.
+- **Einsatz:** Automatisch aktiv bei OTel-Instrumentierung
+- **Mehrwert:** Saubere PR-Statistiken in Dashboards — viele Teams nutzen MCP-Server (GitHub-MCP, GitLab-MCP) für PR-Erstellung, die vorher unsichtbar waren.
+- **Version:** v2.1.129
+
+### [Policy-Refusals: API Request ID in der Fehlermeldung]
+- **Was:** Bei Policy-Refusals zeigt die Fehlermeldung jetzt die API Request ID — nützlich für Support-Tickets und Debugging.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schnellere Eskalation an Anthropic-Support — kein Suchen mehr in Logs, Request-ID ist direkt im UI sichtbar.
+- **Version:** v2.1.129
+
+### [API: 400er mit unbekanntem Status-Code zeigen Klartext-Fehler]
+- **Was:** API-Fehler mit unbekanntem 400-Status zeigten vorher rohes JSON; jetzt wird die zugrundeliegende Fehlermeldung extrahiert und angezeigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verständlichere Fehler bei Edge-Cases — kein JSON-Decoden mehr per Hand für seltene Fehlertypen.
+- **Version:** v2.1.129
+
+### [`/clear` setzt Terminal-Tab-Titel zurück]
+- **Was:** `/clear` setzt jetzt nach dem Kontext-Reset auch den Terminal-Tab-Titel zurück.
+- **Einsatz:** `/clear`
+- **Mehrwert:** Kein „Geistertitel" der vorherigen Session — Tab-Titel matched wieder den aktuellen Konversations-Stand.
+- **Version:** v2.1.129
+
+### [`/rename`-Session-Chip bleibt während Dialogs sichtbar]
+- **Was:** Der Session-Title-Chip aus `/rename` verschwindet nicht mehr, wenn ein Permission- oder anderer Dialog aktiv ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Visueller Anker für die Session bleibt erhalten — gerade bei langen Permission-Flows verliert man nicht die Übersicht über den Session-Kontext.
+- **Version:** v2.1.129
+
+### [Agent-Panel sichtbar trotz laufender Subagenten]
+- **Was:** Das Agent-Panel unter dem Prompt verschwand seit v2.1.122 fälschlich, wenn Subagenten liefen — jetzt bleibt es sichtbar.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Subagent-Status (Spawning, Running, Done) wieder permanent im Blickfeld — Regression behoben.
+- **Version:** v2.1.129
+
+### [Ctrl+G External-Editor verliert keine History mehr]
+- **Was:** Der External-Editor-Handoff (Ctrl+G) blankte vorher die Konversations-History oberhalb des Prompts — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Editor-Power-User können Prompts in $EDITOR schreiben, ohne den sichtbaren Verlauf zu verlieren.
+- **Version:** v2.1.129
+
+### [`/context` dumpt ASCII-Visualisierung nicht mehr in Konversation]
+- **Was:** `/context` schrieb seine gerenderte ASCII-Visualisierungs-Grid in die Konversation und verbrannte ~1.6k Tokens pro Aufruf — jetzt wird sie nur noch dargestellt, nicht in den Kontext geschrieben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** `/context` ohne versteckte Token-Kosten — bei häufiger Nutzung in langen Sessions spart das tausende Tokens.
+- **Version:** v2.1.129
+
+### [`/agents`-Library: Pfeil-Navigation hält Highlight sichtbar]
+- **Was:** In der `/agents`-Library bleibt der hervorgehobene Agent jetzt sichtbar, wenn die Liste größer als der Viewport ist (Pfeiltasten scrollen automatisch).
+- **Einsatz:** Automatisch aktiv beim `/agents`-Picker
+- **Mehrwert:** Smoothes Scrolling durch große Agent-Listen — kein „verlorener Cursor" außerhalb des sichtbaren Bereichs.
+- **Version:** v2.1.129
+
+### [`/branch`-Erfolg enthält neue Session-ID für `/resume`]
+- **Was:** Die Erfolgsmeldung von `/branch` enthält jetzt die Session-ID des neuen Branches, sodass man sie direkt mit `/resume <id>` wieder aufnehmen kann.
+- **Einsatz:** `/branch` ausführen, dann angezeigte Session-ID via `/resume <id>` nutzen
+- **Mehrwert:** Branch-Workflows sind nun Copy-Paste-tauglich — keine manuelle Suche der Session-ID mehr.
+- **Version:** v2.1.129
+
+### [Bold-Header mit Emoji: keine abgeschnittenen Zeichen mehr]
+- **Was:** Bold-Header mit Keycap-, ZWJ- oder Skin-Tone-Emoji verloren im Fullscreen-Mode trailing Zeichen — jetzt wird die Glyph-Breite korrekt berechnet.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Markdown-Header in Konversationen rendern korrekt, egal welche Emoji enthalten sind.
+- **Version:** v2.1.129
+
+### [Server-Managed-Settings: Policy gilt auch ohne `user:inference`-Scope]
+- **Was:** Server-managed Settings (Enterprise/Team-Policies) griffen vorher nicht für OAuth-User, deren gespeicherte Credentials den `user:inference`-Scope nicht hatten — jetzt unabhängig vom Scope.
+- **Einsatz:** Automatisch aktiv für Enterprise-Org-User
+- **Mehrwert:** Verlässliche Policy-Durchsetzung — keine Lücke mehr für ältere Token-Sets, die vor Scope-Änderungen ausgestellt wurden.
+- **Version:** v2.1.129
+
+### [OAuth-Refresh nach Wake-from-Sleep: kein Logout aller Sessions mehr]
+- **Was:** Nach Wake-from-Sleep konnte ein Race im OAuth-Refresh alle laufenden Sessions ausloggen — Race behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Laptop zuklappen ist sicher — nach dem Aufwachen kein massenhafter Re-Login von parallelen Claude-Sessions mehr.
+- **Version:** v2.1.129
+
+### [1-Stunden-Prompt-Cache: TTL nicht mehr auf 5 Min downgegradet]
+- **Was:** Der 1h-Prompt-Cache-TTL wurde stillschweigend auf 5 Minuten heruntergesetzt — Bug behoben, 1h hält jetzt wirklich 1h.
+- **Einsatz:** Automatisch aktiv (sofern 1h-Cache verwendet wird)
+- **Mehrwert:** Erheblich höhere Cache-Hit-Rate für lange Sessions — vorher waren 1h-Caches faktisch nutzlos. Spürbare Token-Ersparnis.
+- **Version:** v2.1.129
+
+### [Cache-Miss-Warning nicht mehr nach `/clear` oder Compaction]
+- **Was:** Nach `/clear` oder Compaction erschien eine Cache-Miss-Warnung beim Wechseln von `/effort` oder `/model` — fälschlich, da der Cache ohnehin invalidiert war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine irreführenden Warnungen — Power-User mit häufigem Modell-/Effort-Switching werden nicht mehr verwirrt.
+- **Version:** v2.1.129
+
+### [`Bash(mkdir *)`/`Bash(touch *)`-Allow-Rules für Projekt-Pfade]
+- **Was:** Allow-Rules wie `Bash(mkdir *)` und `Bash(touch *)` wurden für In-Project-Pfade ignoriert — jetzt korrekt durchgesetzt.
+- **Einsatz:** Bestehende Allow-Rules in `.claude/settings.json` greifen jetzt
+- **Mehrwert:** Whitelisten von Standard-Filesystem-Operationen funktioniert wieder — kein wiederholtes Permission-Prompting für `mkdir`/`touch` in Projekt-Verzeichnissen.
+- **Version:** v2.1.129
+
+### [`deniedMcpServers` mit `*://`: case-insensitive Hostname-Match]
+- **Was:** Patterns mit Scheme-Wildcard `*://` matchten Hostnames mit Mixed-Case nicht — jetzt case-insensitive.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deny-Listen funktionieren zuverlässig, egal ob ein Server `Example.COM` oder `example.com` meldet.
+- **Version:** v2.1.129
+
+### [Voice-Mode: WebSocket-Warning nicht mehr als Error im `--debug`]
+- **Was:** Eine harmlose WebSocket-Warning wurde im `--debug`-Modus während Voice-Mode fälschlich als Error geloggt — jetzt korrekt als Warning.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Saubere Debug-Logs für Voice-Mode-Sessions — Echtfehler sind nicht mehr im Rauschen versteckt.
+- **Version:** v2.1.129
+
+### [VSCode: `/clear` löscht Konversation und Transcript]
+- **Was:** `/clear` löschte in der VSCode-Extension den Konversations-Kontext und den angezeigten Transcript nicht — Bug behoben.
+- **Einsatz:** `/clear` in VSCode
+- **Mehrwert:** `/clear` verhält sich in VSCode jetzt identisch zur CLI — kein Restkontext, der die nächste Konversation verfälscht.
+- **Version:** v2.1.129
+
+---
 
 ### Woche 19 (4. Mai 2026) — v2.1.128
 
