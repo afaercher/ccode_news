@@ -1,11 +1,185 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-06 18:01 UTC
+> Letzte Aktualisierung: 2026-05-07 06:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (6. Mai 2026) — v2.1.132
+
+---
+
+### [`CLAUDE_CODE_SESSION_ID` in der Bash-Subprozess-Umgebung]
+- **Was:** Der Bash-Tool-Subprozess erhält die Env-Var `CLAUDE_CODE_SESSION_ID` mit derselben ID, die auch an Hooks weitergereicht wird.
+- **Einsatz:** Im Shell-Skript `$CLAUDE_CODE_SESSION_ID` lesen, um Telemetrie/Logging mit der Session zu korrelieren
+- **Mehrwert:** Bash-Tools, Hooks und Subprozesse teilen jetzt eine gemeinsame Session-ID — ideal für Trace-Korrelation, Audit-Logs und Side-Effect-Tracking pro Session.
+- **Version:** v2.1.132
+
+### [`CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` deaktiviert Fullscreen-Renderer]
+- **Was:** Neue Env-Var, die den Fullscreen-Alternate-Screen-Renderer ausschaltet — die Konversation bleibt im nativen Terminal-Scrollback.
+- **Einsatz:** `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1 claude`
+- **Mehrwert:** Wer das History-Scrollback des Terminals (tmux, VS Code, Cmd+F) nutzen will, behält sie — Opt-Out aus dem Fullscreen-UI ohne Workarounds.
+- **Version:** v2.1.132
+
+### [„Pasting…"-Footer-Hint während Image-Paste]
+- **Was:** Beim Einfügen eines Bildes via Ctrl+V zeigt der Footer „Pasting…", solange der Inhalt aus dem Clipboard gelesen wird.
+- **Einsatz:** Automatisch aktiv beim Image-Paste
+- **Mehrwert:** Klares Visual-Feedback, dass die Paste-Operation läuft — kein „nichts passiert"-Eindruck bei großen Screenshots.
+- **Version:** v2.1.132
+
+### [SIGINT von außen löst Graceful Shutdown aus]
+- **Was:** Externes SIGINT (z.B. via IDE-Stop-Button oder `kill -INT`) führte zu abruptem Exit. Jetzt werden Terminal-Modi restored und der `--resume`-Hint angezeigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberes Beenden auch via IDE/Skript — kein kaputter Terminal-State (versteckter Cursor, Mausmodus) mehr nach Stop.
+- **Version:** v2.1.132
+
+### [Native-Build: kein Crash mehr bei SSH-Disconnect mid-session]
+- **Was:** Im nativen Binary löste das Schließen des Terminals oder ein SSH-Drop mid-session eine uncaught Exception aus — jetzt wird der Fall sauber abgefangen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Remote-Sessions per SSH überleben Netzwerk-Hänger und Disconnects ohne Crash-Trace im Log.
+- **Version:** v2.1.132
+
+### [`--resume` repariert kaputte Emoji-Surrogate]
+- **Was:** `--resume` schlug mit `no low surrogate in string` fehl, wenn ein Tool-Error-Truncate ein Emoji geteilt hatte. Bestehende beschädigte Sessions werden beim Laden saniert.
+- **Einsatz:** Automatisch aktiv beim `claude --resume`
+- **Mehrwert:** Sessions mit Emoji-haltigen Tool-Errors lassen sich wieder fortsetzen — kein manuelles JSON-Patchen mehr nötig.
+- **Version:** v2.1.132
+
+### [`--permission-mode` greift auch beim Resume in Plan-Mode]
+- **Was:** Der `--permission-mode`-Flag wurde bei `-p --continue`/`--resume` einer Plan-Mode-Session ignoriert; zudem wurde Plan-Mode nach `ExitPlanMode` nicht wieder aktiviert.
+- **Einsatz:** `claude -p --continue --permission-mode plan` funktioniert jetzt korrekt
+- **Mehrwert:** Skriptbarer Plan-Mode-Workflow funktioniert verlässlich — wichtig für CI-Pipelines mit mehrstufigen Plan/Execute-Flows.
+- **Version:** v2.1.132
+
+### [Fullscreen: kein Blank-Screen nach Sleep/Wake oder Ctrl+Z]
+- **Was:** Nach Laptop-Sleep/Wake oder Ctrl+Z/`fg` blieb der Fullscreen-Modus blank, bis der nächste Tastendruck oder Stream-Output kam — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sofortiges Repaint nach Wake/Resume — keine „toten" Sessions mehr nach Suspend.
+- **Version:** v2.1.132
+
+### [Cursor-Position: korrekt bei ZWJ-Emoji und Indic-Conjuncts]
+- **Was:** Ctrl+E/A/K/U und Pfeiltasten ließen den Cursor mitten in einem Grapheme landen, wenn ein Indic-Conjunct oder ZWJ-Emoji über einen Zeilenumbruch ging — jetzt korrekte Grapheme-Awareness.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Editing in Prompts mit Family-Emoji oder Devanagari ist wieder zuverlässig — keine kaputten Zeichen mehr.
+- **Version:** v2.1.132
+
+### [Vim-Mode: NFD-Akzente bleiben intakt]
+- **Was:** Vim-Operatoren (`d`, `y`, `c`) haben Text mit decomposed (NFD) akzentuierten Zeichen korrumpiert — Bug behoben.
+- **Einsatz:** Automatisch aktiv mit `editorMode: vim`
+- **Mehrwert:** Vim-Editing in mehrsprachigen Prompts (z.B. macOS-NFD-Pasten) ist verlustfrei.
+- **Version:** v2.1.132
+
+### [Paste mit führendem `/` wird nicht mehr verschluckt]
+- **Was:** Pasting eines Strings, der mit `/` beginnt, schluckte den Input still oder löste einen Unknown-Command-Reply aus — Eingabe wird jetzt korrekt als Prompt-Text behandelt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Code-Snippets oder Pfade beginnend mit `/` lassen sich problemlos einfügen — keine versehentlichen Slash-Command-Trigger.
+- **Version:** v2.1.132
+
+### [Bracketed-Paste: keine Stray-Escape-Sequences mehr]
+- **Was:** Wenn Focus-Events oder Mouse-Tracking-Reports mit einem Paste interleaved waren, landeten Escape-Codes wörtlich im Prompt — jetzt korrekt geparsed.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Saubere Pastes auch in Terminals mit aktivem Focus-/Mouse-Reporting (iTerm2, kitty, Wezterm).
+- **Version:** v2.1.132
+
+### [Mouse-Wheel-Scroll in Cursor und VS Code (1.92–1.104) korrekt]
+- **Was:** Scrollen mit dem Mausrad war in Cursor und VS Code 1.92–1.104 viel zu schnell (Upstream-Bug in xterm.js) — Workaround eingebaut.
+- **Einsatz:** Automatisch aktiv im integrierten Terminal von Cursor/VS Code
+- **Mehrwert:** Scroll-Velocity passt wieder zum nativen Terminal — kein Überschießen mehr durch lange Konversationen.
+- **Version:** v2.1.132
+
+### [JetBrains 2025.2: Scroll-Wheel ohne Pfeiltasten-Glitches]
+- **Was:** In JetBrains-IDE-Terminals (2025.2) löste das Scrollrad falsche Pfeiltasten, falsch-gerichtete Events und Runaway-Acceleration aus — alle drei behoben.
+- **Einsatz:** Automatisch aktiv im JetBrains-Terminal-Emulator
+- **Mehrwert:** Claude Code in IntelliJ/PyCharm/WebStorm ist wieder flüssig nutzbar — Scroll-Verhalten matched native Terminals.
+- **Version:** v2.1.132
+
+### [`/usage` Ctrl+S: kein Hang mehr beim Clipboard-Copy unter Linux/X11]
+- **Was:** Ctrl+S in `/usage` (Stats-Screenshot in die Zwischenablage kopieren) hing unter Linux/X11 — Bug behoben.
+- **Einsatz:** `/usage` öffnen, Ctrl+S
+- **Mehrwert:** Schneller Stats-Share via Screenshot funktioniert auf X11 wieder ohne Hänger oder Force-Kill.
+- **Version:** v2.1.132
+
+### [`/terminal-setup` zeigt korrekten Status in Windows Terminal]
+- **Was:** `/terminal-setup` warf in Windows Terminal eine widersprüchliche Fehlermeldung — dabei wird Shift+Enter dort nativ unterstützt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Windows-Nutzer auf nativem Terminal werden nicht mehr verwirrt — keine fehlleitenden Setup-Hinweise.
+- **Version:** v2.1.132
+
+### [`/effort`-Picker respektiert `CLAUDE_CODE_EFFORT_LEVEL`]
+- **Was:** Die Env-Var `CLAUDE_CODE_EFFORT_LEVEL` wurde im `/effort`-Picker nicht reflektiert — der angezeigte Default war falsch.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Env-basierte Effort-Default-Konfiguration (z.B. in Shell-Profil oder Direnv) wird sichtbar bestätigt.
+- **Version:** v2.1.132
+
+### [`/status` zeigt korrektes Default-Modell]
+- **Was:** Für manche User zeigte `/status` ein falsches Default-Modell — Bug behoben.
+- **Einsatz:** `/status`
+- **Mehrwert:** Verlässliche Anzeige des aktiv genutzten Modells — wichtig zur schnellen Verifikation in Multi-Account-/Multi-Subscription-Setups.
+- **Version:** v2.1.132
+
+### [Slash-Command-Autocomplete: Liste skaliert mit Terminal-Höhe]
+- **Was:** Das Slash-Command-Autocomplete-Popup war fälschlich auf ~3–5 sichtbare Einträge gedeckelt — jetzt skaliert es mit der verfügbaren Terminal-Höhe.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bei großen Terminals werden mehr Commands gleichzeitig sichtbar — schneller Wechsel zwischen seltener genutzten Slash-Commands.
+- **Version:** v2.1.132
+
+### [Statusline: `context_window` zeigt aktuelle Auslastung]
+- **Was:** Der Statusline-Token-Counter `context_window` zeigte kumulative Session-Totals statt der aktuellen Kontext-Auslastung — Bug behoben.
+- **Einsatz:** Automatisch aktiv (in Custom-Statuslines, die `context_window` nutzen)
+- **Mehrwert:** Statusline zeigt wieder den realen Füllstand des aktuellen Kontextfensters — wichtige Entscheidungsgrundlage für `/compact` und `/clear`.
+- **Version:** v2.1.132
+
+### [macOS Alt+T (Thinking-Toggle) ohne „Option as Meta"]
+- **Was:** Alt+T für den Thinking-Toggle funktionierte auf macOS-Terminals ohne aktiviertes „Option as Meta" (iTerm2-/Terminal.app-Defaults) nicht — Bug behoben.
+- **Einsatz:** Alt+T in Default-iTerm2/Terminal.app
+- **Mehrwert:** Thinking-Toggle ohne erst die Terminal-Settings ändern zu müssen — Out-of-the-box-funktional auf jedem Mac.
+- **Version:** v2.1.132
+
+### [Windows: Tastatur reagiert nach Wiedereröffnen aus `claude agents`]
+- **Was:** Unter Windows war die Tastatureingabe tot, nachdem eine Background-Session über `claude agents` wieder aufgerufen wurde — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Windows-Nutzer von `claude agents` (Background-Sessions) verlieren beim Resume keine Eingabe mehr — kein Force-Restart nötig.
+- **Version:** v2.1.132
+
+### [Stdio-MCP: kein Memory-Leak (10 GB+ RSS) mehr bei Non-Protocol-Stdout]
+- **Was:** Wenn ein Stdio-MCP-Server Non-Protocol-Daten auf stdout schrieb, wuchs der Speicherverbrauch unbegrenzt (10 GB+ RSS) — jetzt gedeckelt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Buggy oder verbose MCP-Server killen die Session nicht mehr per OOM — robuster Default für unbekannte Server.
+- **Version:** v2.1.132
+
+### [MCP `tools/list`-Fehler: Retry und sichtbarer Status]
+- **Was:** MCP-Server, die zwar verbunden, aber bei `tools/list` still mit 0 Tools fehlschlugen, werden jetzt einmal retried und in `/mcp` als „connected · tools fetch failed" markiert.
+- **Einsatz:** `/mcp` öffnen — Status der Server prüfen
+- **Mehrwert:** Sichtbarkeit für eine häufige Failure-Mode — Server-Probleme sind sofort diagnostizierbar statt wie „erfolgreich verbunden" zu wirken.
+- **Version:** v2.1.132
+
+### [Unautorisierte claude.ai MCP-Connectors zeigen `needs auth`]
+- **Was:** Unautorisierte claude.ai-MCP-Connectors wurden als „failed" angezeigt statt als „needs auth"; zudem retried der Headless-Mode (`-p`) nicht-transient 4xx-Fehler unnötig.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Klare Unterscheidung Auth-Issue vs. echter Fehler — und Headless-Pipelines sparen Retries auf permanente 4xx.
+- **Version:** v2.1.132
+
+### [Slash-Command-Dialogs: konsistentere Optik]
+- **Was:** `/login`, `/upgrade`, `/extra-usage` und weitere Slash-Command-Dialoge wurden im Spacing/Style harmonisiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Polishing der Dialog-UX — weniger visuelle Inkonsistenzen zwischen ähnlichen Modalen.
+- **Version:** v2.1.132
+
+### [`/tui fullscreen`-Banner beschreibt zusätzliche Vorteile]
+- **Was:** Das Startup-Banner für den Fullscreen-Renderer (`/tui fullscreen`) listet jetzt explizit niedrigeren Speicherverbrauch, Mausunterstützung und Auto-Copy-on-Select als Vorteile.
+- **Einsatz:** Beim Start im Fullscreen-Modus sichtbar
+- **Mehrwert:** Bessere Onboarding-Information — User wissen vorab, was Fullscreen ihnen bietet, statt es selbst entdecken zu müssen.
+- **Version:** v2.1.132
+
+### [Bedrock/Vertex: kein 400-Fehler mehr mit `ENABLE_PROMPT_CACHING_1H`]
+- **Was:** Mit `ENABLE_PROMPT_CACHING_1H=1` warfen Bedrock und Vertex 400er-Fehler — der 1h-Prompt-Cache wird jetzt korrekt formatiert.
+- **Einsatz:** `ENABLE_PROMPT_CACHING_1H=1` mit Bedrock/Vertex-Setup
+- **Mehrwert:** Enterprise-Setups auf AWS/GCP profitieren wieder vom 1-Stunden-Cache — ergänzt den TTL-Fix aus v2.1.129 für die Cloud-Gateways.
+- **Version:** v2.1.132
+
+---
 
 ### Woche 19 (6. Mai 2026) — v2.1.131
 
