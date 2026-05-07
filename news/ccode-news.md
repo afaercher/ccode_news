@@ -1,11 +1,41 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-07 12:00 UTC
+> Letzte Aktualisierung: 2026-05-07 18:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Plattform-Ankündigungen (6.–7. Mai 2026)
+
+---
+
+### [Claude in Microsoft 365: Excel, PowerPoint, Word, Outlook]
+- **Was:** Claude landet als Sidebar in Excel, PowerPoint und Word (GA) sowie Outlook (Public Beta). Eine Konversation trägt Kontext über alle vier Apps hinweg — Änderungen in einer App propagieren in verbundene Inhalte. Outlook-Spezifika: Inbox-Triage, Draft-Replies mit vorbefüllten Empfängern/Betreff sowie Kalender-Invites mit Verfügbarkeitscheck.
+- **Einsatz:** Über Microsoft AppSource installieren (separate Listings für Office-Suite und Outlook); IT-Admins können OpenTelemetry-Monitoring und Usage-Analytics pro User/App/Datum konfigurieren
+- **Mehrwert:** Email-Drafts in der eigenen Stimme, Excel-Finanzmodelle und PowerPoint-Decks ohne Tool-Switch — Claude Code-Nutzer können Artefakte aus dem Editor jetzt nahtlos in Office-Workflows einspielen, statt Copy-Paste-Brücken zu bauen.
+- **Version:** Ankündigung 2026-05-07 (alle Paid Plans, Mac & Windows)
+
+### [Managed Agents: Dreaming (Research Preview)]
+- **Was:** Geplanter Hintergrundprozess, der Agent-Sessions analysiert, Patterns extrahiert und Memories kuratiert. Du entscheidest, ob Dreaming Memory automatisch updatet oder Review verlangt — gedacht für lang laufende Agents, um wiederkehrende Fehler und Team-Präferenzen zu erfassen.
+- **Einsatz:** Research-Preview-Zugang über Claude Platform anfordern; Dreaming-Schedule und Review-Modus in der Agent-Konfiguration setzen
+- **Mehrwert:** Managed Agents lernen jetzt zwischen Sessions ohne externen Retrieval-Layer — derselbe Fehler taucht nicht mehrmals auf, Team-Konventionen setzen sich durch.
+- **Version:** Ankündigung 2026-05-06 (Research Preview)
+
+### [Managed Agents: Outcomes (Public Beta)]
+- **Was:** Entwickler definieren Erfolgskriterien als Rubric — ein separater Grader bewertet Outputs gegen diese Standards. Bei Unterschreitung pinpointet der Grader, was sich ändern muss, und der Agent macht einen weiteren Pass. Anthropic-Tests zeigen +8.4 Punkte bei docx- und +10.1 Punkte bei PowerPoint-Generierung.
+- **Einsatz:** Outcomes-Rubric in der Managed-Agent-Konfiguration deklarieren (Public Beta auf Claude Platform)
+- **Mehrwert:** Aufgaben mit Detail-Anspruch, Vollständigkeit oder subjektiver Qualität (Brand Voice, Design-Guidelines) werden iterativ verbessert — Quality Gate eingebaut, statt manuelle Review nach jedem Run.
+- **Version:** Ankündigung 2026-05-06 (Public Beta)
+
+### [Managed Agents: Multiagent Orchestration (Public Beta)]
+- **Was:** Ein Lead-Agent zerlegt komplexe Arbeit in Stücke und delegiert an Spezialisten mit unterschiedlichen Modellen, Prompts und Tools. Spezialisten arbeiten parallel auf einem geteilten Filesystem, der Lead behält den vollen Kontext.
+- **Einsatz:** Multiagent-Setup in der Managed-Agent-Konfiguration definieren (Lead + Spezialisten); Public Beta auf Claude Platform
+- **Mehrwert:** Komplexe Investigations werden parallelisiert — ein Agent verarbeitet Deploy-History während andere Logs, Metrics und Support-Tickets parallel auswerten. Spürbarer Speed-Up bei Multi-Source-Recherchen ohne manuelles Fan-Out.
+- **Version:** Ankündigung 2026-05-06 (Public Beta)
+
+---
 
 ### Woche 19 (6. Mai 2026) — v2.1.132
 
