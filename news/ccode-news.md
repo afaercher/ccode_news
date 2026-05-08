@@ -1,11 +1,120 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-07 18:00 UTC
+> Letzte Aktualisierung: 2026-05-08 06:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (7. Mai 2026) — v2.1.133
+
+---
+
+### [`worktree.baseRef`-Setting: `fresh` (Default) vs. `head`]
+- **Was:** Neues Setting steuert, ob `--worktree`, `EnterWorktree` und Agent-Isolation-Worktrees vom `origin/<default>` (Default `fresh`) oder vom lokalen `HEAD` abzweigen. **Wichtig:** Default-Änderung kehrt das `EnterWorktree`-Verhalten zurück auf `origin/<default>` (war seit 2.1.128 lokales `HEAD`).
+- **Einsatz:** In `settings.json`: `"worktree": { "baseRef": "head" }` setzen, um unpushed Commits in neue Worktrees zu übernehmen
+- **Mehrwert:** Wer auf einem Feature-Branch mit unpushed Commits einen Subagent-Worktree spawnt, verliert die lokalen Änderungen sonst lautlos — `head` bringt das alte Verhalten zurück, `fresh` ist sicherer für Fan-Out auf cleaner Base.
+- **Version:** v2.1.133
+
+### [Sandbox: `sandbox.bwrapPath` und `sandbox.socatPath`]
+- **Was:** Neue Managed Settings (Linux/WSL) zur Angabe nicht-standard Pfade für `bwrap` (Bubblewrap) und `socat`-Binaries — z.B. wenn diese in privaten Mounts oder /opt liegen.
+- **Einsatz:** In Managed Settings: `"sandbox": { "bwrapPath": "/opt/bin/bwrap", "socatPath": "/opt/bin/socat" }`
+- **Mehrwert:** Locked-down Linux-Setups (Custom-PATH, NixOS, lokal kompilierte Builds) können Sandbox-Mode nutzen, ohne Symlinks oder PATH-Hacks im Wrapper-Skript.
+- **Version:** v2.1.133
+
+### [`parentSettingsBehavior` admin-Tier-Key (`first-wins` | `merge`)]
+- **Was:** Neuer Admin-Tier-Settings-Key, der erlaubt, SDK `managedSettings` (Parent-Tier) in den Policy-Merge einzubeziehen statt sie strikt zu überschreiben.
+- **Einsatz:** In Admin-Settings: `"parentSettingsBehavior": "merge"` opt-in für Kombination, `"first-wins"` für striktes Override (Default-Verhalten)
+- **Mehrwert:** Enterprise-Setups mit mehrstufigen Policy-Layern (Org → Team → SDK) können jetzt feiner steuern, wie Parent-Settings auf nachgeordnete Tiers wirken.
+- **Version:** v2.1.133
+
+### [Hooks erhalten Effort-Level via `effort.level` und `$CLAUDE_EFFORT`]
+- **Was:** Hooks bekommen das aktive Effort-Level neu im JSON-Input (`effort.level`) sowie als `$CLAUDE_EFFORT` Env-Var; Bash-Tool-Befehle können `$CLAUDE_EFFORT` ebenfalls auslesen.
+- **Einsatz:** Im Hook-Skript `jq -r .effort.level` oder `$CLAUDE_EFFORT` lesen; im Bash-Tool-Befehl `$CLAUDE_EFFORT` referenzieren
+- **Mehrwert:** Hooks und Bash-Skripte können auf Effort-Stufen reagieren — z.B. teure Tests nur bei `xhigh` ausführen, oder Telemetrie nach Effort labeln.
+- **Version:** v2.1.133
+
+### [Memory: Warm-Spare-Worker bei Memory-Pressure freigegeben]
+- **Was:** Im Hintergrund vorgehaltene Spare-Worker werden jetzt unter Memory-Pressure aktiv freigegeben — der Memory-Footprint sinkt bei langen Sessions.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Long-running Sessions (Stunden-Workflows, Loop-Tasks) bleiben auf Geräten mit knappem RAM stabil, ohne dass der CLI swappt oder OOM-killed wird.
+- **Version:** v2.1.133
+
+### [Improved Focus Mode]
+- **Was:** Verbessertes Verhalten im Focus Mode (Detail-Bugfixes/UX-Polish im Fokus-UI).
+- **Einsatz:** Automatisch aktiv beim Aktivieren von Focus Mode
+- **Mehrwert:** Glättere Fokus-Sessions ohne UI-Holpern.
+- **Version:** v2.1.133
+
+### [Parallel-Sessions: kein 401-Dead-End mehr nach Token-Refresh]
+- **Was:** Race-Condition beim Token-Refresh konnte alle parallelen Sessions gleichzeitig auf 401 (Unauthorized) festfahren, weil shared Credentials überschrieben wurden — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Mehrere parallele `claude`-CLIs (Tabs, Worktrees, Agents) bleiben gemeinsam authentifiziert — kein Mass-Logout mehr nach abgelaufenem Token.
+- **Version:** v2.1.133
+
+### [`Edit`/`Write`-Allow-Rules: Drive-Root-Matching repariert]
+- **Was:** Allow-Rules wie `Edit(C:\)` oder POSIX `Edit(/)` haben fälschlich nicht gegriffen und immer den Permission-Prompt ausgelöst — jetzt korrektes Matching.
+- **Einsatz:** Automatisch aktiv für bestehende Drive-Root-Rules
+- **Mehrwert:** Wer einen kompletten Drive oder Root als erlaubt deklariert hat, wird nicht mehr unnötig befragt — Rule-Definition wirkt wie dokumentiert.
+- **Version:** v2.1.133
+- **Plattform:** Windows + POSIX
+
+### [Unhandled-Rejection `ECOMPROMISED` bei File-Lock-Skew gefixt]
+- **Was:** Bei kompromittiertem History-/Session-Log-File-Lock (durch Clock Skew oder langsame Disk) crashte der Prozess mit unhandled `ECOMPROMISED`-Rejection — jetzt sauber abgefangen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sessions auf NFS, gemounteten Cloud-Drives oder VMs mit driftender Uhr crashen nicht mehr mid-session — wichtig für Remote-Workflows.
+- **Version:** v2.1.133
+
+### [Esc während Compaction: kein spurious Error mehr]
+- **Was:** Esc-Drücken während der Konversations-Compaction zeigte fälschlich „Error compacting conversation" — Fehlanzeige korrigiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Compaction-Abbruch ist nun sauber (User-Wunsch, kein vermeintlicher Fehler) — keine unnötige Verwirrung in Logs/Telemetrie.
+- **Version:** v2.1.133
+
+### [`HTTP(S)_PROXY`/`NO_PROXY`/mTLS für vollen MCP-OAuth-Flow]
+- **Was:** Proxy-Env-Vars und mTLS wurden nur für Teile des MCP-OAuth-Flows respektiert. Jetzt auch bei Discovery, Dynamic Client Registration, Token Exchange und Token Refresh.
+- **Einsatz:** Automatisch aktiv mit gesetzten `HTTP_PROXY` / `HTTPS_PROXY` / `NO_PROXY` und mTLS-Config
+- **Mehrwert:** Enterprise-Netzwerke mit Proxy-Pflicht oder Client-Cert-Auth können MCP-Server mit OAuth jetzt vollständig nutzen — kein partieller Failure mehr beim Re-Auth.
+- **Version:** v2.1.133
+
+### [Read/Write/Edit auf Mapped Network Drives via `--add-dir`]
+- **Was:** Mapped Network Drives (Windows) und gleichwertige Mounts, die via `--add-dir`/SDK `additionalDirectories` reingegeben wurden, wurden trotz Allow-Liste verweigert — Bug behoben.
+- **Einsatz:** `claude --add-dir Z:\shared\repo` (Mapped Drive) funktioniert jetzt
+- **Mehrwert:** Code auf Netzwerk-Shares (NAS, Corporate File-Server) ist editierbar wie lokale Pfade — kein Workaround mit `mklink` oder Symlinks mehr nötig.
+- **Version:** v2.1.133
+
+### [Remote Control: Stop/Interrupt von claude.ai cancelt CLI-Session vollständig]
+- **Was:** Stop/Interrupt aus claude.ai stoppte den CLI nicht so vollständig wie lokales Esc — Queued-Messages liefen nach Tool-/Prompt-Interrupt nicht weiter.
+- **Einsatz:** Automatisch aktiv mit `--remote-control`
+- **Mehrwert:** Remote-Stop ist jetzt äquivalent zu lokalem Esc — wichtig für Remote-Sessions und Teams, die Web-UI als Steuerungs-Frontend nutzen.
+- **Version:** v2.1.133
+
+### [`/effort` ist nun strikt session-lokal]
+- **Was:** `/effort` in einer Session änderte unbeabsichtigt das Effort-Level anderer paralleler Sessions; zudem konnte ein IDE-getriggerter Effort-Change still gedroppt werden — beide Bugs behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Mehrere parallele Sessions können unterschiedliche Effort-Levels fahren, ohne sich gegenseitig zu beeinflussen — IDE-Effort-Slider ist verlässlich.
+- **Version:** v2.1.133
+
+### [Subagents finden Project/User/Plugin-Skills via Skill-Tool]
+- **Was:** Subagents konnten Project-, User- und Plugin-Skills nicht mehr über das Skill-Tool entdecken — Bug behoben.
+- **Einsatz:** Automatisch aktiv für alle dispatched Subagents
+- **Mehrwert:** Skill-Pipelines (Brainstorming → TDD → Code-Review usw.) funktionieren auch innerhalb von Subagent-Tasks wieder — keine Skill-Lücke beim Delegieren mehr.
+- **Version:** v2.1.133
+
+### [`claude --help` listet `--remote-control`]
+- **Was:** `--remote-control` (allein) wird nun zusammen mit `--remote-control-session-name-prefix` in der Hilfe-Ausgabe gezeigt — vorher war es nur via Doku auffindbar.
+- **Einsatz:** `claude --help`
+- **Mehrwert:** Discoverability für Remote-Control-Workflow verbessert — neue User finden den Flag direkt im Help-Output.
+- **Version:** v2.1.133
+
+### [VS Code: `claudeProcessWrapper` ohne „Unsupported platform"-Fehler]
+- **Was:** Die Settings-Option `claudeCode.claudeProcessWrapper` schlug mit „Unsupported platform" fehl, wenn der Extension-Build kein Claude-Binary mitbringt — behoben.
+- **Einsatz:** Automatisch aktiv in der VS-Code-Extension
+- **Mehrwert:** Custom-Wrapper-Skripte (z.B. firejail, doas, Audit-Logger) lassen sich auch in Extension-Builds ohne gebundeltes Binary nutzen.
+- **Version:** v2.1.133
+
+---
 
 ### Plattform-Ankündigungen (6.–7. Mai 2026)
 
