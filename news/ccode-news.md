@@ -1,11 +1,21 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-09 06:30 UTC
+> Letzte Aktualisierung: 2026-05-09 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (9. Mai 2026) — v2.1.138
+
+---
+
+### [v2.1.138: Internal Fixes Patch-Release]
+- **Was:** Wartungs-Release ~6 Stunden nach v2.1.137 mit ausschließlich internen Fixes — keine user-facing Features, keine neuen Settings, keine dokumentierten Bugfixes in den Release-Notes.
+- **Einsatz:** Automatisch aktiv nach Update (Homebrew/WinGet/npm); kein Aktions-Bedarf
+- **Mehrwert:** Stabilitäts-Polish auf den frischen v2.1.137-Windows-VS-Code-Fix — empfehlenswert für alle, die heute morgen schon auf 137 geupdatet hatten.
+- **Version:** v2.1.138
 
 ### Woche 19 (9. Mai 2026) — v2.1.137
 
