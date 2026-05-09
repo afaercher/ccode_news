@@ -1,11 +1,196 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-08 18:01 UTC
+> Letzte Aktualisierung: 2026-05-09 06:30 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (9. Mai 2026) — v2.1.137
+
+---
+
+### [VS Code: Extension-Activation auf Windows repariert]
+- **Was:** Die VS-Code-Extension scheiterte unter Windows beim Aktivieren — Patch-Release behebt den Activation-Failure.
+- **Einsatz:** Automatisch aktiv nach Update auf v2.1.137
+- **Mehrwert:** Windows-Nutzer erhalten Claude Code direkt in VS Code wieder funktionsfähig — keine Workaround via Terminal mehr nötig.
+- **Version:** v2.1.137
+- **Plattform:** Windows / VS Code
+
+### Woche 19 (8. Mai 2026) — v2.1.136
+
+---
+
+### [`settings.autoMode.hard_deny`: unconditional Block-Rules im Auto-Mode]
+- **Was:** Neue Auto-Mode-Classifier-Rules, die matched Aktionen **unconditional** blockieren — unabhängig von User-Intent oder breiteren Allow-Exceptions.
+- **Einsatz:** In `settings.json`: `"autoMode": { "hard_deny": ["Bash(rm -rf *)", "Bash(curl * | sh)"] }` für Aktionen, die niemals automatisch laufen dürfen.
+- **Mehrwert:** Sicherheitsnetz im Auto-Mode für gefährliche Pattern (Datei-Löschungen, Pipe-to-Shell, Force-Push), die selbst bei `Bash(*)`-Allow nie ohne explizite Bestätigung laufen sollen.
+- **Version:** v2.1.136
+
+### [`CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL`: Session-Quality-Survey für Enterprises]
+- **Was:** Neue Env-Var reaktiviert die Session-Quality-Survey speziell für Enterprises, die Antworten via OpenTelemetry erfassen.
+- **Einsatz:** `export CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1` in der Enterprise-Shell-Config setzen
+- **Mehrwert:** Org-weite Quality-Metrics über OTEL-Pipelines möglich, ohne dass die Survey für alle anderen Enterprise-Sessions stört.
+- **Version:** v2.1.136
+
+### [Plan Mode blockiert File-Writes auch bei matchender `Edit(...)`-Allow-Rule]
+- **Was:** Im Plan-Mode wurden File-Writes nicht mehr geblockt, sobald eine matchende `Edit(...)`-Allow-Rule existierte — Bug behoben, Plan-Mode ist nun wieder strikt read-only.
+- **Einsatz:** Automatisch aktiv im Plan-Mode
+- **Mehrwert:** Planungs-Phase bleibt verlässlich nicht-destruktiv — Allow-Rules wirken erst wieder nach Plan-Approval, kein versehentliches In-Plan-Editing.
+- **Version:** v2.1.136
+
+### [MCP-Server in `.mcp.json`/Plugins/Connectors verschwinden nicht mehr nach `/clear`]
+- **Was:** In VS-Code-Extension, JetBrains-Plugin und Agent-SDK verschwanden MCP-Server aus `.mcp.json`, Plugins und claude.ai-Connectors lautlos nach `/clear` — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** `/clear` zur Kontext-Bereinigung verliert keine MCP-Konfig mehr — keine erneute Re-Auth oder Reload-Tour nach jedem Clear.
+- **Version:** v2.1.136
+- **Plattform:** VS Code, JetBrains, Agent SDK
+
+### [MCP-OAuth: Refresh-Tokens überleben paralleles Refresh mehrerer Server]
+- **Was:** Bei mehreren remote MCP-Servern, die gleichzeitig refreshten, gingen Refresh-Tokens lautlos verloren — User mussten täglich re-authentifizieren. Race-Condition behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer mehrere remote MCP-Server (Linear, GitHub, Sentry, …) parallel nutzt, bleibt eingeloggt — kein tägliches OAuth-Karussell mehr.
+- **Version:** v2.1.136
+
+### [Login-Loop bei concurrent Credential-Write geschlossen]
+- **Was:** Eine seltene Race-Condition konnte einen frisch rotierten OAuth-Token überschreiben und den User in eine Re-Login-Schleife zwingen — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabile Auth auch bei mehreren parallel gestarteten CLI-Instanzen (Tabs, Worktrees, Subagents) — kein „login → token weg → login"-Loop mehr.
+- **Version:** v2.1.136
+
+### [Extended Thinking + Redacted Block nach Tool-Call: kein 400-Error mehr]
+- **Was:** Wenn Extended Thinking nach einem Tool-Call einen redacted Thinking-Block emittierte, brach die API mit 400 ab — gefixt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Long-running Sessions mit Thinking + Tool-Use (z.B. Agentic-Workflows) brechen nicht mehr unvermittelt ab, wenn ein Thinking-Block von der Safety-Schicht redacted wird.
+- **Version:** v2.1.136
+
+### [`--resume`/`--continue` findet Sessions auch in Pfaden mit Underscores]
+- **Was:** `--resume` und `--continue` fanden Sessions nicht, wenn der Projekt-Pfad Underscores enthielt — Bug behoben.
+- **Einsatz:** `claude --resume` / `claude --continue` aus einem `_underscore_named/`-Verzeichnis funktioniert wieder
+- **Mehrwert:** Repo-Namen wie `my_project` oder `_internal_` blockieren nicht mehr stillschweigend die Session-Wiederherstellung.
+- **Version:** v2.1.136
+
+### [WSL2: Image-Paste aus Windows-Clipboard via PowerShell-Fallback]
+- **Was:** Wenn `xclip`/`wl-paste` keine Bild-Daten lesen können (typisch WSL2), nutzt Claude Code jetzt einen PowerShell-Fallback, um Bilder direkt aus dem Windows-Clipboard zu pasten.
+- **Einsatz:** Bild im Windows kopieren → in WSL2-CLI mit Strg+V einfügen — funktioniert auch ohne `xclip`
+- **Mehrwert:** Screenshot-Workflows (Bug-Reports, UI-Reviews) laufen in WSL2 ohne Tool-Installation oder Speicher-und-attach-Umweg.
+- **Version:** v2.1.136
+- **Plattform:** WSL2
+
+### [`/usage` Weekly-Reset zeigt Kalenderdatum statt Uhrzeit]
+- **Was:** Der wöchentliche Reset-Indikator in `/usage` zeigte Uhrzeit statt Kalenderdatum — gefixt.
+- **Einsatz:** Automatisch aktiv in `/usage`
+- **Mehrwert:** Klar erkennbar, an welchem Tag das Quota zurückgesetzt wird — keine Verwechslung „heute 18:00" vs. „kommenden Montag".
+- **Version:** v2.1.136
+
+### [`AskUserQuestion` akzeptiert Multi-Select als Array]
+- **Was:** `AskUserQuestion` verwarf Multi-Select-Antworten, wenn diese als Array übergeben wurden — Bug behoben.
+- **Einsatz:** Automatisch aktiv im AskUserQuestion-Tool / Multi-Select
+- **Mehrwert:** Skills und Plugins, die Mehrfach-Auswahlen erfragen, erhalten alle ausgewählten Optionen statt nur einer — keine stillen Datenverluste.
+- **Version:** v2.1.136
+
+### [`CLAUDE_ENV_FILE`-Vars bleiben nach `/resume`/`/clear` aktuell]
+- **Was:** Env-Vars aus `CLAUDE_ENV_FILE`-SessionStart-Hooks wurden nach `/resume` oder `/clear` stale (alter Snapshot blieb hängen) — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Env-getriebene Workflows (rotierende API-Keys, Branch-spezifische Config) erhalten nach `/clear` immer den aktuellen Wert.
+- **Version:** v2.1.136
+
+### [Plugin `skills/`-Default-Verzeichnis nicht mehr von `skills`-Eintrag in `plugin.json` versteckt]
+- **Was:** Ein `skills`-Eintrag in `plugin.json` versteckte das Default-Verzeichnis `skills/` des Plugins. Außerdem zeigt das Listen eines File-Pfads nun einen Error statt still zu scheitern.
+- **Einsatz:** Automatisch aktiv beim Plugin-Loading
+- **Mehrwert:** Plugin-Autoren verlieren keine Skills mehr durch versehentliche Override-Konfiguration — Fehler werden sichtbar statt schweigend geschluckt.
+- **Version:** v2.1.136
+
+### [`/insights`-Crash bei malformed Tool-Input behoben]
+- **Was:** `/insights` crashte, wenn die Session-History Tool-Calls mit fehlerhaften `input`-Feldern enthielt — Bug behoben.
+- **Einsatz:** Automatisch aktiv in `/insights`
+- **Mehrwert:** Sessions mit experimentellen Tools oder MCP-Edge-Cases bleiben in `/insights` analysierbar — kein Crash mehr.
+- **Version:** v2.1.136
+
+### [Plugin-Marketplace: Removal-Key auf `d` geändert (war `r`)]
+- **Was:** Der Hotkey zum Entfernen aus der Plugin-Marketplace-Liste wurde von `r` auf `d` umgestellt, weil `r` mit „Retry" an anderen Stellen kollidierte.
+- **Einsatz:** In Plugin-Marketplace-Liste: `d` zum Entfernen, `r` für Retry
+- **Mehrwert:** Konsistente Tastatur-Semantik plattformweit — kein versehentliches Löschen mehr beim Retry-Versuch.
+- **Version:** v2.1.136
+
+### [`CronList` Output: Qualifiers und Scheduled-Prompt sichtbar]
+- **Was:** `CronList`-Output zeigte weder Qualifiers noch den geplanten Prompt an — beides ergänzt.
+- **Einsatz:** Automatisch aktiv im `CronList`-Tool
+- **Mehrwert:** Übersicht über geplante Cron-Jobs ist endlich vollständig — User sehen sofort, was wann mit welchem Prompt feuert.
+- **Version:** v2.1.136
+
+### [Bash-Permission-Prompts zeigen lesbare Erklärung statt Parser-Diagnostik]
+- **Was:** Permission-Prompts für Bash-Commands zeigten interne Parser-Diagnostik-Strings — jetzt verständliche Erklärungen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** User verstehen, *warum* ein Command Permission braucht — schnellere informierte Allow/Deny-Entscheidung.
+- **Version:** v2.1.136
+
+### [`@`-File-Picker: Files mit >100 Einträgen + mid-session erstellt]
+- **Was:** Zwei Bugs gefixt: `@`-File-Picker fand keine Files in Verzeichnissen mit mehr als 100 Einträgen, und mid-session erstellte Files in kleinen Non-Git-Dirs wurden nicht gematcht.
+- **Einsatz:** Automatisch aktiv beim `@`-Tippen
+- **Mehrwert:** Großes Repo-Listing oder gerade frisch erstellte Files sind sofort attachbar — kein Restart oder Workaround nötig.
+- **Version:** v2.1.136
+
+### [MCP-Tool-Results sichtbar bei Content-Blocks-Response]
+- **Was:** MCP-Tool-Results waren unsichtbar, wenn der Server Content-Blocks zurückgab — Renderer zeigt sie jetzt wieder an.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** MCP-Server, die strukturierte Multi-Block-Responses liefern (Bilder + Text, mehrere Texte), zeigen ihre Daten endlich im UI.
+- **Version:** v2.1.136
+
+### [Plugin Slash-Commands mit Spaces resolvieren auf namespaced Form]
+- **Was:** Plugin-Slash-Commands mit Spaces (z.B. `/myplugin review`) wurden nicht mehr auf die namespaced Form aufgelöst — Bug behoben.
+- **Einsatz:** `/myplugin review` funktioniert wieder als Alias zu `/myplugin:review`
+- **Mehrwert:** User-Aliase mit Leerzeichen funktionieren wie dokumentiert — kein Memorize von `:`-Syntax pro Plugin nötig.
+- **Version:** v2.1.136
+
+### [`/release-notes` lädt nach failed Changelog-Refresh wieder aktuelle Version]
+- **Was:** `/release-notes` blieb nach einem fehlgeschlagenen Changelog-Refresh auf einer alten Version stehen — gefixt.
+- **Einsatz:** Automatisch aktiv in `/release-notes`
+- **Mehrwert:** Auch bei zwischenzeitlichen Netzwerk-Fehlern zeigt `/release-notes` nach dem nächsten Erfolg wieder die aktuelle Version.
+- **Version:** v2.1.136
+
+### [Plugin-Hooks `Stop`/`UserPromptSubmit`: kein Crash bei Cache-Cleanup]
+- **Was:** Plugin-`Stop`- und `UserPromptSubmit`-Hooks scheiterten, wenn Cache-Cleanup eine Plugin-Version löschte, die noch von einer laufenden Session genutzt wurde — gefixt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Long-running Sessions parallel zu einem Plugin-Update überleben — keine sterbenden Hooks bei Hintergrund-Cleanup.
+- **Version:** v2.1.136
+
+### [Worktree-Exit-Dialog: korrekte Dir-Warnung nach Removal]
+- **Was:** Nach einem Worktree-Removal warnte der Exit-Dialog vor uncommitted Files im **falschen** Verzeichnis — Pfad-Tracking gefixt.
+- **Einsatz:** Automatisch aktiv beim Worktree-Exit
+- **Mehrwert:** Keine Phantom-Warnungen mehr über Files in Pfaden, die gar nicht mehr existieren — User-Vertrauen in Worktree-Lifecycle bleibt erhalten.
+- **Version:** v2.1.136
+
+### [Diverse UI-Polish: Slash-Command-Dialoge, Markdown-Tabellen, Streaming]
+- **Was:** Sammelfix für visuelle Konsistenz: Slash-Command-Dialoge erhalten standardisierte Footer-Hints, Dialog-Spacing und Arrow-Key-Styling; Dialog-Frame erscheint sofort beim Loading; Farben in Bash-Output und Markdown-Codeblocks an korrekter Position; ReasonML-Diffs ohne „undefined"-Artefakte; wide Markdown-Tables hinterlassen keinen stale Border-Render mehr; trailing Whitespace beim Streaming-Copy entfernt; CJK-Text in „Jump to bottom"-Overlay und Welcome-Banner fehlerfrei.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar ruhigeres UI vor allem in Fullscreen-Mode, bei CJK-Sprachen und langen Sessions mit vielen Slash-Commands.
+- **Version:** v2.1.136
+
+### [Tastatur & Keybindings-Fixes: Backspace-Swap, rebound Keys, Esc-Dismiss]
+- **Was:** Sammelfix Tastatur: Backspace/Ctrl+Backspace nicht mehr getauscht nach Ctrl+G-External-Editor; Keyboard-Shortcut-Hints respektieren rebound Keys aus `keybindings.json`; Esc dismisst wieder Dialoge in `/install-github-app`, `/desktop`, `/resume`, `/web-setup`; Mid-input Slash-Command-Autocomplete funktioniert nach initialem Slash; Prompt-Suggestions werden nicht mehr von Enter auf leerem Input auto-submitted (Tab/Arrow erforderlich).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Tastatur-Verhalten wird wieder vorhersehbar — keine versehentlichen Submits, keine vertauschten Edit-Keys, eigene Bindings greifen überall.
+- **Version:** v2.1.136
+
+### [Settings & `/doctor`: Language-Persist + bessere MCP-Schema-Errors]
+- **Was:** `/settings`-Sprachänderung bleibt auch nach Escape erhalten (statt Revert). `/doctor` nennt bei MCP-Schema-Errors das fehlende Feld und den Source-File-Pfad. `/terminal-setup` erscheint im Autocomplete auch bei Prefix-Match (statt nur bei Exact-Name).
+- **Einsatz:** Automatisch aktiv in `/settings`, `/doctor`, `/terminal-setup`
+- **Mehrwert:** Faster Diagnose bei MCP-Misconfig; Sprach-Auswahl ist verlässlich persistent; Discoverability für `/terminal-setup` verbessert.
+- **Version:** v2.1.136
+
+### [`/branch`, `/clear <name>`, IDE-Lock-Files: Edge-Case-Fixes]
+- **Was:** `/branch` speichert keine Multi-Line-Session-Titles mehr aus Multi-Line-Pastes; `/clear <name>` labelt die gecleared Session korrekt für `/resume`; IDE-Shell-Integration-Lock-Files respektieren `CLAUDE_CONFIG_DIR`; „Chat about this" auf einem `AskUserQuestion`-Dialog löscht den Question-Text nicht mehr; Plugin-Uninstall/Enable/Disable matched Slugs case-insensitiv; Tool-Error-Truncation-Marker zeigt keine negative Count mehr bei Surrogate-Pair-Strings.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Diverse subtile Edge-Cases beseitigt — vor allem für Multi-Stack-Setups (Custom CLAUDE_CONFIG_DIR) und non-ASCII-Sessions.
+- **Version:** v2.1.136
+
+### [`/mcp`-Server-Liste scrollt + Improved `--worktree`-Collision-Error]
+- **Was:** `/mcp`-Server-Liste scrollt jetzt, wenn mehr Server existieren als ins Terminal passen; `--worktree` zeigt bei Collision mit existierendem oder stale Worktree eine bessere Fehlermeldung statt cryptic Git-Output.
+- **Einsatz:** Automatisch aktiv in `/mcp` und `--worktree`
+- **Mehrwert:** Setups mit vielen MCP-Servern (Enterprise, Multi-Project) bleiben überschaubar; Worktree-Setup-Fehler sind sofort actionable.
+- **Version:** v2.1.136
 
 ### Woche 19 (7. Mai 2026) — v2.1.133
 
