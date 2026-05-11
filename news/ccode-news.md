@@ -1,11 +1,23 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-11 12:01 UTC
+> Letzte Aktualisierung: 2026-05-11 18:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Plattform-Ankündigungen (11. Mai 2026)
+
+---
+
+### [Claude Platform on AWS (GA): volle API-Feature-Parity über AWS-Billing]
+- **Was:** Claude Platform ist auf AWS allgemein verfügbar — kompletter Claude-API-Feature-Set (Managed Agents Beta, Code-Execution-Tool, Web Search/Fetch, Files API Beta, Skills Beta, MCP Connector Beta, Prompt Caching, Batch Processing) mit AWS-IAM-Auth, einzelnem AWS-Invoice, AWS-Commitment-Verrechnung und CloudTrail-Audit-Logging. Modelle Opus 4.7, Sonnet 4.6 und Haiku 4.5 mit Day-One-Release-Parity. Verfügbar in den meisten AWS-Commercial-Regions mit Global- und U.S.-Inference-Optionen. Abgrenzung zu Amazon Bedrock: Claude Platform on AWS bietet volle Feature-Parity und Day-One-Access; Bedrock bleibt der Weg bei strikten Regional-Data-Residency-Anforderungen.
+- **Einsatz:** Claude Code CLI per AWS-IAM-Auth gegen Claude Platform endpoint statt 1P-API oder Bedrock konfigurieren; Authentifizierung über Standard-AWS-Credentials, Verrechnung über die normale AWS-Rechnung
+- **Mehrwert:** Enterprises auf AWS bekommen Claude Code mit allen Features (inkl. Skills, Files, MCP-Connectors) ohne Bedrock-Feature-Lag, behalten aber AWS-Commitment-Discounts, IAM-Permissions und CloudTrail-Audit — keine separate Anthropic-Vertragsspur mehr nötig.
+- **Version:** Ankündigung 2026-05-11 (GA)
+
+---
 
 ### Woche 19 (9. Mai 2026) — v2.1.138
 
