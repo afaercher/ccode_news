@@ -1,11 +1,187 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-11 18:00 UTC
+> Letzte Aktualisierung: 2026-05-12 06:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (11. Mai 2026) — v2.1.139
+
+---
+
+### [Agent View (Research Preview): zentrale Liste aller Claude-Code-Sessions]
+- **Was:** Neuer `claude agents`-View listet alle laufenden, blockierten und abgeschlossenen Sessions in einer einzigen Übersicht — Status, ob Input nötig ist, letzte Antwort, letzte Interaktion. Background-Sessions können per `claude --bg <task>` direkt im Hintergrund gestartet oder aus einer aktiven Session per `/bg` ausgelagert werden; Pfeil-Links wechselt jederzeit zurück zur Agent-View.
+- **Einsatz:** `claude agents` aufrufen oder Pfeil-Links aus einer Session drücken; im Hintergrund starten via `claude --bg "review PR #42"`, aus Session in Background per `/bg`
+- **Mehrwert:** Schluss mit tmux-Grid und Tab-Jonglage — mehrere parallele Agents (PR-Reviewer, Dashboard-Updater, Long-Running-Builds) bleiben in einer Liste, einspringen nur, wenn Claude blockiert. Verfügbar auf Pro, Max, Team, Enterprise und Claude API.
+- **Version:** v2.1.139 (Research Preview)
+
+### [`/goal`: Completion-Condition über mehrere Turns hinweg]
+- **Was:** Neuer Slash-Command setzt eine Erfolgs-Bedingung; Claude arbeitet turn-by-turn weiter, bis sie erfüllt ist. Ein Overlay-Panel zeigt live elapsed time, Turns und Token-Verbrauch.
+- **Einsatz:** `/goal "alle Tests grün und Linter clean"` interaktiv, in `-p` (Headless) und Remote Control
+- **Mehrwert:** Längere Refactorings („refactor X bis Tests bleiben grün") laufen ohne ständiges manuelles „weiter" — Claude bewertet die Goal-Condition selbst und stoppt erst beim Ziel.
+- **Version:** v2.1.139
+
+### [`/scroll-speed`: Mouse-Wheel-Geschwindigkeit mit Live-Preview]
+- **Was:** Neuer Slash-Command zum Tunen der Mouse-Wheel-Scroll-Geschwindigkeit im CLI, mit Live-Vorschau im Terminal während des Anpassens.
+- **Einsatz:** `/scroll-speed` und Slider auf gewünschten Wert ziehen
+- **Mehrwert:** Lange Transkripte endlich angenehm scrollbar — vor allem in Terminals (Windows Terminal, VS Code), die unterschiedlich aggressive Defaults haben.
+- **Version:** v2.1.139
+
+### [`claude plugin details <name>`: Komponenten-Inventar und Token-Kosten pro Plugin]
+- **Was:** Neuer CLI-Befehl zeigt für ein installiertes Plugin alle Komponenten (Hooks, Skills, Slash-Commands, MCP-Server) plus den projizierten Token-Verbrauch pro Session.
+- **Einsatz:** `claude plugin details <name>`
+- **Mehrwert:** Vor dem Aktivieren eines schweren Plugins (z.B. großer Skill-Sammlung) sieht man transparent, wie viel Context-Window es kostet — fundierte Plugin-Auswahl statt Blind-Install.
+- **Version:** v2.1.139
+
+### [Transcript-View: Keyboard-Navigation mit `?`, `{`/`}`, `v`]
+- **Was:** Transcript-View bekommt Keyboard-Shortcuts: `?` zeigt alle Shortcuts, `{` und `}` springen rückwärts/vorwärts zwischen User-Prompts, `v` togglet das Shortcut-Panel.
+- **Einsatz:** Im Transcript-Viewer Tasten direkt drücken
+- **Mehrwert:** Schnelles Hin-und-her zwischen langen Conversation-Steps ohne Maus — besonders wertvoll beim Review langer Agent-Läufe oder Debugging.
+- **Version:** v2.1.139
+
+### [Hook `args: string[]` (exec form): kein Shell, kein Quoting]
+- **Was:** Hook-Definitionen unterstützen jetzt ein `args: string[]`-Feld, das den Command direkt spawnt — ohne Shell dazwischen, daher müssen Path-Placeholder nicht mehr quoted werden.
+- **Einsatz:** In Hook-Config: `{"command": "python", "args": ["${CLAUDE_PROJECT_DIR}/scripts/lint.py", "${CLAUDE_FILE_PATH}"]}`
+- **Mehrwert:** Ende der Shell-Escaping-Hölle — Pfade mit Spaces, Sonderzeichen oder Variablen werden zuverlässig durchgereicht, auch unter Windows.
+- **Version:** v2.1.139
+
+### [Hook `continueOnBlock` für `PostToolUse`: Rejection-Reason zurück an Claude]
+- **Was:** Neue `continueOnBlock: true`-Option in `PostToolUse`-Hooks füttert die Ablehnungs-Begründung des Hooks zurück ans Modell — der Turn läuft weiter, statt hart abzubrechen.
+- **Einsatz:** Im Hook-Config `{"matcher": "...", "hooks": [{"type": "command", "command": "...", "continueOnBlock": true}]}`
+- **Mehrwert:** Linter-, Test- oder Security-Hooks können Claude konstruktives Feedback geben („Zeile 42: ungetypter Param") und Claude fixt direkt in der gleichen Session — kein User mehr als Vermittler zwischen Hook-Output und nächstem Prompt.
+- **Version:** v2.1.139
+
+### [MCP stdio-Server: `CLAUDE_PROJECT_DIR` im Env, `${CLAUDE_PROJECT_DIR}` in Plugin-Configs]
+- **Was:** MCP stdio-Server erhalten jetzt `CLAUDE_PROJECT_DIR` in der Environment (analog zu Hooks). Plugin-Configs dürfen `${CLAUDE_PROJECT_DIR}` in `command`/`args` referenzieren.
+- **Einsatz:** Im MCP-Server-Code `process.env.CLAUDE_PROJECT_DIR`; in Plugin-MCP-Config `"command": "${CLAUDE_PROJECT_DIR}/.mcp/my-server"`
+- **Mehrwert:** Projekt-relative MCP-Server (lokale Tooling-Bridges) laufen ohne fragile `pwd`-Tricks oder Annahmen über das CWD.
+- **Version:** v2.1.139
+
+### [Compaction bewahrt sensitive User-Instructions]
+- **Was:** Der Compaction-Prompt wurde aktualisiert: das Modell wird angewiesen, sensitive User-Anweisungen (z.B. „NIEMALS Force-Push", „kein direkter Prod-Zugriff") beim Komprimieren explizit zu erhalten.
+- **Einsatz:** Automatisch aktiv bei Auto-Compaction
+- **Mehrwert:** Sicherheits- und Verhaltens-Regeln überleben den Context-Squeeze — kein leiser Regelverlust nach mehrstündigen Sessions.
+- **Version:** v2.1.139
+
+### [`/mcp` Reconnect: lädt `.mcp.json`-Edits ohne Restart, zeigt HTTP-Status]
+- **Was:** `/mcp` Reconnect zieht jetzt Änderungen an `.mcp.json` direkt ein (kein CLI-Restart mehr nötig) und gibt bei Connect-Fehlern HTTP-Status-Code und URL aus.
+- **Einsatz:** Nach Edit von `.mcp.json` einfach `/mcp` → Reconnect
+- **Mehrwert:** MCP-Server-Config iterieren ohne CLI-Restart — und bei Connect-Fehlern direkt sehen, ob 401/404/500 statt nur „failed".
+- **Version:** v2.1.139
+
+### [`/context` zeigt Plugin-Quelle bei Skills + tokenizer-genaue Skill-Tokens]
+- **Was:** `/context` zeigt für plugin-sourced Skills jetzt den Plugin-Namen als Quelle. `/context all` berechnet per-Skill-Token-Werte mit dem tatsächlichen Modell-Tokenizer und zeigt sie gerundet.
+- **Einsatz:** `/context` bzw. `/context all` im laufenden Chat
+- **Mehrwert:** Klare Zuordnung „welches Plugin bringt welchen Skill" + exakte Token-Werte fürs Audit eines aufgeblähten Context-Windows.
+- **Version:** v2.1.139
+
+### [Subagent-Telemetrie: `agent_id`/`parent_agent_id` Header und OTEL-Spans]
+- **Was:** API-Requests aus Subagents tragen jetzt `x-claude-code-agent-id` und `x-claude-code-parent-agent-id` Header. Die `claude_code.llm_request`-OTEL-Spans enthalten entsprechende `agent_id`/`parent_agent_id` Attribute.
+- **Einsatz:** Automatisch aktiv; in Grafana/Datadog nach `agent_id` filtern oder Eltern-Agent gruppieren
+- **Mehrwert:** Nachvollziehbares Tracing in Sessions mit verschachtelten Agents — wer hat welchen API-Call ausgelöst, wessen Token-Verbrauch gehört zu welcher Sub-Task.
+- **Version:** v2.1.139
+
+### [`claude plugin install`: automatischer Marketplace-Refresh und Retry]
+- **Was:** `claude plugin install <name>@<marketplace>` aktualisiert jetzt automatisch den Marketplace-Index und versucht es erneut, bevor das Plugin als „not found" gemeldet wird.
+- **Einsatz:** `claude plugin install foo@my-marketplace`
+- **Mehrwert:** Frisch veröffentlichte Plugins lassen sich sofort installieren — kein manueller Refresh-Befehl mehr nötig.
+- **Version:** v2.1.139
+
+### [API-Key-Modus deaktiviert Remote Control, `/schedule`, claude.ai-Connectors]
+- **Was:** Wenn `ANTHROPIC_API_KEY`, `apiKeyHelper` oder `ANTHROPIC_AUTH_TOKEN` gesetzt ist, sind Remote Control, `/schedule`, claude.ai-MCP-Connectors und Notification-Preferences deaktiviert — auch dann, wenn parallel ein Claude.ai-Login vorliegt.
+- **Einsatz:** Für diese Features API-Key unsetten und auf Claude.ai-Login zurückfallen
+- **Mehrwert:** Klare Trennung zwischen API-Key-Pipeline und Claude.ai-Backend — keine Surprise-Fehler in Mixed-Setups („warum geht `/schedule` nicht?").
+- **Version:** v2.1.139
+
+### [`/plugin` Details: saubere Hook-Event- und MCP-Server-Namen]
+- **Was:** Im `/plugin`-Details-Panel werden Hook-Event-Namen und MCP-Server-Namen jetzt korrekt aufgelöst statt internem Bezeichner.
+- **Einsatz:** Automatisch aktiv in `/plugin`
+- **Mehrwert:** Plugin-Inspektion bleibt lesbar, statt kryptische IDs zu zeigen.
+- **Version:** v2.1.139
+
+### [Remote MCP-Server: Reconnect-Retry bei transienten Fehlern für alle aktiv]
+- **Was:** Der automatische Reconnect-Retry für transient fehlschlagende Remote-MCP-Server ist jetzt für alle User aktiviert (war zuvor hinter Flag).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kurze Netz-/Backend-Aussetzer bei Linear, Sentry, GitHub-MCP führen nicht mehr zu „server disconnected" — transparenter Reconnect.
+- **Version:** v2.1.139
+
+### [Fix: `autoAllowBashIfSandboxed` greift bei `$VAR`/`$(cmd)`]
+- **Was:** `autoAllowBashIfSandboxed` approved Bash-Commands mit Shell-Expansions wie `$VAR` oder `$(cmd)` nicht mehr automatisch — Bug behoben.
+- **Einsatz:** Automatisch aktiv bei aktivem `autoAllowBashIfSandboxed`
+- **Mehrwert:** Sandbox-Workflows mit Variablen-Templates (`$HOME`, `$CLAUDE_PROJECT_DIR`) laufen wieder ohne manuelle Bestätigung pro Command.
+- **Version:** v2.1.139
+
+### [Fix: Hooks ohne Terminal-Zugang (kein Prompt-Corruption mehr)]
+- **Was:** Ein Hook, der ans Terminal schrieb, konnte einen on-screen interaktiven Prompt korrumpieren — Hooks laufen jetzt isoliert ohne Terminal-Zugang.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hooks mit `print`/`echo`-Statements verfälschen die UI nicht mehr — Logs gehen sauber in den Hook-Output.
+- **Version:** v2.1.139
+
+### [Fix: HTTP/SSE MCP-Server — kein unbounded Memory-Growth, Cap bei 16 MB/Frame]
+- **Was:** Wenn ein HTTP/SSE-MCP-Server Non-Protocol-Daten streamte, konnte der RAM unkontrolliert wachsen. Response-Bodies sind jetzt auf 16 MB pro SSE-Frame gecapped.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Long-running Sessions mit chatty MCP-Servern (z.B. Log-Tailer) bleiben speicherstabil — keine OOM-Crashs mehr nach Stunden.
+- **Version:** v2.1.139
+
+### [Fix: `Skill(name *)` Wildcard funktioniert als Prefix-Match]
+- **Was:** `Skill(name *)`-Permission-Rules taten nicht das Erwartete — Bug behoben, Verhalten matcht jetzt `Bash(ls *)`.
+- **Einsatz:** In Permission-Rules `"Skill(myorg/* *)"` für alle Skills eines Org-Prefixes
+- **Mehrwert:** Konsistente Wildcard-Semantik über alle Tool-Permissions — keine Spezial-Regeln pro Plugin/Skill mehr.
+- **Version:** v2.1.139
+
+### [Fix: Settings-Hot-Reload erkennt Edits an symlinked `~/.claude/settings.json`]
+- **Was:** Settings-Hot-Reload bemerkte Edits an einem symlinked `~/.claude/settings.json` nicht — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Dotfiles-Symlink-Setups (Multi-Machine, Stow, chezmoi) brauchen nach Settings-Edit keinen CLI-Restart mehr.
+- **Version:** v2.1.139
+
+### [Fix: Auth-Deadlock bei expired Credentials + `forceRemoteSettingsRefresh`]
+- **Was:** Expired Credentials kombiniert mit dem `forceRemoteSettingsRefresh`-Policy-Setting blockierten `claude auth login`/`logout`/`status` ohne Recovery-Pfad — Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Enterprises mit `forceRemoteSettingsRefresh`-Policy kommen aus einem Auth-Lockout wieder raus, ohne manuell Credentials-Datei löschen zu müssen.
+- **Version:** v2.1.139
+
+### [Fix: `/model` Picker respektiert `ANTHROPIC_DEFAULT_OPUS_MODEL`/`SONNET_MODEL`]
+- **Was:** Die „Default"-Zeile im `/model`-Picker reflektierte gesetzte `ANTHROPIC_DEFAULT_OPUS_MODEL`/`ANTHROPIC_DEFAULT_SONNET_MODEL`-Overrides nicht — gefixt.
+- **Einsatz:** Automatisch aktiv in `/model`
+- **Mehrwert:** Klare Anzeige des effektiv aktiven Modells für User, die per Env-Var auf eine andere Snapshot-Version pinnen.
+- **Version:** v2.1.139
+
+### [Fix: Spurious „stream idle timeout" 5 Min nach Response-Ende]
+- **Was:** Ein verspäteter `stream idle timeout`-Fehler wurde gelegentlich 5 Minuten nach abgeschlossenem Response geworfen — der Watchdog-Timer wurde bei Stream-Cancellation nicht gelöscht. Bug behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine Phantom-Timeouts mehr in Sessions, die längst weitergelaufen sind — sauberes Stream-Lifecycle.
+- **Version:** v2.1.139
+
+### [Fix: 10+ MCP-Server bei unwritable Cache-Dir — Error-Message mit Ursache]
+- **Was:** Bei 10+ konfigurierten MCP-Servern und einem unwritable Cache-Verzeichnis brach Claude Code mit `exit 1` ohne Erklärung ab. Die Fehlermeldung enthält jetzt die zugrundeliegende Ursache.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schnellere Diagnose von Setup-Problemen (z.B. read-only `~/.cache/claude/`) statt stillschweigendem Crash.
+- **Version:** v2.1.139
+
+### [Fix: VS Code/Cursor — gleichmäßiges Mouse-Wheel-Scrolling auf 1.92–1.104]
+- **Was:** Mouse-Wheel-Scrolling in Cursor und VS Code 1.92–1.104 war ruckelig oder zu schnell — Fix sorgt für gleichmäßige Trackpad-Bewegung und ~3 Zeilen pro Wheel-Notch.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Transkripte im VS-Code-Terminal/Extension wieder vernünftig navigierbar.
+- **Version:** v2.1.139
+- **Plattform:** VS Code, Cursor
+
+### [VS Code: `Cmd/Ctrl+Shift+T` öffnet zuletzt geschlossenen Session-Tab]
+- **Was:** Neuer VS-Code-Shortcut `Cmd/Ctrl+Shift+T` öffnet den zuletzt geschlossenen Session-Tab erneut — analog zum Browser-Verhalten. Konfigurierbar über `claudeCode.enableReopenClosedSessionShortcut`.
+- **Einsatz:** Bei aktiver Claude-Extension `Cmd+Shift+T` (macOS) bzw. `Ctrl+Shift+T` (Win/Linux) drücken
+- **Mehrwert:** Versehentlich geschlossene Session schnell zurückholen — kein „aus History suchen"-Umweg.
+- **Version:** v2.1.139
+- **Plattform:** VS Code
+
+### [Sammel-Fix v2.1.139: Diverse UI-/Render-/Edge-Case-Korrekturen]
+- **Was:** Mehrere kleinere Bugfixes: Hyperlinks lesbar auf Dark Themes, Bash-Mode-Up-Arrow überschreibt In-Progress-Draft nicht mehr, Multi-Image-Paste fügt alle Bilder ein (nicht nur das letzte), Transcript-Letter-Shortcuts nach Maus-Klick reaktiv, Border-Text bei CJK/Emoji ohne Overflow, Fuzzy-Match splittet Emoji-Pairs nicht mehr, Skill-Arg-Namen mit Regex-Metazeichen funktionieren, ProgressBar rendert keinen vollen Block für fast-volle Cells, Cmd-only-Keybindings nicht mehr als unparsbar geflagged, Insights-Time-of-Day-Chart-Skew bei unparseable Timestamps, Grep mit Windows-Drive-Letter-Pfaden relativisiert korrekt, Plugin-Update bewahrt Cross-Plugin-Symlinks, `claude_code.active_time.total` OTEL-Metric in `--print` Mode emittiert, Two-File-Diff-Snippet zählt Truncated-Lines richtig, MCP-Resources disconnected Server fallen aus `@server:`-Autocomplete, Plugin-Dep-Resolution stale count bei abweichender Manifest-Name, Background-Session-Scroll in Windows Terminal/VS Code, redundante „Current model"-Zeile im Picker für 3P entfernt, legacy Opus-Picker-Entry auf PAYG-3P aufgelöst, `--mouse`-Cursor-Blinking auf Tab-Namen/Listen-Pointern entfernt, Plugin-Details lädt bei abweichendem Marketplace-Key, Task-Polling/fs.watch-Resurrection bei Last-Subscriber-Race gestoppt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Liefert in Summe spürbar weniger Render-Artefakte und Edge-Case-Fehler im täglichen Einsatz — vor allem für Windows-, CJK- und PAYG-3P-Setups.
+- **Version:** v2.1.139
+
+---
 
 ### Plattform-Ankündigungen (11. Mai 2026)
 
