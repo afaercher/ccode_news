@@ -1,11 +1,96 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-12 18:01 UTC
+> Letzte Aktualisierung: 2026-05-13 06:01 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (12. Mai 2026) — v2.1.140
+
+---
+
+### [Agent-Tool: `subagent_type` case- und separator-insensitive]
+- **Was:** Das `subagent_type`-Argument des Agent-Tools akzeptiert jetzt Variationen — `"Code Reviewer"`, `"code_reviewer"` oder `"CodeReviewer"` lösen sich alle korrekt zum Agent `code-reviewer` auf. Groß-/Kleinschreibung und Trenner (Leerzeichen, Underscore, Bindestrich, CamelCase) werden tolerant gematcht.
+- **Einsatz:** Im Agent-Tool-Call `subagent_type` mit beliebigem Casing/Separator angeben
+- **Mehrwert:** Schluss mit „agent not found"-Fehlern wegen Tippfehlern oder Stil-Inkonsistenzen — Orchestratoren bauen Agent-Aufrufe robust, ohne den exakten kanonischen Namen kennen zu müssen.
+- **Version:** v2.1.140
+
+### [Aktualisierte Agent-Farbpalette]
+- **Was:** Die Farbpalette für Agents (Anzeige in `claude agents`-View, Transcripts, OTEL-Logs) wurde überarbeitet — bessere visuelle Unterscheidung paralleler Agents und konsistentere Farben über Light-/Dark-Themes.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** In Multi-Agent-Sessions (Research Preview von Agent View) sind verschachtelte Subagents auf einen Blick auseinanderzuhalten — kein „welcher Agent war nochmal Magenta?".
+- **Version:** v2.1.140
+
+### [Fix: `/goal` hängt nicht mehr stumm bei `disableAllHooks` / `allowManagedHooksOnly`]
+- **Was:** Wenn `disableAllHooks` oder `allowManagedHooksOnly` aktiv waren, blockierte `/goal` stillschweigend ohne Rückmeldung — der Command zeigt jetzt eine klare Meldung, dass die Goal-Funktion in dieser Hook-Policy nicht verfügbar ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Enterprise-Policies, die Hooks restriktiv konfigurieren, geben jetzt verständliches Feedback statt einer toten Eingabezeile — kein „warum tut sich nichts?" mehr.
+- **Version:** v2.1.140
+
+### [Fix: `claude --bg` — keine „connection dropped mid-request" mehr bei Idle-Exit]
+- **Was:** `claude --bg <task>` schlug mit „connection dropped mid-request" fehl, wenn der Background-Service kurz vor dem Idle-Exit stand — Race-Condition zwischen Connection-Aufbau und Shutdown-Timer. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Background-Sessions (per `--bg` oder `/bg`) starten zuverlässig auch nach längeren Pausen — keine zufällig fehlschlagenden Jobs mehr beim Anstoßen neuer Hintergrund-Tasks.
+- **Version:** v2.1.140
+
+### [Fix: Background-Service-Startup auf Enterprise-Endpoint-Security-Maschinen]
+- **Was:** Der Background-Service brach beim Start ab, wenn Endpoint-Security-Software (CrowdStrike, SentinelOne, Defender mit aggressiver Policy) den Service-Spawn verlangsamte — der Startup-Timeout war zu kurz. Timeout großzügiger gesetzt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Corporate-Laptops mit EDR-Tools können Background-Sessions und Agent-View wieder nutzen, ohne dass IT eine Allowlist-Ausnahme bauen muss.
+- **Version:** v2.1.140
+
+### [Fix: Remote-Managed-Settings — Retry mit force-refreshed Token bei 401]
+- **Was:** Bekommt der Remote-Managed-Settings-Fetch ein 401 zurück, wird der Token jetzt force-refreshed und der Request einmal retried — vorher gab es kein Retry, und der Settings-Pull schlug stumm fehl.
+- **Einsatz:** Automatisch aktiv bei aktivem `forceRemoteSettingsRefresh`
+- **Mehrwert:** Enterprises mit kurzlebigen OAuth-Tokens bekommen ihre Managed-Settings auch dann durchgereicht, wenn der Token-Cache während des Pulls ablief — kein Settings-Drift mehr durch transiente Auth-Fehler.
+- **Version:** v2.1.140
+
+### [Fix: `extraKnownMarketplaces` Auto-Update-Policy wird persistiert]
+- **Was:** Die Managed-Policy `extraKnownMarketplaces` für Auto-Updates wurde zwischen Sessions nicht persistiert — Admin-Konfigurationen für zusätzliche Plugin-Marketplaces verschwanden nach CLI-Restart. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Enterprise-Internal-Marketplaces (z.B. firmeneigene Plugin-Registries) bleiben dauerhaft konfiguriert, ohne dass User sie pro Session re-installieren müssen.
+- **Version:** v2.1.140
+
+### [Fix: `/loop` schedulte redundante Wakeups]
+- **Was:** `/loop` (Dynamic Mode) konnte mehrere überlappende Wakeups schedulen, wenn das Modell zwischen zwei aktiven Iterations einen weiteren `ScheduleWakeup`-Aufruf machte — führte zu doppelten Firings. Wakeup-State wird jetzt korrekt deduplicated.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Loop-basierte Watcher (z.B. „check CI alle 5 Minuten") laufen ohne Duplicate-Runs — saubere Polling-Cadence und keine doppelten Token-Kosten.
+- **Version:** v2.1.140
+
+### [Fix: Event-Loop-Stall auf Windows bei Missing Executables]
+- **Was:** Auf Windows konnte der Event-Loop kurzfristig stallen, wenn ein konfigurierter Hook/MCP-Server auf ein fehlendes Executable verwies — der Spawn-Aufruf blockierte synchronen Path-Lookup. Async behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Windows-Setups mit teilweise fehlenden Tools (z.B. `git` nicht im PATH) frieren nicht mehr periodisch ein — UI bleibt responsive, auch wenn Hook-Configs leicht inkonsistent sind.
+- **Version:** v2.1.140
+- **Plattform:** Windows
+
+### [Fix: `Read`-Tool — Offset-Strings mit Whitespace oder `+`-Prefix akzeptiert]
+- **Was:** `Read`-Tool-Calls scheiterten an der Input-Validation, wenn der `offset`-Parameter als String mit führendem/trailing Whitespace oder mit explizitem `+`-Prefix (`"+100"`) übergeben wurde — beides wird jetzt toleriert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Subagents und externe Orchestratoren, die Offsets dynamisch konstruieren (String-Concat, Template-Engines), brechen nicht mehr an Whitespace-Edge-Cases.
+- **Version:** v2.1.140
+
+### [Fix: Native-Terminal-Cursor bleibt am Input-Caret bei Focus-Verlust]
+- **Was:** Wenn das Terminal-Fenster den Focus verlor, sprang der native Terminal-Cursor weg vom aktuellen Input-Caret-Position (oben links oder zur letzten Render-Position). Bleibt jetzt sauber am Eingabe-Caret.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Beim Wechsel zwischen Apps (Browser ↔ Terminal) ist sofort sichtbar, wo der Cursor steht — keine Sucherei, weil die Eingabe scheinbar „verschwand".
+- **Version:** v2.1.140
+
+### [Plugins: Warnung bei silent-ignorierten Default-Component-Foldern]
+- **Was:** Wenn ein Plugin in `plugin.json` Component-Folder explizit konfiguriert, werden die Default-Folder (`hooks/`, `skills/`, `commands/`, `mcp-servers/`) stillschweigend ignoriert. Plugins erhalten jetzt eine Warnung, falls solche Default-Folder vorhanden sind, aber von der Config ausgeschlossen werden.
+- **Einsatz:** Automatisch aktiv beim Plugin-Load
+- **Mehrwert:** Plugin-Autoren sehen sofort, dass ihre `hooks/lint.sh` nicht geladen wird, weil `plugin.json` z.B. nur `commands/` listet — keine stille Konfigurations-Falle mehr.
+- **Version:** v2.1.140
+
+### [Fix: MCP OAuth-Token-Refresh Race-Conditions bei mehreren Servern]
+- **Was:** Wenn mehrere MCP-Server gleichzeitig einen OAuth-Token-Refresh anstießen, konnten Race-Conditions zu fehlgeschlagenen Re-Authentifizierungen führen — Refresh-Locks pro Token-Identity sorgen jetzt für sequentielle Refreshs.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Setups mit mehreren MCP-Servern desselben Providers (z.B. Linear + Notion über separate OAuth-Clients) verlieren keine Connections mehr bei gleichzeitiger Token-Expiry.
+- **Version:** v2.1.140
+
+---
 
 ### Woche 19 (11. Mai 2026) — v2.1.139
 
