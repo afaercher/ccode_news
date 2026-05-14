@@ -1,11 +1,260 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-13 18:00 UTC
+> Letzte Aktualisierung: 2026-05-14 12:01 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 19 (13. Mai 2026) — v2.1.141
+
+---
+
+### [Hooks: `terminalSequence`-Feld für Desktop-Notifications, Window-Titel und Bells]
+- **Was:** Hook-JSON-Output unterstützt jetzt ein `terminalSequence`-Feld — Hooks können Desktop-Benachrichtigungen, Fenster-Titel und Terminal-Bells auslösen, auch wenn kein steuerndes Terminal verfügbar ist (z.B. in Headless-/Background-Sessions).
+- **Einsatz:** In Hook-Response-JSON: `{"terminalSequence": "]0;Build done"}` oder ähnliche OSC/ANSI-Sequenzen
+- **Mehrwert:** Long-Running-Hooks (Test-Suiten, Deploys) können dem User aktiv Signal geben, ohne dass der Hook eigene TTY-Logik braucht — funktioniert auch bei Hooks, die per Background-Agent laufen.
+- **Version:** v2.1.141
+
+### [Env: `CLAUDE_CODE_PLUGIN_PREFER_HTTPS` — GitHub-Plugins per HTTPS klonen]
+- **Was:** Neue Umgebungsvariable `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` zwingt Claude Code, GitHub-Plugin-Quellen über HTTPS statt SSH zu klonen. Ideal für Umgebungen ohne konfigurierten GitHub-SSH-Key.
+- **Einsatz:** `export CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` vor `claude plugin install <github-source>`
+- **Mehrwert:** Corporate-Maschinen, Container und CI-Runner ohne SSH-Auth-Setup können trotzdem GitHub-Plugins beziehen — keine `Permission denied (publickey)`-Fehler beim Plugin-Install.
+- **Version:** v2.1.141
+
+### [Env: `ANTHROPIC_WORKSPACE_ID` für Workload Identity Federation]
+- **Was:** Neue Umgebungsvariable `ANTHROPIC_WORKSPACE_ID` scoped den gemünzten Token bei Workload Identity Federation auf einen bestimmten Workspace, falls die Federation-Rule mehrere Workspaces abdeckt.
+- **Einsatz:** `export ANTHROPIC_WORKSPACE_ID=<workspace-id>` in CI/CD-Pipelines mit Multi-Workspace-Federation-Setup
+- **Mehrwert:** Enterprises mit mehreren Workspaces unter einer Federation-Rule können sauber pro Pipeline isolieren, ohne dedicated Service-Accounts pro Workspace zu betreiben — geringere Audit-Komplexität.
+- **Version:** v2.1.141
+
+### [`claude agents --cwd <path>` — Session-Liste auf Verzeichnis eingrenzen]
+- **Was:** Das `claude agents`-Kommando akzeptiert jetzt `--cwd <path>`, um die Session-Übersicht auf Sessions zu beschränken, die im angegebenen Verzeichnis (oder darunter) gestartet wurden.
+- **Einsatz:** `claude agents --cwd ~/proj/myrepo`
+- **Mehrwert:** Bei vielen parallel laufenden Claude-Code-Sessions über verschiedene Projekte zeigt die Agent-View nur noch die für den aktuellen Kontext relevanten Agents — schluss mit Scrollen durch Dutzende fremder Sessions.
+- **Version:** v2.1.141
+
+### [`/feedback` — Recent Sessions (24h, 7d) einbeziehen]
+- **Was:** Beim Absenden von `/feedback` kann jetzt optional ein Zeitfenster (letzte 24 Stunden oder 7 Tage) ausgewählt werden, um mehrere Sessions in den Feedback-Bundle einzuschließen. Vorher war Feedback strikt auf die aktuelle Session beschränkt.
+- **Einsatz:** `/feedback` → Auswahl-Dialog zwischen „current session", „last 24h" oder „last 7 days"
+- **Mehrwert:** Bei Bugs, die über mehrere Sessions hinweg auftreten (z.B. „Subagent-Routing schlägt sporadisch fehl"), enthält der Bug-Report jetzt den vollen Kontext — Anthropic-Support kann Root-Causes über Session-Grenzen hinweg sehen.
+- **Version:** v2.1.141
+
+### [Rewind-Menü: „Summarize up to here" zum Kontext-Komprimieren]
+- **Was:** Das `/rewind`-Menü enthält jetzt einen Eintrag „Summarize up to here", der den Conversation-Kontext bis zum gewählten Punkt komprimiert, während die jüngsten Turns intakt bleiben.
+- **Einsatz:** `/rewind` → einen früheren Punkt auswählen → „Summarize up to here"
+- **Mehrwert:** Bei langen Sessions, bei denen frühe Exploration nicht mehr nötig ist, lässt sich der Kontext gezielt verschlanken, ohne aktive Arbeitsspur zu verlieren — bessere Token-Ökonomie ohne Komplett-Restart.
+- **Version:** v2.1.141
+
+### [Auto-Mode Permission-Dialog erklärt `permissions.ask`-Regeln]
+- **Was:** Wenn Auto-Mode einen Permission-Prompt zeigt, weil eine `permissions.ask`-Regel matched, wird in der Dialog-Begründung jetzt explizit ausgewiesen, welche Regel den Prompt ausgelöst hat.
+- **Einsatz:** Automatisch aktiv im Auto-Mode mit konfigurierten `permissions.ask`-Regeln
+- **Mehrwert:** User verstehen sofort, warum Auto-Mode bei einer eigentlich „safe" wirkenden Action plötzlich nachfragt — Debugging von `permissions.ask`-Konfigurationen wird trivial.
+- **Version:** v2.1.141
+
+### [„View diff in your IDE" bei File-Edit-Permission-Prompts wiederhergestellt]
+- **Was:** Bei aktiver IDE-Connection ist die Option „view diff in your IDE" wieder im File-Edit-Permission-Prompt verfügbar — sie war in einer früheren Version versehentlich entfernt worden.
+- **Einsatz:** Automatisch aktiv mit verbundener IDE-Extension (VSCode, JetBrains)
+- **Mehrwert:** Diffs werden im vollen Editor-Comfort gereviewt (Syntax-Highlighting, Side-by-Side, Inline-Kommentare) statt im engen Terminal — schnellere und gründlichere Edit-Reviews.
+- **Version:** v2.1.141
+
+### [Background Agents behalten aktuellen Permission-Mode bei]
+- **Was:** Background-Agents (gestartet via `/bg` oder `←←`) übernehmen jetzt den Permission-Mode der aktuellen Session, statt auf Default zurückzuspringen — vorher konnte ein im Auto-Mode laufender Agent beim Backgrounding plötzlich Permission-Prompts zeigen.
+- **Einsatz:** Automatisch aktiv beim Backgrounding
+- **Mehrwert:** Lange Background-Jobs behalten den vom User bewusst gewählten Permission-Mode bei — keine unbeabsichtigten Mode-Resets, die Background-Agents zum Stillstand bringen.
+- **Version:** v2.1.141
+
+### [`claude agents`: Sessions mit Background-Shell zählen als „Completed"]
+- **Was:** Agents, die ihre Arbeit fertig haben, aber noch eine Background-Shell laufen lassen (z.B. ein dauerhafter Dev-Server), werden in `claude agents` jetzt unter „Completed" statt unter „Working" geführt.
+- **Einsatz:** Automatisch aktiv in der Agent-View
+- **Mehrwert:** Klare visuelle Trennung zwischen Agents, die noch aktiv arbeiten, und solchen, die fertig sind aber Hintergrund-Prozesse halten — User wissen, wo sie ihre Aufmerksamkeit hinlenken müssen.
+- **Version:** v2.1.141
+
+### [Spinner: amber-Warmung nach 10 Sekunden Thinking]
+- **Was:** Während langer Thinking-Perioden wechselt der Spinner nach 10 Sekunden auf einen Amber-Farbton — Signal, dass Claude weiterhin aktiv arbeitet, nicht hängt.
+- **Einsatz:** Automatisch aktiv bei Thinking-Phasen >10s
+- **Mehrwert:** Bei Extended-Thinking-Sessions (xhigh-Effort, komplexe Probleme) erkennt man auf einen Blick, dass das Modell noch denkt — keine voreilige Ctrl+C-Aktion mehr aus Sorge, der Prozess sei eingefroren.
+- **Version:** v2.1.141
+
+### [Plugin-Menü Navigation verbessert]
+- **Was:** Im Plugin-Menü wechseln jetzt `→`/Tab zwischen den Tabs, `↑` springt von der Liste hoch zur Tab-Leiste, und im Fullscreen-Modus sind Tab-Headers und Suchbox klickbar.
+- **Einsatz:** Automatisch aktiv im Plugin-Menü
+- **Mehrwert:** Tastatur- und Maus-Nutzer kommen schneller durch das Plugin-Discovery — die Navigation fühlt sich vergleichbar mit modernen TUI-File-Managern an.
+- **Version:** v2.1.141
+
+### [Fix: Background-Side-Queries bei Bedrock/Vertex/Foundry — Haiku-Fallback]
+- **Was:** Side-Queries (z.B. Auto-Naming von Background-Jobs) sendeten auf Bedrock/Vertex/Foundry-Gateways eine unverfügbare Haiku-Model-ID, wenn kein `ANTHROPIC_SMALL_FAST_MODEL`-Override gesetzt war. Fällt jetzt auf das Main-Loop-Model zurück.
+- **Einsatz:** Automatisch aktiv auf Drittanbieter-Gateways ohne explizites Haiku-Override
+- **Mehrwert:** Background-Jobs bekommen wieder Auto-Names auf Enterprise-Gateways — keine generischen `bg-2026-…`-IDs mehr in der Agent-View, weil das Haiku-Modell beim Provider nicht freigeschaltet ist.
+- **Version:** v2.1.141
+
+### [Fix: `claude daemon status` und `/doctor` auf Windows — bessere Fehlermeldungen]
+- **Was:** Wenn die Daemon-Pipe-Key-Datei gelockt oder unlesbar war, warfen `claude daemon status` und `/doctor` auf Windows eine opake Exception. Jetzt wird der zugrundeliegende Fehler ausgegeben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Windows-User mit Antivirus-/EDR-Tools, die die Pipe-Key-Datei zwischenzeitlich blockieren, sehen jetzt eine handlungs­bare Meldung statt einer Stack-Trace — schnellere IT-Tickets.
+- **Version:** v2.1.141
+- **Plattform:** Windows
+
+### [Fix: `/model` ändert nicht mehr Autocompact-Threshold in anderen Sessions]
+- **Was:** Wenn in einer Session via `/model` das Modell gewechselt wurde, änderte sich auch in parallel laufenden Sessions stillschweigend der Autocompact-Threshold — die Sessions teilten denselben Settings-Cache. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Parallele Sessions sind wieder vollständig voneinander isoliert in Bezug auf Modell-/Compaction-Settings — kein unerwartetes Verhalten in Session B, weil in Session A der Modus gewechselt wurde.
+- **Version:** v2.1.141
+
+### [Fix: Permission-Mode-Switch schließt offene Permission-Prompts]
+- **Was:** Wenn ein Tool-Permission-Prompt offen ist und der User parallel den Permission-Mode wechselt (sodass das Tool jetzt auto-allowed wäre), wird der Prompt nun automatisch geschlossen statt offen zu bleiben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Glatter Workflow beim Wechseln in Auto-Mode oder `bypassPermissions` — kein „Geist-Dialog" mehr, der eigentlich obsolet ist.
+- **Version:** v2.1.141
+
+### [Fix: Enter im Permission-Dialog submitted nicht mehr versehentlich Text]
+- **Was:** Wenn ein Permission- oder Dialog-Prompt geöffnet ist und der User Enter drückt, wurde teilweise auch der Text im Input-Eingabefeld submitted. Jetzt fängt der Dialog Enter exklusiv ab.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine „Oops, ich wollte nur Permissions bestätigen, aber jetzt habe ich aus Versehen meinen halb-getippten Prompt abgeschickt"-Momente mehr.
+- **Version:** v2.1.141
+
+### [Fix: Hooks bekommen korrekten `transcript_path` nach `EnterWorktree`]
+- **Was:** Nach einem `EnterWorktree`-Wechsel des Arbeitsverzeichnisses bekamen nachfolgende Hooks einen veralteten `transcript_path`, der nicht mehr existierte. Wird jetzt sauber auf den neuen Worktree-Path umgehoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Worktree-basierte Workflows mit Hooks, die das Transcript lesen (Audit-Logger, Code-Review-Bots), funktionieren wieder zuverlässig — keine „File not found"-Fehler in Hook-Logs.
+- **Version:** v2.1.141
+
+### [Fix: Markdown-Tabellen mit Cell-Wrapping wieder als Grid gerendert]
+- **Was:** Markdown-Tabellen mit Zell-Inhalt, der über die Spaltenbreite hinausging, fielen seit v2.1.136 auf ein vertikales Key-Value-Layout zurück statt als bordered Grid gerendert zu werden. Regression behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Tabellen-lastige Antworten (Vergleichstabellen, Spec-Übersichten) sind wieder sofort lesbar — kein Wechsel mehr zu unleserlichen Key-Value-Wänden bei langen Werten.
+- **Version:** v2.1.141
+
+### [Fix: Cancelled Prompts in Up-Arrow-History bewahrt]
+- **Was:** Mit Ctrl+C/Esc abgebrochene Prompts wurden aus der Up-Arrow-History entfernt (vor jeder Antwort) bzw. doppelt eingetragen (nach Auto-Restore in die Eingabe). Beide Fälle behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer einen Prompt abbricht und ihn später noch einmal ähnlich starten will, findet ihn zuverlässig per Pfeil-oben — keine verlorenen Tippvorgänge mehr.
+- **Version:** v2.1.141
+
+### [Fix: Ctrl+C unterbricht laufenden Turn auch im Vim INSERT/VISUAL-Mode]
+- **Was:** Mit aktivem Vim-Mode (INSERT oder VISUAL) wurde Ctrl+C als Vim-Mode-Wechsel interpretiert und unterbrach den laufenden Turn nicht. Wird jetzt korrekt zum Turn-Cancel weitergeleitet.
+- **Einsatz:** Automatisch aktiv mit Vim-Mode
+- **Mehrwert:** Vim-User können laufende Claude-Antworten abbrechen, ohne erst zum Normal-Mode wechseln zu müssen — vertraute Ctrl+C-Reflexe funktionieren wieder.
+- **Version:** v2.1.141
+
+### [Fix: Alternative `chat:submit`-Keybindings funktionieren bei umgemapptem Enter]
+- **Was:** Wenn `enter` auf `chat:newline` umgebunden war (Multi-Line-Mode), funktionierten alternative `chat:submit`-Bindings wie `meta+enter` oder `ctrl+enter` nicht mehr. Konflikt aufgelöst.
+- **Einsatz:** Automatisch aktiv für User mit custom Keybindings
+- **Mehrwert:** Multi-Line-Workflow funktioniert wieder durchgängig — Enter macht Newline, Meta+Enter submittet, wie im Mental-Model erwartet.
+- **Version:** v2.1.141
+
+### [Fix: Prompt-Suggestions nicht mehr stillschweigend bei Output-Styles deaktiviert]
+- **Was:** Wenn ein Output-Style konfiguriert war, wurden Prompt-Suggestions ohne Hinweis komplett deaktiviert. Sie sind jetzt unabhängig vom Output-Style verfügbar.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** User mit eigenem Output-Style (z.B. „Always respond in German") verlieren nicht mehr die Suggestion-Vorschläge — beide Features ko-existieren.
+- **Version:** v2.1.141
+
+### [Fix: AskUserQuestion-Popup verdeckt nicht mehr letzte Chat-Zeile]
+- **Was:** Der AskUserQuestion-Popup hat in der vorherigen Implementierung die letzte Zeile des darunterliegenden Chat-Inhalts überlagert. Layout-Padding angepasst.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** User sehen den vollen Kontext, der zur Frage führte — keine Sucherei nach „was hat Claude gerade gesagt, bevor die Frage kam?".
+- **Version:** v2.1.141
+
+### [Fix: WebSearch zeigt korrekten Error-Status statt „Did 0 searches"]
+- **Was:** Wenn alle Web-Search-Calls in einem Turn Errors zurückgaben, zeigte der Status-Bereich „Did 0 searches" statt einer Error-Anzeige — irreführend, weil die Searches gemacht, aber fehlgeschlagen waren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Beim Debugging von WebSearch-Issues (Rate-Limits, Network-Problemen) sieht der User sofort, dass etwas schief ging, statt zu denken, Claude hätte gar nicht gesucht.
+- **Version:** v2.1.141
+
+### [Fix: Multi-Line-Statusline rendert sauber auch bei Terminal-Width-Overflow]
+- **Was:** Wenn eine Statusline-Zeile breiter war als das Terminal, wurden andere Zeilen korrupt gerendert oder verschwanden ganz. Truncation/Wrapping ist jetzt sauber pro Zeile.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Custom-Statusline-Skripte (Git-Branch, Token-Counter, Modell-Anzeige) zeigen alle Zeilen stabil, auch in schmalen Splits — keine zufälligen leeren Slots mehr.
+- **Version:** v2.1.141
+
+### [Fix: light-ansi Theme — Diff-Context-Lines lesbar auf hellem Hintergrund]
+- **Was:** Das `light-ansi`-Theme nutzte für Diff-Context-Zeilen einen unsichtbar-weißen Vordergrund auf hellem Terminal-Hintergrund. Jetzt auf schwarz gesetzt.
+- **Einsatz:** Automatisch aktiv mit `light-ansi`-Theme
+- **Mehrwert:** User mit hellen Terminals (Tagesarbeit, Präsentations-Setups) können Diffs wieder lesen — keine Such-Aktion mehr nach unsichtbaren Lines.
+- **Version:** v2.1.141
+
+### [Fix: Error-Overlay zeigt Original-Error statt Minified-Bundle-Source]
+- **Was:** Wenn Claude Code intern crashte, zeigte das Error-Overlay manchmal nur minifizierten Bundle-Code statt der eigentlichen Error-Message — Bug-Reports waren unbrauchbar.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** User können bei Crashes hilfreichen Stack-Trace ablesen und Anthropic-Support kann den Fehler tatsächlich diagnostizieren — keine sinnfreien Single-Line-Bug-Reports mehr.
+- **Version:** v2.1.141
+
+### [Fix: `/tui` verweigert Drop von laufenden Background-Shells/Subagents]
+- **Was:** `/tui` (TUI-Reset/Wechsel) hat stillschweigend laufende Background-Shells und Subagents gedropped. Verweigert jetzt den Wechsel und fordert auf, auf das Ende der Background-Tasks zu warten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Background-Tests oder Migrationen werden nicht mehr versehentlich abgebrochen durch ein gedankenloses `/tui` — der User wird gezwungen, bewusst zu entscheiden.
+- **Version:** v2.1.141
+
+### [Fix: Welcome-Banner zeigt Provider-Namen auf Bedrock/Vertex/Foundry]
+- **Was:** Auf Drittanbieter-Providern (Bedrock, Vertex, Foundry) zeigte das Welcome-Banner „API Usage Billing" — irreführend, weil dort kein Anthropic-API-Billing greift. Jetzt wird der Provider-Name angezeigt.
+- **Einsatz:** Automatisch aktiv auf Drittanbieter-Providern
+- **Mehrwert:** Klare Visibility, über welchen Backend-Provider die Session läuft — verhindert Verwirrung über Billing-Zuordnung und Kostenstellen-Tracking.
+- **Version:** v2.1.141
+
+### [Fix: Plugin-Install — bessere Meldungen bei ref/sha-Inkonsistenzen]
+- **Was:** `claude plugin install` schlug fehl, wenn die im Marketplace gepinnte `ref` upstream nicht mehr existiert, aber zusätzlich eine `sha` gepinnt war. Plugin-MCP-Servers mit nicht-gesetzten Config-Variablen zeigen jetzt eine konkrete „config issue"-Meldung mit Fix-it-Hinweis.
+- **Einsatz:** Automatisch aktiv beim Plugin-Install und MCP-Connect
+- **Mehrwert:** Plugin-Installations- und Konfigurations-Fehler sind diagnostizierbar — keine generischen „connection failed"-Stack-Traces mehr, sondern „env var FOO is not set, did you mean to export it?".
+- **Version:** v2.1.141
+
+### [Fix: MCP HTTP/SSE-Server 403 als „needs auth" statt „failed"]
+- **Was:** Wenn ein MCP-HTTP/SSE-Server beim Connect 403 zurückgab, wurde er als generisch „failed" markiert. Jetzt wird korrekt „needs auth" angezeigt — User wissen, dass sie `/mcp` → Login machen müssen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Authenticated MCP-Server (Linear, Notion, Slack) haben einen klaren Recovery-Path bei abgelaufener Auth — kein Trial-and-Error-Debugging mehr.
+- **Version:** v2.1.141
+
+### [Fix: Remote MCP-Server — Tool-Calls funktionieren auch bei Stream-Fail]
+- **Was:** Wenn der optionale Server-Events-Stream eines Remote-MCP-Servers nicht reconnecten konnte, wurde der gesamte Server stillschweigend disconnected — auch die Tool-Calls über POST verloren. Tool-Calls laufen jetzt unabhängig vom Stream weiter.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Remote-MCPs sind robuster gegenüber transient broken Event-Streams (z.B. Firewall-Idle-Timeouts) — Core-Funktionalität bleibt verfügbar, auch wenn Push-Notifications kurzzeitig ausfallen.
+- **Version:** v2.1.141
+
+### [Fix: Remote-Control MCP — kein 401-Cascade bei Token-Rotation]
+- **Was:** Wenn der Worker-Session-Token mitten in einer Session rotierte, schlugen alle Remote-Control-MCP-Connectors gleichzeitig mit 401 fehl. Token-Rotation wird jetzt sauber an Connectoren weitergereicht.
+- **Einsatz:** Automatisch aktiv für Remote-Control-User
+- **Mehrwert:** Lange Remote-Control-Sessions überstehen Token-Rotations ohne Re-Login — kein Workflow-Unterbruch mehr nach 1-2 Stunden Arbeit.
+- **Version:** v2.1.141
+
+### [Fix: Remote-Control — kein Auto-Re-Enroll bei stale Token]
+- **Was:** Wenn der Remote-Control-Server einen stale Token ablehnte, hat der Client automatisch versucht, das Device neu zu enrollen — was in einer `/login`-Schleife enden konnte. Jetzt wird stattdessen der bestehende Trusted-Device-Token refreshed.
+- **Einsatz:** Automatisch aktiv für Remote-Control-User
+- **Mehrwert:** Stabile Remote-Control-Sessions ohne Re-Enrollment-Loops — auch bei längeren Offline-Phasen oder Server-Restarts.
+- **Version:** v2.1.141
+
+### [Fix: Windows Alt+V Image-Paste mit Screenshot-Clipboard]
+- **Was:** Wenn die Windows-Zwischenablage einen Screenshot enthielt (z.B. von Snipping Tool), meldete Alt+V „no image found". Clipboard-Format-Detection erkennt jetzt Screenshots korrekt.
+- **Einsatz:** Automatisch aktiv auf Windows
+- **Mehrwert:** Windows-User können Screenshots wieder direkt per Alt+V einfügen — kein Workaround mehr über Datei-Speicherung und Drag-and-Drop.
+- **Version:** v2.1.141
+- **Plattform:** Windows
+
+### [Fix: SDK „native binary not found" auf Linux mit glibc + musl]
+- **Was:** Das SDK warf auf Linux-Systemen, auf denen sowohl glibc- als auch musl-Platform-Packages installiert waren, „Claude Code native binary not found". Binary-Detection wählt jetzt korrekt das passende Build.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Polyglot-Containerized-Setups (Alpine + Debian-Tools im selben Image) können das Claude-Code-SDK einbinden, ohne Native-Binary-Pfad-Hacks.
+- **Version:** v2.1.141
+- **Plattform:** Linux
+
+### [Fix: Bedrock `awsCredentialExport` — Cross-Account-Access funktioniert]
+- **Was:** Wenn `awsCredentialExport` konfiguriert war, wurde der Hook übersprungen, sobald ambient AWS-Credentials auflösten — Cross-Account-Setups (Assume-Role) brachen still. Hook läuft jetzt immer.
+- **Einsatz:** Automatisch aktiv auf Bedrock mit `awsCredentialExport`
+- **Mehrwert:** Multi-Account-AWS-Setups (Claude in Account A, Bedrock in Account B per Assume-Role) bekommen wieder zuverlässige Auth — keine sporadischen AccessDenied-Errors mehr.
+- **Version:** v2.1.141
+
+### [`claude agents`: Robustheit beim Launch — Fallback bei kranker Pre-Warm-Session]
+- **Was:** Beim Launch einer Session in `claude agents` wurde bisher zwingend ein vorgewärmter Background-Worker genutzt. Falls dieser unhealthy ist, wird jetzt sauber auf einen frischen Launch zurückgefallen.
+- **Einsatz:** Automatisch aktiv in `claude agents`
+- **Mehrwert:** Sessions starten zuverlässig, auch wenn der Background-Worker-Pool teilweise hängt — keine Failure-Cascades mehr in der Agent-View.
+- **Version:** v2.1.141
+
+### [`claude agents`: leere Idle-Background-Sessions werden nach 5 Min retiriert]
+- **Was:** Leere Idle-Background-Sessions, die durch ein einzelnes `←` (Backgrounding eines frischen REPLs) entstehen, werden vom Daemon jetzt nach 5 Minuten automatisch retiriert — vorher blieben sie als „Placeholder" in der Agent-View hängen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Saubere Agent-View ohne historische „Geister-Sessions", die nie genutzt wurden — schluss mit manueller Aufräum-Arbeit.
+- **Version:** v2.1.141
+
+---
 
 ### Woche 19 (12. Mai 2026) — v2.1.140
 
