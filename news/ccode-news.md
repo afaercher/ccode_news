@@ -1,11 +1,132 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-14 18:01 UTC
+> Letzte Aktualisierung: 2026-05-15 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 20 (14. Mai 2026) — v2.1.142
+
+---
+
+### [`claude agents`: neue Dispatch-Flags für Background-Sessions]
+- **Was:** Das `claude agents`-Kommando akzeptiert jetzt zusätzliche Flags, mit denen dispatchte Background-Sessions vorab konfiguriert werden können: `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort` und `--dangerously-skip-permissions`.
+- **Einsatz:** `claude agents dispatch --model claude-opus-4-7 --effort xhigh --permission-mode auto --add-dir ~/proj/extra`
+- **Mehrwert:** Background-Agents lassen sich jetzt scripted in genau der Konfiguration starten, die der Job braucht — etwa CI-Pipelines, die einen Agent mit eigenem MCP-Server, isoliertem Setting-File und hohem Effort-Level feuern, ohne nachträglich in die Session greifen zu müssen.
+- **Version:** v2.1.142
+
+### [Fast Mode nutzt jetzt Opus 4.7 als Default]
+- **Was:** Der Fast-Mode (`/fast`) verwendet jetzt standardmäßig Opus 4.7 statt Opus 4.6 — die neueste Generation läuft also auch in der schnelleren Output-Variante. Wer beim alten Modell bleiben möchte, setzt `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1`.
+- **Einsatz:** Automatisch aktiv; Pin auf 4.6: `export CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1`
+- **Mehrwert:** Fast-Mode-Nutzer profitieren ohne Konfigurationswechsel von Opus 4.7-Qualität (besseres Reasoning, neuer Trainings-Stand) bei gewohnter Output-Geschwindigkeit. Teams, die noch auf 4.6-Verhalten validiert sind, haben einen sauberen Fallback.
+- **Version:** v2.1.142
+
+### [Plugins mit Root-Level `SKILL.md` werden als Skill erkannt]
+- **Was:** Plugins, die nur eine `SKILL.md` im Root liegen haben (kein `skills/`-Unterverzeichnis), werden jetzt automatisch als einzelne Skill-Quelle behandelt — die zusätzliche Verzeichnis-Ebene entfällt.
+- **Einsatz:** Plugin-Repo direkt mit `SKILL.md` im Root anlegen; kein `skills/`-Wrapper nötig
+- **Mehrwert:** Single-Skill-Plugins (sehr verbreitet bei Community-Plugins) brauchen keine künstliche Verzeichnis-Hierarchie mehr — das Plugin-Layout wird kürzer und der Skill-Generator (`skill-creator`) kann Output direkt in ein installierbares Plugin schreiben.
+- **Version:** v2.1.142
+
+### [`/plugin` und `claude plugin details` zeigen jetzt LSP-Server]
+- **Was:** Das Detail-Pane in `/plugin` sowie `claude plugin details` listen jetzt auch die LSP-Server, die ein Plugin bereitstellt — analog zur bisherigen Anzeige von Skills, Hooks, Commands und MCP-Servern.
+- **Einsatz:** Automatisch aktiv beim Browsen oder Installieren eines Plugins mit LSP-Komponente
+- **Mehrwert:** Vor dem Install ist transparent, ob ein Plugin einen LSP-Server installieren würde — wichtig für Plugin-Hygiene, weil LSP-Server eigene Prozesse spawnen und CPU-/Speicher-Footprint haben.
+- **Version:** v2.1.142
+
+### [`/web-setup` warnt vor Überschreiben einer bestehenden GitHub App-Verbindung]
+- **Was:** `/web-setup` zeigt jetzt eine Warnung, bevor eine bestehende GitHub App-Connection ersetzt wird — vorher wurde stillschweigend überschrieben, was bei mehreren Setups zu „warum bin ich auf einmal disconnected"-Effekten führen konnte.
+- **Einsatz:** Automatisch aktiv in `/web-setup` mit existierender Connection
+- **Mehrwert:** Teams, die Claude Code on the Web in mehreren Repos/Orgs nutzen, können nicht mehr versehentlich eine produktive Verbindung kappen — der Setup-Flow ist idempotent geworden.
+- **Version:** v2.1.142
+
+### [Fix: `MCP_TOOL_TIMEOUT` greift jetzt auch für Remote HTTP/SSE MCP-Server]
+- **Was:** Die Umgebungsvariable `MCP_TOOL_TIMEOUT` hob bisher nur das Timeout für lokale STDIO-MCP-Server an — Remote HTTP- und SSE-Server hingen weiterhin am Default-Fetch-Timeout fest. Jetzt wirkt der Override auch für Remote-Server.
+- **Einsatz:** `export MCP_TOOL_TIMEOUT=120000` wirkt jetzt auf alle MCP-Transports
+- **Mehrwert:** Tools auf langsamen Remote-MCP-Servern (z.B. Cloud-Scraper, große LLM-Querys) liefen bisher unweigerlich in Timeouts, obwohl der User den Wert hochgesetzt hatte — das Setting verhält sich endlich erwartungskonform.
+- **Version:** v2.1.142
+
+### [Fix: Background-Sessions erkennen pre-existierende Worktrees]
+- **Was:** Wenn vor dem Start einer Background-Session bereits ein git-Worktree für das Zielverzeichnis bestand, ignorierte die Session diesen und versuchte einen neuen anzulegen — was scheiterte oder den falschen Branch nutzte. Pre-existierende Worktrees werden jetzt korrekt erkannt und wiederverwendet.
+- **Einsatz:** Automatisch aktiv beim Dispatch in ein Verzeichnis mit existierendem Worktree
+- **Mehrwert:** Workflows, in denen User manuell einen Worktree für einen Feature-Branch angelegt hat und anschließend einen Background-Agent darauf ansetzen will, funktionieren wieder ohne Setup-Tanz.
+- **Version:** v2.1.142
+
+### [Fix: Background-Sessions überleben macOS Sleep/Wake]
+- **Was:** Auf macOS verschwanden Background-Sessions aus der Agent-View, wenn der Rechner zwischenzeitlich in den Sleep ging und wieder aufwachte — die Sessions liefen zwar im Hintergrund weiter, waren aber nicht mehr ansprechbar. Verbindung wird jetzt nach Wake sauber wiederhergestellt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Laptop-User, die Background-Agents über Nacht oder über die Mittagspause laufen lassen, finden ihre Sessions nach dem Aufklappen wieder — Lost-Session-Fälle nach Sleep gehören der Vergangenheit an.
+- **Version:** v2.1.142
+- **Plattform:** macOS
+
+### [Fix: Daemon beendet sich sauber nach Binary-Upgrade]
+- **Was:** Nach einem Binary-Upgrade (`claude upgrade`) blieb der alte Daemon-Prozess teilweise zombiehaft am Leben und blockierte den neuen Daemon-Start. Der alte Daemon terminiert jetzt korrekt, sobald das neue Binary übernimmt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Upgrades sind seamless statt mit „daemon already running"-Fehlern — keine manuellen `pkill claude-daemon`-Aufrufe nach jedem Update mehr nötig.
+- **Version:** v2.1.142
+
+### [Fix: Background-Agents crashen nicht mehr bei verbundener Claude-in-Chrome-Extension]
+- **Was:** Wenn die Claude-in-Chrome-Browser-Extension mit der Session verbunden war, gerieten Background-Agents in eine Crash-Loop — die Extension-Reconnect-Logik beschoss den Agent mit Events, mit denen er nicht umgehen konnte. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Chrome-Extension-Nutzer können Background-Agents wieder ohne Workarounds (Extension trennen, Session starten, Extension verbinden) verwenden — der Standard-Setup funktioniert.
+- **Version:** v2.1.142
+
+### [Fix: Diverse `claude agents`-Polish]
+- **Was:** Mehrere kleinere Bugs im `claude agents`-UI behoben: Links in einer attachten Session waren nicht klickbar; die „v to open in editor"-Aktion öffnete den falschen Editor (ignorierte `$EDITOR`); Sessions mit Working-Directory auf Windows-Netzwerklaufwerken brachten den Agent in einen Deadlock; das `claude --bg --dangerously-skip-permissions`-Flag wurde beim Backgrounding nicht persistiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Agent-Dashboard-Erfahrung wird durchgängig zuverlässiger — speziell die Windows-Netzlaufwerk-Fixes betreffen Enterprise-Setups mit zentralen File-Servern.
+- **Version:** v2.1.142
+
+### [Fix: 256-Color-Terminals — Hintergrund-Bleed in Edit-Diffs behoben]
+- **Was:** Auf Terminals, die nur 256 Farben (statt Truecolor) unterstützten, „blutete" der Hintergrund der Diff-Highlights über die Zeilenränder hinaus in nachfolgende Output-Blöcke. Color-Reset wird jetzt korrekt emittiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** SSH-Sessions auf Servern, tmux/screen-Setups und ältere Terminal-Emulatoren zeigen Diffs jetzt sauber begrenzt — keine grünlich/rötlichen Streifen über den ganzen Bildschirm.
+- **Version:** v2.1.142
+
+### [Fix: Session-Titel aus URLs werden nicht mehr blind übernommen]
+- **Was:** Wenn die erste Nachricht einer Session ausschließlich eine URL war, wurde diese URL als Session-Titel übernommen — was zu unleserlichen Einträgen in der Agent-View führte. Es wird jetzt ein deskriptiver Titel generiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Session-Liste in `claude agents` zeigt sinnvolle Titel auch für Sessions, die mit „check this: https://…" starten — bessere Auffindbarkeit alter Sessions.
+- **Version:** v2.1.142
+
+### [Fix: Plugin-Cache löscht keine aktive Plugin-Version mehr]
+- **Was:** Der periodische Plugin-Cache-Cleanup konnte unter Umständen die aktuell installierte (aktive) Plugin-Version löschen, was den nächsten Plugin-Aufruf brechen ließ. Cleanup-Logik schützt jetzt aktive Versionen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugins bleiben über lange Sessions zuverlässig — kein „command not found" mehr aus dem Nichts bei vorher funktionierenden Plugin-Commands.
+- **Version:** v2.1.142
+
+### [Fix: Plugin-Browser zeigt korrekte Install-Counts]
+- **Was:** Im `/plugin`-Browse-Pane wurden die Install-Counts pro Plugin falsch aggregiert (mehrfach gezählt, wenn ein Plugin in mehreren Marketplaces gelistet war). Counts werden jetzt korrekt dedupliziert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Popularitäts-Signale beim Plugin-Discovery sind wieder vertrauenswürdig — User können Plugin-Auswahlentscheidungen wieder anhand der Verbreitung treffen.
+- **Version:** v2.1.142
+
+### [Fix: Plugin-Advisories listen alle shadowed Keys]
+- **Was:** Wenn ein Plugin einen Hotkey, Hook oder Command überschrieb, der bereits von einem anderen Plugin oder Built-in belegt war, listete das Advisory nur den ersten Konflikt. Jetzt werden alle shadowed Keys ausgewiesen.
+- **Einsatz:** Automatisch aktiv beim Plugin-Install
+- **Mehrwert:** Plugin-Konflikt-Diagnose ist vollständig — User entdecken alle Überschreibungen sofort statt iterativ.
+- **Version:** v2.1.142
+
+### [Verbesserung: Reactive Compaction Seeding optimiert]
+- **Was:** Die reaktive Kontext-Compaction (ausgelöst, wenn das Limit erreicht wird) startet jetzt mit besseren Seeds — der Initialzustand der Summarization wird intelligenter aus den letzten Nachrichten abgeleitet.
+- **Einsatz:** Automatisch aktiv bei Auto-Compaction
+- **Mehrwert:** Auto-Compaction behält mehr aktuell-relevanten Kontext und wirft weniger versehentlich noch benötigte frühere Diskussion weg — die Session „erinnert sich" nach Compaction besser an die laufende Arbeit.
+- **Version:** v2.1.142
+
+### [Verbesserung: Hook-Config-Fehler präziser]
+- **Was:** Fehlermeldungen bei kaputten Hook-Konfigurationen (z.B. ungültige Trigger, falsche JSON-Schemas, fehlende Felder) sind jetzt deutlich spezifischer und nennen die exakte Stelle in der Config.
+- **Einsatz:** Automatisch aktiv beim Settings-Reload
+- **Mehrwert:** Hook-Debugging — vor allem bei verschachtelten Hooks aus mehreren Plugins — wird radikal schneller, weil die Meldung zeigt, welcher Key in welcher Datei das Problem ist.
+- **Version:** v2.1.142
+
+### [Verbesserung: Usage-Policy-Refusal-Messages ohne stale Model-Vorschlag]
+- **Was:** Wenn ein Request wegen Usage-Policy abgelehnt wurde, enthielt die Fehlermeldung bisher manchmal einen Vorschlag, auf ein älteres Modell (Sonnet 3.5 etc.) auszuweichen — dieses Modell war aber ggf. längst zurückgezogen. Vorschlag wird entfernt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** User folgen keinem irreführenden Vorschlag, der zu „unknown model"-Fehlern führt — Refusal-Messages werden hilfreich statt verwirrend.
+- **Version:** v2.1.142
+
+---
 
 ### Woche 19 (13. Mai 2026) — v2.1.141
 
