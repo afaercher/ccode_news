@@ -1,11 +1,156 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-15 18:00 UTC
+> Letzte Aktualisierung: 2026-05-16 06:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 20 (15. Mai 2026) — v2.1.143
+
+---
+
+### [Plugin-Dependency-Enforcement bei `claude plugin disable/enable`]
+- **Was:** `claude plugin disable` verweigert jetzt das Deaktivieren eines Plugins, wenn ein anderes aktiviertes Plugin davon abhängt — mit einem copy-paste-fähigen Disable-Chain-Hint, der die korrekte Reihenfolge ausgibt. Gegenstück: `claude plugin enable` aktiviert transitive Dependencies automatisch mit.
+- **Einsatz:** `claude plugin disable <name>` zeigt im Konfliktfall die Disable-Reihenfolge; `claude plugin enable <name>` zieht abhängige Plugins automatisch hoch
+- **Mehrwert:** Plugin-Lifecycle wird konsistent — User können keine Plugins mehr aus Versehen halb deaktivieren und ein Plugin mit Dependency-Baum lässt sich mit einem einzigen Enable hochfahren, statt jedes Dependency manuell anzuklicken.
+- **Version:** v2.1.143
+
+### [Projected Context Cost im `/plugin`-Marketplace-Browser]
+- **Was:** Das Browse-Pane von `/plugin` zeigt jetzt zusätzlich zur Plugin-Beschreibung eine Schätzung der Kontextkosten pro Turn und pro Invocation in Tokens — also wie viel das Plugin den Kontext-Footprint einer typischen Konversation belastet.
+- **Einsatz:** Automatisch aktiv im `/plugin`-Browser
+- **Mehrwert:** Plugin-Auswahl wird kostenbewusst — User sehen vor dem Install, ob ein Plugin den Kontext mit Skill-Definitionen oder Tools spürbar aufbläht, und können bei Token-empfindlichen Workflows gezielt schlanke Plugins wählen.
+- **Version:** v2.1.143
+
+### [`worktree.bgIsolation: "none"` — Background-Sessions ohne Worktree]
+- **Was:** Neue Setting-Option `worktree.bgIsolation: "none"` lässt Background-Sessions direkt im Working Copy arbeiten, ohne automatisches `EnterWorktree`. Für Repos, in denen Worktrees aus technischen Gründen (Submodule, große LFS-Stores, Monorepo-Tooling) nicht praktikabel sind.
+- **Einsatz:** In `settings.json`: `"worktree": { "bgIsolation": "none" }`
+- **Mehrwert:** Background-Agents werden in Repos einsetzbar, in denen Worktree-basierte Isolation entweder zu langsam oder schlicht inkompatibel ist — etwa Yarn-Berry-PnP-Setups oder Repos mit Hooks, die nur im Haupt-Working-Tree greifen.
+- **Version:** v2.1.143
+
+### [PowerShell-Tool: `-ExecutionPolicy Bypass` als Default]
+- **Was:** Das PowerShell-Tool startet PowerShell-Prozesse jetzt mit `-ExecutionPolicy Bypass`, damit Script-Aufrufe nicht an restriktiven Default-Policies scheitern. Wer das alte Verhalten will, setzt `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1`.
+- **Einsatz:** Automatisch aktiv; Opt-out per `export CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1`
+- **Mehrwert:** Windows-User mit Standard-PowerShell-Restricted-Policy bekommen keine „Execution of scripts is disabled"-Fehler mehr beim ersten PowerShell-Tool-Aufruf — Claude-PowerShell-Workflows funktionieren out-of-the-box, ohne dass User vorab die System-Policy ändern müssen.
+- **Version:** v2.1.143
+
+### [PowerShell-Tool standardmäßig aktiv auf Windows (Bedrock/Vertex/Foundry)]
+- **Was:** Der PowerShell-Tool ist jetzt auf Windows automatisch aktiv, wenn Claude Code über Amazon Bedrock, Google Vertex oder Microsoft Foundry betrieben wird — bisher musste das Tool für diese Cloud-Provider explizit eingeschaltet werden. Opt-out per `CLAUDE_CODE_USE_POWERSHELL_TOOL=0`.
+- **Einsatz:** Automatisch aktiv auf Windows mit Bedrock/Vertex/Foundry; Opt-out: `CLAUDE_CODE_USE_POWERSHELL_TOOL=0`
+- **Mehrwert:** Enterprise-Windows-User auf Cloud-Provider-Backends sind sofort produktiv — die Lücke „Bash fehlt, PowerShell muss erst aktiviert werden" entfällt, was Onboarding-Reibung in Enterprise-Setups deutlich reduziert.
+- **Version:** v2.1.143
+
+### [Background-Sessions: Model + Effort-Level überdauern Idle/Wake]
+- **Was:** Wenn eine Background-Session in den Idle-Zustand fällt und später wieder aufwacht, behält sie jetzt das vor dem Sleep gesetzte Modell (z. B. Opus 4.7) und Effort-Level (z. B. `xhigh`) bei — bisher fielen beide auf die Defaults zurück.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange laufende Background-Agents, die explizit auf hohes Effort und ein bestimmtes Modell konfiguriert wurden, liefern auch nach längeren Idle-Phasen konsistente Qualität — kein stilles Downgrade mehr auf Sonnet-Default.
+- **Version:** v2.1.143
+
+### [Shift+Tab in Agent-Sessions zykelt jetzt auch durch Auto-Mode]
+- **Was:** Beim Drücken von Shift+Tab in einer attachten Background-Agent-Session wird jetzt auch der `auto`-Permission-Mode in den Zyklus aufgenommen — neben den bisherigen Default/Plan/Bypass-Modi.
+- **Einsatz:** Shift+Tab in `claude agents`-attachter Session zykelt: default → auto → plan → bypass → …
+- **Mehrwert:** Auto-Mode (Classifier entscheidet pro Aktion) ist jetzt in derselben einzigen-Keystroke-Distanz wie die anderen Modi — User können risikoarme Background-Jobs mit einem Tastendruck in den semi-autonomen Auto-Mode schalten.
+- **Version:** v2.1.143
+
+### [Stop-Hook-Block-Cap verhindert Endlos-Loops]
+- **Was:** Wenn ein Stop-Hook eine Stop-Aktion blockiert, fährt Claude bisher endlos fort. Jetzt wird der Turn nach 8 aufeinanderfolgenden Blocks mit Warnung beendet. Override via `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`.
+- **Einsatz:** Automatisch aktiv; Custom-Cap: `export CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=20`
+- **Mehrwert:** Buggy Stop-Hooks (z. B. eine endlose „erst wenn alle Tests grün sind"-Bedingung gegen einen flaky Test) können Sessions nicht mehr in eine Token-fressende Endlosschleife treiben — Safety-Net gegen versehentliche Cost-Bombs.
+- **Version:** v2.1.143
+
+### [Fix: Esc/Ctrl+C bricht pending `/loop`-Wakeups]
+- **Was:** Während Claude zwischen `/loop`-Iterationen im Idle-Wait war, ließen sich pending Wakeups nicht mit Esc oder Ctrl+C abbrechen — die nächste Iteration feuerte unweigerlich. Jetzt cancelt Esc/Ctrl+C auch pending Wakeups.
+- **Einsatz:** Automatisch aktiv im `/loop`-Modus
+- **Mehrwert:** Long-running `/loop`-Jobs (Babysitting, periodische Checks) lassen sich endlich ohne `kill -9` sauber stoppen — wichtig, wenn man merkt, dass der Loop in die falsche Richtung läuft, bevor die nächste Iteration startet.
+- **Version:** v2.1.143
+
+### [Fix: `/goal`-Evaluator wartet auf Background-Tasks]
+- **Was:** Der `/goal`-Evaluator (prüft, ob das Goal erfüllt ist) feuerte bisher auch dann, wenn noch Background-Shells oder delegierte Subagenten liefen — was zu vorzeitigem „goal not met"-Verdikt führte. Der Evaluator wartet jetzt, bis alle Background-Tasks fertig sind.
+- **Einsatz:** Automatisch aktiv beim `/goal`-Tracking
+- **Mehrwert:** Goal-Tracking ist endlich verlässlich für Workflows mit langen Builds oder Test-Runs im Hintergrund — keine False-Negative-Goal-Verdikte mehr durch Race-Conditions.
+- **Version:** v2.1.143
+
+### [Fix: `NO_COLOR`/`FORCE_COLOR` scopen jetzt nur Subprozesse]
+- **Was:** Wenn User `NO_COLOR=1` oder `FORCE_COLOR=1` in `settings.json` unter `env` setzten, strippte das auch die UI-Farben von Claude Code selbst. Jetzt wirkt das Setting nur noch auf Subprozesse (Tool-Calls, Bash) und nicht auf das Claude-Code-TUI.
+- **Einsatz:** `settings.json` mit `"env": { "NO_COLOR": "1" }` betrifft jetzt nur Bash-Ausgaben, nicht die Claude-UI
+- **Mehrwert:** User können CI-freundlichen `NO_COLOR`-Output für Tool-Calls erzwingen, ohne die eigene Claude-UI unleserlich monochrom zu machen — saubere Trennung zwischen Tool-Env und UI-Rendering.
+- **Version:** v2.1.143
+
+### [Fix: macOS-Background-Sessions können `~/Documents`/`~/Desktop`/`~/Downloads` lesen]
+- **Was:** Auf macOS bekamen Background-Sessions „Operation not permitted"-Fehler beim Zugriff auf Dateien in `~/Documents`, `~/Desktop` oder `~/Downloads` — auch dann, wenn Full-Disk-Access für Claude bereits gewährt war. Der Background-Daemon erbt jetzt die TCC-Permissions korrekt vom Vorder-Prozess.
+- **Einsatz:** Automatisch aktiv (Voraussetzung: Full-Disk-Access für Claude-Binary)
+- **Mehrwert:** Background-Agents können endlich auf Standard-User-Verzeichnisse zugreifen — wichtig für Workflows, die Drafts auf dem Desktop oder Downloads-Inputs verarbeiten, ohne den Code erst in ein „erlaubtes" Repo zu kopieren.
+- **Version:** v2.1.143
+- **Plattform:** macOS
+
+### [Fix: `/bg` und Detach preservieren MCP-/Settings-/Dir-Flags]
+- **Was:** `/bg` und das Detach via Pfeil-nach-links („←") schluckten bisher die ursprünglichen CLI-Flags `--mcp-config`, `--settings`, `--add-dir`, `--plugin-dir`, `--strict-mcp-config`, `--fallback-model` und `--allow-dangerously-skip-permissions` — die backgroundete Worker-Session verlor diese Konfiguration und fiel auf Defaults zurück. Jetzt werden alle Flags über Detach hinweg preserviert.
+- **Einsatz:** Automatisch aktiv beim Backgrounding mit `/bg` oder ←
+- **Mehrwert:** Detach-Workflows bewahren das volle Setup — Custom-MCP-Server, isolierte Settings-Files und zusätzliche Working-Directories bleiben erhalten, statt nach Background-Wechsel still wegzufallen. Speziell `--fallback-model` ist wichtig, damit backgroundete Jobs bei Overload nicht hart failen, sondern auf das konfigurierte Fallback-Modell degradieren.
+- **Version:** v2.1.143
+
+### [Fix: Background-Sessions aus `claude agents` respektieren `permissions.defaultMode`]
+- **Was:** Background-Sessions, die aus der `claude agents`-View dispatcht wurden, wurden immer im Auto-Mode gestartet — auch wenn `permissions.defaultMode` in `settings.json` auf `default` oder `plan` stand. Das Setting wird jetzt korrekt respektiert.
+- **Einsatz:** Automatisch aktiv beim Dispatch über `claude agents`
+- **Mehrwert:** User-konfigurierte Permission-Defaults gelten jetzt einheitlich — keine Überraschungen mehr, dass ein per `agents`-View gestarteter Background-Agent plötzlich mehr darf als ein normal gestarteter.
+- **Version:** v2.1.143
+
+### [Fix: Worktree-Cleanup fällt nicht mehr auf `rm -rf` zurück]
+- **Was:** Wenn `git worktree remove` fehlschlug (z. B. weil noch ungeitignored gespeicherte Änderungen im Worktree lagen), löschte Claude bisher als Fallback hart mit `rm -rf` — was gitignorierte und in-progress-Dateien stillschweigend mit wegnahm. Der Fallback wurde entfernt; Fehler werden jetzt zurückgemeldet.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein versehentlicher Datenverlust mehr durch zu aggressives Cleanup — Workflows mit lokalen `.env`-Files, Build-Caches oder unfertigen Debug-Outputs im Worktree sind sicher.
+- **Version:** v2.1.143
+
+### [Fix: 5xx-Fehlermeldungen nennen den konfigurierten Gateway]
+- **Was:** Bei 5xx-Fehlern zeigte Claude immer einen Link auf `status.claude.com` — auch wenn der User über Bedrock, Vertex, Foundry oder einen eigenen Gateway lief. Die Meldung benennt jetzt den tatsächlich konfigurierten Provider.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Enterprise-User mit eigenem Gateway oder Cloud-Provider-Backend sehen sofort, welche Komponente potentiell down ist — kein Trugschluss mehr „Anthropic down" bei Bedrock-Outage.
+- **Version:** v2.1.143
+
+### [Fix: `--agent <name>` findet Plugin-Agenten ohne `plugin:`-Präfix]
+- **Was:** `claude --agent <name>` fand bisher nur built-in Agenten direkt; Plugin-bereitgestellte Agenten mussten mit `plugin:<plugin-name>:<agent-name>` vollqualifiziert angegeben werden. Jetzt wird der bare Name auch in Plugin-Agenten aufgelöst.
+- **Einsatz:** `claude --agent code-reviewer` findet auch Plugin-Agenten
+- **Mehrwert:** Plugin-Agenten sind in Scripts und Aliases ohne Knowledge des Plugin-Names ansprechbar — Konsistenz mit Built-in-Agent-Aufrufen.
+- **Version:** v2.1.143
+
+### [Fix: `/bg` ohne Prompt wartet auf Input statt „continue" zu senden]
+- **Was:** Wer `/bg` ohne explizites Prompt-Argument absetzte, bekam bisher einen Background-Fork, der sofort „continue" gesendet bekam — was die Session unvorhersehbar weiterlaufen ließ. Jetzt wartet die geforkte Session auf manuelles Input.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Predictable Detach-Verhalten — User können `/bg` als reine „in Background schicken, später dranhängen"-Aktion nutzen, ohne dass Claude im Hintergrund mit halben Annahmen weiterarbeitet.
+- **Version:** v2.1.143
+
+### [Fix: Diverse `claude agents`-Stabilität (Windows + Allgemein)]
+- **Was:** Mehrere kleinere Bugs in `claude agents`: Right-Click-Paste funktionierte auf Windows Terminal und WSL nicht; die `agents`-Liste wurde unresponsive, wenn man ← drückte, während eine Response noch streamte; das Löschen einer Session aus der View entfernte das Transcript-File nicht; Scrolling in attachten Background-Sessions zeigte auf Windows Terminal stale Fragments; Agent-View spawnte wiederholt PowerShell-Prozesse beim Listen. Alles behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** `claude agents` wird auf Windows deutlich verlässlicher — speziell die Right-Click-Paste- und PowerShell-Process-Spam-Fixes machen das Dashboard für Windows-Heavy-Users alltagstauglich.
+- **Version:** v2.1.143
+
+### [Fix: False-Positive Worker-Stall-Detection nach Sleep/App Nap]
+- **Was:** Nach Host-Sleep oder macOS-App-Nap erkannte die Worker-Stall-Detection einen ganzen Sturm von „Worker hängt"-False-Positives, weil die Idle-Detection das Sleep-Intervall fehlinterpretierte. Detection-Algorithmus wurde sleep-aware gemacht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Background-Agents werden nach dem Aufwachen nicht mehr fälschlich als „gestallt" markiert und unnötig neu gespawned — Ressourcenverbrauch und Session-Churn sinken nach Sleep-Zyklen deutlich.
+- **Version:** v2.1.143
+
+### [Fix: Korrupte `.credentials.json` hängt CLI-Startup nicht mehr auf]
+- **Was:** Eine korrupte `~/.claude/.credentials.json`, in der `scopes` kein Array war (z. B. nach Hand-Edits oder Migrationen), ließ den CLI-Startup hängen oder den OAuth-Refresh stillschweigend abbrechen. Es gibt jetzt einen sauberen Fehler, der zur Reparatur leitet.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auth-bezogene Startup-Hänger sind diagnostizierbar — User sehen sofort, dass die Credentials-Datei das Problem ist, statt einem stummen Hang gegenüberzustehen.
+- **Version:** v2.1.143
+
+### [Fix: Daemon-Spawn fällt auf laufendes Binary zurück bei fehlendem Launcher]
+- **Was:** Wenn `~/.local/bin/claude` als Launcher fehlte oder nicht executable war, scheiterte der Daemon-Spawn komplett. Jetzt fällt der Spawn auf das aktuell laufende Binary zurück.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Custom-Install-Layouts ohne `~/.local/bin`-Symlink (Nix, Homebrew, eigene PATH-Setups) bekommen funktionierende Background-Daemons — kein Setup-Bruch nach Install-Variante.
+- **Version:** v2.1.143
+
+### [Fix: `claude agents --allow-dangerously-skip-permissions` macht Bypass verfügbar statt Default]
+- **Was:** `claude agents --allow-dangerously-skip-permissions` setzte dispatchte Sessions hart in den Bypass-Mode, statt Bypass nur als Option in den Shift+Tab-Cycle aufzunehmen. Die Flag macht Bypass jetzt verfügbar, ohne ihn als Default zu erzwingen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Das Flag verhält sich endlich wie in der Doku beschrieben — User können `--allow-dangerously-skip-permissions` setzen, um die Option freizuschalten, ohne dass alle dispatchten Sessions automatisch im Bypass landen.
+- **Version:** v2.1.143
+
+---
 
 ### Woche 20 (14. Mai 2026) — v2.1.142
 
