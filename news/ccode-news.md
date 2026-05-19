@@ -1,11 +1,351 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-18 18:00 UTC
+> Letzte Aktualisierung: 2026-05-19 16:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 21 (19. Mai 2026) — v2.1.144
+
+---
+
+### [`/resume`-Support für Background-Sessions]
+- **Was:** Sessions, die via `claude --bg` oder aus dem Agent-View gestartet wurden, tauchen jetzt im `/resume`-Picker neben den interaktiven Sessions auf — markiert mit einem `bg`-Tag.
+- **Einsatz:** `/resume` im normalen TUI listet auch Background-Sessions auf
+- **Mehrwert:** Kein mentaler Bruch mehr zwischen Vorder- und Hintergrund-Workflows — eine in den Background geschickte Session lässt sich später wie jede andere wieder aufnehmen, ohne im Agent-View den passenden Eintrag suchen zu müssen.
+- **Version:** v2.1.144
+
+### [Elapsed Duration in Background-Subagent-Completion-Notifications]
+- **Was:** Wenn ein Background-Subagent fertig wird, enthält die Notification jetzt zusätzlich die verstrichene Laufzeit (z. B. „Agent completed · 3h 2m 5s") — bisher nur „done".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auf einen Blick erkennbar, ob ein Job 3 Minuten oder 3 Stunden gebraucht hat — wichtige Info beim Babysitten mehrerer paralleler Background-Jobs, ohne den Agent-View öffnen zu müssen.
+- **Version:** v2.1.144
+
+### [`/plugin` zeigt Last-Updated-Timestamp]
+- **Was:** Die Browse- und Discover-Panes von `/plugin` zeigen jetzt zusätzlich, wann ein Plugin zuletzt aktualisiert wurde.
+- **Einsatz:** Automatisch aktiv im `/plugin`-Browser
+- **Mehrwert:** Sofort sichtbar, ob ein Plugin aktiv gepflegt wird oder seit Monaten brachliegt — ein zentraler Filter für die Plugin-Auswahl in einem stark wachsenden Ökosystem.
+- **Version:** v2.1.144
+
+### [`/model` ändert standardmäßig nur die aktuelle Session — `d` für Default]
+- **Was:** `/model` setzt das Modell jetzt ausschließlich für die laufende Session; im Model-Picker kann man `d` drücken, um die Wahl zugleich als Default für neue Sessions zu speichern. Bisher änderte `/model` global den Default.
+- **Einsatz:** `/model` → Modell wählen (nur diese Session); im Picker `d` drücken → Default für neue Sessions
+- **Mehrwert:** Sauber getrennte Semantik zwischen „einmaliger Modellwechsel für einen Task" und „neuer permanenter Default" — kein versehentliches Umstellen globaler Defaults mehr, wenn man nur kurz ein Sonnet-Experiment laufen lassen wollte.
+- **Version:** v2.1.144
+
+### [Rename: „extra usage" → „usage credits"; `/extra-usage` → `/usage-credits`]
+- **Was:** Die CLI-Copy für zusätzliches gekauftes Kontingent heißt jetzt überall „usage credits" statt „extra usage"; der Befehl `/extra-usage` heißt jetzt `/usage-credits`. Der alte Name funktioniert als Alias weiter.
+- **Einsatz:** `/usage-credits` (alt `/extra-usage` bleibt gültig)
+- **Mehrwert:** Konsistente Terminologie mit der Anthropic-Billing-Console — User stoßen nicht mehr auf zwei verschiedene Begriffe für denselben Topf.
+- **Version:** v2.1.144
+
+### [Fix: Startup-Hang bis zu 75s bei nicht erreichbarem `api.anthropic.com`]
+- **Was:** Bei Captive Portals, blockierenden Firewalls oder VPN-Problemen konnte der Claude-Startup bis zu 75 Sekunden hängen, weil Side-Channel-API-Calls auf das Default-Timeout warteten. Diese Calls haben jetzt ein hartes 15s-Timeout.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Claude startet auch in schlechten Netz-Bedingungen schnell durch — wichtig für Coffee-Shop-Networking, restriktive Corporate-VPNs und Edge-Cases wie Reise-WLANs hinter Captive Portals.
+- **Version:** v2.1.144
+
+### [Fix: Garbled Terminal-Output nach verpasster Window-Resize-Event]
+- **Was:** Wenn ein Resize-Event durchrutschte (etwa beim Verschieben eines VS Code Split-Pane-Dividers), wurde der Terminal-Output unleserlich verzerrt und musste mit Ctrl+L manuell repariert werden. Die Anzeige heilt sich jetzt beim nächsten Frame selbst.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schluss mit dem reflexartigen Ctrl+L nach jedem Resize — Claude-TUI bleibt in dynamischen IDE-Layouts (VS Code, tmux mit Splits) konstant lesbar.
+- **Version:** v2.1.144
+
+### [Fix: Progressive Terminal-Display-Korruption in langen Sessions]
+- **Was:** In sehr langen Sessions konnte das Terminal über Stunden hinweg stale oder garbled Glyphen ansammeln, die nur durch Terminal-Resize oder Restart wegzubekommen waren. Die Ursache wurde behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Marathon-Sessions mit Claude (mehrere Stunden, viele Tool-Calls) bleiben sauber lesbar — wichtig für Workflows, in denen man die Session über einen ganzen Tag offen hält.
+- **Version:** v2.1.144
+
+### [Fix: Reduzierte Terminal-Glitches in VS Code (Spinner-Farb-Reduktion)]
+- **Was:** Die Spinner-Animation generierte mit ihrer hohen Farbtiefe Rendering-Glitches in der VS Code Integrated Terminal. Die Anzahl der Animations-Farben wurde reduziert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer in VS Code arbeitet, sieht weniger Flicker und Farb-Artefakte rund um den Spinner — kleines, aber im Alltag spürbares Polish.
+- **Version:** v2.1.144
+
+### [Fix: macOS-Background-Sessions crashten mit „exit 1 before init" in FDA-geschützten Ordnern]
+- **Was:** Regression in 2.1.143: Background-Sessions, deren Projekt unter einem Full-Disk-Access-geschützten Ordner (`~/Documents`, `~/Desktop`, `~/Downloads`) lag, crashten mit „exit 1 before init". Behoben.
+- **Einsatz:** Automatisch aktiv (Voraussetzung: FDA für Claude-Binary gewährt)
+- **Mehrwert:** Wer Projekte unterhalb der Standard-User-Verzeichnisse hat, kann Background-Sessions wieder zuverlässig starten — der TCC-Permission-Fix aus 2.1.143 wurde damit komplettiert.
+- **Version:** v2.1.144
+- **Plattform:** macOS
+
+### [Fix: Read-Tool — File mit nicht passender Image-Extension fällt auf Text zurück]
+- **Was:** Eine Datei mit Image-Endung (z. B. `.png`), deren tatsächlicher Inhalt aber Text war (z. B. ein als `.png` abgespeichertes HTML), versetzte die Conversation in einen nicht wiederherstellbaren Zustand. Read fällt jetzt sauber auf Text-Read zurück.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verwirrend benannte Files reißen Claude nicht mehr aus dem Konzept — wichtig in Repos mit testen-Files, gerippten Webseiten oder migrierten Mime-Daten.
+- **Version:** v2.1.144
+
+### [Fix: Weniger spurious Tool-Errors bei Search-Befehlen]
+- **Was:** `head`/`tail`-Aufrufe erfüllen jetzt den Read-before-Edit-Check (vorher zwang Claude dazu, die Datei erst voll zu lesen). „No matches"-Ergebnisse (Exit-Code 1) von `egrep`, `fgrep`, `git grep` und `git diff` werden nicht mehr als Command-Failure gemeldet.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Search- und Read-Workflows werden flüssiger — kein „command failed"-False-Positive mehr bei legitimen No-Match-Suchen, und große Files lassen sich mit `head`/`tail` skannen, ohne den Read-Tool-Cache vollzuspielen.
+- **Version:** v2.1.144
+
+### [Fix: `/branch` mit „No conversation to branch" nach Worktree/Background]
+- **Was:** Nach einem `EnterWorktree` oder in manchen Background-Sessions schlug `/branch` mit „No conversation to branch" fehl, obwohl die Session aktiv war. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Konversations-Branching funktioniert jetzt verlässlich auch in den isolierten Setups, in denen es am meisten gebraucht wird — parallele Was-wäre-wenn-Pfade aus laufenden Background-Jobs.
+- **Version:** v2.1.144
+
+### [Fix: Escape im AskUserQuestion-Notes-Field bricht nicht mehr den Turn ab]
+- **Was:** Wer im Notes-Field eines AskUserQuestion-Popups Escape drückte, brach den ganzen Turn ab — statt nur zur Option-Auswahl zurückzukehren. Escape verhält sich jetzt erwartungskonform.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein versehentlicher Turn-Abbruch mehr beim Schreiben optionaler Notes — wichtig, weil AskUserQuestion oft am Ende eines langen Tool-Call-Sturms erscheint und ein versehentlicher Abbruch teuer ist.
+- **Version:** v2.1.144
+
+### [Fix: Modell-Auswahl greift via IDE-Picker und `applyFlagSettings` nach Startup]
+- **Was:** Wenn die Modell-Auswahl nach dem Startup via IDE-Model-Picker oder `applyFlagSettings` geändert wurde, griff der Wechsel nicht — die Session blieb beim alten Modell. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** IDE-Integration und scripted Setting-Anwendung verhalten sich konsistent — User können ihr Modell mid-session umstellen, ohne die Session neu starten zu müssen.
+- **Version:** v2.1.144
+
+### [Fix: Resumed Sessions behalten ihr eigenes Modell]
+- **Was:** Wer mit `/resume` eine alte Session aufnahm, bekam manchmal das Modell einer anderen aktuellen Session aufgezwungen — nicht das ursprüngliche der resumed Session. Resumed Sessions behalten jetzt ihr eigenes Modell.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Replay einer Opus-Session bleibt eine Opus-Session — keine stillschweigenden Qualitäts-Downgrades durch Modell-Vermischung zwischen mehreren aktiven Sessions.
+- **Version:** v2.1.144
+
+### [Fix: Bedrock/Vertex — „Opus (1M context)" wieder im `/model`-Picker wählbar]
+- **Was:** Regression in v2.1.129: Bedrock- und Vertex-User konnten „Opus (1M context)" nicht mehr aus dem `/model`-Picker auswählen. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Enterprise-User auf Cloud-Provider-Backends bekommen ihren 1M-Context-Opus wieder per Picker — bisher blieb nur der Workaround via Environment-Variable.
+- **Version:** v2.1.144
+
+### [Fix: Remote-Session-Login mit `forceLoginMethod`/`forceLoginOrgUUID`]
+- **Was:** User mit gesetztem `forceLoginMethod` und `forceLoginOrgUUID` bekamen beim Remote-Session-Login ein „Can't access this organization" — obwohl die Org-UUID korrekt war. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Enterprise-SSO-Setups mit forced Org-Binding funktionieren wieder für Remote-Sessions — wichtig für Teams mit mehreren Orgs unter demselben Login.
+- **Version:** v2.1.144
+
+### [Fix: MCP-Server mit paginated `tools/list` — alle Pages werden gelesen]
+- **Was:** Bei MCP-Servern, die ihre Tool-Liste in Pages ausliefern (große Tool-Sammlungen), las Claude bisher nur die erste Page und droppte den Rest stillschweigend. Jetzt wird die volle paginated Response zusammengezogen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Große MCP-Server (etwa Cloud-Provider-Tooling mit dutzenden Tools) liefern ihr volles Tool-Inventar — keine still verschluckten Tools mehr.
+- **Version:** v2.1.144
+
+### [Fix: MCP-Images mit unsupported MIME-Types brechen die Conversation nicht mehr]
+- **Was:** MCP-Tools, die Images mit nicht unterstützten MIME-Types (z. B. SVG) zurückgaben, brachen die Conversation komplett. Solche Bilder werden jetzt auf Disk gespeichert und im Tool-Result als Pfad-Referenz übergeben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** MCP-Tools, die SVGs oder andere exotische Image-Formate liefern, sind sicher nutzbar — Claude bekommt die Datei als Pfad, statt die ganze Conversation an einem unbekannten Format zu zerreißen.
+- **Version:** v2.1.144
+
+### [Fix: File-Descriptor-Exhaustion bei Build im Skill-Verzeichnis]
+- **Was:** Wenn ein Build innerhalb eines Skill-Verzeichnisses lief (Watch-Mode, viele temporäre Files), triggerten alle Nicht-`.md`-Files Skill-Reloads und der Prozess ging in File-Descriptor-Exhaustion. Reloads triggern jetzt nur noch bei `.md`-Files.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugin-Entwicklung mit lokalem Build-Loop im Skill-Dir funktioniert wieder ohne FD-Limit-Crashes — wichtig für TypeScript/Node-basierte Skill-Tooling.
+- **Version:** v2.1.144
+
+### [Fix: Session-Title basiert wieder auf erstem User-Prompt, nicht Plugin-Monitor-Output]
+- **Was:** Wenn ein Plugin früh in der Session Monitor-Output produzierte, übernahm Claude diesen Text als Session-Title — statt des ersten User-Prompts. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Session-Titles bleiben wieder semantisch sinnvoll im `/resume`-Picker — keine kryptischen „[plugin] starting watcher"-Titles mehr für Sessions, die eigentlich „Bug XYZ debuggen" hießen.
+- **Version:** v2.1.144
+
+### [Fix: Skill-Tool — Permission-Error im Headless-Mode]
+- **Was:** Regression in v2.1.141: Das Skill-Tool failte im Headless-Mode (`-p`/SDK) mit Permission-Error, weil die Default-Skill-Permission nicht propagiert wurde. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Skills sind im Headless-/SDK-Mode wieder nutzbar — wichtig für Scripts, die Skills programmatisch invocen, und für CI-Workflows mit `claude -p`.
+- **Version:** v2.1.144
+
+### [Fix: Plugin-Cache — „not cached"-Fehler und Project-Plugin-Install-Hinweis]
+- **Was:** Plugins, die in den eigenen User-Settings aktiviert waren, zeigten auf frischen Maschinen nach dem ersten Load „not cached"-Errors. Plugins, die nur über ein Projekt-`.claude/settings.json` aktiviert sind, zeigen jetzt einen actionable Hint mit dem benötigten `claude plugin install`-Befehl.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Cross-Machine-Sync-Workflows funktionieren erwartungskonform; und Project-Plugins lassen sich von neuen Teammates mit dem angebotenen Befehl mit einem Klick installieren — schließt die Onboarding-Lücke bei `.claude/`-versionierten Plugin-Listen.
+- **Version:** v2.1.144
+
+### [Fix: `claude mcp list` zeigt Parse-Fehler bei `.mcp.json` an]
+- **Was:** Wenn `.mcp.json` unparsbar war (etwa weil VS Codes `"servers"`-Key statt `"mcpServers"` verwendet wurde), meldete `claude mcp list` einfach „no servers" — ohne Fehler-Hinweis. Jetzt werden Config-Errors explizit gezeigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** „Mein MCP-Server taucht nicht auf"-Debugging wird trivial — der Fehler ist sofort sichtbar, statt sich hinter einer leeren Liste zu verstecken.
+- **Version:** v2.1.144
+
+### [Fix: Background-Side-Queries auf custom `ANTHROPIC_BASE_URL` und Bedrock Mantle nutzen Haiku-Fallback]
+- **Was:** Background-Side-Queries (kleine Klassifikations-Calls) liefen auf custom `ANTHROPIC_BASE_URL`-Setups und Bedrock-Mantle nicht über Haiku, sondern eskalierten an das primäre Modell. Der Haiku-Fallback greift jetzt, wenn ein first-party API-Key konfiguriert ist oder kein Haiku-Model gesetzt ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Side-Query-Kosten bleiben niedrig auch in Gateway-/Mantle-Setups — wichtig in Enterprise-Setups, in denen jede Token-Klasse separat gebucht wird.
+- **Version:** v2.1.144
+
+### [Fix: Scrolling in attachten Background-Sessions auf Windows]
+- **Was:** PgUp/PgDn, Mouse-Wheel und Ctrl+O (Transcript-Navigation) funktionierten in attachten Background-Sessions auf Windows nicht. Jetzt voll funktional.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Windows-User können in Background-Session-Transkripten wieder normal nach oben scrollen — vorher musste man die Session in einen anderen Terminal-Tab kopieren, um die Historie zu prüfen.
+- **Version:** v2.1.144
+- **Plattform:** Windows
+
+### [Fix: Crash beim Terminal-Close während attachter Background-Session]
+- **Was:** Wer das Terminal-Window schloss, während eine Background-Session attached war, triggerte einen harten Crash. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sauberes Detach-Verhalten beim Schließen — die Background-Session läuft weiter, das Terminal beendet sich ohne Crash.
+- **Version:** v2.1.144
+
+### [Fix: `! <cmd>`-Exec-Sessions reagieren auf Ctrl+C beim Attach]
+- **Was:** `! <cmd>`-Exec-Sessions ignorierten Ctrl+C, wenn sie attached waren — ein laufender langsamer Command ließ sich nicht abbrechen. Jetzt unterbricht Ctrl+C den Command.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hängende Shell-Commands in Exec-Sessions sind wieder kontrollierbar — kein `kill -9` mehr für vergessene `tail -f`-Prozesse.
+- **Version:** v2.1.144
+
+### [Fix: Agent-View — Shell-Command-Rows räumen sauber auf]
+- **Was:** Shell-Command-Rows im Agent-View blieben unter „Working" hängen, auch nachdem das Kommando fertig war. Drücken von Enter auf einer fertigen Row spielte das Kommando erneut, wenn der Output bereits abgelaufen war. Beide Fehler behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Agent-View zeigt korrekten Status; und Enter auf einer beendeten Row triggert keine ungewollten Re-Executions mehr — vermeidet Daten-Korruption durch versehentlich wiederholte Commands.
+- **Version:** v2.1.144
+
+### [Fix: Pfeil-links in `claude agents` (Windows) macht Liste nicht mehr unresponsive]
+- **Was:** Auf Windows ließ ein Druck auf ← in `claude agents` die Liste komplett unresponsive werden — Keyboard-Input wurde nicht mehr akzeptiert. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** `claude agents` ist auf Windows wieder zuverlässig navigierbar — keine Restart-Workarounds mehr nach versehentlichem ←.
+- **Version:** v2.1.144
+- **Plattform:** Windows
+
+### [Fix: Ghost-Characters bei Pane-Switch in Agent View (Windows Terminal mit CJK)]
+- **Was:** Beim Switchen zwischen Panes im Agent-View tauchten in Windows Terminal mit CJK-Content (chinesische/japanische/koreanische Zeichen) Ghost-Characters am linken Rand auf. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Internationale Windows-User sehen kein UI-Glitch mehr — wichtig für Teams in Asien-Pazifik.
+- **Version:** v2.1.144
+- **Plattform:** Windows
+
+### [`/bg` und `←`-Detach preservieren jetzt auch `--add-dir`-Verzeichnisse]
+- **Was:** Ergänzung zum 2.1.143-Fix: `/bg` und `←`-Detach verlieren jetzt auch nicht mehr die per `/add-dir` mid-session hinzugefügten Verzeichnisse — diese werden mitgenommen.
+- **Einsatz:** Automatisch aktiv beim Backgrounding
+- **Mehrwert:** Live hinzugefügte Working-Directories bleiben über den Detach hinweg erhalten — wichtig für explorative Multi-Repo-Sessions, in denen Verzeichnisse erst während der Arbeit angehängt werden.
+- **Version:** v2.1.144
+
+### [Fix: Edit/Write nach Detach mit „hasn't isolated its changes yet"]
+- **Was:** Direkt nach dem Detach einer Session, die gerade noch in-place editierte, verweigerten Edit/Write mit „background session hasn't isolated its changes yet". Race-Condition behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Nahtloser Übergang vom Inplace-Editing zur Background-Isolation — Detach ist nicht mehr „eine Sekunde unbenutzbar".
+- **Version:** v2.1.144
+
+### [Fix: `claude respawn <id>` auf gestoppter Background-Session zeigt korrekten Status]
+- **Was:** `claude respawn <id>` startete eine gestoppte Background-Session zwar wieder, zeigte sie aber weiterhin als „stopped" an. Status wird jetzt korrekt aktualisiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Status-Anzeige stimmt mit der Realität überein — kein Rätselraten mehr, ob der Respawn wirklich gegriffen hat.
+- **Version:** v2.1.144
+
+### [Fix: `/resume`-Picker zeigt Forks aus Background-Sessions]
+- **Was:** Sessions, die aus einer Background-Session geforkt wurden, tauchten nicht im `/resume`-Picker auf. Jetzt sind sie sichtbar.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Fork-Workflows aus Background-Sessions sind nachvollziehbar — alle Ableitungen sind via `/resume` wieder auffindbar.
+- **Version:** v2.1.144
+
+### [Fix: Timeout für hängenden Background-Service bei `claude agents`/`claude logs`]
+- **Was:** Wenn der Background-Service nicht reagierte, hängten `claude agents`-Session-Öffnen und `claude logs <id>` unbegrenzt. Jetzt Timeout nach 10s mit Recovery-Hint.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein endloses Warten mehr auf einen kranken Daemon — der User sieht sofort, dass etwas hakt, und bekommt einen Hinweis, wie er das Problem beheben kann.
+- **Version:** v2.1.144
+
+### [Fix: Background-Bash-Tasks aus Subagents räumen SDK-Task-Panel auf]
+- **Was:** Background-Bash-Tasks, die von Subagents gespawnt wurden, blieben im SDK-Task-Panel als „Running" stehen, auch nachdem der Prozess sauber geendet hatte. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** SDK-Task-Panel zeigt verlässlichen Status — wichtig für SDK-User, die ihre Task-Pipeline observen.
+- **Version:** v2.1.144
+
+### [Fix: Wake-Failures markieren Sessions nicht mehr permanent als Crash]
+- **Was:** Completed oder stopped Background-Sessions, die kurz beim Wake-Up fehlten, wurden permanent als Startup-Crash markiert — auch wenn ein zweiter Wake-Versuch durchgegangen wäre. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Resilienz beim Wiederbeleben kalter Background-Sessions — Sessions sind nicht mehr nach einem einzigen flaky Wake unwiederbringlich „crashed".
+- **Version:** v2.1.144
+
+### [Fix: Markdown-Links in attachten Background-Sessions klickbar]
+- **Was:** Markdown-Links in `claude agents`-attachten Sessions wurden als plain text gerendert — statt als klickbare Hyperlinks. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verlinkte Doku, PR-URLs und Datei-Pfade aus Background-Sessions sind wieder per Klick erreichbar — kein lästiges Copy-Paste aus dem Background-Stream.
+- **Version:** v2.1.144
+
+### [Fix: Custom `spinnerVerbs` überschreiben nicht mehr die Past-Tense Post-Turn-Message]
+- **Was:** Custom `spinnerVerbs` wirkten auch auf die Post-Turn-Duration-Message — wodurch „Worked for 5s" durch das Custom-Verb ersetzt wurde, was unidiomatisch klang. Built-in Past-Tense-Forms („Worked for 5s") sind dort wiederhergestellt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spinner-Personalisierung bleibt auf den Spinner beschränkt — Post-Turn-Messages bleiben grammatikalisch konsistent.
+- **Version:** v2.1.144
+
+### [Verbesserung: `claude agents`/`--bg`-Rejection-Messages nennen den blockierenden Gate]
+- **Was:** Wenn `claude agents` oder `--bg` abgelehnt wurden, kam bisher eine generische Message. Jetzt wird konkret benannt: Non-TTY, Environment-Variable oder Setting — mit dem Namen des verantwortlichen Gates.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Debugging warum Background-Features nicht greifen wird trivial — kein Rätselraten mehr, ob die User-Settings, ein env var oder das Terminal-Setup der Blocker ist.
+- **Version:** v2.1.144
+
+### [`claude --bg --name <label>` echos den Namen nach dem Spawn]
+- **Was:** Wer `claude --bg --name my-job` aufrief, bekam zwar einen Background-Spawn, aber keine Bestätigung mit dem gewählten Namen. Jetzt wird der Name in der Post-Spawn-Confirmation explizit echoed.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sofortige visuelle Bestätigung, dass der Name korrekt angekommen ist — wichtig für Scripted-Workflows mit deterministischen Job-Names.
+- **Version:** v2.1.144
+
+### [`claude agents`: Rename via Ctrl+R updated attachten Session-Banner sofort]
+- **Was:** Wer eine Background-Session aus `claude agents` mit Ctrl+R umbenannte, sah den neuen Namen erst nach Re-Attach im Banner. Jetzt aktualisiert sich der Banner sofort live.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Konsistente UI-Synchronisation zwischen Agent-Liste und attachter Session — keine Verwirrung mehr, ob das Rename wirklich gegriffen hat.
+- **Version:** v2.1.144
+
+### [Background-Session-Worktree-Isolation greift für Non-Git-VCS-User mit `WorktreeCreate`-Hooks]
+- **Was:** Der Worktree-Isolation-Guard, der Background-Sessions vor Inplace-Edits schützt, wirkte bisher nur für git-User. User mit anderem VCS (Mercurial, Jujutsu, etc.) und konfigurierten `WorktreeCreate`-Hooks sind jetzt ebenfalls abgedeckt.
+- **Einsatz:** Automatisch aktiv bei konfiguriertem `WorktreeCreate`-Hook
+- **Mehrwert:** Non-Git-User können Background-Isolation jetzt vollwertig nutzen — wichtig für Teams auf Jujutsu oder Mercurial mit eigener Worktree-Lifecycle-Logik.
+- **Version:** v2.1.144
+
+### [Plugin-Marketplace-Add/Update respektiert `CLAUDE_CODE_PLUGIN_PREFER_HTTPS`]
+- **Was:** Die env-Variable `CLAUDE_CODE_PLUGIN_PREFER_HTTPS` (aus v2.1.142) wirkte beim ersten Install eines Plugins — aber nicht beim späteren Marketplace-Add oder -Update. Jetzt durchgängig.
+- **Einsatz:** `export CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` gilt für Install, Add und Update
+- **Mehrwert:** SSH-blockierte Corporate-Netze können Plugin-Marketplaces vollständig nutzen — kein Mix-Mode mehr, in dem nur ein Teil der Plugin-Operationen via HTTPS lief.
+- **Version:** v2.1.144
+
+### [`/plugin` springt nach Enable/Disable/Uninstall zurück in die Installed-Liste]
+- **Was:** Nach einem Plugin-Enable, -Disable oder -Uninstall blieb `/plugin` auf der Detail-View hängen — User musste manuell zurücknavigieren. Jetzt automatischer Sprung zurück in die Installed-Liste.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugin-Management mit mehreren Aktionen hintereinander wird flüssiger — weniger Tastendrücke pro Plugin-Lifecycle-Operation.
+- **Version:** v2.1.144
+
+### [`/doctor` zeigt Exec-Form-Beispiel bei fehlendem `command`-Feld in Hook]
+- **Was:** Wer einen Command-Hook ohne `command`-Feld konfigurierte, bekam einen Fehler — aber kein Beispiel der korrekten Exec-Form. `/doctor` zeigt jetzt ein konkretes Beispiel mit.
+- **Einsatz:** Automatisch in `/doctor`
+- **Mehrwert:** Hook-Config-Fehler sind sofort selbst-reparierbar — kein Doku-Lookup mehr nötig für die einfachste Fix-Action.
+- **Version:** v2.1.144
+
+### [Skill-Listing-Truncation nicht mehr als Startup-Notification]
+- **Was:** Wenn die Skill-Liste auf Anzeige-Limit gekürzt wurde, zeigte Claude eine Startup-Notification — was beim ersten Visual-Eindruck nach dem Start ablenkte. Die Truncation-Info ist jetzt nur noch via `/doctor` abrufbar.
+- **Einsatz:** Automatisch aktiv; Detail-Info: `/doctor`
+- **Mehrwert:** Sauberer Startup-Screen ohne Noise — die Truncation-Info bleibt verfügbar, aber blockiert nicht mehr die wichtigeren Onboarding-Hinweise.
+- **Version:** v2.1.144
+
+### [Recovery: Pre-Response-Stream-Stalls werden retried statt downgegradet]
+- **Was:** Wenn der Modell-Stream vor der ersten Response stalled, fiel Claude bisher auf einen langsameren non-streaming Request zurück. Jetzt wird der Stream einmal retried — was meist schneller ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bessere Response-Latenz bei flaky Netz-Conditions — kein still verstecktes Performance-Downgrade mehr bei transienten Stream-Stalls.
+- **Version:** v2.1.144
+
+### [SDK/Headless-MCP-Startup: Pre-Wait overlapt mit Startup (bis zu 2s schneller)]
+- **Was:** Der MCP-Pre-Wait im SDK/Headless-Mode blockierte bisher vor dem ersten Turn. Jetzt läuft er parallel zum Startup — Time-to-First-Turn ist bei langsamen MCP-Servern bis zu 2 Sekunden niedriger.
+- **Einsatz:** Automatisch aktiv im SDK/Headless-Mode
+- **Mehrwert:** SDK-basierte Pipelines mit MCP-Servern starten messbar schneller — bei tausenden Invocations pro Tag (CI, Batch-Jobs) summiert sich das deutlich.
+- **Version:** v2.1.144
+
+### [Post-Survey-Follow-Up-Hint bei jeder Non-Dismiss-Antwort]
+- **Was:** Der Hint zum Detail-Feedback (`/feedback`) erscheint jetzt nach jeder Non-Dismiss-Survey-Antwort, mit Context-aware Copy — bisher nur sporadisch.
+- **Einsatz:** Automatisch aktiv nach Survey-Antwort
+- **Mehrwert:** User finden den Weg zum tiefen Feedback-Kanal verlässlicher — wichtig für das Anthropic-Team, um Survey-Signale mit Detail-Reports zu paaren.
+- **Version:** v2.1.144
+
+---
+
+### Plattform-Ankündigungen (19. Mai 2026)
+
+---
+
+### [Claude Managed Agents: Self-Hosted Sandboxes (Public Beta)]
+- **Was:** Managed Agents können Tool-Execution jetzt in der eigenen Infrastruktur oder bei verwalteten Sandbox-Anbietern (Cloudflare, Daytona, Modal, Vercel) laufen lassen — die Agent-Orchestrierung bleibt bei Anthropic, aber Code-Execution, File-Access und Network-Requests bleiben innerhalb der eigenen Netzwerk- und Security-Policies.
+- **Einsatz:** In der Claude Console eine Self-Hosted-Sandbox konfigurieren (eigene Compute oder einer der unterstützten Provider); Managed Agents verwenden diese Sandbox dann statt der Anthropic-Default-Sandbox
+- **Mehrwert:** Enterprises bekommen Managed Agents auch für Workloads, bei denen sensible Files/Services nicht in Anthropic-Sandboxes laufen dürfen — bestehende Netzwerk-Controls, IAM-Policies und Compliance-Frameworks gelten weiter. Plus volle Kontrolle über Ressourcen-Sizing und Runtime-Images für compute-intensive Tasks.
+- **Version:** Ankündigung 2026-05-19 (Public Beta)
+
+### [Claude Managed Agents: MCP Tunnels (Research Preview)]
+- **Was:** Managed Agents können jetzt sicher mit privaten MCP-Servern reden, ohne diese ins öffentliche Internet zu exponieren. Ein leichtes Gateway in der eigenen Umgebung baut eine einzige ausgehende, End-to-End-verschlüsselte Verbindung auf — Agents können darüber auf interne Datenbanken, APIs und Knowledge-Bases zugreifen.
+- **Einsatz:** Zugang via Access-Request anfragen; nach Freischaltung das MCP-Tunnel-Gateway in der Ziel-Umgebung deployen und MCP-Server in der Claude Console registrieren
+- **Mehrwert:** Schließt die Lücke zwischen Managed Agents (in der Cloud) und Inhouse-Tooling (hinter der Firewall) — keine Public-Endpoints, keine VPN-Hacks, keine Reverse-Proxies. Admins verwalten Tunnels zentral über die Console.
+- **Version:** Ankündigung 2026-05-19 (Research Preview)
+
+---
 
 ### Woche 20 (15. Mai 2026) — v2.1.143
 
