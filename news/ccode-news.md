@@ -1,11 +1,83 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-19 16:00 UTC
+> Letzte Aktualisierung: 2026-05-20 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 21 (19. Mai 2026) — v2.1.145
+
+---
+
+### [`claude agents --json` — Live-Sessions als JSON]
+- **Was:** Der neue Flag `claude agents --json` listet alle laufenden Claude-Code-Sessions in maschinenlesbarem JSON statt im interaktiven Agent-View.
+- **Einsatz:** `claude agents --json` (z. B. in Skripten oder Dashboards weiterverarbeiten)
+- **Mehrwert:** Ermöglicht eigene Monitoring-Tools, Statuszeilen oder CI-Checks über alle parallelen Sessions — ohne Screen-Scraping des TUI.
+- **Version:** v2.1.145
+
+### [`agent_id` & `parent_agent_id` in OTEL-Spans]
+- **Was:** OTEL-Telemetrie-Spans enthalten jetzt `agent_id` und `parent_agent_id`, und das Trace-Parenting wurde korrigiert, sodass Subagents sauber unter ihrem Eltern-Agent hängen.
+- **Einsatz:** Automatisch aktiv (bei aktiviertem OTel-Export)
+- **Mehrwert:** Verschachtelte Agent-Hierarchien lassen sich in Observability-Tools (Honeycomb, Grafana Tempo etc.) korrekt nachvollziehen — wichtig zum Debuggen von Multi-Agent-Workflows.
+- **Version:** v2.1.145
+
+### [Statuszeile-JSON enthält GitHub-Repo & PR-Infos]
+- **Was:** Das JSON, das an Statuszeilen-Skripte übergeben wird, enthält jetzt zusätzlich Informationen über das GitHub-Repo und den zugehörigen PR.
+- **Einsatz:** Automatisch im Statuszeilen-JSON verfügbar
+- **Mehrwert:** Eigene Statuszeilen können den aktuellen PR-Kontext anzeigen (z. B. PR-Nummer, Branch) — direkt im Blickfeld, ohne Kontextwechsel zu GitHub.
+- **Version:** v2.1.145
+
+### [`/plugin`-Screens zeigen vollständiges Komponenten-Inventar]
+- **Was:** Die `/plugin`-Screens listen jetzt Commands, Agents, Skills, Hooks sowie MCP- und LSP-Server eines Plugins auf.
+- **Einsatz:** Automatisch aktiv in den `/plugin`-Detailansichten
+- **Mehrwert:** Vor der Installation komplett transparent, was ein Plugin alles mitbringt und welche Hooks/Server es startet — bessere Bewertung von Funktionsumfang und Sicherheitsfläche.
+- **Version:** v2.1.145
+
+### [`claude agents`-Tab zeigt Awaiting-Input-Count]
+- **Was:** Der Tab-Titel im Agent-View zeigt jetzt, wie viele Sessions auf eine Eingabe von dir warten.
+- **Einsatz:** Automatisch aktiv im `claude agents`-View
+- **Mehrwert:** Auf einen Blick sichtbar, wie viele parallele Jobs gerade auf dich warten — kein Durchklicken nötig, um blockierte Sessions zu finden.
+- **Version:** v2.1.145
+
+### [Slash-Command-Vorschläge per Maus im Fullscreen]
+- **Was:** Slash-Command-Vorschläge lassen sich im Fullscreen-Modus jetzt per Maus-Hover und -Klick auswählen.
+- **Einsatz:** Automatisch aktiv (Fullscreen-TUI)
+- **Mehrwert:** Maus-Nutzer können Befehle direkt anklicken statt mit Pfeiltasten zu navigieren — niedrigere Einstiegshürde für gelegentliche CLI-Nutzer.
+- **Version:** v2.1.145
+
+### [Stop/SubagentStop-Hooks: `background_tasks` & `session_crons`]
+- **Was:** Die JSON-Payload an Stop- und SubagentStop-Hooks enthält jetzt die Felder `background_tasks` und `session_crons`.
+- **Einsatz:** Automatisch im Hook-JSON verfügbar
+- **Mehrwert:** Hooks können beim Beenden prüfen, ob noch Background-Tasks oder geplante Crons offen sind — z. B. um eine Session nicht vorzeitig zu schließen oder offene Jobs zu melden.
+- **Version:** v2.1.145
+
+### [Read-Tool zeigt „PARTIAL view" bei großen Dateien]
+- **Was:** Das Read-Tool zeigt bei sehr großen Dateien jetzt eine gekürzte erste Seite mit einem expliziten „PARTIAL view"-Hinweis, statt zu scheitern oder still abzuschneiden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Claude erkennt klar, dass nur ein Ausschnitt einer Datei vorliegt, und kann gezielt mit Offset/Limit nachladen — weniger Halluzinationen über Dateiinhalte.
+- **Version:** v2.1.145
+
+### [Fix: Permission-Prompt-Bypass bei reinen Variablen-Zuweisungen]
+- **Was:** Bare Variablen-Zuweisungen in Bash (z. B. `FOO=bar`) konnten den Permission-Prompt umgehen. Das wurde korrigiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schließt eine Lücke, über die potenziell ungeprüfte Shell-Statements durchrutschen konnten — relevant für die Sicherheit von Auto- und Permission-Modi.
+- **Version:** v2.1.145
+
+### [Fix: `context: fork`-Skills lösten Endlosschleife aus]
+- **Was:** Skills mit `context: fork` konnten unter Umständen in eine Endlosschleife laufen. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Forking-Skills sind wieder zuverlässig nutzbar, ohne die Session aufzuhängen.
+- **Version:** v2.1.145
+
+### [Weitere Fixes in v2.1.145]
+- **Was:** Diverse Korrekturen: MCP-Prompt-Slash-Commands zeigten rohe Validierungsfehler; Spinner/Elapsed-Time fror nach Terminal-Resize ein; Cross-Project-Resume-Hint in Windows PowerShell 5.1; Voice-Push-to-Talk im Agent-View-Reply-Pane; Task-Listen rendern nicht mehr in zufälliger Reihenfolge; stale „Failed to install marketplace"-Banner; PR-Badge aktualisierte sich nicht nach `gh pr create`; Agent-Teams-Teammates mit Nicht-ASCII-Namen scheiterten bei API-Calls; `/review` nutzte eine veraltete GraphQL-Query; `claude plugin validate` flaggte Skill-Dateipfade nicht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabileres Verhalten quer durch Agent-View, MCP, Windows-Terminal, Plugin-Validierung und PR-Workflows.
+- **Version:** v2.1.145
+
+---
 
 ### Woche 21 (19. Mai 2026) — v2.1.144
 
