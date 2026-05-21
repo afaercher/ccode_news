@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-20 18:03 UTC
+> Letzte Aktualisierung: 2026-05-21 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 21 (21. Mai 2026) — v2.1.146
+
+---
+
+### [`/simplify` umbenannt zu `/code-review` mit Effort-Level]
+- **Was:** Der Slash-Command `/simplify` heißt jetzt `/code-review` und akzeptiert ein optionales Effort-Level (z. B. `/code-review high`).
+- **Einsatz:** `/code-review` bzw. `/code-review high`
+- **Mehrwert:** Klarerer Name für das, was der Befehl tut, plus steuerbare Gründlichkeit des Reviews — schneller Überblick oder tiefe Analyse je nach Bedarf.
+- **Version:** v2.1.146
+
+### [Auto-Modus unterdrückt `AskUserQuestion` nicht mehr]
+- **Was:** Der Auto-Modus blockiert `AskUserQuestion` nicht mehr, wenn der User oder ein Skill sich explizit darauf verlässt.
+- **Einsatz:** Automatisch aktiv (Auto-Modus)
+- **Mehrwert:** Skills und Workflows, die gezielt Rückfragen stellen, funktionieren auch im Auto-Modus zuverlässig — keine still verschluckten Entscheidungspunkte mehr.
+- **Version:** v2.1.146
+
+### [Fix: Windows-PowerShell „command line is invalid" mit winget/Store-pwsh]
+- **Was:** Das PowerShell-Tool scheiterte unter Windows mit „command line is invalid", wenn `pwsh` via winget oder Microsoft Store installiert war (Regression in v2.1.124). Behoben.
+- **Einsatz:** Automatisch aktiv (Windows)
+- **Mehrwert:** Windows-Nutzer mit Store-/winget-PowerShell können das Shell-Tool wieder normal verwenden.
+- **Version:** v2.1.146
+
+### [Fix: MCP-Listen verloren Einträge ab Seite 2]
+- **Was:** `resources/list`, `resources/templates/list` und `prompts/list` ließen bei paginierenden MCP-Servern Einträge ab der ersten Seite fallen. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Vollständige Ressourcen-, Template- und Prompt-Listen von MCP-Servern mit vielen Einträgen — keine still fehlenden Items mehr.
+- **Version:** v2.1.146
+
+### [Fix: Hintergrund-Sessions fragten erneut nach bereits erteilten Permissions]
+- **Was:** Backgrounded Sessions fragten erneut nach Tool-Permissions, die bereits mit „don't ask again" erteilt waren. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Einmal erteilte Dauer-Freigaben gelten auch in Hintergrund-Sessions — weniger redundante Prompts in parallelen Jobs.
+- **Version:** v2.1.146
+
+### [Fix: `/background` lehnte reine Skill-/Slash-Command-Eingaben ab]
+- **Was:** `/background` verweigerte Sessions, deren einzige getippte Eingabe ein Skill oder ein eigener Slash-Command war. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auch Skill- oder Command-getriebene Aufgaben lassen sich direkt in den Hintergrund schicken.
+- **Version:** v2.1.146
+
+### [Fix: `forceLoginOrgUUID`/`forceLoginMethod` jetzt auch gegen 3P-/API-Key-Sessions]
+- **Was:** Die Managed-Settings-Policies `forceLoginOrgUUID` und `forceLoginMethod` wurden bei Third-Party-Provider- und API-Key-Sessions nicht durchgesetzt. Behoben.
+- **Einsatz:** Automatisch aktiv (Managed Settings)
+- **Mehrwert:** Login-Policies greifen nun konsistent über alle Auth-Wege — relevant für Org-Compliance und Zugriffskontrolle.
+- **Version:** v2.1.146
+
+### [Fix: `CLAUDE_CODE_SUBAGENT_MODEL` an Kindprozesse weitergegeben]
+- **Was:** `CLAUDE_CODE_SUBAGENT_MODEL` wurde in Multi-Agent-Sessions nicht an Kindprozesse weitergereicht. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Das gewünschte Subagent-Modell gilt jetzt durchgängig in verschachtelten Agent-Hierarchien.
+- **Version:** v2.1.146
+
+### [Verbesserter Auto-Updater & schnelleres Diff-Rendering]
+- **Was:** Der Auto-Updater wiederholt jetzt transiente Netzwerkfehler bei Versions-Checks und Downloads statt sofort zu scheitern; die Statuszeile zeigt bei fehlgeschlagenem Update wieder die aktuelle Version. Zusätzlich wurde das Diff-Rendering für große Datei-Edits beschleunigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Zuverlässigere Updates in instabilen Netzen und flüssigere Anzeige bei umfangreichen Änderungen.
+- **Version:** v2.1.146
+
+### [Weitere Fixes in v2.1.146]
+- **Was:** Diverse Korrekturen: Fullscreen-Strobing in attached Hintergrund-Sessions auf Windows Terminal während des Streamings; Entfernen eines Hintergrund-Job-Worktrees folgte unter Windows nicht mehr NTFS-Junctions ins Haupt-Repo; `/theme`-Farbeditor und „New custom theme"-Dialoge reagierten nicht auf Esc; uncaught Exception am Ende von Streaming-Sessions über das Agent SDK; GNOME-Terminal-Rechts-/Mittelklick-Paste fügte keinen Text ein.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabileres Verhalten quer durch Windows-Terminal, Worktree-Cleanup, Theme-Dialoge, Agent SDK und GNOME-Terminal.
+- **Version:** v2.1.146
+
+---
 
 ### Woche 21 (19. Mai 2026) — v2.1.145
 
