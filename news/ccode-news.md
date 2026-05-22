@@ -1,11 +1,71 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-21 12:02 UTC
+> Letzte Aktualisierung: 2026-05-22 06:01 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 21 (22. Mai 2026) — v2.1.148
+
+---
+
+### [Fix: Bash-Tool gab für manche User auf jeden Befehl Exit-Code 127 zurück]
+- **Was:** Bei manchen Nutzern lieferte das Bash-Tool für jeden Befehl Exit-Code 127 (Regression aus v2.1.147). Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Das Shell-Tool funktioniert wieder zuverlässig — keine fälschlich als fehlgeschlagen markierten Befehle mehr.
+- **Version:** v2.1.148
+
+---
+
+### Woche 21 (21. Mai 2026) — v2.1.147
+
+---
+
+### [Gepinnte Hintergrund-Sessions bleiben am Leben]
+- **Was:** Mit `Ctrl+T` in `claude agents` gepinnte Hintergrund-Sessions bleiben jetzt auch im Idle aktiv, werden für Claude-Code-Updates an Ort und Stelle neu gestartet und erst nach allen ungepinnten Sessions unter Speicherdruck beendet.
+- **Einsatz:** In `claude agents` eine Session mit `Ctrl+T` pinnen
+- **Mehrwert:** Wichtige Langläufer-Sessions überleben Leerlauf, Updates und Speicherknappheit — sie verschwinden nicht mehr unerwartet.
+- **Version:** v2.1.147
+
+### [`/code-review` mit `--comment` für Inline-PR-Kommentare]
+- **Was:** Der umbenannte Befehl `/code-review` meldet Korrektheits-Bugs auf einem wählbaren Effort-Level (z. B. `/code-review high`); mit `--comment` werden Funde direkt als Inline-Kommentare in den GitHub-PR gepostet. Das alte Aufräum-und-Fix-Verhalten von `/simplify` wurde entfernt.
+- **Einsatz:** `/code-review high --comment`
+- **Mehrwert:** Review-Funde landen direkt am Code im PR statt nur im Terminal — nahtloser Review-Workflow für Teams.
+- **Version:** v2.1.147
+
+### [Prompt-History ohne aufeinanderfolgende Duplikate]
+- **Was:** Die Prompt-History speichert keine direkt aufeinanderfolgenden identischen Einträge mehr — einen Prompt per Pfeil-hoch zurückzuholen und erneut abzuschicken legt keine weitere Kopie an.
+- **Einsatz:** Automatisch aktiv (Pfeil-hoch in der Eingabe)
+- **Mehrwert:** Sauberere History-Navigation ohne Dubletten beim Wiederholen von Prompts.
+- **Version:** v2.1.147
+
+### [Fix: Hook-`if`-Bedingungen mit Argument-Muster griffen nie]
+- **Was:** Hook-`if`-Bedingungen wie `PowerShell(git push*)` matchten nie — nur `PowerShell(*)` funktionierte. Behoben.
+- **Einsatz:** Automatisch aktiv (Hook-Konfiguration)
+- **Mehrwert:** Befehls-spezifische Hook-Regeln greifen jetzt wie dokumentiert — gezieltes Auslösen von Hooks pro Kommando.
+- **Version:** v2.1.147
+
+### [Fix: Eingefügter Text kam als Platzhalter statt Inhalt an]
+- **Was:** An Agents übergebener eingefügter Text wurde als unlesbarer Platzhalter `[Pasted text #N]` zugestellt statt mit dem tatsächlichen Inhalt. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Agents erhalten den echten eingefügten Inhalt — kein Verlust von kopiertem Code oder Text mehr.
+- **Version:** v2.1.147
+
+### [Fix: Unbekannte Slash-Commands im Headless-/SDK-Modus zeigen jetzt Fehler]
+- **Was:** Unbekannte Slash-Commands taten im Headless-/SDK-Modus stillschweigend nichts; sie zeigen jetzt eine Fehlermeldung. Außerdem werden Slash-Commands gefolgt von Tab/Newline nicht mehr fälschlich als unbekannt behandelt.
+- **Einsatz:** Automatisch aktiv (Headless/SDK)
+- **Mehrwert:** Tippfehler in Commands fallen sofort auf statt unbemerkt ins Leere zu laufen — weniger stille Fehlläufe in Automatisierungen.
+- **Version:** v2.1.147
+
+### [Weitere Fixes in v2.1.147]
+- **Was:** Diverse Korrekturen: `&` in `!`-Befehls-Output wurde als `&amp;` angezeigt (brach URL-Copy-Paste, z. B. bei `gcloud auth login` auf Headless-Maschinen); `/help` zeigte auf kleinen Terminals einen kaputten Tab-Header und nur einen Befehl pro Seite; Shell-Snapshots verloren User-Funktionen, deren Name mit einem führenden Unterstrich beginnt; Plugin-Agents mit mehreren `Agent(...)`-Typen im `tools:`-Frontmatter verloren alle bis auf den letzten Eintrag; PowerShell-Tool verlor Output bei Befehlen, die auf den Default-Formatter angewiesen sind; Windows-„Yes, and don't ask again" für PowerShell-Skript-Aufrufe schreibt jetzt eine wirklich matchende Regel; PowerShell scheiterte unter Windows mit Exit-Code 1 bei winget-/Store-`pwsh`; `/effort`-Slider startete auf dem falschen Level; seltener Hang beim Warten aufs Scroll-Settle unter Windows; veraltete/doppelte Zeilen in der Agent-Ansicht bei CJK-Zeichen unter Windows; doppelte Plugin-Component-Counts in `claude plugin details` und `/plugin`; Spacing-/Layout-Glitches in `/plugin`, `/status`, `/mobile`, `/sandbox`, `/permissions`; gestrippte Bilder ließen das Modell nicht mehr vorhandene Medien wiederholt neu laden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar rundere Bedienung quer durch Windows, PowerShell, Plugins, Menüs und Headless-Betrieb.
+- **Version:** v2.1.147
+
+---
 
 ### Woche 21 (21. Mai 2026) — v2.1.146
 
