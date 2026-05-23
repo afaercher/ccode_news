@@ -1,11 +1,83 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-22 18:00 UTC
+> Letzte Aktualisierung: 2026-05-23 09:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 21 (23. Mai 2026) — v2.1.150
+
+---
+
+### [v2.1.150 — interne Infrastruktur-Verbesserungen]
+- **Was:** Reines Wartungs-Release mit internen Infrastruktur-Verbesserungen, ohne nutzersichtbare Änderungen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilitäts-/Wartungs-Update unter der Haube — keine Verhaltensänderung im Alltag.
+- **Version:** v2.1.150
+
+---
+
+### Woche 21 (22. Mai 2026) — v2.1.149
+
+---
+
+### [`/usage` mit Kategorie-Aufschlüsselung]
+- **Was:** `/usage` zeigt jetzt pro Kategorie, was die Limit-Nutzung treibt — Skills, Subagents, Plugins und Kosten pro einzelnem MCP-Server.
+- **Einsatz:** `/usage` aufrufen
+- **Mehrwert:** Du siehst auf einen Blick, welcher Skill, Subagent, Plugin oder MCP-Server dein Limit auffrisst — gezieltes Optimieren von teuren Setups.
+- **Version:** v2.1.149
+
+### [`/diff`-Detailansicht per Tastatur scrollbar]
+- **Was:** Die `/diff`-Detailansicht lässt sich jetzt mit der Tastatur scrollen (Pfeiltasten, `j`/`k`, `PgUp`/`PgDn`, `Space`, `Home`/`End`).
+- **Einsatz:** In der `/diff`-Detailansicht mit den genannten Tasten navigieren
+- **Mehrwert:** Lange Diffs ohne Maus durchblättern — flüssigeres Review direkt im Terminal.
+- **Version:** v2.1.149
+
+### [Markdown rendert GFM-Task-Listen als Checkboxen]
+- **Was:** Markdown-Ausgabe rendert GitHub-Flavored-Task-Listen (`- [ ] todo` / `- [x] done`) jetzt als echte Checkboxen statt als schlichte Aufzählungspunkte.
+- **Einsatz:** Automatisch aktiv (Task-Listen-Syntax in Markdown)
+- **Mehrwert:** To-do-Listen sind auf einen Blick als erledigt/offen erkennbar — bessere Lesbarkeit von Plänen und Checklisten.
+- **Version:** v2.1.149
+
+### [Enterprise: `allowAllClaudeAiMcps` Managed-Setting]
+- **Was:** Neues Managed-Setting `allowAllClaudeAiMcps` lädt claude.ai-Cloud-MCP-Connectors zusätzlich zur `managed-mcp.json`.
+- **Einsatz:** `allowAllClaudeAiMcps` in den Managed-Settings setzen
+- **Mehrwert:** Admins können claude.ai-Cloud-Connectors organisationsweit freigeben, ohne sie einzeln in `managed-mcp.json` zu pflegen.
+- **Version:** v2.1.149
+
+### [Mehrere PowerShell-/Sandbox-Sicherheitslücken geschlossen]
+- **Was:** Behoben: (1) PowerShell-Permission-Bypass durch eingebaute `cd`-Funktionen (`cd..`, `cd\`, `cd~`, `X:`), die das Arbeitsverzeichnis unbemerkt änderten und so spätere Befehle außerhalb des Workspace lesen ließen; (2) Sandbox-Write-Allowlist in Git-Worktrees deckte fälschlich das gesamte Haupt-Repo-Root statt nur das geteilte `.git`-Verzeichnis ab (mit `hooks/` und `config` verweigert); (3) PowerShell-Prefix-/Wildcard-Allow-Regeln (z. B. `PowerShell(dotnet.exe build *)`) genehmigten native Executables/Skripte nicht vorab; (4) Permission-Analyse vertraute veralteten Variablen-Tracking-Werten für `PWD`/`OLDPWD`/`DIRSTACK` über `cd`/`pushd`/`popd` hinweg.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Mehrere Wege, die Workspace-/Sandbox-Grenzen zu umgehen, sind dicht — Permission-Regeln greifen wieder zuverlässig, besonders unter Windows/PowerShell und in Worktrees.
+- **Version:** v2.1.149
+
+### [Fix: `find` brachte macOS-Host zum Absturz]
+- **Was:** `find` im Bash-Tool erschöpfte bei großen Verzeichnisbäumen die macOS-System-Datei-/vnode-Tabelle und brachte den Host zum Absturz. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Große Verzeichnis-Scans crashen den Mac nicht mehr — sicheres Arbeiten in umfangreichen Repos.
+- **Version:** v2.1.149
+
+### [Fix: `/ultraplan` & Remote-Sessions ohne echte Änderungen]
+- **Was:** `/ultraplan` und das Erstellen von Remote-Sessions scheiterten mit „Could not capture uncommitted changes", wenn der Working Tree keine echten Änderungen enthielt. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ultraplan und Remote-Sessions starten auch aus einem sauberen Arbeitsverzeichnis heraus zuverlässig.
+- **Version:** v2.1.149
+
+### [`/feedback` enthält Konversation vor der Kompaktierung]
+- **Was:** `/feedback`-Reports enthalten jetzt auch die Konversation, die vor der Context-Kompaktierung stattfand.
+- **Einsatz:** `/feedback` aufrufen
+- **Mehrwert:** Probleme aus früheren Phasen langer Sessions lassen sich leichter nachvollziehen und triagen — der Kontext geht im Report nicht verloren.
+- **Version:** v2.1.149
+
+### [Weitere Fixes in v2.1.149]
+- **Was:** Zahlreiche kleinere Fixes: Managed-Settings-Genehmigungsdialog fror das Terminal nach Annahme beim Start nicht mehr ein; `otelHeadersHelper` scheiterte still bei Leerzeichen im Skript-Pfad (Fehler nun in `/doctor` und Debug-Log sichtbar); Thinking-Spinner blieb über Tool-Calls hinweg amber; eingeklappte Bash-Ausgabe meldete falsche Zahl versteckter Zeilen; Slash-Command-Argument-Hint schnitt getippte Zeichen ab bzw. erschien nicht nach Tab-Vervollständigung eines Skills mit abweichendem `name:`; Statusleiste zeigte Basis-`/effort` statt des per Skill/Agent-`effort:` angewandten Levels; `Ctrl+O`-Transcript fror beim Öffnen ein statt nachzuladen; editierter History-Prompt verlor die Änderung beim Weiterscrollen; `/config`-Exit-Summary meldete Phantom-Änderungen an Auto-Compact/Theme; `/insights` crashte bei fehlenden optionalen Feldern; verstümmelte PowerShell-/History-Tool-Calls wurden falsch als Reads klassifiziert; umbenannte Remote-Control-Session aktualisierte lokalen Namen für `claude --resume` nicht; Race, bei dem ein gerade abgeschickter Prompt doppelt in der History erschien; „Jump to bottom"-Pill im Fullscreen verschwand nicht sofort.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sammlung von Stabilitäts-, Sicherheits- und UI-Korrekturen, die Reibung im täglichen Arbeiten reduzieren.
+- **Version:** v2.1.149
+
+---
 
 ### Woche 21 (22. Mai 2026) — v2.1.148
 
