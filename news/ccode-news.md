@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-27 06:02 UTC
+> Letzte Aktualisierung: 2026-05-27 12:03 UTC
 
 ---
 
@@ -710,6 +710,30 @@
 - **Einsatz:** Zugang via Access-Request anfragen; nach Freischaltung das MCP-Tunnel-Gateway in der Ziel-Umgebung deployen und MCP-Server in der Claude Console registrieren
 - **Mehrwert:** Schließt die Lücke zwischen Managed Agents (in der Cloud) und Inhouse-Tooling (hinter der Firewall) — keine Public-Endpoints, keine VPN-Hacks, keine Reverse-Proxies. Admins verwalten Tunnels zentral über die Console.
 - **Version:** Ankündigung 2026-05-19 (Research Preview)
+
+### [Claude Managed Agents: MCP-/Tool-Config einer aktiven Session ändern]
+- **Was:** Bei Claude Managed Agents lassen sich jetzt die mit einer laufenden Session verknüpften MCP-Server- und Tool-Konfigurationen aktualisieren — ohne die Session neu aufsetzen zu müssen.
+- **Einsatz:** Über die Managed-Agents-API die MCP-/Tool-Config einer aktiven Session aktualisieren
+- **Mehrwert:** Lang laufende Agent-Sessions können on-the-fly neue Tools oder MCP-Server bekommen (oder welche verlieren), statt für jede Config-Änderung von vorn zu starten — wichtig für dynamische, lang-horizont Workflows.
+- **Version:** Plattform-Release 2026-05-19
+
+### [Claude Managed Agents: Große Tool-Outputs werden in Datei ausgelagert]
+- **Was:** Outputs aus `agent_toolset` und MCP-Tools, die 100K Tokens überschreiten, werden bei Managed Agents jetzt automatisch in eine Datei in der Sandbox ausgelagert. Das Modell erhält eine gekürzte Vorschau samt Dateipfad und kann den vollen Inhalt bei Bedarf nachlesen.
+- **Einsatz:** Automatisch aktiv bei Managed Agents
+- **Mehrwert:** Riesige Tool-Ergebnisse sprengen nicht mehr das Kontextfenster — der Agent behält den Überblick, kann aber gezielt in die ausgelagerte Datei greifen, wenn die Details gebraucht werden. Schützt vor Kontext-Overflow bei datenintensiven Tools.
+- **Version:** Plattform-Release 2026-05-19
+
+### [Web-Search-Tool: Reichere SEC-Filing-Daten (API)]
+- **Was:** Das Web-Search-Tool der Claude-API liefert jetzt reichhaltigere SEC-Filing-Daten zurück — leichter, Finanzrecherche-Agents, Earnings-Analysen und Due-Diligence-Workflows mit Zitaten auf Primärquellen abzustützen.
+- **Einsatz:** Web-Search-Tool in der Messages-API nutzen (`web_search`)
+- **Mehrwert:** Finanz- und Research-Agents bekommen belastbarere, zitierfähige Primärquellen direkt aus SEC-Filings — weniger Halluzinationsrisiko bei zahlengetriebenen Analysen.
+- **Version:** Plattform-Release 2026-05-18
+
+### [Cache-Diagnostics (Public Beta): `cache_miss_reason` erklärt Cache-Misses]
+- **Was:** Neue Cache-Diagnostics in der Messages-API: Wird `diagnostics.previous_message_id` mitgeschickt, meldet die API ein `cache_miss_reason`, das erklärt, an welcher Stelle der Prompt-Cache-Prefix vom vorherigen Turn abwich.
+- **Einsatz:** `diagnostics.previous_message_id` im Request setzen und den Beta-Header `cache-diagnosis-2026-04-07` mitsenden
+- **Mehrwert:** Prompt-Caching lässt sich endlich gezielt debuggen — statt rätselraten, warum die Cache-Hit-Rate einbricht, zeigt die API die konkrete Divergenz-Stelle. Direkter Hebel für Kosten- und Latenz-Optimierung bei API-Apps.
+- **Version:** Plattform-Release 2026-05-13
 
 ---
 
