@@ -1,11 +1,107 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-26 18:01 UTC
+> Letzte Aktualisierung: 2026-05-27 06:02 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 22 (27. Mai 2026) — v2.1.152
+
+---
+
+### [`/code-review --fix` schreibt Funde direkt in den Working Tree]
+- **Was:** `/code-review --fix` wendet die Review-Funde nach dem Review direkt im Arbeitsbaum an und zeigt dabei Vorschläge zu Wiederverwendung, Vereinfachung und Effizienz. `/simplify` ruft jetzt `/code-review --fix` auf.
+- **Einsatz:** `/code-review --fix` (oder `/simplify`)
+- **Mehrwert:** Aufräum- und Korrektur-Vorschläge landen ohne manuelles Nachtippen direkt im Code — ein Schritt von Review zu Fix.
+- **Version:** v2.1.152
+
+### [Skills/Slash-Commands können `disallowed-tools` setzen]
+- **Was:** Skills und Slash-Commands können im Frontmatter `disallowed-tools` angeben, um dem Modell bestimmte Tools zu entziehen, solange der Skill aktiv ist.
+- **Einsatz:** `disallowed-tools:` im Skill-/Command-Frontmatter
+- **Mehrwert:** Skills lassen sich gezielt einschränken (z. B. kein Bash, kein Write) — sichereres, fokussierteres Verhalten pro Skill.
+- **Version:** v2.1.152
+
+### [`/reload-skills` & SessionStart-Hook-Reload]
+- **Was:** Neuer Befehl `/reload-skills` scannt Skill-Verzeichnisse neu, ohne die Session neu zu starten. `SessionStart`-Hooks können `reloadSkills: true` zurückgeben, sodass per Hook installierte Skills sofort in derselben Session verfügbar sind.
+- **Einsatz:** `/reload-skills` aufrufen, bzw. `reloadSkills: true` aus einem SessionStart-Hook zurückgeben
+- **Mehrwert:** Neu hinzugefügte oder per Hook installierte Skills sind sofort nutzbar — kein Session-Neustart mehr nötig.
+- **Version:** v2.1.152
+
+### [SessionStart-Hook kann Session-Titel setzen]
+- **Was:** `SessionStart`-Hooks können beim Start und beim Resume den Session-Titel über `hookSpecificOutput.sessionTitle` setzen.
+- **Einsatz:** `sessionTitle` in `hookSpecificOutput` eines SessionStart-Hooks zurückgeben
+- **Mehrwert:** Sessions bekommen automatisch aussagekräftige, eigene Titel — leichtere Wiederfindung in `/resume` und Agent-View.
+- **Version:** v2.1.152
+
+### [Neuer `MessageDisplay`-Hook-Event]
+- **Was:** Ein neuer `MessageDisplay`-Hook-Event erlaubt Hooks, den angezeigten Assistant-Text zu transformieren oder auszublenden, während er dargestellt wird.
+- **Einsatz:** Hook auf den `MessageDisplay`-Event registrieren
+- **Mehrwert:** Ausgaben lassen sich live filtern, umformatieren oder zensieren (z. B. Secrets ausblenden) — bevor sie der Nutzer sieht.
+- **Version:** v2.1.152
+
+### [Enterprise: `pluginSuggestionMarketplaces` Managed-Setting]
+- **Was:** Neues Managed-Setting `pluginSuggestionMarketplaces`: Admins können Org-Marketplaces freigeben, deren Plugins über kontextbezogene Tipps vorgeschlagen werden dürfen.
+- **Einsatz:** `pluginSuggestionMarketplaces` in den Managed-Settings setzen
+- **Mehrwert:** Plugin-Empfehlungen lassen sich organisationsweit auf vertrauenswürdige Quellen begrenzen.
+- **Version:** v2.1.152
+
+### [`marketplace remove` mit `--scope`]
+- **Was:** `claude plugin marketplace remove` akzeptiert jetzt `--scope user|project|local` — symmetrisch zu `marketplace add`, `install` und `uninstall`.
+- **Einsatz:** `claude plugin marketplace remove <name> --scope project`
+- **Mehrwert:** Marketplaces gezielt pro Scope entfernen statt global — konsistenteres Plugin-Management.
+- **Version:** v2.1.152
+
+### [Fallback-Modell bei unbekanntem Primärmodell]
+- **Was:** Bei einem nicht gefundenen Primärmodell wechselt Claude Code für den Rest der Session auf das konfigurierte `--fallback-model`, statt jede Anfrage scheitern zu lassen.
+- **Einsatz:** `--fallback-model <model>` setzen
+- **Mehrwert:** Sessions laufen weiter, auch wenn das gewünschte Modell (z. B. nach Umbenennung/Abkündigung) nicht verfügbar ist.
+- **Version:** v2.1.152
+
+### [Auto-Mode ohne Opt-in-Zustimmung]
+- **Was:** Der Auto-Mode erfordert keine vorherige Opt-in-Zustimmung mehr.
+- **Einsatz:** Auto-Mode (Shift+Tab-Zyklus) direkt nutzen
+- **Mehrwert:** Schnellerer Einstieg in den Auto-Mode ohne extra Bestätigungsdialog.
+- **Version:** v2.1.152
+
+### [Vim-Mode: `/` öffnet Reverse-History-Suche]
+- **Was:** Im Vim-NORMAL-Mode öffnet `/` jetzt die Reverse-History-Suche (wie `Ctrl+R`) — passend zum vi-Mode von bash/zsh.
+- **Einsatz:** Im Vim-NORMAL-Mode `/` drücken
+- **Mehrwert:** Vertrautes vi-Verhalten für die Prompt-History-Suche.
+- **Version:** v2.1.152
+
+### [`/usage`-Aufschlüsselung inkl. großer Session-Dateien]
+- **Was:** Die `/usage`-Aufschlüsselung umfasst jetzt auch große Session-Dateien; sie werden per Streaming-Read gescannt, sodass der Speicherverbrauch konstant bleibt.
+- **Einsatz:** `/usage` aufrufen
+- **Mehrwert:** Vollständigeres Bild der Limit-Treiber, ohne dass der Scan den Speicher belastet.
+- **Version:** v2.1.152
+
+### [Lesbarere Thinking-Summaries]
+- **Was:** Thinking-Summaries in der eingeklappten Gruppe bleiben jetzt mindestens 3 Sekunden lesbar, rendern als Markdown und sind auf 10 Zeilen begrenzt (`Ctrl+O` zeigt das vollständige Thinking). Im Fullscreen-Mode zählt der „Thinking for Ns"-Indikator live hoch und behält seinen Wert bei einer Unterbrechung mitten im Denken.
+- **Einsatz:** Automatisch aktiv (`Ctrl+O` für vollständiges Thinking)
+- **Mehrwert:** Thinking-Verläufe sind besser lesbar und flackern nicht weg — nachvollziehbarer, ohne den Lesefluss zu stören.
+- **Version:** v2.1.152
+
+### [Workflow-Fortschritt & Hintergrund-Timer aufgeräumt]
+- **Was:** Die Inline-Fortschrittsanzeige des Workflow-Tools wurde vereinfacht — Live-Agent-Zahlen erscheinen nur noch in der persistenten Workflow-Statuszeile unter dem Prompt. Der Post-Response-Timer zeigt jetzt „Waiting for N background agents/workflows to finish", solange Hintergrund-Agents/-Workflows laufen, und meldet die kumulierte Zeit, sobald deren Ergebnisse verarbeitet sind.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Übersichtlichere Fortschrittsanzeige und klare Rückmeldung, worauf die Session gerade wartet.
+- **Version:** v2.1.152
+
+### [OTEL: Session-Entrypoint als Metrik-Attribut]
+- **Was:** Der Session-Entrypoint ist jetzt als OpenTelemetry-Metrik-Attribut verfügbar (`app.entrypoint`, opt-in via `OTEL_METRICS_INCLUDE_ENTRYPOINT=true`).
+- **Einsatz:** `OTEL_METRICS_INCLUDE_ENTRYPOINT=true` setzen
+- **Mehrwert:** Telemetrie kann Nutzung nach Einstiegspunkt aufschlüsseln — feinere Auswertung in Org-Dashboards.
+- **Version:** v2.1.152
+
+### [Weitere Fixes in v2.1.152]
+- **Was:** Zahlreiche kleinere Fixes: Terminal-Styling degradierte in sehr langen Sessions nicht mehr (Style-Pool wird recycelt); Sandbox-Warnung erscheint jetzt in jedem Layout (auch im kondensierten Start); Spinner zeigt nicht mehr fälschlich „still thinking" während ein Tool läuft; Focus-Mode zeigt keinen falschen „N messages hidden"-Zähler mehr; Klick auf Links in aufgeklappten Tool-Results öffnet den Link statt die Sektion einzuklappen; mehrere Markdown-Tabellen-Rendering-Bugs behoben; Plugin-MCP-Server mit gleichem Command aber unterschiedlichen Env-Variablen werden nicht mehr fälschlich dedupliziert; `/doctor` meldet keine „marketplace/plugin not found" mehr für veraltete `enabledPlugins`-Einträge; branch-tracking-Plugins erhalten nach Registry-Rebuild wieder Updates; Remote-MCP-Server verbinden sich in Remote-Sessions auch bei aktivem Egress-Proxy; Effort-Change-Dialog erscheint nicht mehr ohne Messages oder bei gleichem Zielwert; Agent-Tool-Beschreibung referenziert keine nie gelieferte Agent-Liste mehr bei `--bare`; Worker-Crash in `claude agents` beim Annehmen veralteter Permission-Prompts nach Subagent-Abbruch behoben; `cache_creation_input_tokens` meldet Cache-Writes korrekt; PushNotification meldet in SDK-Sessions mit aktivem Remote-Control nicht mehr fälschlich „Mobile push not sent"; festhängende Sessions nach Modell-/Login-Wechsel durch veraltete Thinking-Block-Signaturen behoben (werden proaktiv entfernt, mit Retry-Sicherheitsnetz).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Breite Sammlung von Stabilitäts-, Telemetrie- und UI-Korrekturen für reibungsloseres Arbeiten in langen Sessions und Remote-/Background-Setups.
+- **Version:** v2.1.152
+
+---
 
 ### Woche 21 (23. Mai 2026) — v2.1.150
 
