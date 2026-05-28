@@ -1,11 +1,72 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-27 18:01 UTC
+> Letzte Aktualisierung: 2026-05-28 06:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 22 (28. Mai 2026) — v2.1.153
+
+---
+
+### [`skipLfs` für github/git Plugin-Marketplaces]
+- **Was:** `github`- und `git`-Plugin-Marketplace-Quellen akzeptieren jetzt eine `skipLfs`-Option, die Git-LFS-Downloads bei Clone und Update überspringt.
+- **Einsatz:** `skipLfs: true` in der Marketplace-Source-Konfiguration setzen
+- **Mehrwert:** Plugins mit großen LFS-Assets installieren schneller und sparen Bandbreite, wenn die LFS-Inhalte gar nicht benötigt werden.
+- **Version:** v2.1.153
+
+### [`/model` speichert Auswahl als neuen Default]
+- **Was:** `/model` speichert die getroffene Auswahl jetzt als Default für neue Sessions. Mit `s` lässt sich das Modell nur für die aktuelle Session umstellen.
+- **Einsatz:** `/model` öffnen → Modell auswählen (default) bzw. `s` drücken (nur diese Session)
+- **Mehrwert:** Modellwechsel persistieren ohne Konfig-Edit — und temporäre Wechsel ohne Default-Verlust sind weiterhin möglich.
+- **Version:** v2.1.153
+- **Breaking:** Wer das Keybinding `modelPicker:setAsDefault` angepasst hat, muss es in `keybindings.json` zu `modelPicker:thisSessionOnly` umbenennen (`d`-Action wurde durch `s` ersetzt).
+
+### [Einmal-Hinweis bei blockiertem npm-Auto-Update]
+- **Was:** Wenn der globale npm-Install nicht auto-updaten kann, zeigt Claude Code einmalig einen Hinweis; `/doctor` listet die nötigen Fixes auf.
+- **Einsatz:** Automatisch aktiv; bei Bedarf `/doctor` aufrufen
+- **Mehrwert:** Hängengebliebene Versionen fallen sofort auf, statt unbemerkt zu veralten.
+- **Version:** v2.1.153
+
+### [Status-Line-Commands kennen `COLUMNS`/`LINES`]
+- **Was:** Status-Line-Befehle erhalten jetzt die Umgebungsvariablen `COLUMNS` und `LINES` für terminal-bewusste Ausgabengrößen.
+- **Einsatz:** Im Status-Line-Skript `$COLUMNS` / `$LINES` lesen
+- **Mehrwert:** Status-Line-Skripte können ihre Ausgabe an die aktuelle Terminalbreite anpassen — kein Abschneiden oder Umbrechen mehr.
+- **Version:** v2.1.153
+
+### [`claude agents`: Autocomplete für Slash-Commands & Skills]
+- **Was:** Im Dispatch-Input von `claude agents` schlägt der Autocomplete jetzt native Slash-Commands und gebündelte Skills vor. Die PR-Spalte zeigt `PR #N` bei einer PR bzw. `N PRs` bei mehreren.
+- **Einsatz:** `claude agents` öffnen und im Dispatch-Input tippen
+- **Mehrwert:** Schnellerer Zugriff auf Commands/Skills aus der Agent-View und übersichtlichere Mehrfach-PR-Anzeige.
+- **Version:** v2.1.153
+
+### [`claude doctor` zeigt letztes Update-Ergebnis]
+- **Was:** `claude doctor` zeigt jetzt das Ergebnis des letzten Update-Versuchs an.
+- **Einsatz:** `claude doctor` aufrufen
+- **Mehrwert:** Beim Troubleshooting sofort sichtbar, ob das letzte Auto-Update funktioniert hat oder gescheitert ist — ohne in Logs zu graben.
+- **Version:** v2.1.153
+
+### [Zusammengeführte „needs authentication"-Notifications]
+- **Was:** Separate „needs authentication"-Benachrichtigungen für MCP-Server und Connectoren werden zu einer einzigen Meldung zusammengeführt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Notification-Lärm, klarerer Re-Auth-Hinweis.
+- **Version:** v2.1.153
+
+### [macOS: Background-Agents als „Claude Code" in Privacy & Security]
+- **Was:** Background-Agents erscheinen auf macOS jetzt unter dem Namen „Claude Code" in den Privacy-&-Security-Settings — mit persistenten Permission-Grants über Sessions hinweg.
+- **Einsatz:** Automatisch aktiv (macOS)
+- **Mehrwert:** Permissions (z. B. Files, Accessibility) müssen nicht bei jeder Session neu erteilt werden und bleiben einem klar benannten Eintrag zugeordnet.
+- **Version:** v2.1.153
+
+### [Fixes in v2.1.153]
+- **Was:** Breite Fix-Welle: stateful MCP-Server ohne optionalen GET-SSE-Stream loopen nicht mehr auf `tools/list` (Regression aus v2.1.147); Custom-API-Gateway erhält wieder das Gateway-Token statt der User-OAuth-Credential; Subagent-Frontmatter-MCP-Server respektieren `--strict-mcp-config`, `--bare`, Remote-Mode und Managed-Settings-Policies; `--strict-mcp-config` strippt inline `mcpServers` aus explizit übergebenen Agent-Definitionen nicht mehr; Windows-PowerShell-Installer meldet keinen falschen Erfolg mehr; `claude update` installiert wieder die für den konfigurierten Release-Channel passende Version statt der neuesten; Speicherverbrauch beim Resume per Transcript-File auf Maschinen mit vielen Sessions stark reduziert; CLI exited sauber, wenn stdin im `stream-json`-Mode ohne EOF schließt; malformed `file://`-Links werden im Terminal wieder klickbar; `claude --help` rendert auf schmalen Terminals korrekt umbrochen; MCP-Tool-Progress-Notifications erscheinen im kollabierten Tool-View; `Agent`-Tool mit `subagent_type: 'claude'` verwirft keine gitignored Outputs mehr stillschweigend; `/bg` verliert keine Antworten mehr während Claude antwortet; `/btw`-Keyboard-Shortcuts bleiben in Background-Sessions reagibel; Temp-Files lösen keine „sensitive file"-Permission-Prompts mehr aus; Stack-Traces für gelöschte Working-Directories nicht mehr abgeschnitten; `EnterWorktree`-Verfügbarkeit in Background-Sessions korrekt getimt; `cmd+k` repaintet wieder attached Background-Sessions in iTerm2/Terminal.app; IME-Candidate-Window-Position auf Windows korrigiert; Background-Color-Bleed in 256-Color-Terminals nach File-Diffs behoben; `/copy` aktualisiert die Clipboard auch in Background-Sessions in tmux; Remote-Control-Zombie-Sessions entfernt; `/rename` aktualisiert das Session-Banner sofort; Windows-Update-Rollback-Wiederherstellung repariert; VS-Code-Prozess-Cleanup auf Windows.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere MCP-Verbindungen, sauberere Auth-/Gateway-Trennung, geringerer Speicherverbrauch und zahlreiche Terminal-/Windows-/Background-Session-Korrekturen.
+- **Version:** v2.1.153
+
+---
 
 ### Woche 22 (27. Mai 2026) — v2.1.152
 
