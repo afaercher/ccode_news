@@ -1,11 +1,65 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-28 12:01 UTC
+> Letzte Aktualisierung: 2026-05-28 18:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 22 (28. Mai 2026) — Plattform-Launch: Claude Opus 4.8 & Dynamic Workflows
+
+---
+
+### [Claude Opus 4.8 ist das neue Default-Modell]
+- **Was:** Anthropic launcht Claude Opus 4.8 (`claude-opus-4-8`) als neues, leistungsfähigstes GA-Modell. Default-Context: 1M Token auf Claude API, Amazon Bedrock und Vertex AI (200k auf Microsoft Foundry), 128k Max-Output. Pricing unverändert zu 4.7 ($5/$25 pro MTok Input/Output). Effort-Parameter steht jetzt überall — inkl. Claude Code und Messages API — per Default auf `high`. Cacheable-Prompt-Mindestlänge sinkt auf 1.024 Token. Adaptive-Thinking triggert Reasoning gezielter und reduziert verschwendete Thinking-Token. Laut Anthropic ist 4.8 ca. 4× seltener bereit, Fehler in selbst geschriebenem Code unkommentiert durchgehen zu lassen.
+- **Einsatz:** Modell-ID `claude-opus-4-8` in API-Requests oder im Claude-Code-Model-Picker auswählen
+- **Mehrwert:** Höhere Code-Honesty, stärkere agentische Zuverlässigkeit, mehr Default-Context (1M) und bessere Effizienz beim Thinking — bei unverändertem Preis.
+- **Version:** Plattform 2026-05-28
+
+### [Dynamic Workflows in Claude Code — Research Preview]
+- **Was:** Workflows landen in Claude Code als Research Preview. Sie erlauben deterministisches Orchestrieren mehrstufiger agentischer Pläne — inkl. Planung von Großprojekten und paralleler Ausführung über hunderte Subagenten (z. B. Codebase-Migrationen über hunderttausende Zeilen). Workflows können andere Workflows als Sub-Step inline aufrufen (ein Verschachtelungslevel), teilen Concurrency-Cap und Token-Budget, und ihre Tokens zählen ins Session-Budget.
+- **Einsatz:** Workflow-Tool aus Claude Code aufrufen oder ein gespeichertes Workflow-Script per Name starten. Skripte beginnen mit `export const meta = { name, description, phases }` und nutzen `agent()`, `parallel()`, `pipeline()`, `phase()`.
+- **Mehrwert:** Komplexe Multi-Agenten-Arbeit wird wiederholbar und nachvollziehbar — keine Ein-Schritt-Heuristiken mehr für Migrationen, breite Audits oder strukturierte Fan-Outs.
+- **Version:** Plattform 2026-05-28
+
+### [Mid-Conversation System Messages]
+- **Was:** Auf Opus 4.8 lassen sich `role: "system"`-Messages nach einem User-Turn in den `messages`-Array einfügen. Prompt-Cache-Hits bleiben erhalten, wenn sich Instruktionen während einer lang laufenden Session ändern. Kein Beta-Header nötig.
+- **Einsatz:** In API-Requests `{"role": "system", "content": "…"}` an erlaubten Positionen im Messages-Array senden (siehe Placement-Regeln in der Doku)
+- **Mehrwert:** Lange Agent-Sessions können System-Instruktionen mitten im Verlauf aktualisieren, ohne den Prompt-Cache neu aufzubauen — spart Latenz und Kosten bei dynamischen Workflows.
+- **Version:** Plattform 2026-05-28
+
+### [`stop_details` für Refusal-Responses öffentlich dokumentiert]
+- **Was:** Das `stop_details`-Feld auf Refusal-Responses ist nun offiziell dokumentiert. Es enthält eine `category` (`cyber`, `bio` oder `null`) und eine menschenlesbare `explanation`, damit Anwendungen verschiedene Refusal-Klassen unterschiedlich routen können. Kein Beta-Header nötig.
+- **Einsatz:** Bei `stop_reason: "refusal"` das `stop_details`-Objekt aus der API-Response auslesen
+- **Mehrwert:** Refusal-Handling lässt sich strukturiert in Produkt-Flows abbilden (z. B. Safety-Logging vs. User-Hinweis vs. Re-Routing), statt nur einen generischen Refusal-String zu sehen.
+- **Version:** Plattform 2026-05-28
+
+### [Fast Mode auf Opus 4.8 — drastisch günstiger]
+- **Was:** Fast Mode für Claude Opus 4.8 startet auf der Claude API als Research Preview. Pricing: $10/$50 pro MTok Input/Output — laut Anthropic ca. 3× günstiger als bisherige Fast-Modes. In Claude Code laufen Max-Plan-User auf Opus 4.8 jetzt per Default in Fast Mode.
+- **Einsatz:** `speed: "fast"` mit `model: "claude-opus-4-8"` auf der API; in Claude Code automatisch für Max-Plan-User auf 4.8 aktiv, ansonsten `/fast` toggeln
+- **Mehrwert:** Spürbar schnelleres Token-Generation für interaktive Sessions zu deutlich niedrigeren Fast-Mode-Aufschlägen — Fast Mode wird damit alltagstauglich, nicht nur für Notfälle.
+- **Version:** Plattform 2026-05-28
+
+### [Auto Mode in Claude Code für mehr User]
+- **Was:** Anthropic rollt Auto Mode (der Permission-Classifier, der sichere Aktionen ohne Prompt durchlässt und riskante blockiert) in Claude Code für lang laufende Tasks auf weitere User aus. Ergänzend hatte v2.1.152 bereits den Consent-Opt-in entfernt.
+- **Einsatz:** In Settings / Permissions Auto Mode aktivieren; nach Rollout in der Account-Eligibility verfügbar
+- **Mehrwert:** Lange agentische Läufe (Migrations, Audits, Bulk-Edits) brauchen weniger manuelle Permission-Klicks, ohne dass `--dangerously-skip-permissions` nötig wird.
+- **Version:** Plattform 2026-05-28
+
+### [Plattform-Erweiterungen für Opus 4.8: Task Budgets, Advisor, Computer Use, High-Res-Vision]
+- **Was:** Task Budgets, Advisor Tool und Computer Use unterstützen jetzt Opus 4.8. High-Resolution-Image-Input (bis 2576 px Long Edge) bleibt wie auf 4.7 unterstützt. Sampling-Parameter (`temperature`, `top_p`, `top_k`) müssen auf Default bleiben — abweichende Werte liefern HTTP 400 (gleich wie 4.7).
+- **Einsatz:** `model: "claude-opus-4-8"` in entsprechenden Tool-Calls / Vision-Requests setzen
+- **Mehrwert:** 4.8 ist drop-in-kompatibel zu den 4.7-Tool-Ökosystemen — Migration ist ein Modell-ID-Wechsel, kein Refactor.
+- **Version:** Plattform 2026-05-28
+
+### [Fast Mode für Opus 4.6 wird deprecated]
+- **Was:** Fast Mode für Claude Opus 4.6 ist als deprecated markiert; Entfernung ca. 30 Tage nach Launch (also ca. Ende Juni 2026). Migration: Fast Mode auf Opus 4.8 oder 4.7.
+- **Einsatz:** API-Requests mit `model: "claude-opus-4-6"` + `speed: "fast"` rechtzeitig auf `claude-opus-4-8` umstellen
+- **Mehrwert:** Frühzeitige Warnung vermeidet 4xx-Fehler in produktiven Fast-Mode-Pipelines nach der 30-Tage-Frist.
+- **Version:** Plattform 2026-05-28
+
+---
 
 ### Woche 22 (28. Mai 2026) — v2.1.153
 
