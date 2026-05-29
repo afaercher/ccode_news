@@ -1,11 +1,151 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-28 18:00 UTC
+> Letzte Aktualisierung: 2026-05-29 18:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 22 (29. Mai 2026) — Plattform: Managed Agents auf Claude Platform on AWS
+
+---
+
+### [Managed Agents auf AWS: Webhooks, Multiagent-Orchestrierung & Self-Hosted Sandboxes]
+- **Was:** Claude Managed Agents bekommen auf der Claude Platform on AWS jetzt Webhooks, Multiagent-Orchestrierung und Self-Hosted Sandboxes — Features, die zuvor nur auf der First-Party-API verfügbar waren. Für die AWS-Integration gibt es neue IAM-Actions und eine Managed Policy `AnthropicSelfHostedEnvironmentAccess`.
+- **Einsatz:** In der AWS-Umgebung die IAM-Actions für Claude Platform on AWS einrichten bzw. die Managed Policy `AnthropicSelfHostedEnvironmentAccess` anhängen; Managed-Agents-Sessions dann über die nativen AWS-Endpoints nutzen
+- **Mehrwert:** AWS-Kunden bekommen Feature-Parität bei Managed Agents über AWS-Billing und IAM-Auth — Event-getriebene Workflows (Webhooks), parallele Agent-Teams (Multiagent) und Tool-Execution in eigener Infrastruktur (Self-Hosted Sandboxes) laufen jetzt auch innerhalb des AWS-Governance-Rahmens.
+- **Version:** Plattform 2026-05-29
+
+---
+
+### Woche 22 (29. Mai 2026) — v2.1.156
+
+---
+
+### [Fix: Opus 4.8 — modifizierte Thinking-Blöcke führten zu API-Fehlern]
+- **Was:** Auf Opus 4.8 wurden Thinking-Blöcke unter bestimmten Umständen verändert, was zu API-Fehlern führte. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere Sessions auf dem neuen Default-Modell — keine abgebrochenen Requests mehr durch inkonsistente Thinking-Blöcke.
+- **Version:** v2.1.156
+
+---
+
+### Woche 22 (28. Mai 2026) — v2.1.154 (Claude-Code-Release zum Opus-4.8-Launch)
+
+> Hinweis: Die modellseitigen Punkte (Opus 4.8 als Default, Dynamic Workflows, Fast Mode auf 4.8) sind im Abschnitt „Plattform-Launch" weiter unten beschrieben. Hier stehen die Claude-Code-spezifischen Neuerungen aus v2.1.154.
+
+---
+
+### [`/effort xhigh` & umbenannte Slider-Labels]
+- **Was:** Opus 4.8 läuft per Default auf `high` Effort; für die schwersten Aufgaben gibt es `/effort xhigh`. Die `/effort`-Slider-Labels heißen jetzt „Faster"/„Smarter" statt „Speed"/„Intelligence".
+- **Einsatz:** `/effort xhigh` für maximale Reasoning-Tiefe; `/effort` öffnet den Slider
+- **Mehrwert:** Feinkontrolle über den Reasoning-Aufwand mit klareren Bezeichnungen — `xhigh` für harte Probleme, Default `high` für den Alltag.
+- **Version:** v2.1.154
+
+### [Lean System Prompt als Default]
+- **Was:** Der schlanke („lean") System-Prompt ist jetzt Default für alle Modelle außer Haiku, Sonnet sowie Opus 4.7 und älter.
+- **Einsatz:** Automatisch aktiv (auf Opus 4.8 und neueren Modellen)
+- **Mehrwert:** Weniger Prompt-Overhead bedeutet mehr nutzbaren Kontext und potenziell günstigere/schnellere Turns auf den aktuellen Modellen.
+- **Version:** v2.1.154
+
+### [Claude fragt seltener per Multiple-Choice nach]
+- **Was:** Claude reserviert den Multiple-Choice-Frage-Prompt (`AskUserQuestion`) jetzt für Entscheidungen, die es wirklich nicht selbst treffen kann — statt nachzufragen, wenn der Kontext für ein Weitermachen schon reicht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger unnötige Rückfragen-Unterbrechungen; agentische Läufe kommen flüssiger durch.
+- **Version:** v2.1.154
+
+### [`/simplify` ist jetzt ein reiner Cleanup-Review]
+- **Was:** `/simplify` führt nun einen reinen Aufräum-Review durch (Reuse, Vereinfachung, Effizienz, Altitude) und wendet die Fixes an — statt wie zuvor den vollen Bug-Hunting-Review von `/code-review --fix` zu starten.
+- **Einsatz:** `/simplify` für Qualitäts-Cleanup; `/code-review` für Bug-Suche
+- **Mehrwert:** Klare Trennung: `/simplify` poliert Code, `/code-review` jagt Bugs — keine Vermischung der beiden Anliegen mehr.
+- **Version:** v2.1.154
+
+### [`claude agents`: Shell-Befehl als Hintergrund-Session (`! <command>`)]
+- **Was:** Im `claude agents`-Dispatch-Input startet `! <command>` einen Shell-Befehl als Hintergrund-Session, an die man sich an- und abkoppeln kann. Auch verfügbar als `claude --bg --exec '<command>'`.
+- **Einsatz:** `! npm run build` in der Agents-View oder `claude --bg --exec 'npm test'`
+- **Mehrwert:** Lange Shell-Tasks (Builds, Tests, Watcher) laufen als verwaltete Hintergrund-Session — attach/detach statt blockiertem Terminal.
+- **Version:** v2.1.154
+
+### [`claude agents`: `/logout` meldet wirklich ab]
+- **Was:** `/logout` in der Agents-View meldet jetzt ab, statt fälschlich in eine Hintergrund-Session zu wechseln.
+- **Einsatz:** `/logout` in `claude agents`
+- **Mehrwert:** Erwartetes Verhalten beim Abmelden — keine versehentliche Background-Session mehr.
+- **Version:** v2.1.154
+
+### [Agents-View (`←←`) auf Bedrock, Vertex, Foundry & ohne Telemetrie]
+- **Was:** Das Öffnen der Agents-View per `←←` funktioniert nun auch auf Amazon Bedrock, Google Vertex, Microsoft Foundry und bei deaktivierter Telemetrie.
+- **Einsatz:** `←←` (Doppel-Links) zum Öffnen der Agents-View
+- **Mehrwert:** Enterprise-/Cloud-Provider-Nutzer bekommen denselben Multi-Session-Überblick wie API-Direktnutzer.
+- **Version:** v2.1.154
+
+### [Claude in Chrome: Browser-Auswahl via `/chrome`]
+- **Was:** Bei mehreren verbundenen Browsern lässt sich der zu nutzende Browser über `/chrome` → „Select browser…" wählen — oder direkt im Chat, wenn eine Browser-Aktion mit mehreren verbundenen Browsern läuft.
+- **Einsatz:** `/chrome` → „Select browser…"
+- **Mehrwert:** Klare Steuerung, welcher Browser für Automatisierung genutzt wird, wenn mehrere Sessions verbunden sind.
+- **Version:** v2.1.154
+
+### [Plugins: `defaultEnabled: false`]
+- **Was:** Plugins können in `plugin.json` oder einem Marketplace-Eintrag `defaultEnabled: false` deklarieren; aktiviert werden sie dann per `/plugin` oder `claude plugin enable`. Abhängigkeiten aktivierter Plugins werden weiterhin automatisch mitaktiviert.
+- **Einsatz:** `"defaultEnabled": false` in `plugin.json` setzen; aktivieren mit `claude plugin enable <name>`
+- **Mehrwert:** Plugin-Autoren können optionale/schwere Plugins ausliefern, ohne sie allen sofort aufzuzwingen — Opt-in statt Opt-out.
+- **Version:** v2.1.154
+
+### [`/plugin` Discover: „suggested for this directory"]
+- **Was:** Der Discover-Tab in `/plugin` pinnt jetzt Plugins, deren Relevanz-Signale zum aktuellen Verzeichnis passen, mit einer „suggested for this directory"-Markierung.
+- **Einsatz:** `/plugin` → Discover-Tab
+- **Mehrwert:** Schnellere Entdeckung passender Plugins für das aktuelle Projekt, ohne manuell zu suchen.
+- **Version:** v2.1.154
+
+### [Streaming Tool Execution immer aktiv]
+- **Was:** Streaming-Tool-Execution ist jetzt immer aktiviert — auch bei deaktivierter Telemetrie und auf Bedrock/Vertex/Foundry (vorher hinter einem Feature-Flag).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Tool-Ausgaben erscheinen live während der Ausführung, unabhängig vom Provider oder Telemetrie-Setting.
+- **Version:** v2.1.154
+
+### [Stdio-MCP-Server erhalten Session-Env-Variablen]
+- **Was:** Stdio-MCP-Server-Subprozesse bekommen jetzt `CLAUDE_CODE_SESSION_ID` und `CLAUDECODE=1` in ihrer Umgebung.
+- **Einsatz:** Automatisch aktiv — in MCP-Server-Code via `process.env.CLAUDE_CODE_SESSION_ID` auslesbar
+- **Mehrwert:** MCP-Server können session-spezifisches Verhalten/Logging implementieren und erkennen, dass sie unter Claude Code laufen.
+- **Version:** v2.1.154
+
+### [`claude mcp list`/`get`: „Pending approval" statt Auto-Approve]
+- **Was:** `claude mcp list`/`get` zeigen nicht-genehmigte `.mcp.json`-Server bei gepipter Ausgabe jetzt als `⏸ Pending approval` an, statt sie automatisch zu genehmigen und zu verbinden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sicherheitsgewinn: ein `claude mcp list | …` verbindet nicht mehr stillschweigend ungeprüfte MCP-Server.
+- **Version:** v2.1.154
+
+### [`/claude-api`-Skill: Opus-4.8-Support & Migrationshilfe]
+- **Was:** Das `/claude-api`-Skill kennt jetzt Claude Opus 4.8 und bietet 4.7 → 4.8 Migrations-Guidance.
+- **Einsatz:** `/claude-api` beim Bauen/Migrieren von Anthropic-SDK-Code aufrufen
+- **Mehrwert:** Direkte Unterstützung beim Umstellen bestehender API-Apps auf das neue Default-Modell.
+- **Version:** v2.1.154
+
+### [Auto-Mode: bessere Erkennung von Daten-Exfiltration]
+- **Was:** Der Auto-Mode-Classifier erkennt Daten-Exfiltration jetzt besser — insbesondere Bulk-Transfers von Repository-Inhalten.
+- **Einsatz:** Automatisch aktiv (im Auto Mode)
+- **Mehrwert:** Lange autonome Läufe sind sicherer; massenhaftes Abfließen von Repo-Inhalten wird eher blockiert.
+- **Version:** v2.1.154
+
+### [Deprecation: `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE`]
+- **Was:** Die Env-Variable `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` ist deprecated (Entfernung am 01.06.2026). Für Fast Mode auf Opus 4.6 stattdessen mit `/model claude-opus-4-6[1m]` wechseln und dann `/fast on`.
+- **Einsatz:** `/model claude-opus-4-6[1m]` → `/fast on` statt der Env-Variable
+- **Mehrwert:** Frühzeitige Warnung verhindert Brüche in Setups, die noch auf das alte Override-Flag setzen.
+- **Version:** v2.1.154
+
+### [Weitere Verbesserungen in v2.1.154]
+- **Was:** Diverse kleinere Verbesserungen: `/remote-control`-Autocomplete zeigt „Disconnect Remote Control", wenn Remote Control aktiv ist; das stale „& for background"-Hint wurde aus der Shortcuts-Hilfe entfernt; VSCode-Auto-Mode benötigt nicht mehr das Bypass-Permissions-Setting im Mode-Picker (mit Erklär-Hinweis beim ersten Aktivieren).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Aufgeräumte UI und stimmigeres Verhalten in Remote-Control- und VSCode-Szenarien.
+- **Version:** v2.1.154
+
+### [Fixes in v2.1.154]
+- **Was:** Umfangreiche Bugfixes, u. a.: `rm -rf $HOME` wird auch bei `HOME` mit Trailing-Slash als gefährlich blockiert; `$TMPDIR` löst in sandboxed/unsandboxed Bash innerhalb derselben Session konsistent auf; Subagents in Hintergrund-Sessions umgehen nicht mehr den Worktree-Isolation-Guard; `worktree.baseRef: "head"` löst korrekt auf den HEAD des aktuellen Worktrees auf; Background-Agent-Completion-Notifications lösen kein verfrühtes „out of context"-Verhalten auf 1M-Modellen mehr aus; gepinnte Background-Sessions respawnen nicht mehr jede Minute nach Updates; verwaiste `claude --bg-pty-host`-Prozesse drehen nicht mehr bei 100 % CPU; Zahlen-Shortcuts funktionieren auch für Optionen unter dem Divider; ein einzelner ungültiger `allowedMcpServers`-Eintrag verwirft nicht mehr die gesamte Managed-Settings-Policy (wird mit `claude doctor`-Warnung verworfen); API-400-Fehler bei Modellen ohne Effort-Parameter trotz `CLAUDE_CODE_ALWAYS_ENABLE_EFFORT` behoben; diverse Rendering-Fixes (VS-Code-Farbkorruption, Wrapped-Lines, Thinking-Spinner, Task-Panel mit Stray-„main"-Zeile, `/model`-Picker-Fast-Mode-Pricing); Auto Mode blockiert nicht mehr mit „could not evaluate this action", wenn dem Safety-Classifier die Output-Token ausgingen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Mehr Sicherheit (Pfad-Blocking, Worktree-Isolation, Exfiltration), stabilere Background-/Worktree-Workflows und sauberere Darstellung.
+- **Version:** v2.1.154
+
+---
 
 ### Woche 22 (28. Mai 2026) — Plattform-Launch: Claude Opus 4.8 & Dynamic Workflows
 
