@@ -1,11 +1,89 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-05-29 18:00 UTC
+> Letzte Aktualisierung: 2026-05-30 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 22 (30. Mai 2026) — v2.1.158
+
+---
+
+### [Auto Mode auf Bedrock, Vertex & Foundry]
+- **Was:** Der Auto Mode (Klassifikator entscheidet automatisch über Permission-Prompts — sichere Aktionen laufen durch, riskante werden blockiert) ist jetzt auch auf Amazon Bedrock, Google Vertex und Microsoft Foundry verfügbar, für Opus 4.7 und Opus 4.8.
+- **Einsatz:** `CLAUDE_CODE_ENABLE_AUTO_MODE=1` setzen
+- **Mehrwert:** Enterprise-/Cloud-Provider-Nutzer bekommen denselben reibungsarmen Permission-Flow wie API-Direktnutzer — weniger Unterbrechungen bei sicheren Aktionen, ohne auf `--dangerously-skip-permissions` ausweichen zu müssen.
+- **Version:** v2.1.158
+
+---
+
+### Woche 22 (29. Mai 2026) — v2.1.157
+
+---
+
+### [Plugins aus `.claude/skills` werden automatisch geladen]
+- **Was:** Plugins in `.claude/skills`-Verzeichnissen werden jetzt automatisch geladen — ohne Marketplace. Neu ist auch `claude plugin init <name>`, das ein neues Plugin in `.claude/skills` scaffolded.
+- **Einsatz:** Plugin in `.claude/skills/<name>/` ablegen; neues Gerüst mit `claude plugin init <name>`
+- **Mehrwert:** Schnellster Weg, projektlokale Plugins/Skills zu entwickeln und zu nutzen — kein Marketplace-Eintrag und kein Install-Schritt mehr nötig.
+- **Version:** v2.1.157
+
+### [Autocomplete für `/plugin`-Argumente]
+- **Was:** `/plugin` bietet jetzt Autocomplete für Subcommands, installierte Plugin-Namen und Plugins aus bekannten Marketplaces. In `claude agents` matcht die Slash-Command-Autocomplete im Dispatch-Input jetzt auch Substrings.
+- **Einsatz:** `/plugin <Tab>`
+- **Mehrwert:** Schnellere, fehlerfreie Bedienung der Plugin-Verwaltung ohne Namen auswendig zu kennen.
+- **Version:** v2.1.157
+
+### [`agent`-Feld aus `settings.json` für dispatched Sessions]
+- **Was:** Das `agent`-Feld in `settings.json` wird jetzt für dispatched Sessions in `claude agents` berücksichtigt; mit `--agent <name>` lässt es sich überschreiben.
+- **Einsatz:** `"agent": "<name>"` in `settings.json` setzen oder `claude agents --agent <name>`
+- **Mehrwert:** Ein fester Default-Agent für dispatchte Sessions, projektweit konfigurierbar und pro Aufruf übersteuerbar.
+- **Version:** v2.1.157
+
+### [`EnterWorktree`: Wechsel zwischen Worktrees mitten in der Session]
+- **Was:** `EnterWorktree` kann jetzt mitten in einer Session zwischen Claude-verwalteten Worktrees wechseln. Zusätzlich werden Claude-verwaltete Worktrees nach Abschluss entsperrt zurückgelassen, sodass `git worktree remove`/`prune` sie aufräumen können.
+- **Einsatz:** `EnterWorktree` während der Session aufrufen
+- **Mehrwert:** Flexibleres Arbeiten über mehrere isolierte Arbeitskopien hinweg, ohne die Session neu zu starten — und kein manuelles Entsperren beim Aufräumen verwaister Worktrees.
+- **Version:** v2.1.157
+
+### [Workflow-Keyword-Trigger abschaltbar]
+- **Was:** Eine neue Einstellung „Workflow keyword trigger" in `/config` verhindert, dass das Wort „workflow" in einem Prompt einen Dynamic Workflow auslöst. Außerdem verwirft Backspace direkt nach einem Workflow-Trigger-Keyword die Workflow-Anfrage (wie `alt+w`), statt ein Zeichen zu löschen.
+- **Einsatz:** `/config` → „Workflow keyword trigger" deaktivieren; oder Backspace/`alt+w` zum Verwerfen
+- **Mehrwert:** Wer oft das Wort „workflow" beiläufig schreibt, wird nicht mehr ungewollt in die Workflow-Orchestrierung gezwungen.
+- **Version:** v2.1.157
+
+### [Tool-Telemetrie mit Tool-Parametern]
+- **Was:** `tool_decision`-Telemetrie-Events enthalten jetzt `tool_parameters` (Bash-Befehle, MCP-/Skill-Namen), wenn `OTEL_LOG_TOOL_DETAILS=1` gesetzt ist.
+- **Einsatz:** `OTEL_LOG_TOOL_DETAILS=1` setzen
+- **Mehrwert:** Detailliertere Observability für Teams, die nachvollziehen wollen, welche konkreten Tools/Befehle in Sessions ausgeführt werden.
+- **Version:** v2.1.157
+
+### [`/terminal-setup`: GPU-Acceleration in IDE-Terminals aus]
+- **Was:** `/terminal-setup` deaktiviert jetzt die GPU-Beschleunigung in den integrierten Terminals von VS Code, Cursor und Windsurf, um verstümmelten Text-Rendering vorzubeugen.
+- **Einsatz:** `/terminal-setup` ausführen
+- **Mehrwert:** Saubere Darstellung in IDE-Terminals — kein Garbled-Text mehr durch GPU-Rendering-Probleme.
+- **Version:** v2.1.157
+
+### [Performance: schnellere lange & wiederaufgenommene Konversationen]
+- **Was:** Redundante Message-Rendering-Neuberechnungen wurden eliminiert; lange und per `--resume` fortgesetzte Konversationen laufen dadurch flüssiger.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar reaktionsschnellere UI bei großen oder fortgesetzten Sessions.
+- **Version:** v2.1.157
+
+### [Aufgeräumte Startup-UI: Banner & Hints entfernt]
+- **Was:** Das „bash commands will be sandboxed"-Startup-Banner und der „/ide for …"-Hint-Toast wurden entfernt (Sandbox-Status bleibt in `/status` und bei blockierten Befehlen sichtbar). Der Feature-of-the-Week-Credit-Status erscheint jetzt als Notification im Status-Bereich statt als Zeile über dem Prompt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ruhigerer, weniger überladener Startbildschirm — relevante Infos bleiben, Rauschen verschwindet.
+- **Version:** v2.1.157
+
+### [Diverse Stabilitäts-Fixes (v2.1.157)]
+- **Was:** Zahlreiche Bugfixes, u. a.: korrupte/Null-Byte-Bilder (Paste/MCP/Dialog) crashen den Request nicht mehr, sondern werden zum Text-Platzhalter; Sandbox-Netzwerk-Prompts erscheinen nicht mehr fälschlich im Auto-/Bypass-Mode (Desktop/IDE/SDK); `claude agents`-Sessions retiren korrekt trotz geparkter Subagents; Esc bricht ein langsames „opening…" ab; Background-Agent-Worktrees werden nicht mehr verwaist; reattachte Background-Sessions kennen wieder das korrekte Datum; `--resume` meldet laufende Background-Subagents; `--worktree` kehrt zum richtigen Linked-Worktree zurück; `/model`-Picker zeigt keinen falschen „Newer version available"-Hinweis mehr; Rechtsklick-Paste dupliziert nicht mehr in VS Code/Cursor/Windsurf; WSL-Bild-Paste (`alt+v`), Screenshot-Paste (Win 11) und Drag-aus-Explorer funktionieren; IDE-Stop stoppt laufende Background-Subagents wirklich; Fast-Mode-Indikator erscheint in VS Code auf Opus 4.8.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deutlich robustere Sessions über Worktrees, Background-Agents, IDE-Integration und WSL hinweg — viele alltägliche Reibungspunkte und Regressionen sind beseitigt.
+- **Version:** v2.1.157
+
+---
 
 ### Woche 22 (29. Mai 2026) — Plattform: Managed Agents auf Claude Platform on AWS
 
