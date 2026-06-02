@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-01 18:01 UTC
+> Letzte Aktualisierung: 2026-06-02 17:30 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (2. Juni 2026) — v2.1.160
+
+---
+
+### [Workflow-Trigger-Keyword umbenannt: `workflow` → `ultracode`]
+- **Was:** Das Keyword, das einen Dynamic Workflow auslöst, heißt jetzt `ultracode` statt `workflow`. Das Wort „workflow" startet keinen Run mehr; in eigenen Worten nach einem Workflow zu fragen, funktioniert weiterhin. Das Trigger-Keyword wird im Prompt-Input violett hervorgehoben.
+- **Einsatz:** `ultracode` im Prompt schreiben, um Dynamic Workflows / xhigh-Orchestrierung auszulösen
+- **Mehrwert:** Das alltägliche Wort „workflow" löst nicht mehr versehentlich eine teure Multi-Agent-Orchestrierung aus — der Trigger ist jetzt ein bewusstes, eindeutiges Schlüsselwort.
+- **Version:** v2.1.160
+
+### [Schutz beim Schreiben in Shell-Startup- & Git-Config-Dateien]
+- **Was:** Claude fragt jetzt nach, bevor in Shell-Startup-Dateien (`.zshenv`, `.zlogin`, `.bash_login`) oder `~/.config/git/` geschrieben wird — Dateien, die sonst zu ungewollter Befehlsausführung führen könnten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Eine Klasse subtiler Sicherheitsrisiken (Code-Ausführung über manipulierte Startup-Dateien) wird durch eine explizite Rückfrage abgefangen.
+- **Version:** v2.1.160
+
+### [`acceptEdits` fragt bei Build-Tool-Config-Dateien nach]
+- **Was:** Im `acceptEdits`-Modus fragt Claude jetzt nach, bevor Build-Tool-Konfigurationsdateien geschrieben werden, die Code-Ausführung erlauben (`.npmrc`, `.yarnrc*`, `bunfig.toml`, `.bazelrc`, `.pre-commit-config.yaml`, `.devcontainer/` u. a.).
+- **Einsatz:** Automatisch aktiv (im `acceptEdits`-Modus)
+- **Mehrwert:** Auch bei automatisch akzeptierten Edits bleibt der gefährliche Spezialfall „Config-Datei mit Ausführungssemantik" eine bewusste Entscheidung.
+- **Version:** v2.1.160
+
+### [Edit nach `grep` ohne separates Read]
+- **Was:** Ein Edit benötigt nach dem Betrachten einer Datei via `grep` kein separates Read mehr — Single-File-`grep`/`egrep`/`fgrep`-Befehle erfüllen jetzt den Read-before-Edit-Check.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger redundante Tool-Schritte: Wer eine Stelle per grep findet, kann sie direkt editieren — schnellere, kürzere Edit-Flows.
+- **Version:** v2.1.160
+
+### [Schnellerer Auto-Mode-Klassifikator]
+- **Was:** Die Latenz des Auto-Mode-Klassifikators wurde reduziert (weniger Reasoning bei Routine-Aktionen), was auch die Wahrscheinlichkeit von „could not evaluate this action"-Blocks senkt. Zudem verweist die Unverfügbarkeits-Meldung auf Drittanbietern (Bedrock/Vertex/Foundry) jetzt korrekt auf das `CLAUDE_CODE_ENABLE_AUTO_MODE`-Opt-in statt das Modell zu beschuldigen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Reibungsärmerer Auto-Mode: schnellere Permission-Entscheidungen und weniger fälschliche Blockaden.
+- **Version:** v2.1.160
+
+### [`ultracode`-Effort nur auf unterstützten Modellen]
+- **Was:** `/effort ultracode` wird nicht mehr auf Modellen angeboten, die kein xhigh ausführen können, und beschuldigt nicht länger fälschlich die Dynamic-Workflows-Einstellung.
+- **Einsatz:** `/effort ultracode` (nur auf unterstützten Modellen sichtbar)
+- **Mehrwert:** Klarere UX — der Effort-Modus erscheint nur dort, wo er tatsächlich funktioniert.
+- **Version:** v2.1.160
+
+### [Aufräumarbeiten: Env-Var & Startup-Hinweis entfernt]
+- **Was:** Die Umgebungsvariable `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` ist jetzt ein No-Op (entfernt). Der JetBrains-Plugin-Installationsvorschlag wurde aus dem Startup entfernt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Altlasten und ein ruhigerer Startbildschirm ohne überflüssige Installationshinweise.
+- **Version:** v2.1.160
+
+### [Robustere Background-Sessions & `claude agents`]
+- **Was:** Zahlreiche Fixes rund um Hintergrund-Sessions und die Agent-Ansicht: Wiederherstellen einer abgeschlossenen Session aus `claude agents` verwirft nicht mehr den Chatverlauf und führt nicht den ursprünglichen Prompt erneut aus (gilt auch für nach Übernachtung reattachte Sessions); `claude --bg` scheitert nicht mehr sporadisch mit „socket missing" beim Kaltstart; resumte Background-Agents werden nicht mehr fälschlich unter „Completed" gelistet; das Öffnen länger inaktiver Background-Sessions ist schneller; das Teardown sendet vor SIGKILL ein SIGTERM an Shell-Subprozesse, damit Cleanup-Handler laufen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hintergrund-Sessions verlieren keinen Kontext mehr und räumen sauber auf — verlässlicheres Arbeiten mit `claude agents` und `--bg`.
+- **Version:** v2.1.160
+
+### [Windows-, WSL- & IDE-Terminal-Fixes]
+- **Was:** Copy-on-Select schreibt auf WSL jetzt korrekt in die Windows-Zwischenablage (PowerShell-Interop statt OSC 52, das z. B. MobaXterm nicht unterstützt); `file:///C:/...`-Links werden auf Windows nicht mehr zu kaputten Pfaden umgeschrieben; Esc/Pfeiltasten/Tippen bleiben unter hoher CPU-Last responsiv; CJK-IME-Komposition erscheint am Eingabe-Caret statt unten links; Render-Artefakte durch Terminal-Sync-Marker (Apple Terminal, tmux) wurden behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deutlich saubereres Verhalten auf Windows/WSL und in IDE-/Spezial-Terminals.
+- **Version:** v2.1.160
+
+### [Weitere Fixes (v2.1.160)]
+- **Was:** Voice Mode verbindet sich auch bei Nicht-ASCII-/Sonderzeichen im Projektpfad oder Branch-Namen; Vim-Mode `p` fügt am Cursor ein (statt in der Zeile darunter) nach `v$`-Yank; resumte Brief-Mode-Sessions verlieren Claudes frühere Antworten nicht mehr aus dem Scrollback; Mausrad scrollt direkt nach dem Öffnen einer Session das Transkript statt der Prompt-History; Model-not-found-Fehler schlagen kein `--model` mehr vor, wenn via SDK/anderem Host ausgeführt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Viele kleine Reibungspunkte im Alltag — Voice Mode, Vim, Scrollback und Fehlermeldungen — verschwinden.
+- **Version:** v2.1.160
+
+---
 
 ### Woche 22 (30. Mai 2026) — v2.1.158
 
