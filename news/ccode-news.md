@@ -1,11 +1,59 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-02 18:01 UTC
+> Letzte Aktualisierung: 2026-06-03 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (3. Juni 2026) — v2.1.161
+
+---
+
+### [Fehlgeschlagene Bash-Befehle brechen parallele Tool-Calls nicht mehr ab]
+- **Was:** Wenn in einem Batch mehrere Tools parallel laufen und ein Bash-Befehl fehlschlägt, werden die anderen parallelen Tool-Calls desselben Batches nicht länger mit abgebrochen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ein einzelner fehlschlagender Befehl verwirft nicht mehr die Arbeit paralleler Tools — weniger Wiederholungen und stabilere Mehrfach-Tool-Schritte.
+- **Version:** v2.1.161
+
+### [`claude agents` zeigt `done/total` bei aufgefächerter Arbeit]
+- **Was:** In der Agent-Ansicht zeigen Zeilen jetzt `done/total` vor dem Detail an, wenn Arbeit auf mehrere Subagents aufgefächert wurde. Zusätzlich klappt `/mcp` ungenutzte claude.ai-Connectors hinter eine „Show unused connectors"-Zeile ein.
+- **Einsatz:** `claude agents` / `/mcp`
+- **Mehrwert:** Schnellerer Überblick über den Fortschritt fanned-out Arbeit und eine aufgeräumtere MCP-Connector-Liste.
+- **Version:** v2.1.161
+
+### [Linux-Fullscreen-Clipboard nutzt `wl-copy`/`xclip`/`xsel`]
+- **Was:** Im Fullscreen-Modus nutzt die Zwischenablage auf Linux jetzt `wl-copy`, `xclip` oder `xsel`, sofern verfügbar.
+- **Einsatz:** Automatisch aktiv (Linux)
+- **Mehrwert:** Zuverlässigeres Kopieren auf Linux-Desktops (Wayland/X11) ohne OSC-52-Einschränkungen.
+- **Version:** v2.1.161
+
+### [Secrets nicht mehr in `claude mcp`-Ausgaben]
+- **Was:** `claude mcp`-Befehle geben keine Secrets mehr aus; `${VAR}`-Referenzen werden nicht länger expandiert. Ergänzend: managed-settings-Policies blockieren keine Drittanbieter-Provider-Sessions mehr neben einem Org-Pin.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Geringeres Risiko, dass Zugangsdaten versehentlich in Logs/Terminals landen — sicherere MCP-Verwaltung.
+- **Version:** v2.1.161
+
+### [Reduce-Motion respektiert & Telemetrie-Fixes]
+- **Was:** `/effort`-Dialog, Workflow-Animationen und das Prompt-Keyword-Schimmern honorieren jetzt die „Reduce motion"-Einstellung. OpenTelemetry-Fixes: `OTEL_RESOURCE_ATTRIBUTES`-Werte erscheinen als Labels auf Metrik-Datenpunkten; Log-Events vor der Telemetrie-Initialisierung gehen nicht mehr verloren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bessere Barrierefreiheit (weniger Bewegung) und verlässlichere, vollständigere Telemetrie-Daten.
+- **Version:** v2.1.161
+
+### [Worktree-, Resume- & Hintergrund-Session-Fixes]
+- **Was:** `/autofix-pr` meldet in Git-Worktrees nicht mehr fälschlich „cannot run on default branch"; der `--resume`-Picker zeigt Sessions aus dem aktuellen Verzeichnis auch in Nicht-Git-Worktrees; Workflow-Agents mit `isolation: "worktree"` können ihre Worktree-Dateien wieder editieren; Hintergrund-Sessions booten nicht mehr ein veraltetes Modell aus der Daemon-Umgebung.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Worktree- und Resume-Flows funktionieren zuverlässig — kein verlorener Kontext, keine falschen Branch-Fehler.
+- **Version:** v2.1.161
+
+### [Weitere Fixes & Performance (v2.1.161)]
+- **Was:** Hintergrund-Subagent-Ausgaben verfälschen die `claude -p`-stdout bei `text`/`json`-Output-Formaten nicht mehr; `/usage-credits` startet kein Re-Login mehr, sondern verweist auf die Org-Nutzungseinstellungen; Windows-Hooks mit explizitem `bash` scheitern nicht mehr mit „command not found"; behoben: Crash beim Rendern von Write-Ergebnissen nach Session-Resume, abgeschlossene Subagents fälschlich als „running", `EADDRINUSE` bei Unix-Sockets unter tiefem `$CLAUDE_CODE_TMPDIR`. Performance: schnelleres Terminal-Rendering (Layout-Engine-JIT), schnelleres Schreiben großer Dateien; VSCode-Tipp gegen verzerrte Glyphen (GPU-Beschleunigung deaktivieren).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Viele Stabilitäts- und Performance-Verbesserungen für Headless-Nutzung, Windows, Resume und große Dateien.
+- **Version:** v2.1.161
+
+---
 
 ### Woche 23 (2. Juni 2026) — v2.1.160
 
