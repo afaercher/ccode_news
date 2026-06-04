@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-03 18:00 UTC
+> Letzte Aktualisierung: 2026-06-04 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (4. Juni 2026) — v2.1.162
+
+---
+
+### [`claude agents --json` zeigt `waitingFor`]
+- **Was:** `claude agents --json` enthält jetzt ein `waitingFor`-Feld, das anzeigt, worauf eine wartende Session blockiert ist (z. B. ein Permission-Prompt).
+- **Einsatz:** `claude agents --json`
+- **Mehrwert:** Programmatische Überwachung erkennt jetzt eindeutig, warum eine Session hängt — ideal für Dashboards und Automatisierung über mehrere Agents.
+- **Version:** v2.1.162
+
+### [`--tools` mit Grep/Glob aktiviert dedizierte Suche]
+- **Was:** Wird Grep/Glob explizit über `--tools` aufgeführt, stehen auf Native-Builds mit eingebetteter Suche jetzt dedizierte Such-Tools bereit.
+- **Einsatz:** `claude --tools Grep,Glob …`
+- **Mehrwert:** Schnellere, native Datei- und Inhaltssuche in eingeschränkten Tool-Konfigurationen statt Fallback auf Bash.
+- **Version:** v2.1.162
+
+### [Slash-Command-Autocomplete füllt statt sofort auszuführen]
+- **Was:** Die Slash-Command-Autovervollständigung trägt den Befehl jetzt in den Prompt ein, statt ihn sofort auszuführen — mit Enter wird er gestartet. Zusätzlich bestätigt `/effort`, wenn das gewählte Level als Standard für neue Sessions übernommen wird.
+- **Einsatz:** Slash-Command tippen → Auswahl füllt den Prompt → Enter
+- **Mehrwert:** Kein versehentliches Sofort-Ausführen mehr; man kann den Befehl vor dem Absenden noch ergänzen oder korrigieren.
+- **Version:** v2.1.162
+
+### [Remote Control als persistente Footer-Pille]
+- **Was:** Remote Control erscheint jetzt als dauerhafte Footer-Pille mit Session-Link statt nur als Startmeldung.
+- **Einsatz:** Automatisch aktiv (bei aktivem Remote Control)
+- **Mehrwert:** Der Session-Link bleibt jederzeit sichtbar und greifbar, statt im Scrollback zu verschwinden.
+- **Version:** v2.1.162
+
+### [Windsurf → Devin Desktop umbenannt]
+- **Was:** „Windsurf" heißt im `/ide`-Menü, in `/terminal-setup` und `/scroll-speed` jetzt „Devin Desktop".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Konsistente, aktuelle Bezeichnung der IDE-Integration nach dem Rebranding.
+- **Version:** v2.1.162
+
+### [Robusterer Startup bei read-only Config & ruhigere Meldungen]
+- **Was:** Ein stiller Startup-Hang bei schreibgeschütztem Config-Verzeichnis ist behoben — Claude Code startet mit In-Memory-Config und zeigt die Fehler an. Zusätzlich: ruhigerer Start (Hinweise nach Schweregrad gruppiert, Session-Info + Ankündigungen in einer Zeile), klarer formulierte Startup-Warnungen mit konkreten Fixes, Launch-Prompt-Warnungen bleiben unter dem Input angepinnt, fehlgeschlagene Turns zeigen eine kompakte Warnzeile statt eines mehrzeiligen roten Fehlerblocks. „Claude in Chrome enabled"- und „marketplace installed"-Startmeldungen entfernt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verlässlicher Start auch in eingeschränkten Umgebungen und ein deutlich aufgeräumterer, verständlicherer Startbildschirm.
+- **Version:** v2.1.162
+
+### [Permission-Rule-Fixes: WebFetch & Windows-Pfade]
+- **Was:** WebFetch-Permission-Regeln greifen jetzt auch für eingebaute vorab genehmigte Domains; Windows-Permission-Regeln mit Backslashes oder abweichender Groß-/Kleinschreibung matchen jetzt korrekt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Berechtigungsregeln verhalten sich plattformübergreifend zuverlässig — weniger fälschlich durchgelassene oder blockierte Aktionen.
+- **Version:** v2.1.162
+
+### [Stabilere `claude agents`-Ansicht]
+- **Was:** Mehrere Fixes für die Agent-Ansicht: Statustext wird bei 60–120 Spalten nicht mehr abgeschnitten (nutzt volle Terminalbreite), lange Session-Namen werden nicht mehr bei 40 Spalten gekappt, das Attachen springt nach einem Neustart nicht mehr gelegentlich zur Session-Liste zurück, und Strg+V-Bildeinfügen im Dispatch-Input funktioniert wieder.
+- **Einsatz:** `claude agents`
+- **Mehrwert:** Aufgeräumtere, verlässlichere Übersicht über alle Sessions — keine abgeschnittenen Infos oder verlorenen Eingaben mehr.
+- **Version:** v2.1.162
+
+### [Zuverlässigere Background-Sessions & Messaging]
+- **Was:** Backgrounding einer Session mit ← verliert die Konversation nicht mehr, wenn der Background-Service fehlschlägt; nicht zustellbare Antworten gehen nicht mehr verloren, sondern werden für die nächste Session-Zustellung in eine Queue gelegt; Cross-Session-Messaging (`SendMessage`) bricht nicht mehr bei tiefem `CLAUDE_CODE_TMPDIR`/`$TMPDIR`; das Öffnen einer laufenden Background-Session stockt nicht mehr 5 Sekunden vor dem Attachen. Spawn-Fehler melden bei fehlendem errno den Fehlerklassennamen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hintergrund-Sessions und die Kommunikation zwischen Sessions sind spürbar robuster — kein verlorener Verlauf, keine verschluckten Nachrichten, schnelleres Attachen.
+- **Version:** v2.1.162
+
+### [Weitere Fixes (v2.1.162)]
+- **Was:** Esc/Interrupt am Turn-Anfang wird in stream-json-/SDK-Sessions nicht mehr stillschweigend verworfen; API-400-Fehler („no low surrogate in string") bei Klassifikator-Queries und MCP-Beschreibungen mit Emoji an der Truncation-Grenze behoben; MCP-`timeout`-Werte unter 1000 ms werden nicht mehr auf den 1-Sekunden-Watchdog hochgesetzt (Sub-1000-ms-Werte werden ignoriert); das LSP-Tool liefert für `workspaceSymbol` wieder Ergebnisse (akzeptiert `query`-Parameter); Background-Service-Start und `claude update`-Verifikation warten Endpoint-Security-Scans ab.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Behebt eine Reihe von Reibungspunkten bei Headless-/SDK-Nutzung, MCP-Timeouts, Code-Navigation (LSP) und Update-Zuverlässigkeit.
+- **Version:** v2.1.162
+
+---
 
 ### Woche 23 (3. Juni 2026) — v2.1.161
 
