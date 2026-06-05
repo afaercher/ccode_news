@@ -1,11 +1,101 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-04 18:02 UTC
+> Letzte Aktualisierung: 2026-06-05 16:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (5. Juni 2026) — v2.1.165
+
+---
+
+### [v2.1.165 — Stabilitäts- & Zuverlässigkeits-Release]
+- **Was:** Wartungs-Release mit Bugfixes und Zuverlässigkeitsverbesserungen, ohne neue benutzersichtbare Features.
+- **Einsatz:** Automatisch aktiv (`claude update`)
+- **Mehrwert:** Rundet die umfangreiche v2.1.163-Welle ab; weniger Abstürze und Hänger im Alltag.
+- **Version:** v2.1.165
+
+---
+
+### Woche 23 (4. Juni 2026) — v2.1.163
+
+---
+
+### [`requiredMinimumVersion` / `requiredMaximumVersion` Managed Settings]
+- **Was:** Zwei neue Managed-Settings, mit denen Organisationen eine erlaubte Claude-Code-Versionsspanne erzwingen können — zu alte oder zu neue Clients werden geblockt.
+- **Einsatz:** In den Managed Settings `requiredMinimumVersion` / `requiredMaximumVersion` setzen
+- **Mehrwert:** Flotten lassen sich auf einer geprüften Versionsspanne halten — keine ungetesteten oder veralteten Clients in regulierten Umgebungen.
+- **Version:** v2.1.163
+
+### [`/plugin list` mit `--enabled`/`--disabled`-Filter]
+- **Was:** Neuer Befehl `/plugin list` listet installierte Plugins auf und kann per `--enabled`/`--disabled` gefiltert werden.
+- **Einsatz:** `/plugin list --enabled`
+- **Mehrwert:** Schneller Überblick, welche Plugins aktiv sind — ohne durch das interaktive `/plugin`-Menü zu klicken.
+- **Version:** v2.1.163
+
+### [`/btw`: „c to copy" für rohes Markdown]
+- **Was:** Im `/btw`-Panel kopiert die neue Tastenkürzel-Aktion „c" den rohen Markdown-Inhalt in die Zwischenablage.
+- **Einsatz:** `/btw` öffnen → `c` drücken
+- **Mehrwert:** Antworten lassen sich verlustfrei als Markdown weiterverwenden (z. B. in Notizen oder Tickets), statt gerenderten Text mühsam abzutippen.
+- **Version:** v2.1.163
+
+### [Stop-/SubagentStop-Hooks können Kontext nachreichen]
+- **Was:** `Stop`- und `SubagentStop`-Hooks können jetzt `hookSpecificOutput.additionalContext` zurückgeben und so zusätzlichen Kontext in die Session einspeisen.
+- **Einsatz:** Im Hook JSON mit `hookSpecificOutput.additionalContext` ausgeben
+- **Mehrwert:** Hooks am Ende eines Turns/Subagents können Claude gezielt Folgeinformationen mitgeben (z. B. Lint-Ergebnisse, nächste Schritte) — engere Automatisierung.
+- **Version:** v2.1.163
+
+### [Skills: `\$`-Escape für literales `$` vor Ziffern]
+- **Was:** In Skills lässt sich mit `\$` ein literales Dollarzeichen vor Ziffern schreiben, ohne dass es als Variablen-/Argument-Referenz interpretiert wird.
+- **Einsatz:** Im Skill-Text `\$5` statt `$5` schreiben
+- **Mehrwert:** Preisangaben, Regex und Shell-ähnliche Syntax in Skills funktionieren jetzt zuverlässig ohne ungewollte Ersetzung.
+- **Version:** v2.1.163
+
+### [stdio-MCP-Server erhalten `CLAUDE_CODE_SESSION_ID` bei `--resume`]
+- **Was:** stdio-MCP-Server bekommen die `CLAUDE_CODE_SESSION_ID` jetzt auch beim Fortsetzen einer Session mit `--resume` übergeben.
+- **Einsatz:** Automatisch aktiv (`claude --resume`)
+- **Mehrwert:** MCP-Server können fortgesetzte Sessions korrekt derselben Session-ID zuordnen — konsistentes State-/Logging-Verhalten über Resumes hinweg.
+- **Version:** v2.1.163
+
+### [`claude -p` Headless-Fixes: Hänger, Bedrock/Vertex/Foundry-Auth]
+- **Was:** Mehrere Headless-Bugs behoben: `claude -p` hing nach dem finalen Ergebnis, wenn Befehle im Hintergrund liefen; und es scheiterte mit „ANTHROPIC_API_KEY required" auf Bedrock/Vertex/Foundry, wenn `CI=true` gesetzt war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Zuverlässige Skript- und CI-Läufe mit `claude -p` — auch auf Cloud-Providern ohne expliziten API-Key.
+- **Version:** v2.1.163
+
+### [Bash-Fixes: bazel, EDR, Windows „EEXIST"]
+- **Was:** Bash-Befehle scheiterten zuvor unter bazel und in EDR-geschützten (Endpoint-Detection) Workflows sowie auf Windows mit „EEXIST" am Session-Env-Verzeichnis — alle drei sind behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Befehlsausführung funktioniert auch in restriktiven Unternehmens- und Windows-Umgebungen zuverlässig.
+- **Version:** v2.1.163
+
+### [Org-Permission-Regeln greifen jetzt beim Start]
+- **Was:** Behoben: Von der Organisation verwaltete Permission-Regeln wurden beim Startup nicht angewendet. Zusätzlich greifen Deny-Regeln auf Home-Verzeichnis-Pfade mit `$HOME`-Referenzen jetzt korrekt, und Hook-`if: "Bash(...)"`-Bedingungen feuern nicht mehr fälschlich bei Subshells/Backticks.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verwaltete Sicherheitsrichtlinien sind ab dem ersten Moment der Session wirksam — keine kurze Lücke beim Start mehr.
+- **Version:** v2.1.163
+
+### [Background-Sessions: laufende Tasks bleiben beim Reattach erhalten]
+- **Was:** Behoben: Hintergrund-Sessions verloren nach einem Update laufende Tasks beim Wiederanhängen. Hintergrund-Agent-Sessions aktualisieren sich nun auch im Hintergrund weiter.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lang laufende Hintergrundarbeit übersteht Updates und Reattach ohne Verlust — verlässlicheres Multi-Session-Arbeiten.
+- **Version:** v2.1.163
+
+### [Terminal- & Eingabe-Fixes: Agent-View-Exit, Paste-Hänger, Stop-Chip]
+- **Was:** Mehrere UI-Fixes: Terminal-Fehlausrichtung und Hänger beim Verlassen der Agent-Ansicht behoben; Tastatureingabe wurde nach Paste-Operationen unresponsiv; Klick auf „Stop" am Hintergrund-Task-Chip funktioniert wieder; störende „(no content)"-Zeile nach dem Schließen von Panel-Dialogen entfernt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Flüssigere, vorhersehbarere Bedienung — keine eingefrorene Eingabe oder verrutschten Layouts mehr.
+- **Version:** v2.1.163
+
+### [Klarere Built-in-Beschreibungen & Dispatch aus gruppierter Ansicht]
+- **Was:** Verständlichere Beschreibungen für eingebaute Commands und Skills; ein Abo-Wechsel-Vorschlag erscheint im Startup-Ankündigungs-Slot; und `claude agents`-Dispatch aus der nach Status gruppierten Ansicht startet jetzt im korrekten Verzeichnis.
+- **Einsatz:** `claude agents`
+- **Mehrwert:** Bessere Orientierung über verfügbare Befehle und korrektes Arbeitsverzeichnis beim Starten neuer Agents aus der Übersicht.
+- **Version:** v2.1.163
+
+---
 
 ### Woche 23 (4. Juni 2026) — v2.1.162
 
