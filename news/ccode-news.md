@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-05 18:00 UTC
+> Letzte Aktualisierung: 2026-06-06 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (6. Juni 2026) — v2.1.167
+
+---
+
+### [v2.1.167 — Bugfix- & Stabilitäts-Release]
+- **Was:** Wartungs-Release mit Bugfixes und Zuverlässigkeitsverbesserungen, ohne neue benutzersichtbare Features.
+- **Einsatz:** Automatisch aktiv (`claude update`)
+- **Mehrwert:** Schließt die umfangreiche v2.1.166-Welle ab; weniger Fehler im Alltag.
+- **Version:** v2.1.167
+
+---
+
+### Woche 23 (6. Juni 2026) — v2.1.166
+
+---
+
+### [`fallbackModel`: bis zu drei Ausweichmodelle]
+- **Was:** Neue Einstellung `fallbackModel`, mit der sich bis zu drei Fallback-Modelle festlegen lassen, die der Reihe nach probiert werden, wenn das Primärmodell überlastet oder nicht verfügbar ist. `--fallback-model` greift jetzt auch in interaktiven Sessions.
+- **Einsatz:** In den Settings `fallbackModel` setzen oder `claude --fallback-model <modell>`
+- **Mehrwert:** Sessions laufen bei Überlastung des bevorzugten Modells nahtlos weiter, statt abzubrechen — höhere Verfügbarkeit ohne manuelles Umschalten.
+- **Version:** v2.1.166
+
+### [Glob-Muster in Deny-Regeln (`"*"` blockt alle Tools)]
+- **Was:** Deny-Regeln unterstützen jetzt Glob-Muster an der Tool-Namen-Position — `"*"` verweigert alle Tools. Allow-Regeln lehnen Nicht-MCP-Globs ab, und unbekannte Tool-Namen in Deny-Regeln warnen beim Start.
+- **Einsatz:** In `permissions.deny` z. B. `"*"` oder ein Glob-Muster eintragen
+- **Mehrwert:** Restriktive Sicherheitsprofile lassen sich kompakt formulieren („alles verbieten, einzelnes erlauben") statt jedes Tool einzeln aufzulisten.
+- **Version:** v2.1.166
+
+### [Gehärtetes Cross-Session-Messaging (`SendMessage` ohne Nutzerautorität)]
+- **Was:** Nachrichten, die per `SendMessage` von anderen Claude-Sessions weitergereicht werden, tragen keine Nutzerautorität mehr — Empfänger lehnen weitergeleitete Permission-Anfragen ab, und der Auto-Modus blockiert sie.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verhindert, dass eine Session über eine andere unbemerkt Berechtigungen erschleicht — wichtige Absicherung in Multi-Agent-Setups.
+- **Version:** v2.1.166
+
+### [`MAX_THINKING_TOKENS=0` schaltet Thinking wirklich ab]
+- **Was:** `MAX_THINKING_TOKENS=0`, `--thinking disabled` und der Pro-Modell-Thinking-Toggle deaktivieren jetzt das Thinking auch bei Modellen, die per Claude API standardmäßig denken (Drittanbieter unverändert).
+- **Einsatz:** `MAX_THINKING_TOKENS=0` oder `claude --thinking disabled`
+- **Mehrwert:** Volle Kontrolle über Latenz und Token-Verbrauch — Thinking lässt sich auch bei „Thinking-by-default"-Modellen verlässlich ausschalten.
+- **Version:** v2.1.166
+
+### [Automatischer Retry auf dem Fallback-Modell]
+- **Was:** Bei einem unerwarteten, nicht-wiederholbaren API-Fehler wiederholt Claude Code den Turn einmal auf dem Fallback-Modell. Auth-, Rate-Limit-, Request-Size- und Transport-Fehler werden weiterhin sofort gemeldet.
+- **Einsatz:** Automatisch aktiv (in Kombination mit `fallbackModel`)
+- **Mehrwert:** Vereinzelte API-Aussetzer kosten keinen ganzen Turn mehr — robustere Läufe ohne manuellen Neustart.
+- **Version:** v2.1.166
+
+### [`claude update` nennt die Zielversion vor dem Download]
+- **Was:** `claude update` kündigt jetzt die Zielversion an, bevor der Download startet, statt stumm zu bleiben.
+- **Einsatz:** `claude update`
+- **Mehrwert:** Man sieht sofort, auf welche Version aktualisiert wird — bessere Nachvollziehbarkeit bei automatisierten Updates.
+- **Version:** v2.1.166
+
+### [`claude agents`: URL-Eingabe filtert die passende Session]
+- **Was:** In der `claude agents`-Liste filtert die Eingabe einer URL jetzt auf die Session, deren erster Prompt diese URL enthielt.
+- **Einsatz:** In der `claude agents`-Liste eine URL tippen
+- **Mehrwert:** Schnelles Wiederfinden der Session zu einer bestimmten PR/Issue/Datei — kein manuelles Durchsuchen der Liste.
+- **Version:** v2.1.166
+
+### [Sammel-Bugfixes: Bilder, Remote, IDEs, Eingabe (v2.1.166)]
+- **Was:** Zahlreiche Fixes: wiederkehrender „image could not be processed"-Fehler samt Extra-Token-Verbrauch behoben; festhängende Remote-Sessions nach kurzer Backend-Störung beim Worker-Start; Flackern in JetBrains-Terminals (IntelliJ/PyCharm/WebStorm 2026.1+) via Synchronized Output; verschluckte „Shift+Nicht-ASCII"-Zeichen (z. B. Shift+ä→Ä) unter dem Kitty-Keyboard-Protokoll (WezTerm/Ghostty/kitty); hängende PowerShell-Befehlsvalidierung auf Windows; verwaiste `claude --bg-pty-host`-Prozesse mit 100 % CPU auf macOS; Voice-Mode-Auth-Hänger; managed-settings mit ungültigem Eintrag deaktivierten stillschweigend die restlichen Policies; `allowedMcpServers`/`deniedMcpServers` mit `${VAR}`-Referenzen; crash-loopende Background-Agent-Sessions in Worktrees; doppelter Thinking-Text in der Ctrl+O-Transcript-Ansicht; `/doctor`-Fehlanzeige in Remote-Sessions; klemmender Cursor bei mehrzeiligen Prompts; Leerzeilen in der Task-Liste ohne Unicode-Terminal.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar weniger Reibung in IDEs, auf Windows/macOS, in Remote- und Multi-Agent-Szenarien — stabilere Bedienung über viele Umgebungen hinweg.
+- **Version:** v2.1.166
+
+---
 
 ### Woche 23 (5. Juni 2026) — v2.1.165
 
