@@ -1,11 +1,23 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-06 18:01 UTC
+> Letzte Aktualisierung: 2026-06-07 10:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (6. Juni 2026) — v2.1.168
+
+---
+
+### [v2.1.168 — Bugfix- & Stabilitäts-Release]
+- **Was:** Wartungs-Release mit Bugfixes und Zuverlässigkeitsverbesserungen, ohne neue benutzersichtbare Features. Setzt die v2.1.165/167-Stabilisierungsreihe nach der großen v2.1.166-Welle fort.
+- **Einsatz:** Automatisch aktiv (`claude update`)
+- **Mehrwert:** Weitere Fehlerbereinigung im Alltag; hält die 2.1.16x-Serie stabil.
+- **Version:** v2.1.168
+
+---
 
 ### Woche 23 (6. Juni 2026) — v2.1.167
 
