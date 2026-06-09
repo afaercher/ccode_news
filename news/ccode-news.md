@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-08 18:01 UTC
+> Letzte Aktualisierung: 2026-06-09 12:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (8. Juni 2026) — v2.1.169
+
+---
+
+### [`--safe-mode`: Start ohne alle Anpassungen]
+- **Was:** Neue Flag `--safe-mode` (und `CLAUDE_CODE_SAFE_MODE`) startet Claude Code mit deaktivierten Anpassungen — CLAUDE.md, Plugins, Skills, Hooks und MCP-Server bleiben außen vor.
+- **Einsatz:** `claude --safe-mode` oder `CLAUDE_CODE_SAFE_MODE=1`
+- **Mehrwert:** Schnelle Fehlerdiagnose: lässt sich sofort prüfen, ob ein Problem von der eigenen Konfiguration oder von Claude Code selbst stammt — ohne mühsames Einzeln-Abschalten.
+- **Version:** v2.1.169
+
+### [`/cd`: Arbeitsverzeichnis wechseln ohne Cache-Verlust]
+- **Was:** Neuer Befehl `/cd` verschiebt eine laufende Session in ein neues Arbeitsverzeichnis, ohne den Prompt-Cache mitten in der Session zu brechen.
+- **Einsatz:** `/cd <pfad>`
+- **Mehrwert:** Mid-Session in ein anderes Verzeichnis/Repo wechseln, ohne die Session neu zu starten oder den Cache (und damit Tempo/Kosten-Vorteil) zu verlieren.
+- **Version:** v2.1.169
+
+### [`disableBundledSkills`: gebündelte Skills ausblenden]
+- **Was:** Neue Einstellung `disableBundledSkills` (und Env `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS`) blendet mitgelieferte Skills, Workflows und eingebaute Slash-Commands vor dem Modell aus.
+- **Einsatz:** In den Settings `disableBundledSkills` setzen oder `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`
+- **Mehrwert:** Schlankerer Kontext und weniger Ablenkung des Modells durch ungenutzte Built-ins — nützlich für fokussierte, eigene Skill-Setups.
+- **Version:** v2.1.169
+
+### [Durchgesetzte Managed-MCP-Policies bei Reconnect & frühem Start]
+- **Was:** Enterprise-MCP-Policies (`allowedMcpServers`/`deniedMcpServers`) griffen bisher nicht bei Reconnect, IDE-getippten Configs, `--mcp-config`-Servern in der ersten Session nach Installation oder vor dem Laden der Remote-Settings — jetzt durchgesetzt. Zudem schnellere Kaltstarts für Orgs ohne Remote-Settings.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verlässliche MCP-Governance in regulierten Umgebungen — keine Lücken mehr, durch die nicht genehmigte Server kurzzeitig durchrutschen.
+- **Version:** v2.1.169
+
+### [`claude agents --json`: blockierte Sessions, `--all`, neue Felder]
+- **Was:** `claude agents --json` ließ blockierte und gerade erst dispatchte Background-Sessions aus — jetzt enthalten. Neu: `--all` bezieht abgeschlossene Sessions ein, plus neue Felder `id` und `state`.
+- **Einsatz:** `claude agents --json --all`
+- **Mehrwert:** Vollständige, skriptbare Übersicht aller Agent-Sessions inkl. Zustand — bessere Automatisierung und Monitoring von Multi-Session-Setups.
+- **Version:** v2.1.169
+
+### [`/workflows` öffnet sofort, auch während eines Turns]
+- **Was:** Das `/workflows`-Panel öffnet jetzt unmittelbar, selbst wenn gerade ein Turn läuft.
+- **Einsatz:** `/workflows`
+- **Mehrwert:** Kein Warten mehr auf das Turn-Ende, um laufende Workflows zu inspizieren — flüssigere Bedienung bei langen Läufen.
+- **Version:** v2.1.169
+
+### [Robustere `TaskCreate`-Validierung]
+- **Was:** `TaskCreate` repariert fehlerhafte Eingaben jetzt automatisch; Validierungsfehler für nicht geladene Tools enthalten das Schema.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger abgebrochene Task-Erstellungen und klarere Fehler — zuverlässigere Orchestrierung.
+- **Version:** v2.1.169
+
+### [Idle-Timeout auf Vertex/Foundry wiederhergestellt]
+- **Was:** Standardmäßiger 5-Minuten-Idle-Timeout auf Vertex/Foundry zurück, sodass ein stehengebliebener Stream abbricht statt unbegrenzt zu hängen; `API_FORCE_IDLE_TIMEOUT=0` deaktiviert.
+- **Einsatz:** Automatisch aktiv (Opt-out: `API_FORCE_IDLE_TIMEOUT=0`)
+- **Mehrwert:** Keine endlos hängenden Sessions mehr bei Netz-/Backend-Aussetzern auf diesen Providern.
+- **Version:** v2.1.169
+
+### [Background-Sessions: Flags & Settings über Retire→Wake hinweg]
+- **Was:** Background-Sessions bewahren `--ide`, `--chrome`, `--bare`, `--remote-control` u. a. über Retire→Wake; respektieren wieder projektbezogene `env`-Werte (z. B. `ANTHROPIC_MODEL`) auf vorgewärmten Workern; und werden über den blockierten Shared-Checkout-Edit vor `EnterWorktree` informiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Vorhersehbares Verhalten langlaufender Hintergrund-Agenten — keine verlorenen Flags, falschen Modelle oder vergeudeten Edit-Versuche mehr.
+- **Version:** v2.1.169
+
+### [Sammel-Bugfixes & Feinschliff (v2.1.169)]
+- **Was:** Viele Fixes: Up/Down-Pfeile springen bei langen, umbrochenen Eingaben nicht mehr in die Command-History, sondern durch die visuellen Zeilen; ~30–50 ms UI-Stall pro Turn-Start für macOS-Nutzer mit claude.ai-Login behoben; `claude -p` auf Windows nicht mehr langsam/hängend beim Slash-Command-Scan (Regression aus 2.1.161); Remote Control bleibt nach Resume bei gleichzeitigem OAuth-Refresh nicht mehr auf „reconnecting"; Git-Credential-Manager-Popup auf Windows beim Start unterdrückt; Footer-Hinweise (z. B. „esc to interrupt") zeigen sich auch bei eigener Statusline; veraltete Permission-/Dialog-Prompts erscheinen nicht erneut beim Reattach toter Worker; Agents-View hinterlässt auf WSL/Windows Terminal keinen verstümmelten Frame mehr; MCPB-Plugin-Cache auf Windows nicht mehr fälschlich invalidiert; verwaiste `.in_use`-PID-Locks werden täglich aufgeräumt; untrusted Project-Settings können keine OTEL-Client-Zertifikatspfade ohne Trust-Bestätigung mehr setzen; Auto-Updater auf Windows hört auf zu retrien, wenn `claude.exe` gehalten wird; „CLAUDE.md ist zu lang"-Warnschwelle skaliert mit dem Modell-Kontextfenster; reduzierte CPU-Last beim Streaming und bei Spinner-Animationen; bessere Farbkontraste für Skill-Tags im Menü.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar weniger Reibung über Windows, macOS, WSL, Remote- und Enterprise-Szenarien — schnellere, ruhigere und vorhersehbarere Bedienung.
+- **Version:** v2.1.169
+
+---
 
 ### Woche 23 (6. Juni 2026) — v2.1.168
 
