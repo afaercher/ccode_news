@@ -1,11 +1,29 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-09 14:30 UTC
+> Letzte Aktualisierung: 2026-06-09 18:00 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 23 (9. Juni 2026) — v2.1.170
+
+---
+
+### [Claude Fable 5: neues Standardmodell in Claude Code]
+- **Was:** Mit v2.1.170 zieht Claude Fable 5 ein — ein für den allgemeinen Gebrauch freigegebenes Modell der „Mythos"-Klasse, dessen Fähigkeiten alle bisher öffentlich verfügbaren Modelle übertreffen.
+- **Einsatz:** `claude update` auf v2.1.170; Modellwahl über `/model`
+- **Mehrwert:** Spürbar leistungsfähigeres Modell für anspruchsvolle Coding- und Agent-Aufgaben — mehr Tiefe ohne zusätzlichen Konfigurationsaufwand.
+- **Version:** v2.1.170
+
+### [Fix: VS-Code-Terminal-Sessions speichern Transkripte wieder]
+- **Was:** Sessions, die aus dem integrierten VS-Code-Terminal (oder aus Shells mit vererbten Claude-Code-Umgebungsvariablen) gestartet wurden, speicherten ihre Transkripte nicht und tauchten nicht in `--resume` auf — jetzt behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verlässliches Fortsetzen von Sessions direkt aus der IDE — keine verlorenen Verläufe mehr bei VS-Code-Workflows.
+- **Version:** v2.1.170
+
+---
 
 ### Woche 23 (8. Juni 2026) — v2.1.169
 
@@ -76,6 +94,18 @@
 ### Plattform/API (Juni 2026)
 
 ---
+
+### [Claude Fable 5 & Claude Mythos 5: neue Modellgeneration]
+- **Was:** Anthropic hat Claude Fable 5 (`claude-fable-5`) als leistungsstärkstes breit verfügbares Modell veröffentlicht, dazu Claude Mythos 5 (`claude-mythos-5`) für Project-Glasswing-Teilnehmer. Beide bieten standardmäßig 1M-Token-Kontextfenster, 128k max. Output-Tokens und durchgehend aktives Adaptive Thinking. Sie nutzen den mit Opus 4.7 eingeführten Tokenizer — derselbe Text ergibt ~30 % mehr Tokens (per Token-Counting-API mit `model: "claude-fable-5"` messbar). Adaptive Thinking ist der einzige Thinking-Modus: `thinking: {"type": "disabled"}`, manuelle Budgets und Assistant-Prefill werden nicht unterstützt (400). `thinking.display` ist standardmäßig `"omitted"`; `summarized` liefert lesbare Zusammenfassungen. Fable 5 erfordert 30-Tage-Datenaufbewahrung (kein Zero-Data-Retention).
+- **Einsatz:** API-Modell `claude-fable-5` setzen; in Claude Code per `/model` bzw. `claude update`
+- **Mehrwert:** Deutlich stärkere Modellbasis für komplexe Aufgaben — bei Migration sind Tokenizer-bedingt höhere Token-Zahlen und das reine Adaptive-Thinking-Verhalten einzuplanen.
+- **Version:** Platform Release Notes (9. Juni 2026)
+
+### [Refusal-Handling: neue Kategorie `reasoning_extraction` & `fallbacks`-Parameter]
+- **Was:** Auf Fable 5 laufen Safety-Klassifikatoren auf den Request und während der Generierung; abgelehnte Requests liefern `stop_reason: "refusal"` — ohne Abrechnung, wenn vor jeglichem Output abgelehnt. Neu in `stop_details.category`: `"reasoning_extraction"` (blockiert bei ToS-Verstößen zum Reverse-Engineering/Duplizieren von Modell-Outputs); `"cyber"`/`"bio"` bleiben unverändert. Ein optionaler `fallbacks`-Parameter (Beta auf Claude API & Claude Platform on AWS; nicht bei der Message-Batches-API) lässt abgelehnte Requests auf einem anderen Modell neu laufen, abgerechnet zu dessen Tarif.
+- **Einsatz:** Refusals über `stop_reason`/`stop_details.category` behandeln; optional `fallbacks` in der Request-Definition setzen
+- **Mehrwert:** Granulareres, kostenneutrales Refusal-Handling plus automatischer Ausweichpfad — robustere Pipelines bei Safety-sensitiven Workloads.
+- **Version:** Platform Release Notes (9. Juni 2026)
 
 ### [Model Deprecation: Opus 4.1 wird am 5. August 2026 retired]
 - **Was:** Anthropic hat die Deprecation des Modells Claude Opus 4.1 (`claude-opus-4-1-20250805`) angekündigt; das Retirement auf der Claude API ist für den 5. August 2026 geplant. Empfohlene Migration: Claude Opus 4.8.
