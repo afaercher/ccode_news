@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-09 12:00 UTC
+> Letzte Aktualisierung: 2026-06-09 14:30 UTC
 
 ---
 
@@ -70,6 +70,30 @@
 - **Einsatz:** Automatisch aktiv
 - **Mehrwert:** Spürbar weniger Reibung über Windows, macOS, WSL, Remote- und Enterprise-Szenarien — schnellere, ruhigere und vorhersehbarere Bedienung.
 - **Version:** v2.1.169
+
+---
+
+### Plattform/API (Juni 2026)
+
+---
+
+### [Model Deprecation: Opus 4.1 wird am 5. August 2026 retired]
+- **Was:** Anthropic hat die Deprecation des Modells Claude Opus 4.1 (`claude-opus-4-1-20250805`) angekündigt; das Retirement auf der Claude API ist für den 5. August 2026 geplant. Empfohlene Migration: Claude Opus 4.8.
+- **Einsatz:** API-Aufrufe von `claude-opus-4-1-20250805` rechtzeitig auf `claude-opus-4-8` umstellen (siehe Migration Guide)
+- **Mehrwert:** Frühzeitige Planungssicherheit — wer noch auf Opus 4.1 baut, kann die Umstellung kontrolliert vor dem Stichtag durchführen, statt von einem plötzlichen Ausfall überrascht zu werden.
+- **Version:** Platform Release Notes (5. Juni 2026)
+
+### [Advisor Tool: `max_tokens` zum Deckeln der Advisor-Ausgabe]
+- **Was:** Das Advisor Tool unterstützt jetzt einen `max_tokens`-Parameter, der die Ausgabe des Advisor-Modells pro Aufruf begrenzt — das senkt Latenz und Output-Token-Kosten für Workloads, die keine vollständigen Advisor-Antworten brauchen.
+- **Einsatz:** `tools[].max_tokens` in der Advisor-Tool-Definition setzen
+- **Mehrwert:** Feinere Kostenkontrolle: Advisor-Hinweise lassen sich knapp halten, wo lange strategische Ausführungen unnötig sind — günstiger und schneller bei gleichbleibendem Nutzen.
+- **Version:** Platform Release Notes (2. Juni 2026)
+
+### [Keine Abrechnung mehr für Refusals ohne Output]
+- **Was:** Auf der Claude API wird ein Request nicht mehr berechnet, wenn er mit `stop_reason: "refusal"` zurückkommt, ohne dass Claude Output generiert hat.
+- **Einsatz:** Automatisch aktiv (Refusals über `stop_reason: "refusal"` erkennen und behandeln)
+- **Mehrwert:** Faire Abrechnung — abgelehnte Anfragen ohne erzeugten Inhalt verursachen keine Token-Kosten mehr, was Safety-sensitive Workloads mit häufigen Refusals entlastet.
+- **Version:** Platform Release Notes (2. Juni 2026)
 
 ---
 
