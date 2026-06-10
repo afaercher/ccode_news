@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-09 18:00 UTC
+> Letzte Aktualisierung: 2026-06-10 12:00 UTC
 
 ---
 
@@ -106,6 +106,30 @@
 - **Einsatz:** Refusals über `stop_reason`/`stop_details.category` behandeln; optional `fallbacks` in der Request-Definition setzen
 - **Mehrwert:** Granulareres, kostenneutrales Refusal-Handling plus automatischer Ausweichpfad — robustere Pipelines bei Safety-sensitiven Workloads.
 - **Version:** Platform Release Notes (9. Juni 2026)
+
+### [Managed Agents: Geplante Deployments (Cron) & Env-Variablen-Credentials in Vaults]
+- **Was:** Claude Managed Agents unterstützen jetzt geplante Deployments (`scheduled-deployments`) — Sessions laufen nach einem Cron-Zeitplan, ohne dass man einen eigenen Scheduler betreiben muss. Zusätzlich akzeptieren Managed-Agents-Vaults nun Environment-Variablen-Credentials: Secrets lassen sich sicher in die Agent-Sandbox injizieren, für CLIs, SDKs und andere Dienste, die per Umgebungsvariable authentifizieren.
+- **Einsatz:** Scheduled Deployment in der Console/API konfigurieren (Cron-Ausdruck); Vault-Credential vom Typ Environment-Variable hinterlegen (`vaults#add-a-credential`)
+- **Mehrwert:** Wiederkehrende Agent-Läufe (nächtliche Reports, periodische Checks) ohne eigene Infrastruktur, plus eine saubere, sichere Secret-Übergabe an Tools in der Sandbox — kein Secret mehr im Klartext im Prompt.
+- **Version:** Platform Release Notes (9. Juni 2026)
+
+### [Webhook-Event-Feld `session_thread_id` für Multi-Agent-Threads]
+- **Was:** Die `session.thread_*`-Webhook-Events enthalten jetzt ein Feld `session_thread_id`, das den Multi-Agent-Thread identifiziert, der das Event ausgelöst hat.
+- **Einsatz:** Automatisch aktiv — `session_thread_id` im Webhook-Payload auswerten
+- **Mehrwert:** Webhook-Konsumenten können Events eindeutig dem auslösenden Multi-Agent-Thread zuordnen — bessere Korrelation und Nachverfolgung in Event-getriebenen Orchestrierungen.
+- **Version:** Platform Release Notes (9. Juni 2026)
+
+### [Claude in Apples Foundation Models Framework]
+- **Was:** Anthropic hat beschrieben, wie sich intelligente Apps für Apple-Plattformen mit Claude über Apples Foundation Models Framework bauen lassen — Integration von Claude in native iOS-/macOS-Anwendungen.
+- **Einsatz:** Claude über das Foundation Models Framework in Swift-/Apple-Apps einbinden (siehe Announcement-Post)
+- **Mehrwert:** Native Apple-Entwickler bekommen einen klaren Weg, Claude-Fähigkeiten direkt in ihre Apps zu integrieren, statt eigene API-Anbindungen von Grund auf zu bauen.
+- **Version:** Blog-Announcement (8. Juni 2026)
+
+### [Observability für Connector-Entwickler]
+- **Was:** Neue Observability-Funktionen für Entwickler, die Connectors bauen — erweitertes Monitoring und Debugging für das Connector-Tooling.
+- **Einsatz:** Observability-/Monitoring-Features im Connector-Dashboard nutzen (siehe Announcement-Post)
+- **Mehrwert:** Connector-Entwickler sehen besser, was in ihren Integrationen passiert, und können Fehler schneller eingrenzen — robustere MCP-/Connector-Anbindungen.
+- **Version:** Blog-Announcement (8. Juni 2026)
 
 ### [Model Deprecation: Opus 4.1 wird am 5. August 2026 retired]
 - **Was:** Anthropic hat die Deprecation des Modells Claude Opus 4.1 (`claude-opus-4-1-20250805`) angekündigt; das Retirement auf der Claude API ist für den 5. August 2026 geplant. Empfohlene Migration: Claude Opus 4.8.
