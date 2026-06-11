@@ -1,11 +1,83 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-10 18:01 UTC
+> Letzte Aktualisierung: 2026-06-11 06:01 UTC
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 24 (11. Juni 2026) — v2.1.173
+
+---
+
+### [Fix: `[1m]`-Suffix bei Fable-5-Modellnamen wird normalisiert]
+- **Was:** Modellnamen wie `claude-fable-5[1m]` wurden nicht normalisiert — da Fable 5 das 1M-Kontextfenster bereits standardmäßig mitbringt, wird das `[1m]`-Suffix jetzt automatisch entfernt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bestehende Configs/Skripte mit `[1m]`-Suffix funktionieren weiter reibungslos, ohne dass man Modell-IDs anpassen muss.
+- **Version:** v2.1.173
+
+### [Fix: Falsche Sandbox-Warnung beim Start auf Windows]
+- **Was:** Eine irreführende „sandbox dependencies missing"-Warnung beim Start auf Windows, wenn die Sandbox in den Settings aktiviert war, ist behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein falscher Alarm mehr beim Start — Windows-Nutzer mit aktivierter Sandbox sehen nur noch echte Probleme.
+- **Version:** v2.1.173
+
+---
+
+### Woche 24 (10. Juni 2026) — v2.1.172
+
+---
+
+### [Verschachtelte Sub-Agents: Agenten spawnen eigene Agenten]
+- **Was:** Sub-Agents können jetzt selbst weitere Sub-Agents starten — bis zu 5 Ebenen tief. Bisher war die Agent-Hierarchie auf eine Ebene begrenzt.
+- **Einsatz:** Automatisch aktiv — Sub-Agents nutzen das Agent-Tool wie die Hauptsession
+- **Mehrwert:** Komplexe Orchestrierungen werden natürlicher: ein Koordinator-Agent kann Arbeit eigenständig weiter zerlegen und delegieren, statt dass die Hauptsession jede Verzweigung selbst verwalten muss.
+- **Version:** v2.1.172
+
+### [Bedrock: AWS-Region aus `~/.aws`-Config]
+- **Was:** Amazon Bedrock liest die AWS-Region jetzt aus den `~/.aws`-Konfigurationsdateien, wenn `AWS_REGION` nicht gesetzt ist — analog zur Präzedenz des AWS SDK. `/status` zeigt an, woher die Region stammt.
+- **Einsatz:** Automatisch aktiv; Herkunft per `/status` prüfen
+- **Mehrwert:** Bedrock-Setups verhalten sich wie andere AWS-Tools — keine überraschenden Regions-Fehler mehr, wenn nur die AWS-Config (nicht die Env-Variable) gepflegt ist.
+- **Version:** v2.1.172
+
+### [Suchleiste im `/plugin`-Marketplace]
+- **Was:** Beim Durchstöbern der Plugins eines Marketplace in `/plugin` gibt es jetzt eine Suchleiste. Zudem behoben: verlorener Cursor nach dem Zurückspringen aus langen Listen und falsche Tab-Rückkehr per Esc.
+- **Einsatz:** `/plugin` → Marketplace durchsuchen
+- **Mehrwert:** Plugins in großen Marketplaces lassen sich gezielt finden statt mühsam durchzuscrollen.
+- **Version:** v2.1.172
+
+### [Fix: 1M-Kontext ohne Credits — Session kompaktiert sich automatisch]
+- **Was:** Sessions mit 1M-Kontext, deren Usage-Credits aufgebraucht waren, blieben dauerhaft hängen — jetzt kompaktiert sich die Session automatisch zurück unter das Standard-Kontextlimit.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Sessions enden nicht mehr in einer Sackgasse, wenn das 1M-Kontingent ausgeht — die Arbeit läuft im Standard-Kontext weiter.
+- **Version:** v2.1.172
+
+### [Modell-Governance: `availableModels` greift jetzt überall]
+- **Was:** Mehrere Lücken in der Modell-Beschränkung geschlossen: `availableModels` gilt jetzt auch für Subagent-Modell-Overrides, den Dispatch-Modell-Picker und das Advisor-Modell. Außerdem behoben: Allowlists mit versionsspezifischen IDs (z. B. `claude-opus-4-8`) blendeten die Opus-/Sonnet-1M-Zeilen im `/model`-Picker fälschlich aus; der Picker bot auf Bedrock Modelle an, die der Provider nicht bereitstellt; doppelte `[1M][1m]`-Suffixe bei `ANTHROPIC_DEFAULT_OPUS_MODEL`; und `opusplan` liefert im Plan-Modus jetzt korrekt 1M-Kontext bzw. wechselt zuverlässig auf Opus.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Organisations-Policies zur Modellwahl sind lückenlos durchgesetzt, und die Modellauswahl verhält sich auf allen Providern konsistent — wichtig für Enterprise-Setups mit eingeschränkten Modelllisten.
+- **Version:** v2.1.172
+
+### [Fix: Wildcard-Regeln für `WebFetch`-Domains & Datei-Permissions]
+- **Was:** `WebFetch(domain:*.example.com)`-Wildcard-Regeln matchten nie auf Subdomains (in Allow-, Deny- und Ask-Position), und Datei-Permission-Regeln mit Wildcards mitten im Muster (z. B. `Read(secrets-*/config.json)`) wurden beim Start abgelehnt — beides behoben.
+- **Einsatz:** Automatisch aktiv — bestehende Wildcard-Regeln in `permissions` greifen jetzt wie dokumentiert
+- **Mehrwert:** Permission-Profile funktionieren endlich wie konfiguriert — wer Subdomain- oder Pfad-Wildcards nutzt, bekommt jetzt das erwartete Verhalten statt stiller Lücken.
+- **Version:** v2.1.172
+
+### [Performance: schnellere lange Sessions, weniger Idle-CPU]
+- **Was:** Redundante Message-Normalisierung entfernt und unnötige Verlaufs-Transformationen beim Streaming vermieden; der `/goal`-Status-Chip rendert das Terminal im Leerlauf nicht mehr mit 5 Hz neu; weniger UI-Re-Renders bei parallel laufenden Subagents; Chrome-Browser-Tools laden in einem gebündelten Aufruf statt einzeln.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar flüssigere lange Konversationen und geringere CPU-Last — besonders bei Multi-Agent-Läufen und aktiver Browser-Integration.
+- **Version:** v2.1.172
+
+### [Sammel-Bugfixes & Feinschliff (v2.1.172)]
+- **Was:** Viele weitere Fixes: wiederkehrender „Image could not be processed"-Fehler bei mehreren Bildern behoben; Agents-View zeigte Sessions bis zu 30 s zu lange als „Working"; Background-Agents lasen auf vorgewärmten Workern teils Projekt-Settings eines fremden Verzeichnisses (`.mcp.json`-Approvals, Trust); Attach-Fehler (EAUTH) nach Daemon-Auto-Update behoben; Background-Sub-Agent blieb nach Stopp eines verschachtelten Agenten als „active" hängen; Up-Arrow-History zeigte Haupt-Prompts im Subagent-Tab; Memory-Recall findet gemountete Team-Stores (`CLAUDE_MEMORY_STORES`) in Remote-Sessions; Workflow-Validierung lehnte Skripte ab, die `Date.now()`/`Math.random()` nur in Strings/Kommentaren erwähnten; Maus-Tracking auf inkompatiblen Windows-Konsolen deaktiviert; OTEL-Metrik `claude_code.lines_of_code.count` hat ein neues `model`-Attribut; `/code-review` zeigt die `ultra`-Option auch ohne claude.ai-Login (mit Hinweis); Remote-Control-Footer zu „/rc active" verkürzt; `/loop` wird in Remote-Sessions nicht mehr beworben; VS Code: PowerShell-Tool-Aufrufe rendern korrekt statt als Roh-JSON, ANSI-Codes aus Shell-Output entfernt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Reibung quer durch Background-Agents, Remote-Sessions, Windows und VS Code — zuverlässigeres Multi-Agent-Arbeiten.
+- **Version:** v2.1.172
+
+---
 
 ### Woche 23 (9. Juni 2026) — v2.1.170
 
