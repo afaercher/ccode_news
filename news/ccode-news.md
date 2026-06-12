@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-11 18:01 UTC
+> Letzte Aktualisierung: 2026-06-12 (Morgen-Crawl)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 24 (12. Juni 2026) — v2.1.175
+
+---
+
+### [`enforceAvailableModels`: Default-Modell wird mit-eingeschränkt]
+- **Was:** Neue Managed-Einstellung `enforceAvailableModels`. Ist sie aktiv, gilt die `availableModels`-Allowlist auch für das Default-Modell — löst „Default" auf ein nicht erlaubtes Modell auf, fällt es automatisch auf das erste erlaubte Modell zurück. Zudem können User- oder Projekt-Settings eine gemanagte `availableModels`-Liste nicht mehr aufweiten.
+- **Einsatz:** Als Managed Setting `enforceAvailableModels` setzen (Enterprise-/Org-Policy)
+- **Mehrwert:** Schließt das letzte Schlupfloch der Modell-Governance: Selbst über das Default-Modell oder lokale Settings lässt sich keine nicht freigegebene Modellklasse mehr erreichen — wichtig für strikt regulierte Enterprise-Setups.
+- **Version:** v2.1.175
+
+---
+
+### Woche 24 (12. Juni 2026) — v2.1.174
+
+---
+
+### [`wheelScrollAccelerationEnabled`: Mausrad-Beschleunigung abschaltbar]
+- **Was:** Neue Einstellung `wheelScrollAccelerationEnabled`, mit der sich die Mausrad-Scroll-Beschleunigung im Vollbild-Modus deaktivieren lässt.
+- **Einsatz:** In den Settings `wheelScrollAccelerationEnabled: false` setzen
+- **Mehrwert:** Präziseres, vorhersehbares Scrollen für alle, denen die beschleunigte Variante zu „springt" — besonders bei langen Transkripten.
+- **Version:** v2.1.174
+
+### [`/usage`-Attribution in VS Code]
+- **Was:** Der „Account & usage"-Dialog (`/usage`) in VS Code zeigt jetzt eine Verbrauchs-Aufschlüsselung: Cache-Misses, Long-Context, Subagents sowie Aufteilung pro Skill/Agent/Plugin/MCP — wahlweise über die letzten 24 h oder 7 Tage.
+- **Einsatz:** In VS Code `/usage` aufrufen
+- **Mehrwert:** Endlich sichtbar, was die Plan-Limits real treibt — man erkennt teure Skills/Agents/MCP-Server und kann gezielt gegensteuern.
+- **Version:** v2.1.174
+
+### [Fix: `/model`-Picker zeigt die Default-Modellfamilie wieder]
+- **Was:** Der `/model`-Picker blendete die Modellfamilie aus, auf die „Default" auflöst — jetzt erscheint Opus als eigene Zeile auf Max/Team-Premium/Enterprise, Sonnet auf Pro/Team und Opus auf Pay-as-you-go-API-Konten. Außerdem behoben: ein hartkodiertes Sonnet-Versionslabel, wenn `ANTHROPIC_DEFAULT_SONNET_MODEL` ein anderes Sonnet pinnt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Modellauswahl spiegelt wieder korrekt wider, welches Modell man tatsächlich nutzt — kein Rätselraten mehr, was hinter „Default" steckt.
+- **Version:** v2.1.174
+
+### [Fix: Falsches „Fable 5 verbraucht Credits"-Banner bei Enterprise]
+- **Was:** Das Banner „Fable 5 is now consuming usage credits" erschien fälschlich auch bei Enterprise-Konten mit nutzungsbasierter Abrechnung — behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein irreführender Kosten-Hinweis mehr für Enterprise-Nutzer, deren Abrechnung ohnehin nutzungsbasiert läuft.
+- **Version:** v2.1.174
+
+### [Fix: Bedrock GovCloud-Regionen mit falschem Inference-Profil]
+- **Was:** Bedrock-GovCloud-Regionen (`us-gov-*`) leiteten den falschen Inference-Profil-Präfix ab (`global` statt `us-gov`), was zu 400-Fehlern bei den abgeleiteten Modell-IDs führte — behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Claude Code läuft jetzt zuverlässig auf AWS GovCloud — relevant für öffentliche/regulierte Bedrock-Deployments.
+- **Version:** v2.1.174
+
+### [Fix: Background-Sessions erbten fremde Provider-Env]
+- **Was:** Background-Sessions übernahmen die `ANTHROPIC_*`-Provider-Umgebung (Gateway-URL, Custom-Header, `/model`-Aliase) aus der Shell, die den Background-Daemon gestartet hatte — behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Background-Sessions nutzen jetzt die richtige Provider-Konfiguration statt versehentlich die einer anderen Session — verhindert subtile Fehlrouting-/Auth-Probleme.
+- **Version:** v2.1.174
+
+### [Fix: Skill-Hot-Reload sendet nur geänderte Skills]
+- **Was:** Beim Hot-Reload wurde bisher das gesamte Skill-Listing erneut gesendet, sobald sich ein einziger Skill änderte — jetzt werden nur die tatsächlich geänderten Skills neu angekündigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Geringerer Kontext-Overhead beim Iterieren an Skills — schnelleres, ressourcenschonenderes Skill-Development.
+- **Version:** v2.1.174
+
+### [Sammel-Bugfixes & Feinschliff (v2.1.174)]
+- **Was:** Weitere Fixes: 1–2 s Pause beim Beenden von Claude Code kurz nach einem unterbrochenen/abgebrochenen Shell-Command (macOS/Linux) behoben; falscher Modellname in der Git-Commit-Co-Author-Attribution bei manchen Modellen korrigiert; der `/advisor`-Dialog wählte ein gespeichertes Advisor-Modell vor, das per `availableModels` blockiert war; Workflow-`agent()`-Subagents fehlten die Per-Agent-Attribution-Header; vorgewärmte Background-Worker scheiterten nach Leerlauf mit „Could not resolve authentication method".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Reibung quer durch Shell-Handling, Git-Commits, Workflows und Background-Worker.
+- **Version:** v2.1.174
+
+---
 
 ### Woche 24 (11. Juni 2026) — v2.1.173
 
