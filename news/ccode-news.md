@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-12 12:01 UTC (Mittags-Crawl, keine neuen Einträge)
+> Letzte Aktualisierung: 2026-06-12 18:01 UTC (Abend-Crawl, keine neuen Einträge)
 
 ---
 
