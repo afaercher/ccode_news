@@ -1,11 +1,95 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-12 18:01 UTC (Abend-Crawl, keine neuen Einträge)
+> Letzte Aktualisierung: 2026-06-13 06:01 UTC (Morgen-Crawl: v2.1.176 & v2.1.177 neu)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 24 (13. Juni 2026) — v2.1.177
+
+---
+
+### [v2.1.177: Reine Wartungs-Release]
+- **Was:** Nur ein internes Housekeeping-Release (`chore: Update CHANGELOG.md and feed.xml`) — keine nutzerseitigen Features oder Fixes.
+- **Einsatz:** Automatisch aktiv (nichts zu tun)
+- **Mehrwert:** Keine funktionale Änderung; hier nur dokumentiert, damit v2.1.177 als aktuell jüngste Version nachvollziehbar ist.
+- **Version:** v2.1.177
+
+---
+
+### Woche 24 (12. Juni 2026) — v2.1.176
+
+---
+
+### [Session-Titel in der Sprache der Konversation]
+- **Was:** Session-Titel werden jetzt in der Sprache deiner Konversation generiert (statt fest auf Englisch). Über die neue `language`-Einstellung lässt sich eine feste Sprache erzwingen.
+- **Einsatz:** Automatisch aktiv; optional in den Settings `language` setzen, um eine bestimmte Sprache zu pinnen
+- **Mehrwert:** Wer auf Deutsch arbeitet, bekommt auch deutsche Session-Titel — die Sitzungsübersicht (`/resume`, Agents-View) wird konsistent und sofort lesbar.
+- **Version:** v2.1.176
+
+### [`footerLinksRegexes`: Eigene Link-Badges in der Fußzeile]
+- **Was:** Neue Einstellung `footerLinksRegexes`, mit der sich per Regex erkannte Links als Badges in der Fußzeilen-Reihe anzeigen lassen — konfigurierbar über User- oder Managed-Settings.
+- **Einsatz:** In den Settings `footerLinksRegexes` mit Regex-Mustern befüllen
+- **Mehrwert:** Teams/Orgs können wiederkehrende Links (Tickets, Dashboards, interne Tools) als anklickbare Badges einblenden — schnellerer Sprung aus dem Terminal in die passenden Ressourcen.
+- **Version:** v2.1.176
+
+### [Bessere Bedrock-Credential-Cache-Strategie]
+- **Was:** Credentials aus `awsCredentialExport` werden jetzt bis zu ihrem tatsächlichen `Expiration`-Zeitpunkt zwischengespeichert statt fest für 1 Stunde.
+- **Einsatz:** Automatisch aktiv (Bedrock-Setups mit `awsCredentialExport`)
+- **Mehrwert:** Weniger unnötige Credential-Refreshes und keine vorzeitigen Auth-Aussetzer mehr — stabilere, effizientere Bedrock-Sitzungen.
+- **Version:** v2.1.176
+
+### [Fix: `availableModels`-Allowlist gegen Alias-Umgehung gehärtet]
+- **Was:** Über `ANTHROPIC_DEFAULT_*_MODEL`-Umgebungsvariablen ließen sich Alias-Modellwahlen bisher auf ein gesperrtes Modell umleiten — das ist jetzt unterbunden. Zudem verweigert `/fast` das Umschalten, wenn es auf ein Modell außerhalb der Allowlist wechseln würde.
+- **Einsatz:** Automatisch aktiv (greift bei gesetzter `availableModels`-Allowlist)
+- **Mehrwert:** Schließt zwei weitere Schlupflöcher der Modell-Governance — die Allowlist gilt jetzt auch gegen Env-Aliase und `/fast`, wichtig für regulierte Enterprise-Umgebungen.
+- **Version:** v2.1.176
+
+### [Fix: Auto-Modus scheiterte auf Fable 5 ohne Opus-4.8-Freigabe]
+- **Was:** Der Auto-Modus schlug bei Organisationen ohne aktiviertes Opus 4.8 auf Fable 5 fehl — der Klassifizierer fällt jetzt auf das beste verfügbare Opus-Modell zurück.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auto-Modus funktioniert jetzt auch in Orgs ohne Opus-4.8-Zugang zuverlässig — kein blockierter Workflow mehr.
+- **Version:** v2.1.176
+
+### [Fix: Hook-`if`-Bedingungen für Datei-Pfad-Muster]
+- **Was:** Hook-`if`-Bedingungen für die Tools Read/Edit/Write matchten dokumentierte Muster wie `Edit(src/**)`, `Read(~/.ssh/**)` und `Read(.env)` nicht korrekt — jetzt behoben.
+- **Einsatz:** Automatisch aktiv (betrifft Hooks mit pfadbasierten `if`-Bedingungen)
+- **Mehrwert:** Pfadbasierte Hook-Regeln (z. B. Schutz für `.env`/`~/.ssh`) greifen jetzt wie dokumentiert — verlässliche Guardrails für sensible Dateien.
+- **Version:** v2.1.176
+
+### [Fix: Linux-Sandbox mit symlinkter `settings.json`]
+- **Was:** Die Linux-Sandbox startete nicht, wenn `.claude/settings.json` ein Symlink mit absolutem Ziel war — behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Dotfile-Setups, die Settings per Symlink verwalten, funktionieren jetzt auch unter der Linux-Sandbox.
+- **Version:** v2.1.176
+
+### [Fix: `/copy` und Maus-Auswahl in tmux über SSH]
+- **Was:** `/copy` und das Kopieren per Maus-Auswahl erreichten in tmux über SSH nicht die System-Zwischenablage; zudem lud der tmux-Paste-Buffer auf Versionen älter als 3.2 nicht. Beides behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kopieren aus Claude Code funktioniert jetzt zuverlässig in der verbreiteten tmux-über-SSH-Konstellation — relevant für Remote-Entwicklung auf Dev-Hosts.
+- **Version:** v2.1.176
+
+### [Fix: Diverse Remote-Control-Probleme behoben]
+- **Was:** Sammlung von Fixes für Remote Control: Verbinden vom Web/Mobile schaltete still das Session-Modell um; Disconnect-Hinweise zeigten nur einen nackten Zahlencode statt eines lesbaren Grunds; fehlgeschlagene Verbindungen fügten eine doppelte Transkript-Zeile hinzu; Sessions trennten sich nicht beim Login mit einem anderen Account.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere, nachvollziehbarere Remote-Control-Sitzungen (Steuerung vom Handy/Web) — kein heimlicher Modellwechsel und verständliche Fehlermeldungen.
+- **Version:** v2.1.176
+
+### [Fix: Sammelpaket Background-Sessions & `claude agents`]
+- **Was:** Mehrere Background-/Daemon-Fixes: Sessions zeigten nach `/bg` mitten im Turn ewig „Working", obwohl nichts mehr fortzusetzen war; PRs aus geplanten Wakeups erscheinen jetzt in der `claude agents`-Suche; Fixes für Windows (Netzwerkpfade, ReadOnly-`~/.claude/daemon`, fehlender Text-Cursor, `--bg -cn <name>`-Seeding); Respawn lehnt fehlerhafte Resume-IDs ab; Cloud-Sessions scheiterten nach langer Idle-Zeit mit „Could not resolve authentication method"; klarere Hinweise bei Versions-Skew nach Auto-Update (`claude daemon status`).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Background- und Cloud-Sessions laufen robuster und nachvollziehbarer — weniger hängende „Working"-Zustände, verlässliche Wiederaufnahme und bessere Windows-Unterstützung.
+- **Version:** v2.1.176
+
+### [Fix: Branch-Anzeige nach `/cd` und Worktree-Wechsel]
+- **Was:** Nach `/cd` oder Worktree-Verschiebungen meldete die Session noch den Git-Branch des vorherigen Verzeichnisses — behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die angezeigte Branch-Info stimmt jetzt nach Verzeichniswechseln — kein Verwechslungsrisiko mehr, auf welchem Branch man gerade arbeitet.
+- **Version:** v2.1.176
+
+---
 
 ### Woche 24 (12. Juni 2026) — v2.1.175
 
