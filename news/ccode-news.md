@@ -1,11 +1,101 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-15 18:00 UTC (Abend-Crawl, keine neuen Einträge; v2.1.177 weiterhin neueste Version, Week 22 letzter Digest)
+> Letzte Aktualisierung: 2026-06-16 10:00 UTC (v2.1.178 neu dokumentiert; Week 24 letzter Digest)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 24 (15. Juni 2026) — v2.1.178
+
+---
+
+### [`Tool(param:value)`: Permission-Regeln auf Tool-Parameter]
+- **Was:** Neue Syntax für Permission-Regeln, die auf die Eingabe-Parameter eines Tools matcht (inkl. `*`-Wildcard) — z. B. `Agent(model:opus)`, um Opus-Subagents zu blockieren.
+- **Einsatz:** In den Permission-Regeln Muster wie `Agent(model:opus)` oder `Tool(param:value)` setzen
+- **Mehrwert:** Viel feinere Governance — man kann gezielt einzelne Parameter-Werte erlauben/sperren (etwa teure Modelle für Subagents), statt ein Tool nur ganz freizugeben oder ganz zu blockieren.
+- **Version:** v2.1.178
+
+### [Verschachtelte `.claude/skills` werden geladen]
+- **Was:** Skills in verschachtelten `.claude/skills`-Verzeichnissen laden jetzt, wenn man an Dateien dort arbeitet. Bei Namenskollision erscheint der verschachtelte Skill als `<dir>:<name>`, sodass beide verfügbar bleiben.
+- **Einsatz:** Automatisch aktiv (Skills in Unterverzeichnis-`.claude/skills` ablegen)
+- **Mehrwert:** Monorepos/Teilprojekte können eigene, lokal gültige Skills mitbringen, ohne globale Namen zu überschreiben — kontextnahe Werkzeuge je nach Arbeitsverzeichnis.
+- **Version:** v2.1.178
+
+### [Verschachtelte `.claude/`-Verzeichnisse: nächstgelegene Definition gewinnt]
+- **Was:** Bei Namenskollisionen gewinnen jetzt der Agent, Workflow und Output-Style aus dem `.claude/`-Verzeichnis, das dem Arbeitsverzeichnis am nächsten liegt. Projekt-Workflow-Saves zielen auf das nächstgelegene bestehende `.claude/workflows/`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verschachtelte Konfigurationen verhalten sich intuitiv — lokale Overrides nahe am Code schlagen weiter entfernte Definitionen, ohne dass man umständlich umbenennen muss.
+- **Version:** v2.1.178
+
+### [Auto-Modus: Subagent-Spawns vor dem Start geprüft]
+- **Was:** Subagent-Spawns werden im Auto-Modus jetzt vor dem Launch vom Klassifizierer bewertet — eine Lücke, durch die ein Subagent eine gesperrte Aktion ungeprüft anfordern konnte, ist geschlossen.
+- **Einsatz:** Automatisch aktiv (Auto-Modus)
+- **Mehrwert:** Auto-Modus-Guardrails greifen jetzt auch für von Subagents angeforderte Aktionen — keine Umgehung mehr über die Subagent-Ebene.
+- **Version:** v2.1.178
+
+### [`/doctor`: aufgeräumtes Layout]
+- **Was:** `/doctor` zeigt jetzt ein konsistentes flaches Baum-Layout über alle Abschnitte, klarere Status-Icons pro Abschnitt und hervorgehobene Befehlsnamen.
+- **Einsatz:** `/doctor` ausführen
+- **Mehrwert:** Diagnose-Ausgaben sind schneller erfassbar — Probleme und betroffene Befehle springen direkt ins Auge.
+- **Version:** v2.1.178
+
+### [Workflow-Keyword: gezieltes Auslösen]
+- **Was:** Das Workflow-Prompt-Keyword nutzt jetzt ein lila Shimmer-Highlight und löst nur noch bei expliziten Formulierungen wie „run a workflow" oder „workflow:" aus — nicht mehr bei jeder beiläufigen Erwähnung des Wortes.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Fehlauslösungen — Workflows starten nur, wenn man sie wirklich meint, und sind optisch klar markiert.
+- **Version:** v2.1.178
+
+### [`/bug`: Beschreibung jetzt Pflicht]
+- **Was:** `/bug` verlangt jetzt vor dem Absenden eine Beschreibung und verwendet keinen Modell-Ablehnungstext mehr als GitHub-Issue-Titel.
+- **Einsatz:** `/bug` mit Beschreibung nutzen
+- **Mehrwert:** Sauberere, aussagekräftigere Bug-Reports — keine leeren oder mit Fehlertext betitelten Issues mehr.
+- **Version:** v2.1.178
+
+### [Remote-Control: klarere Fehlermeldungen]
+- **Was:** Verbindungsfehler bei Remote Control zeigen jetzt einen dauerhaften roten „/rc failed"-Indikator in der Fußzeile; die „noch nicht aktiviert"-Meldung erklärt jetzt, ob es an einem Gate, einem fehlgeschlagenen Check, einem veralteten Entitlement oder einer Org-Policy liegt.
+- **Einsatz:** Automatisch aktiv (Remote Control)
+- **Mehrwert:** Man sieht sofort und verständlich, warum eine Remote-Verbindung scheitert — statt rätselhafter Fehlerzustände.
+- **Version:** v2.1.178
+
+### [Skill-Truncation-Warnung mit Anzahl]
+- **Was:** Die Warnung bei abgeschnittener Skill-Liste zeigt jetzt, wie viele Skill-Beschreibungen betroffen sind.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Man erkennt das Ausmaß der Kürzung und kann gezielt aufräumen, statt blind zu raten.
+- **Version:** v2.1.178
+
+### [Fix: Sammelpaket Subagents]
+- **Was:** Mehrere Subagent-Fixes: Das Anzeigen eines Subagent-Transkripts zeigt jetzt Tool-Ergebnisse und Live-Fortschritt; Nachrichten, die gesendet werden, während der Subagent seinen Turn beendet, gehen nicht mehr verloren; das Backgrounden eines laufenden Subagents (Ctrl+B) startet ihn nicht mehr von vorn.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Arbeiten mit Subagents wird nachvollziehbar und verlustfrei — kein Neustart bei Ctrl+B, voller Einblick ins Transkript.
+- **Version:** v2.1.178
+
+### [Fix: Compaction respektiert `--fallback-model`]
+- **Was:** Compaction berücksichtigte das `--fallback-model` nicht — sie fällt jetzt bei Überlast oder Modell-Verfügbarkeitsfehlern auf die konfigurierte Fallback-Modell-Kette zurück.
+- **Einsatz:** Automatisch aktiv (bei gesetztem `--fallback-model`)
+- **Mehrwert:** Kontext-Verdichtung bricht nicht mehr ab, wenn das Hauptmodell überlastet ist — sie weicht auf das Fallback aus.
+- **Version:** v2.1.178
+
+### [Fix: Auth-Fehler nach externem Credential-Refresh]
+- **Was:** Modell-Anfragen scheiterten weiter mit Auth-Fehlern, nachdem die Credentials außerhalb der Session erneuert wurden — Ursache war eine veraltete zwischengespeicherte Request-Konfiguration. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sessions erholen sich jetzt automatisch, wenn Credentials extern aktualisiert werden — kein manueller Neustart nötig.
+- **Version:** v2.1.178
+
+### [Fix: `claude agents` mit eigenem API-Gateway]
+- **Was:** `claude agents`-Worker scheiterten mit `401 Invalid bearer token`, wenn der Daemon aus einer Shell mit eigenem API-Gateway (`ANTHROPIC_BASE_URL` + `ANTHROPIC_AUTH_TOKEN`) gestartet wurde. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Gateway-/Proxy-Setups funktionieren jetzt auch mit den `claude agents`-Workern.
+- **Version:** v2.1.178
+
+### [Fix: Sammelpaket Stabilität & Plattform]
+- **Was:** Diverse Fixes: OOM-Crash, wenn die CLI eine veraltete Websocket-/OAuth-Filedescriptor-Umgebungsvariable vom Elternprozess erbt; Claude in Chrome verband sich still nicht, wenn das OAuth-Token zu einem anderen Account gehörte; verschachtelte Skills mit dir-qualifizierten Namen wurden in nicht-interaktiven Läufen von Permission-Prompts blockiert; Background-Sessions per `/bg`/`←←` zeigten ewig „Working"; MCP-Server-Level-Specs (`mcp__server`, `mcp__*`) in `disallowedTools` von Subagents wurden ignoriert; `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE=1` verhinderte frische Marketplace-Installs; Vim-Undo (`u`) schrittweise statt zusammengefasst; Statusline-Links mit eigenem URI-Schema (`vscode://`) öffneten in `claude agents` nicht; \[VSCode] Esc zum Schließen des CJK-IME-Fensters brach die laufende Aufgabe ab.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Breite Stabilitäts- und Plattform-Verbesserungen — weniger Crashes, korrekte Permission-/Plugin-Behandlung und sauberere Editor-/Windows-/IME-Integration.
+- **Version:** v2.1.178
+
+---
 
 ### Woche 24 (13. Juni 2026) — v2.1.177
 
