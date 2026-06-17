@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-17 09:00 UTC (v2.1.179 dokumentiert: Stream-Drop-Recovery, WSL2-Scrolling-Fix, Sandbox-glob-Fix u. a.; Week 24 weiterhin letzter offizieller Digest)
+> Letzte Aktualisierung: 2026-06-17 (Folge-Crawl, keine neuen Einträge; v2.1.179 weiterhin neueste Version, Week 24 letzter offizieller Digest)
 
 ---
 
