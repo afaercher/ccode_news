@@ -1,11 +1,47 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-16 18:00 UTC (Abend-Crawl, keine neuen Einträge; v2.1.178 weiterhin neueste Version, Week 24 letzter Digest)
+> Letzte Aktualisierung: 2026-06-17 09:00 UTC (v2.1.179 dokumentiert: Stream-Drop-Recovery, WSL2-Scrolling-Fix, Sandbox-glob-Fix u. a.; Week 24 weiterhin letzter offizieller Digest)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 24/25 (16. Juni 2026) — v2.1.179
+
+---
+
+### [Fix: Verbindungsabbruch mitten im Stream]
+- **Was:** Bricht die Verbindung während einer laufenden Antwort ab, bleibt die Teil-Antwort jetzt erhalten statt durch einen rohen Fehler ersetzt zu werden; zudem hängt der Spinner nicht mehr bei „running tool" fest.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wackelige Netzverbindungen verlieren keinen bereits erzeugten Output mehr — die Session bleibt nutzbar statt mit Fehler oder Dauer-Spinner stehenzubleiben.
+- **Version:** v2.1.179
+
+### [Fix: Mausrad-Scrolling unter WSL2]
+- **Was:** Mausrad-Scrolling im Windows Terminal und in VS Code unter WSL2 funktioniert wieder (Regression aus v2.1.172).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** WSL2-Nutzer können wieder normal durch lange Ausgaben scrollen.
+- **Version:** v2.1.179
+
+### [Fix: Sandbox-glob über großen Verzeichnisbaum]
+- **Was:** Ein `denyRead`/`allowRead`-Glob über einen großen Verzeichnisbaum machte die Bash-Tool-Beschreibung riesig und die Session unter Linux unbenutzbar. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sandbox-Read-Regeln über große Baumstrukturen lähmen die Session nicht mehr — Bash bleibt nutzbar.
+- **Version:** v2.1.179
+
+### [Fix: Sammelpaket UI & Remote]
+- **Was:** Mehrere Korrekturen: Die Feedback-Umfrage wertete eine einstellige Antwort direkt nach Turn-Ende fälschlich als Session-Bewertung; der Willkommensbildschirm stapelte mehrere Werbebanner (jetzt max. eines pro Session); Ctrl+O zeigte das Subagent-Transkript nicht; ein Klick ins Prompt-Eingabefeld holte den Fokus nicht aus dem Subagent-/Footer-Panel zurück; Remote-Session-Background-Tasks erschienen zwischen Turns fälschlich als „still running".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Rundum sauberere UI-Bedienung — korrekte Fokus-/Transkript-Behandlung, kein Banner-Stapel, keine falschen Bewertungen oder Hängestatus.
+- **Version:** v2.1.179
+
+### [Plugin-Laden in Remote-Sessions schneller]
+- **Was:** Die Plugin-Ladeleistung in Remote-Sessions wurde verbessert.
+- **Einsatz:** Automatisch aktiv (Remote-Sessions)
+- **Mehrwert:** Remote-Sessions mit Plugins starten und reagieren spürbar schneller.
+- **Version:** v2.1.179
+
+---
 
 ### Woche 24 (15. Juni 2026) — v2.1.178
 
