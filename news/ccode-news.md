@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-18 (v2.1.181 dokumentiert: /config key=value, sandbox.allowAppleEvents, CLAUDE_CLIENT_PRESENCE_FILE, zeilenweises Streaming, Start-/Subagent-/Credential-Fixes; v2.1.180 reines Stabilitäts-Release; Week 24 weiterhin letzter offizieller Digest)
+> Letzte Aktualisierung: 2026-06-18 (Folge-Crawl, keine neuen Einträge; v2.1.181 weiterhin neueste Version, Week 24 weiterhin letzter offizieller Digest, keine neuen Claude-Code-Blog-Ankündigungen)
 
 ---
 
