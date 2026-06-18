@@ -1,11 +1,143 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-17 18:01 (Folge-Crawl, keine neuen Einträge; v2.1.179 weiterhin neueste GitHub-Version, Week 24 letzter offizieller Digest)
+> Letzte Aktualisierung: 2026-06-18 (v2.1.181 dokumentiert: /config key=value, sandbox.allowAppleEvents, CLAUDE_CLIENT_PRESENCE_FILE, zeilenweises Streaming, Start-/Subagent-/Credential-Fixes; v2.1.180 reines Stabilitäts-Release; Week 24 weiterhin letzter offizieller Digest)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 25 (17. Juni 2026) — v2.1.181 / v2.1.180
+
+---
+
+### [`/config key=value`: jede Einstellung direkt aus dem Prompt setzen]
+- **Was:** Neue Syntax `/config key=value`, um jede beliebige Einstellung mitten in der Konversation zu setzen (z. B. `/config thinking=false`). Funktioniert interaktiv, im `-p`-Modus und in Remote Control.
+- **Einsatz:** `/config thinking=false`, `/config <key>=<value>`
+- **Mehrwert:** Einstellungen lassen sich blitzschnell umschalten, ohne Menü oder Datei-Edit — auch scriptbar im headless-Modus und über Remote Control.
+- **Version:** v2.1.181
+
+### [`sandbox.allowAppleEvents`: Apple Events aus der Sandbox]
+- **Was:** Neue Opt-in-Einstellung `sandbox.allowAppleEvents`, die sandboxed Befehle unter macOS Apple Events senden lässt.
+- **Einsatz:** In den Settings `sandbox.allowAppleEvents: true` setzen
+- **Mehrwert:** macOS-Automatisierung (AppleScript/`osascript`) funktioniert auch in der Sandbox, wenn man sie gezielt freigibt — ohne die Sandbox ganz aufzugeben.
+- **Version:** v2.1.181
+
+### [`CLAUDE_CLIENT_PRESENCE_FILE`: Push-Benachrichtigungen am Rechner unterdrücken]
+- **Was:** Neue Umgebungsvariable `CLAUDE_CLIENT_PRESENCE_FILE` — zeigt sie auf eine Marker-Datei, werden mobile Push-Benachrichtigungen unterdrückt, solange du am Rechner sitzt.
+- **Einsatz:** `CLAUDE_CLIENT_PRESENCE_FILE=/pfad/zur/marker-datei` setzen (Datei vorhanden = anwesend)
+- **Mehrwert:** Keine doppelten Handy-Pings, wenn du ohnehin am Terminal arbeitest — Benachrichtigungen kommen nur, wenn du wirklich weg bist.
+- **Version:** v2.1.181
+
+### [Streaming langer Absätze: zeilenweise statt blockweise]
+- **Was:** Langer Fließtext erscheint jetzt Zeile für Zeile, statt auf den ersten Zeilenumbruch zu warten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Antworten wirken flüssiger und reaktiver — man liest mit, statt auf ganze Blöcke zu warten.
+- **Version:** v2.1.181
+
+### [Auto-Retry bei Verbindungsabbruch während des Denkens]
+- **Was:** Bricht die API-Verbindung mitten in der Thinking-Phase ab, wird jetzt automatisch erneut versucht, statt „Connection closed while thinking" anzuzeigen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wackelige Verbindungen unterbrechen den Denkprozess nicht mehr — die Anfrage läuft selbstständig weiter.
+- **Version:** v2.1.181
+
+### [Subagent-Panel: aufgeräumter und kompakter]
+- **Was:** Inaktive Subagents verschwinden nach 30 s automatisch, die Liste ist auf 5 Zeilen mit Scroll-Hinweisen begrenzt und Tastatur-Hinweise erscheinen jetzt in der Fußzeile.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bei vielen parallelen Subagents bleibt das Panel übersichtlich, statt den Bildschirm zu fluten.
+- **Version:** v2.1.181
+
+### [MCP-OAuth-Seite im Claude-Code-Look]
+- **Was:** Die MCP-OAuth-Browser-Seite ist optisch an Claude Code angepasst und schließt sich bei Erfolg automatisch.
+- **Einsatz:** Automatisch aktiv (bei MCP-OAuth-Flows)
+- **Mehrwert:** Stimmigerer, reibungsloserer Auth-Flow — kein verwaistes Browser-Tab nach erfolgreicher Anmeldung.
+- **Version:** v2.1.181
+
+### [Vollbild: URLs nur noch per Cmd/Ctrl-Klick öffnen]
+- **Was:** Im Vollbild-Modus öffnen sich URLs nur noch per Cmd-Klick (macOS) bzw. Ctrl-Klick — analog zum nativen Terminalverhalten.
+- **Einsatz:** Automatisch aktiv (Vollbild-Modus)
+- **Mehrwert:** Kein versehentliches Öffnen von Links bei normaler Textauswahl oder Klicks.
+- **Version:** v2.1.181
+
+### [Bun-Runtime auf 1.4 aktualisiert]
+- **Was:** Die mitgelieferte Bun-Runtime wurde auf Version 1.4 angehoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Aktuellere Runtime mit Performance- und Stabilitätsverbesserungen unter der Haube.
+- **Version:** v2.1.181
+
+### [`Improved N memories`: keine Datei-Liste mehr außerhalb von Verbose]
+- **Was:** Die Zeile `Improved N memories` listet die einzelnen Dateien nur noch im Verbose-Modus auf.
+- **Einsatz:** Automatisch aktiv (Datei-Liste mit `--verbose`)
+- **Mehrwert:** Weniger Rauschen in der normalen Ausgabe; Details bleiben bei Bedarf abrufbar.
+- **Version:** v2.1.181
+
+### [Fix: Prompt-Caching auf custom Base-URL und Foundry]
+- **Was:** Prompt-Caching griff nicht bei eigener `ANTHROPIC_BASE_URL` und auf Foundry, weil ein Attestation-Token pro Request jede Runde wechselte. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Selbst-gehostete/Foundry-Setups profitieren wieder vom Prompt-Cache — günstiger und schneller.
+- **Version:** v2.1.181
+
+### [Fix: 0-Byte-/abgeschnittene Dateien auf Netzlaufwerken]
+- **Was:** Write/Edit erzeugten auf Netzlaufwerken und Cloud-synchronisierten Ordnern teils 0-Byte- oder abgeschnittene Dateien. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Datei-Operationen sind auf Netz- und Cloud-Pfaden (OneDrive, NAS etc.) wieder verlässlich vollständig.
+- **Version:** v2.1.181
+
+### [Fix: Sammelpaket Start-Performance & -Stabilität]
+- **Was:** Mehrere Startfehler behoben: ~120 ms Verzögerung pro Start in frischen Umgebungen (Regression aus 2.1.169, jetzt ohne Warten auf den Managed-Settings-Fetch ohne MCP-Server); bis zu 15 s blanker Terminal-Blockade bei langsamem Account-Settings-Fetch; Startabsturz (`TypeError: Cannot read properties of null`) bei korrupten Null-Projekt-Einträgen in `.claude.json`; macOS-TUI-Freeze (Ctrl+C tot) während Spotlight neu indexiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schnellerer, zuverlässigerer Start — keine Hänger, Freezes oder Abstürze beim Hochfahren mehr.
+- **Version:** v2.1.181
+
+### [Fix: verschachtelte Subagent-Ketten im Vordergrund begrenzt]
+- **Was:** Vordergrund-Subagents konnten unbegrenzt verschachtelte Ketten starten — sie respektieren jetzt dasselbe 5-Ebenen-Tiefenlimit wie Hintergrund-Subagents.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schutz vor unkontrolliertem Subagent-Wildwuchs und damit verbundenem Ressourcen-/Token-Verbrauch.
+- **Version:** v2.1.181
+
+### [Fix: Sammelpaket Subagent-Anzeige]
+- **Was:** Mehrere Subagent-Anzeigefehler behoben: Die „Thinking"-Dauer zeigte die Zeit des Eltern-Agents statt der eigenen; ein auf einen verschachtelten Agent wartender Subagent zeigte eine tickende Zeit statt „waiting"; `/recap` und Konversations-Forks nutzten direkt nach einem Modellwechsel noch das alte Modell.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Subagent- und Modellwechsel-Status sind jetzt korrekt und nachvollziehbar.
+- **Version:** v2.1.181
+
+### [Fix: lange Idle-Sessions verlieren ihren Verlauf nicht mehr]
+- **Was:** Lang laufende inaktive Sessions verloren ihren Verlauf, wenn ein anderer Claude-Code-Prozess die 30-Tage-Transkript-Bereinigung ausführte. Behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Parallele Claude-Instanzen löschen sich nicht mehr gegenseitig die Historie weg — Idle-Sessions bleiben vollständig.
+- **Version:** v2.1.181
+
+### [Fix: macOS Apple-Events-Entitlement (Fehler -600)]
+- **Was:** `open`, `osascript` und browserbasierte Auth-Flows scheiterten auf macOS mit Fehler -600 — durch das hinzugefügte Apple-Events-Entitlement behoben.
+- **Einsatz:** Automatisch aktiv (macOS)
+- **Mehrwert:** Link-Öffnen und OAuth-Flows funktionieren auf macOS wieder zuverlässig.
+- **Version:** v2.1.181
+
+### [Fix: Sammelpaket AWS/MCP-Credentials & -Status]
+- **Was:** Mehrere Fixes: AWS-`awsCredentialExport`-Credentials mit kurzer Restlaufzeit lösten minütliche Refreshes aus (jetzt behoben, akzeptiert auch das JSON-Format von `aws configure export-credentials`); `claude mcp get`/`list` zeigte `✓ Connected`, obwohl `tools/list` fehlschlug — jetzt `! Connected · tools fetch failed` mit Fehlerdetail; `/remote-control` ließ eine veraltete „connecting…"-Zeile stehen und bestätigt jetzt im Transkript.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verlässlichere Credential-Handhabung und ehrlicher Verbindungsstatus — keine irreführenden „Connected"-Anzeigen oder Refresh-Stürme mehr.
+- **Version:** v2.1.181
+
+### [Fix: Sammelpaket UI, Clipboard & Eingabe]
+- **Was:** Diverse UI-Fixes: Ctrl+V fügt jetzt Text ein, statt „No image found in clipboard" zu melden; Ctrl+C im Vollbild überschreibt nicht mehr die Zwischenablage mit alter App-Auswahl; AskUserQuestion-Vorschau bricht jetzt um statt am Dialogrand abzuschneiden; AskUserQuestion-Mehrfachauswahl verwirft getippte „Other"-Antworten nicht mehr; `/copy` und Copy-on-Select unter Linux erkennen jetzt auch nachträglich installierte Clipboard-Tools; IDE-Auswahl-Zeilennummern (IntelliJ/VS Code) waren um eins versetzt; Tab-eingerückter Code wird in der Write-Vorschau korrekt dargestellt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar weniger Reibung im Alltag — Clipboard, Eingabe-Dialoge und Code-Vorschau verhalten sich jetzt korrekt.
+- **Version:** v2.1.181
+
+### [Fix: weitere Stabilität (Windows/Worktree/Symlinks/Stats)]
+- **Was:** ExitWorktree entfernt saubere Worktrees auch, wenn `git` unter Windows nicht auflösbar ist; Settings-Änderungen (`/effort`, `/model`) scheitern nicht mehr mit ENOENT bei relativ-symlinktem `~/.claude`; Agent-Anlage scheitert nicht mehr mit „EEXIST" bei bestehendem Agents-Verzeichnis (Windows/OneDrive); `/stats` zeigte „Most active day" und Tages-Chart in UTC-negativen Zeitzonen einen Tag zu früh; API-Retry-Indikator blieb nach Erfolg sichtbar. Alle behoben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger plattform- und Zeitzonen-spezifische Stolperfallen, korrekte Statistiken.
+- **Version:** v2.1.181
+
+### [v2.1.180: Stabilitäts-Release]
+- **Was:** Reines Wartungs-Release mit Bugfixes und Zuverlässigkeitsverbesserungen ohne eigene detaillierte Changelog-Einträge.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Zwischenrelease zur Stabilisierung vor v2.1.181.
+- **Version:** v2.1.180
+
+---
 
 ### Woche 24/25 (16. Juni 2026) — v2.1.179
 
