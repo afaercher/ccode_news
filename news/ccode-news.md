@@ -1,11 +1,83 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-18 (Folge-Crawl bestätigt: weiterhin keine neuen Einträge; v2.1.181 weiterhin neueste GitHub-Version, Week 24 weiterhin letzter offizieller Digest, keine neuen Claude-Code-Blog-Ankündigungen)
+> Letzte Aktualisierung: 2026-06-19 (v2.1.183 dokumentiert: Auto-Mode-Schutz vor destruktiven Git-/IaC-Befehlen, Deprecated-Model-Warnung, `attribution.sessionUrl`, `/config --help`, Sammelfixes; dazu Blog-Ankündigungen vom 18.6.: Claude Code unterstützt Artifacts, zentral verwaltete MCP-Connector-Authorization. v2.1.182 wurde übersprungen/nicht veröffentlicht, Week 24 weiterhin letzter offizieller Digest)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 25 (19. Juni 2026) — v2.1.183 + Blog-Ankündigungen (18. Juni)
+
+---
+
+### [Claude Code unterstützt Artifacts]
+- **Was:** Claude Code kann den Arbeitsfortschritt einer Session als Artifact festhalten — eine live aktualisierte, teilbare Visual-Page (z. B. PR-Walkthrough, System-Erklärung, Dashboard, Incident-/Release-Checkliste). Das Artifact wird aus dem vollen Session-Kontext gebaut (Codebase, Connectors, Konversation) und aktualisiert sich, während die Session weiterarbeitet; bei jedem Publish entsteht eine neue Version unter demselben Link mit Versionshistorie und Restore.
+- **Einsatz:** In der Session ein Artifact erstellen/aktualisieren lassen; Teilen erfolgt direkt von der Seite an Teammitglieder/Organisation. Standardmäßig privat für den Autor, nur für authentifizierte Org-Mitglieder sichtbar (nicht öffentlich machbar). Admins steuern Zugriff per Org-Toggle, Rollen-Scoping, Retention-Policy und Compliance-API.
+- **Mehrwert:** Aus einer Coding-Session entsteht ohne Mehraufwand eine lebende Doku-/Statusseite — Teammitglieder sehen Updates sofort, eine Incident-Seite bündelt z. B. fehlschlagenden Test, betroffene Funktion, Monitoring-Spike und Root-Cause-Analyse an einem Ort.
+- **Version:** Blog-Ankündigung 18.06.2026
+
+### [Zentral verwaltete Authorization für MCP-Connectors (Enterprise)]
+- **Was:** Admins verbinden ihren Identity-Provider (zunächst Okta) mit Claude und provisionieren MCP-Connectors organisationsweit. Zugriff läuft über bestehende IdP-Gruppen/Rollen statt über Einzel-Autorisierungen; Connectors erscheinen beim Login automatisch passend zur Gruppenzugehörigkeit — konsistent über Claude Chat, Claude Code und Cowork.
+- **Einsatz:** Enterprise-Admins koppeln den IdP, mappen Connectors auf Gruppen/Rollen und können erzwingen, dass Connectors nur über den IdP laufen (trennt Arbeits- von Privat-Accounts). Optional kürzere Token-Lebensdauern für schnelleres Deprovisioning.
+- **Mehrwert:** Kein manuelles Connector-Onboarding mehr (`„2.000 Mitarbeiter über Okta, null Extra-Schritte"`); zentrale Governance und schnelles Sperren beim Ausscheiden, eingebettet in die vorhandene Identity-Infrastruktur.
+- **Version:** Blog-Ankündigung 18.06.2026
+
+### [Auto-Mode: Schutz vor destruktiven Git- und IaC-Befehlen]
+- **Was:** Im Auto-Mode werden destruktive Git-Befehle (`git reset --hard`, `git checkout -- .`, `git clean -fd`, `git stash drop`) blockiert, wenn du nicht ausdrücklich um das Verwerfen lokaler Arbeit gebeten hast. `git commit --amend` wird blockiert, wenn der Commit nicht in dieser Session vom Agent erstellt wurde, und `terraform destroy` / `pulumi destroy` / `cdk destroy` nur erlaubt, wenn du genau diesen Stack genannt hast.
+- **Einsatz:** Automatisch aktiv (Auto-Mode)
+- **Mehrwert:** Schützt vor versehentlichem Verlust uncommitteter Arbeit oder dem Abriss von Infrastruktur — die gefährlichsten Befehle brauchen jetzt eine explizite Aufforderung.
+- **Version:** v2.1.183
+
+### [Warnung bei veraltetem oder automatisch ersetztem Modell]
+- **Was:** Wird ein angefordertes Modell deprecated oder automatisch auf ein neueres umgestellt, erscheint eine Warnung auf stderr — im Print-Modus (`-p`) und jetzt auch für Modelle, die in Agent-Frontmatter gesetzt sind.
+- **Einsatz:** Automatisch aktiv (sichtbar in `-p` / bei Agent-Frontmatter-Modellen)
+- **Mehrwert:** Keine stillen Modellwechsel mehr — du merkst sofort, wenn dein gewünschtes Modell nicht (mehr) verwendet wird.
+- **Version:** v2.1.183
+
+### [`attribution.sessionUrl`: claude.ai-Session-Link aus Commits/PRs weglassen]
+- **Was:** Neue Einstellung `attribution.sessionUrl`, um den claude.ai-Session-Link aus Commits und PRs in Web- und Remote-Control-Sessions zu entfernen.
+- **Einsatz:** In den Settings `attribution.sessionUrl` entsprechend setzen
+- **Mehrwert:** Saubere Commit-/PR-Historie ohne interne Session-Links — relevant für öffentliche Repos oder strikte Commit-Konventionen.
+- **Version:** v2.1.183
+
+### [`/config --help`: alle Shorthand-Keys auflisten]
+- **Was:** `/config --help` listet alle verfügbaren Shorthand-Keys für die `/config key=value`-Syntax auf.
+- **Einsatz:** `/config --help`
+- **Mehrwert:** Man muss sich die Setting-Keys nicht merken — die gültigen Kürzel sind direkt im Prompt abrufbar.
+- **Version:** v2.1.183
+
+### [`/config`-Toggle: Enter/Space ändern, Esc speichert]
+- **Was:** Im `/config`-Toggle ändern jetzt sowohl Enter als auch Space die gewählte Einstellung, und Esc speichert und schließt, statt zu verwerfen.
+- **Einsatz:** Automatisch aktiv (`/config`-Dialog)
+- **Mehrwert:** Intuitiveres Verhalten — versehentliches Verwerfen mit Esc passiert nicht mehr.
+- **Version:** v2.1.183
+
+### [Startup: „setup issues"-Zeile unter dem Logo entfernt]
+- **Was:** Die „setup issues"-Zeile unter dem Logo beim Start wurde entfernt — Konfigurationsprobleme zeigt jetzt `/doctor` bzw. `--debug`.
+- **Einsatz:** `/doctor` oder Start mit `--debug` für Konfig-Diagnose
+- **Mehrwert:** Aufgeräumterer Startbildschirm; Diagnose bleibt gezielt abrufbar.
+- **Version:** v2.1.183
+
+### [Fix: Sammelpaket Subagents, Teammates & Tasks]
+- **Was:** Mehrere Fixes: `thinking.disabled.display`-400-Fehler (`Extra inputs are not permitted`) bei Subagent-Spawns und Session-Titel-Generierung behoben; WebSearch lieferte in Subagents leere Ergebnisse; user-level Skills tauchten bei mehreren aktiven Plugins mehrfach im Slash-Command-Autocomplete auf; MCP-Server, die Auth erfordern, legten dem Modell im Headless-/SDK-Modus Auth-Stub-Tools offen; tmux-Teammate-Panes starteten bei langsamer Shell-rc-Initialisierung nicht (und Tastatureingaben während des Spawns leakten in das neue Pane); Hintergrund-Tasks eines Teammates wurden beim Turn-Ende des Teammates gekillt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Verlässlichere Subagent-/Teammate-Workflows und keine störenden 400-Fehler oder verlorenen Background-Tasks mehr.
+- **Version:** v2.1.183
+
+### [Fix: Sammelpaket TUI, vim & Anzeige]
+- **Was:** Mehrere Anzeige-Fixes: Terminal-Cursor blieb nach History-Navigation im vim-Modus mit nativem Cursor oberhalb des Prompts hängen; Fullscreen-TUI-Korruption (Statusline mitten im Bild, doppelte Spinner-Zeilen, verschmolzener Text) im Windows Terminal unter starker verschachtelter Subagent-Last; Turns endeten stumm ohne sichtbare Ausgabe, wenn das Modell nur einen Thinking-Block lieferte (Claude promptet jetzt einmal nach); Focus-Mode zeigte „Ran N PostToolUse hooks"-Timing-Zeilen unter jeder Antwort.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere, sauberere Darstellung — besonders bei vim, Windows Terminal und vielen parallelen Subagents.
+- **Version:** v2.1.183
+
+### [Fix: Scheduled Tasks & Webhooks nicht mehr als Tastatureingabe]
+- **Was:** Scheduled-Task- und Webhook-Trigger-Zustellungen wurden als Tastatureingabe behandelt; sie werden jetzt als Task-Benachrichtigungen klassifiziert und können im Auto-Mode keine ausstehende Aktion mehr genehmigen oder den Session-Titel setzen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Automatisierte Trigger können keine sicherheitsrelevanten Bestätigungen mehr versehentlich auslösen — sicherer im unbeaufsichtigten Betrieb.
+- **Version:** v2.1.183
+
+---
 
 ### Woche 25 (17. Juni 2026) — v2.1.181 / v2.1.180
 
