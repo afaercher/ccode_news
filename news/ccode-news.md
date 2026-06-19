@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-19 (Folge-Crawl: keine neue CLI-Version — v2.1.183 weiterhin neueste, Week 24 weiterhin letzter offizieller Digest. Nachgetragen: zwei zuvor undokumentierte Platform/API-Tool-Updates vom 11.6. — Code-Execution-Tool `code_execution_20260521` mit offengelegtem 90-Sekunden-Zell-Limit sowie `response_inclusion`-Parameter für Web-Search/Web-Fetch)
+> Letzte Aktualisierung: 2026-06-19 (Folge-Crawl, abends: keine neue CLI-Version — v2.1.183 weiterhin neueste, Week 24 weiterhin letzter offizieller Digest, Blog-Stand 18.6. unverändert. Nachgetragen: Platform-Update vom 15.6. — Sonnet 4 (`claude-sonnet-4-20250514`) und Opus 4 (`claude-opus-4-20250514`) sind nun endgültig retired und liefern bei Requests Fehler)
 
 ---
 
@@ -76,6 +76,18 @@
 - **Einsatz:** Automatisch aktiv
 - **Mehrwert:** Automatisierte Trigger können keine sicherheitsrelevanten Bestätigungen mehr versehentlich auslösen — sicherer im unbeaufsichtigten Betrieb.
 - **Version:** v2.1.183
+
+---
+
+### Platform-Update (15. Juni 2026)
+
+---
+
+### [Claude Sonnet 4 und Opus 4 endgültig abgeschaltet (Retirement jetzt wirksam)]
+- **Was:** Die zuvor angekündigte Abkündigung ist nun vollzogen: Sonnet 4 (`claude-sonnet-4-20250514`) und Opus 4 (`claude-opus-4-20250514`) wurden am 15.06.2026 auf der Claude API retired. Jeder Request an diese Modell-IDs liefert ab sofort einen Fehler. Empfohlene Migration: Sonnet 4.6 bzw. Opus 4.8. Forschende können über das External Researcher Access Program weiteren Zugang beantragen.
+- **Einsatz:** Hartcodierte Modell-IDs `claude-sonnet-4-20250514` / `claude-opus-4-20250514` in Skripten, Agents und Configs auf `claude-sonnet-4-6` bzw. `claude-opus-4-8` umstellen
+- **Mehrwert:** Klare Handlungsaufforderung — wer noch auf den alten IDs läuft, bekommt jetzt harte Fehler statt stiller Weiterleitung; rechtzeitiges Umstellen verhindert Pipeline-Ausfälle.
+- **Version:** Platform Release Notes 15.06.2026
 
 ---
 
