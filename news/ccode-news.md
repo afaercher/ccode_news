@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-19 (v2.1.183 dokumentiert: Auto-Mode-Schutz vor destruktiven Git-/IaC-Befehlen, Deprecated-Model-Warnung, `attribution.sessionUrl`, `/config --help`, Sammelfixes; dazu Blog-Ankündigungen vom 18.6.: Claude Code unterstützt Artifacts, zentral verwaltete MCP-Connector-Authorization. v2.1.182 wurde übersprungen/nicht veröffentlicht, Week 24 weiterhin letzter offizieller Digest)
+> Letzte Aktualisierung: 2026-06-19 (Folge-Crawl: keine neue CLI-Version — v2.1.183 weiterhin neueste, Week 24 weiterhin letzter offizieller Digest. Nachgetragen: zwei zuvor undokumentierte Platform/API-Tool-Updates vom 11.6. — Code-Execution-Tool `code_execution_20260521` mit offengelegtem 90-Sekunden-Zell-Limit sowie `response_inclusion`-Parameter für Web-Search/Web-Fetch)
 
 ---
 
@@ -76,6 +76,24 @@
 - **Einsatz:** Automatisch aktiv
 - **Mehrwert:** Automatisierte Trigger können keine sicherheitsrelevanten Bestätigungen mehr versehentlich auslösen — sicherer im unbeaufsichtigten Betrieb.
 - **Version:** v2.1.183
+
+---
+
+### Platform/API-Updates (11. Juni 2026)
+
+---
+
+### [Code-Execution-Tool: 90-Sekunden-Limit pro Zelle offengelegt (`code_execution_20260521`)]
+- **Was:** Das Code-Execution-Tool der Claude API unterstützt jetzt die Version `code_execution_20260521`, die das 90-Sekunden-Zeitlimit pro Zellen-Ausführung direkt in der Tool-Beschreibung benennt — so kann das Modell lang laufende Zellen besser einplanen. Kein Beta-Header mehr nötig.
+- **Einsatz:** API-Tool `code_execution_20260521` verwenden (z. B. in eigenen Agents/Skripten, die das Code-Execution-Tool nutzen)
+- **Mehrwert:** Weniger abgeschnittene Zellen-Läufe — das Modell weiß um die Zeitgrenze und teilt rechenintensive Schritte sinnvoll auf.
+- **Version:** Platform Release Notes 11.06.2026
+
+### [Web Search / Web Fetch: `response_inclusion` zum Auslassen verbrauchter Result-Blöcke]
+- **Was:** Web-Search- (`web_search_20260318`) und Web-Fetch-Tool (`web_fetch_20260318`) der Claude API bekommen einen `response_inclusion`-Parameter, mit dem bereits konsumierte Result-Blöcke aus der API-Antwort entfernt werden können. Kein Beta-Header nötig.
+- **Einsatz:** In agentischen Workflows `response_inclusion` setzen, um Such-/Fetch-Ergebnisse nach Verarbeitung aus der Antwort zu droppen
+- **Mehrwert:** Spart Tokens und hält den Kontext schlank — in langen agentischen Schleifen blähen alte Suchergebnisse die Antwort nicht mehr auf.
+- **Version:** Platform Release Notes 11.06.2026
 
 ---
 
