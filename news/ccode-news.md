@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-19 (Folge-Crawl, abends: keine neue CLI-Version — v2.1.183 weiterhin neueste, Week 24 weiterhin letzter offizieller Digest, Blog-Stand 18.6. unverändert. Nachgetragen: Platform-Update vom 15.6. — Sonnet 4 (`claude-sonnet-4-20250514`) und Opus 4 (`claude-opus-4-20250514`) sind nun endgültig retired und liefern bei Requests Fehler)
+> Letzte Aktualisierung: 2026-06-20 (Folge-Crawl: keine neue CLI-Version — v2.1.183 weiterhin neueste, Week 24 weiterhin letzter offizieller Digest. Nachgetragen: 2 Blog-Ankündigungen vom 17.6. — Claude Design „on brand" mit `/design-sync`/`/design`-Sync zu Claude Code & Workload Identity Federation (WIF) GA auf der Claude Platform; sowie Platform-Update vom 10.6. — Self-Hosted-Sandbox-`work`-Endpoint auf Claude Platform on AWS)
 
 ---
 
@@ -79,6 +79,24 @@
 
 ---
 
+### Blog-Ankündigungen (17. Juni 2026)
+
+---
+
+### [Claude Design bleibt „on brand" — mit Sync zu Claude Code]
+- **Was:** Claude Design importiert und erzwingt jetzt Design-System-Komponenten: Man bindet Komponenten aus GitHub-Repos, Design-Dateien oder Direkt-Uploads ein, Claude baut damit und prüft jeden Output gegen die Marken-Vorgaben, bevor er angezeigt wird. Admins können ein Standard-System freigeben und gegen Änderungen sperren, sodass alle Arbeiten den Firmen-Guidelines entsprechen. Pro Turn werden im Schnitt weniger Tokens bei besseren Ergebnissen und deutlich weniger Fehlern verbraucht.
+- **Einsatz:** In Claude Design (claude.ai/design bzw. Desktop-Sidebar) ein Design-System importieren; Übergabe Design→Code per `/design-sync` und `/design` direkt in Claude Code für nahtlose Handoffs mit konsistenten Komponenten. Verfügbar für Pro, Max, Team und Enterprise.
+- **Mehrwert:** Designvorlagen und Code bleiben markenkonform und synchron — Entwickler ziehen geprüfte Komponenten ohne Stilbruch in den Code, statt Design-Specs manuell nachzubauen.
+- **Version:** Blog-Ankündigung 17.06.2026
+
+### [Workload Identity Federation (WIF) für die Claude Platform — jetzt allgemein verfügbar]
+- **Was:** WIF ist auf der Claude Platform allgemein verfügbar und ersetzt statische API-Keys durch kurzlebige, scope-begrenzte Credentials, die zur Request-Zeit ausgestellt werden. Externe Identitäten (AWS-IAM-Rollen, GCP-Service-Accounts, GitHub-Actions-Tokens etc.) werden an Service-Accounts der Claude Platform gebunden — kein Verwalten statischer Secrets mehr. Die Console bietet geführte Konfiguration mit Validierung und Test-Befehl; API-Keys laufen parallel weiter, sodass man Workload für Workload migrieren kann.
+- **Einsatz:** In der Claude Console WIF einrichten (externe Identität an Service-Account binden); Migration schrittweise, da Keys und WIF koexistieren. Org-weite/programmatische Konfiguration über die Admin-API.
+- **Mehrwert:** Schluss mit langlebigen API-Keys in CI/CD und Prod — kurzlebige, gescopte Credentials senken das Leak-Risiko und passen in bestehende IAM-/OIDC-Infrastruktur, von GitHub-Actions-Startups bis Enterprise.
+- **Version:** Blog-Ankündigung 17.06.2026
+
+---
+
 ### Platform-Update (15. Juni 2026)
 
 ---
@@ -106,6 +124,18 @@
 - **Einsatz:** In agentischen Workflows `response_inclusion` setzen, um Such-/Fetch-Ergebnisse nach Verarbeitung aus der Antwort zu droppen
 - **Mehrwert:** Spart Tokens und hält den Kontext schlank — in langen agentischen Schleifen blähen alte Suchergebnisse die Antwort nicht mehr auf.
 - **Version:** Platform Release Notes 11.06.2026
+
+---
+
+### Platform-Update (10. Juni 2026)
+
+---
+
+### [Self-Hosted-Sandbox `work`-Endpoint jetzt auf Claude Platform on AWS]
+- **Was:** Der Endpoint `GET /v1/environments/{id}/work` — listet ausstehende Arbeit für eine Self-Hosted-Sandbox auf — ist jetzt auch auf der Claude Platform on AWS verfügbar. Autorisiert wird er über die neue IAM-Action `GetEnvironment`.
+- **Einsatz:** In AWS-Deployments von Managed Agents mit Self-Hosted-Sandboxes `GET /v1/environments/{id}/work` abrufen; IAM-Policy um die Action `GetEnvironment` ergänzen.
+- **Mehrwert:** AWS-Kunden erreichen Feature-Parität beim Self-Hosted-Sandbox-Polling über AWS-Billing und IAM-Auth — der eigene Sandbox-Worker fragt ausstehende Tool-Aufgaben innerhalb des AWS-Governance-Rahmens ab.
+- **Version:** Platform Release Notes 10.06.2026
 
 ---
 
