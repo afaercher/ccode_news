@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-20 (Folge-Crawl: keine neue CLI-Version — v2.1.183 weiterhin neueste, Week 24 weiterhin letzter offizieller Digest. Nachgetragen: 2 Blog-Ankündigungen vom 17.6. — Claude Design „on brand" mit `/design-sync`/`/design`-Sync zu Claude Code & Workload Identity Federation (WIF) GA auf der Claude Platform; sowie Platform-Update vom 10.6. — Self-Hosted-Sandbox-`work`-Endpoint auf Claude Platform on AWS)
+> Letzte Aktualisierung: 2026-06-20 (Bestätigungs-Crawl, keine neuen Einträge: v2.1.183 weiterhin neueste CLI-Version, Week 24 weiterhin letzter offizieller Digest. Alle Quellen gegengeprüft — Blog bis 18.6. und Platform bis 15.6. bereits vollständig dokumentiert, inkl. Fable-5-/Mythos-5-Launch 9.6. und Self-Hosted-Sandbox-`work`-Endpoint 10.6.)
 
 ---
 
