@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-20 (Bestätigungs-Crawl, keine neuen Einträge: v2.1.183 weiterhin neueste CLI-Version, Week 24 weiterhin letzter offizieller Digest. Alle Quellen gegengeprüft — Blog bis 18.6. und Platform bis 15.6. bereits vollständig dokumentiert, inkl. Fable-5-/Mythos-5-Launch 9.6. und Self-Hosted-Sandbox-`work`-Endpoint 10.6.)
+> Letzte Aktualisierung: 2026-06-20 18:01 (Bestätigungs-Crawl, keine neuen Einträge: v2.1.183 weiterhin neueste CLI-Version, Week 24 weiterhin letzter offizieller Digest. Alle vier Quellen erneut gegengeprüft — GitHub-Releases bis v2.1.183, Blog bis 18.6. (inkl. Managed-Agents-Cron/Vault 9.6.), Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) sind vollständig dokumentiert.)
 
 ---
 
