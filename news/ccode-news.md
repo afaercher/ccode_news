@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-21 06:00 (Crawl: 1 neue CLI-Version v2.1.185 (20.6.) nachgetragen — Stream-Stall-Hinweis umformuliert. Week 24 weiterhin letzter offizieller Digest, Blog bis 18.6. und Platform-API bis 15.6. unverändert vollständig dokumentiert.)
+> Letzte Aktualisierung: 2026-06-21 12:01 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.185 (20.6.) weiterhin neueste CLI, Week 24 letzter offizieller Digest, Blog bis 18.6. und Platform-API bis 15.6. (inkl. 11.6.-Tool-Versionen) erneut gegengeprüft und vollständig.)
 
 ---
 
