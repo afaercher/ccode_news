@@ -1,11 +1,23 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-20 18:01 (Bestätigungs-Crawl, keine neuen Einträge: v2.1.183 weiterhin neueste CLI-Version, Week 24 weiterhin letzter offizieller Digest. Alle vier Quellen erneut gegengeprüft — GitHub-Releases bis v2.1.183, Blog bis 18.6. (inkl. Managed-Agents-Cron/Vault 9.6.), Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) sind vollständig dokumentiert.)
+> Letzte Aktualisierung: 2026-06-21 06:00 (Crawl: 1 neue CLI-Version v2.1.185 (20.6.) nachgetragen — Stream-Stall-Hinweis umformuliert. Week 24 weiterhin letzter offizieller Digest, Blog bis 18.6. und Platform-API bis 15.6. unverändert vollständig dokumentiert.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 25 (20. Juni 2026) — v2.1.185
+
+---
+
+### [Klarerer Stream-Stall-Hinweis: „Waiting for API response"]
+- **Was:** Der Hinweis bei stockendem Antwort-Stream lautet jetzt „Waiting for API response · will retry in …" statt „No response from API · Retrying in …" und erscheint erst nach 20 Sekunden Stille statt nach 10.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Fehlalarme bei kurzen Pausen (erst nach 20 s) und eine ruhigere, präzisere Formulierung — die Verbindung gilt nicht sofort als abgerissen, sondern als „wird abgewartet".
+- **Version:** v2.1.185
+
+---
 
 ### Woche 25 (19. Juni 2026) — v2.1.183 + Blog-Ankündigungen (18. Juni)
 
