@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-21 18:01 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.185 (20.6.) weiterhin neueste CLI, Week 24 letzter offizieller Digest, Blog bis 18.6. und Platform-API bis 15.6. (inkl. 11.6.-Tool-Versionen) erneut gegengeprüft und vollständig. Hinweis: Platform-Release-Notes liegen jetzt unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-22 06:02 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.185 (20.6.) weiterhin neueste CLI, Week 24 letzter offizieller Digest. Alle Quellen gegengeprüft und vollständig: GitHub-Releases bis v2.1.185, Blog-Ankündigungen bis 18.6. (Artifacts, MCP-Authorization, Claude Design, WIF, Managed Agents 9.6., Apple Foundation Models/Observability 8.6.), Platform-API bis 15.6. (inkl. 11.6.-Tool-Versionen und 10.6. Managed-Agents-AWS-Update). Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
