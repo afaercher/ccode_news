@@ -1,11 +1,83 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-22 18:01 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.185 (20.6.) weiterhin neueste CLI, Week 24 letzter offizieller Digest. Alle vier Quellen erneut gegengeprüft und vollständig: GitHub-Releases bis v2.1.185, Blog-Ankündigungen bis 18.6. (Artifacts, MCP-Authorization, Claude Design, WIF, Managed Agents 9.6., Apple Foundation Models/Observability 8.6.), Platform-API bis 15.6. (inkl. 11.6.-Tool-Versionen und 10.6. Managed-Agents-AWS-Update). Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-23 06:02 (Neuer CLI-Release v2.1.186 (22.6.) eingepflegt: u. a. `claude mcp login/logout`, `!`-Bash-Auto-Antwort (`respondToBashCommands`), `/workflows`-Statusfilter (`f`), `/plugin`-Skills-Sektion, `teammateMode: "iterm2"`, AWS-Credentials-Refresh im `/login`, Hintergrund-Subagent-Permission-Prompts in der Hauptsession, `--effort`-Vererbung in Agent-Teams, `CLAUDE_CODE_MAX_RETRIES`-Cap 15 + `RETRY_WATCHDOG` sowie Streaming-/UI-Fixes. Week 24 weiterhin letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (inkl. 11.6./10.6.) erneut gegengeprüft und unverändert vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 25 (22. Juni 2026) — v2.1.186
+
+---
+
+### [`claude mcp login` / `claude mcp logout`: MCP-Auth ohne interaktives Menü]
+- **Was:** Zwei neue CLI-Befehle `claude mcp login <name>` und `claude mcp logout <name>` authentifizieren bzw. melden einen MCP-Server ab — ohne den Umweg über das interaktive `/mcp`-Menü.
+- **Einsatz:** `claude mcp login <server-name>` zum An-, `claude mcp logout <server-name>` zum Abmelden
+- **Mehrwert:** MCP-Auth lässt sich direkt skripten und in Setup-/CI-Abläufe einbauen, statt jedes Mal das TUI-Menü zu bedienen.
+- **Version:** v2.1.186
+
+### [`!`-Bash-Befehle lösen automatische Claude-Antwort aus]
+- **Was:** Ein mit `!` abgesetzter Bash-Befehl löst jetzt automatisch eine Claude-Antwort aus, statt nur die Ausgabe stumm anzuhängen. Abschaltbar über die Einstellung `"respondToBashCommands": false`.
+- **Einsatz:** `!<befehl>` eingeben; zum Deaktivieren `respondToBashCommands` in den Settings auf `false` setzen
+- **Mehrwert:** Claude reagiert sofort auf das Ergebnis eines manuell ausgeführten Befehls (z. B. Fehlermeldung, Test-Output), ohne dass man die Ausgabe extra kommentieren muss.
+- **Version:** v2.1.186
+
+### [`/workflows`: Status-Filter in der Agent-Detailansicht]
+- **Was:** In der Agent-Detailansicht von `/workflows` filtert die Taste `f` die angezeigten Agents nach Status.
+- **Einsatz:** In `/workflows` die Detailansicht öffnen und `f` drücken
+- **Mehrwert:** Bei vielen parallelen Agents findet man laufende/blockierte/fertige schneller, ohne durch die ganze Liste zu scrollen.
+- **Version:** v2.1.186
+
+### [`/plugin`: eigene „Skills"-Sektion im Installed-Tab]
+- **Was:** Der Installed-Tab von `/plugin` hat jetzt eine eigene „Skills"-Sektion.
+- **Einsatz:** `/plugin` → Tab „Installed"
+- **Mehrwert:** Installierte Skills sind übersichtlich an einem Ort sichtbar, getrennt von anderen Plugin-Bestandteilen.
+- **Version:** v2.1.186
+
+### [`teammateMode: "iterm2"` für Teammate-Panes]
+- **Was:** Neue Einstellung `teammateMode: "iterm2"` lässt Teammates in iTerm2-Panes laufen; bei Fehlschlägen im Auto-Mode erscheint eine Warnung.
+- **Einsatz:** In den Settings `teammateMode: "iterm2"` setzen (macOS/iTerm2)
+- **Mehrwert:** Teammate-Sessions integrieren sich nativ in iTerm2 statt nur in tmux — passendere Fenster-/Pane-Verwaltung für iTerm2-Nutzer.
+- **Version:** v2.1.186
+
+### [`/login`: „Claude Platform on AWS — refresh credentials"]
+- **Was:** Das `/login`-Menü bietet eine neue Option „Claude Platform on AWS - refresh credentials" zum Erneuern der AWS-Anmeldedaten.
+- **Einsatz:** `/login` → „Claude Platform on AWS - refresh credentials"
+- **Mehrwert:** Abgelaufene AWS-Credentials lassen sich direkt aus Claude Code erneuern, ohne die Session zu verlassen.
+- **Version:** v2.1.186
+
+### [Hintergrund-Subagents: Permission-Prompts in der Hauptsession statt Auto-Deny]
+- **Was:** Braucht ein im Hintergrund laufender Subagent eine Berechtigung, wird der Prompt jetzt in der Hauptsession angezeigt, statt die Aktion automatisch abzulehnen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hintergrund-Subagents bleiben bei berechtigungspflichtigen Schritten nicht mehr stillschweigend hängen — man kann sie gezielt freigeben.
+- **Version:** v2.1.186
+
+### [Agent-Teams erben das `--effort`-Level des Leiters]
+- **Was:** Teammates übernehmen jetzt das `--effort`-Level der Leiter-Session.
+- **Einsatz:** Automatisch aktiv (Agent-Teams)
+- **Mehrwert:** Einheitliches Effort-Niveau im ganzen Team — kein versehentlich abweichender Aufwand bei einzelnen Teammates.
+- **Version:** v2.1.186
+
+### [`CLAUDE_CODE_MAX_RETRIES`-Cap auf 15 + `CLAUDE_CODE_RETRY_WATCHDOG`]
+- **Was:** Die Obergrenze für `CLAUDE_CODE_MAX_RETRIES` wurde auf 15 angehoben; für unbeaufsichtigte Sessions gibt es zusätzlich den `CLAUDE_CODE_RETRY_WATCHDOG`.
+- **Einsatz:** `CLAUDE_CODE_MAX_RETRIES` (bis 15) bzw. `CLAUDE_CODE_RETRY_WATCHDOG` als Env-Variablen setzen
+- **Mehrwert:** Robustere lang laufende/unbeaufsichtigte Läufe — mehr Wiederholungsversuche und ein Watchdog gegen festhängende Retries.
+- **Version:** v2.1.186
+
+### [`claude mcp get` / `claude mcp remove`: Tippfehler-Vorschläge]
+- **Was:** `claude mcp get` und `claude mcp remove` schlagen bei vertippten Server-Namen den wahrscheinlich gemeinten Namen vor.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Frust bei Tippfehlern — man muss den exakten Server-Namen nicht aus dem Kopf treffen.
+- **Version:** v2.1.186
+
+### [Fix: Sammelpaket Streaming, Sessions & UI]
+- **Was:** Mehrere Fixes: Streaming-Requests scheiterten nach Ruhezustand der Maschine mit „Content block not found"; die Scroll-Position eines Subagent-Transkripts blutete ins Haupt-Transkript; die Vorschau von Hintergrund-Tasks blitzte mit rohen Tool-Namen auf; Chrome-Tab-Gruppen-Isolation für parallele CLI-Sessions; doppelte Hintergrund-Session-Recaps; diverse UI-Probleme (Ausrichtung der Permission-Prompts, Subagent-Dismissal, Strikethrough-Rendering). Außerdem verbesserte Memory-Compaction-Hinweise.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabileres Streaming nach Standby, saubere Transkript-Anzeige und ruhigere, korrekte UI bei parallelen Sessions und Hintergrund-Tasks.
+- **Version:** v2.1.186
+
+---
 
 ### Woche 25 (20. Juni 2026) — v2.1.185
 
