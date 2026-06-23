@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-23 12:01 (Nachtrag-Crawl: fünf weitere v2.1.186-Changelog-Punkte ergänzt, die der 06:02-Crawl noch nicht erfasst hatte — `/review <pr>` nutzt jetzt die `/code-review medium`-Engine, `claude mcp login --no-browser` für SSH-Auth, case-insensitive Skill-Frontmatter-Keys + robustes Handling fehlerhafter `SKILL.md`, Abbruch von Workflow-`{schema}`-Subagents nach 5 Fehlversuchen, Durchsetzung von Agent-Deny-/Allowed-Types-Regeln bei benannten Subagent-Spawns. v2.1.186 (22.6.) bleibt neuester CLI-Release, kein v2.1.187+. Week 24 weiterhin letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (inkl. 11.6./10.6.) erneut gegengeprüft und unverändert vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-23 18:01 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.186 (22.6.) bleibt neuester CLI-Release (GitHub-Releases gegengeprüft, kein v2.1.187+), Week 24 weiterhin letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. (Artifacts, MCP-Connector-Autorisierung, Claude Design, WIF, Managed-Agents-Cron, Apple Foundation Models — alle dokumentiert) und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement, 11.6./10.6.) erneut über alle vier Quellen gegengeprüft und unverändert vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
