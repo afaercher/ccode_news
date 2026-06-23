@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-23 06:02 (Neuer CLI-Release v2.1.186 (22.6.) eingepflegt: u. a. `claude mcp login/logout`, `!`-Bash-Auto-Antwort (`respondToBashCommands`), `/workflows`-Statusfilter (`f`), `/plugin`-Skills-Sektion, `teammateMode: "iterm2"`, AWS-Credentials-Refresh im `/login`, Hintergrund-Subagent-Permission-Prompts in der Hauptsession, `--effort`-Vererbung in Agent-Teams, `CLAUDE_CODE_MAX_RETRIES`-Cap 15 + `RETRY_WATCHDOG` sowie Streaming-/UI-Fixes. Week 24 weiterhin letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (inkl. 11.6./10.6.) erneut gegengeprüft und unverändert vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-23 12:01 (Nachtrag-Crawl: fünf weitere v2.1.186-Changelog-Punkte ergänzt, die der 06:02-Crawl noch nicht erfasst hatte — `/review <pr>` nutzt jetzt die `/code-review medium`-Engine, `claude mcp login --no-browser` für SSH-Auth, case-insensitive Skill-Frontmatter-Keys + robustes Handling fehlerhafter `SKILL.md`, Abbruch von Workflow-`{schema}`-Subagents nach 5 Fehlversuchen, Durchsetzung von Agent-Deny-/Allowed-Types-Regeln bei benannten Subagent-Spawns. v2.1.186 (22.6.) bleibt neuester CLI-Release, kein v2.1.187+. Week 24 weiterhin letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (inkl. 11.6./10.6.) erneut gegengeprüft und unverändert vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
@@ -75,6 +75,36 @@
 - **Was:** Mehrere Fixes: Streaming-Requests scheiterten nach Ruhezustand der Maschine mit „Content block not found"; die Scroll-Position eines Subagent-Transkripts blutete ins Haupt-Transkript; die Vorschau von Hintergrund-Tasks blitzte mit rohen Tool-Namen auf; Chrome-Tab-Gruppen-Isolation für parallele CLI-Sessions; doppelte Hintergrund-Session-Recaps; diverse UI-Probleme (Ausrichtung der Permission-Prompts, Subagent-Dismissal, Strikethrough-Rendering). Außerdem verbesserte Memory-Compaction-Hinweise.
 - **Einsatz:** Automatisch aktiv
 - **Mehrwert:** Stabileres Streaming nach Standby, saubere Transkript-Anzeige und ruhigere, korrekte UI bei parallelen Sessions und Hintergrund-Tasks.
+- **Version:** v2.1.186
+
+### [`/review <pr>` nutzt jetzt die `/code-review medium`-Engine]
+- **Was:** Der Befehl `/review <pr>` läuft jetzt über dieselbe Review-Engine wie `/code-review medium`.
+- **Einsatz:** `/review <pr-nummer>`
+- **Mehrwert:** PR-Reviews liefern dieselbe, ausgereiftere Befund-Qualität wie `/code-review` — kein zweiter, abweichender Review-Pfad mehr.
+- **Version:** v2.1.186
+
+### [`claude mcp login --no-browser`: MCP-Auth über SSH]
+- **Was:** `claude mcp login <name>` unterstützt jetzt `--no-browser` mit stdin-Redirect, um die Authentifizierung über SSH abzuschließen (statt einen lokalen Browser zu öffnen).
+- **Einsatz:** `claude mcp login <server-name> --no-browser`
+- **Mehrwert:** MCP-Server lassen sich auch auf Remote-/Headless-Maschinen ohne Browser per SSH anmelden.
+- **Version:** v2.1.186
+
+### [Skill-Frontmatter: case-insensitive Keys + robustes Handling fehlerhafter `SKILL.md`]
+- **Was:** Die Frontmatter-Keys `display-name`, `default-enabled`, `fallback` und `metadata.*` werden jetzt in kebab-case, snake_case und camelCase akzeptiert. Bei fehlerhaftem YAML-Frontmatter wird der Skill-Body mit leeren Metadaten geladen, statt still zu scheitern.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Weniger Reibung beim Skill-Schreiben — Schreibweise der Keys ist egal, und ein YAML-Tippfehler legt den Skill nicht mehr lautlos lahm.
+- **Version:** v2.1.186
+
+### [Workflow-Subagents mit `{schema}` brechen nach 5 Fehlversuchen ab]
+- **Was:** Workflow-`agent({schema})`-Subagents, die wiederholt an der Schema-Validierung scheitern, brechen jetzt nach 5 Versuchen ab, statt endlos zu loopen.
+- **Einsatz:** Automatisch aktiv (Workflows mit `schema`-Option)
+- **Mehrwert:** Ein Subagent, der das geforderte Schema nie trifft, blockiert nicht mehr den ganzen Workflow — der Lauf scheitert kontrolliert statt hängenzubleiben.
+- **Version:** v2.1.186
+
+### [Agent-Deny-/Allowed-Types-Regeln greifen für benannte Subagent-Spawns]
+- **Was:** `Agent(type)`-Deny-Regeln und `Agent(x,y)`-Allowed-Types-Beschränkungen werden jetzt auch beim Spawnen benannter Subagents durchgesetzt.
+- **Einsatz:** Automatisch aktiv (Permission-Regeln für Agent-Typen)
+- **Mehrwert:** Berechtigungsregeln für Subagent-Typen lassen sich nicht mehr durch benannte Spawns umgehen — verlässlichere Eingrenzung, welche Agent-Typen laufen dürfen.
 - **Version:** v2.1.186
 
 ---
