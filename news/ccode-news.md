@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-24 (Crawl: neuer CLI-Release v2.1.187 (23.6.) eingepflegt — sandbox.credentials, org-weite Modell-Restriktionen, Maus-Klick in Fullscreen-Menüs, optionaler GitHub-Actions-Workflow bei /install-github-app, /btw-Pfeilnavigation, /plugin-Aufräumhinweis, MCP-Tool-Idle-Timeout, StructuredOutput-Loop-Fix + Sammelpakete Remote/Agents-View/Worktrees & Eingabe/UI. Week 24 bleibt letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. gegengeprüft und unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-24 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.187 (23.6.) bleibt neueste CLI, kein v2.1.188+ veröffentlicht; Week 24 bleibt letzter offizieller Digest (Week 25 nur Changelog); Blog-Ankündigungen bis 18.6. (Artifacts in Claude Code, zentrale MCP-Connector-Authorization, Workload Identity Federation, Managed-Agents-Cron/Vault-Env) und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen erneut gegengeprüft und vollständig dokumentiert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
