@@ -1,11 +1,35 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-24 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.187 (23.6.) bleibt neueste CLI, kein v2.1.188+ veröffentlicht; Week 24 bleibt letzter offizieller Digest (Week 25 nur Changelog); Blog-Ankündigungen bis 18.6. (Artifacts in Claude Code, zentrale MCP-Connector-Authorization, Workload Identity Federation, Managed-Agents-Cron/Vault-Env) und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen erneut gegengeprüft und vollständig dokumentiert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-24 (Crawl: drei neue CLI-Releases v2.1.188 / v2.1.189 / v2.1.190 (24.6.) eingepflegt. v2.1.188 & v2.1.190 sind reine „Bug fixes and reliability improvements" ohne Detailliste; v2.1.189 trägt im kanonischen Changelog exakt das Feature-Sammelpaket, das hier bereits unter v2.1.187 dokumentiert ist (Versionsnummern-Verschiebung, siehe Hinweis unten — keine inhaltlichen Neuerungen). v2.1.190 ist neueste CLI; Week 24 bleibt letzter offizieller Digest (Week 25/26 nur Changelog); Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen gegengeprüft, unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 26 (24. Juni 2026) — v2.1.188 / v2.1.189 / v2.1.190
+
+---
+
+### [v2.1.190 — Bugfixes & Zuverlässigkeit]
+- **Was:** Reiner Wartungs-Release: „Bug fixes and reliability improvements". Keine einzeln aufgeführten Changelog-Punkte.
+- **Einsatz:** Automatisch aktiv (Update auf v2.1.190)
+- **Mehrwert:** Allgemeine Stabilitäts- und Zuverlässigkeitsverbesserungen ohne neue, sichtbare Funktionen.
+- **Version:** v2.1.190
+
+### [v2.1.188 — Bugfixes & Zuverlässigkeit]
+- **Was:** Reiner Wartungs-Release: „Bug fixes and reliability improvements". Keine einzeln aufgeführten Changelog-Punkte.
+- **Einsatz:** Automatisch aktiv (Update auf v2.1.188)
+- **Mehrwert:** Allgemeine Stabilitäts- und Zuverlässigkeitsverbesserungen ohne neue, sichtbare Funktionen.
+- **Version:** v2.1.188
+
+### [Hinweis: Versionsnummern-Verschiebung v2.1.187 → v2.1.189]
+- **Was:** Das große Feature-Sammelpaket (`sandbox.credentials`, org-weite Modell-Restriktionen, Maus-Klick in Fullscreen-Menüs, `/install-github-app`-Workflow optional, `/btw`-Pfeilnavigation, `/plugin`-Aufräumhinweis, MCP-Tool-Idle-Timeout, StructuredOutput-Loop-Fix, Sammelpakete Remote/Agents-View/Worktrees & Eingabe/UI) ist im **kanonischen Changelog (CHANGELOG.md)** unter **v2.1.189** gelistet — hier weiter unten bereits vollständig unter v2.1.187 dokumentiert. Es handelt sich also nur um eine Versionsnummern-Verschiebung, **keine inhaltlichen Neuerungen**.
+- **Einsatz:** —
+- **Mehrwert:** Klarstellung gegen Doppel-Dokumentation: Wer auf v2.1.189 referenziert, findet dieselben Features hier unter v2.1.187.
+- **Version:** v2.1.189
+
+---
 
 ### Woche 25 (23. Juni 2026) — v2.1.187
 
