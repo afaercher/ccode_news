@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-23 18:01 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.186 (22.6.) bleibt neuester CLI-Release (GitHub-Releases gegengeprüft, kein v2.1.187+), Week 24 weiterhin letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. (Artifacts, MCP-Connector-Autorisierung, Claude Design, WIF, Managed-Agents-Cron, Apple Foundation Models — alle dokumentiert) und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement, 11.6./10.6.) erneut über alle vier Quellen gegengeprüft und unverändert vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-24 (Crawl: neuer CLI-Release v2.1.187 (23.6.) eingepflegt — sandbox.credentials, org-weite Modell-Restriktionen, Maus-Klick in Fullscreen-Menüs, optionaler GitHub-Actions-Workflow bei /install-github-app, /btw-Pfeilnavigation, /plugin-Aufräumhinweis, MCP-Tool-Idle-Timeout, StructuredOutput-Loop-Fix + Sammelpakete Remote/Agents-View/Worktrees & Eingabe/UI. Week 24 bleibt letzter offizieller Digest (Week 25 nur Changelog), Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. gegengeprüft und unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 25 (23. Juni 2026) — v2.1.187
+
+---
+
+### [`sandbox.credentials`: Sandbox-Befehle von Credentials & Secrets aussperren]
+- **Was:** Neue Einstellung `sandbox.credentials` verhindert, dass in der Sandbox laufende Befehle Credential-Dateien und geheime Umgebungsvariablen lesen können.
+- **Einsatz:** `sandbox.credentials` in den Settings setzen
+- **Mehrwert:** Zusätzliche Schutzschicht — selbst kompromittierter oder fehlerhafter Sandbox-Code kommt nicht mehr an Tokens, API-Keys oder Secrets aus der Umgebung.
+- **Version:** v2.1.187
+
+### [Org-weite Modell-Beschränkungen im Model-Picker]
+- **Was:** Von der Organisation konfigurierte Modell-Beschränkungen greifen jetzt im Model-Picker, bei `--model`, `/model` und `ANTHROPIC_MODEL`. Bei Auswahl eines gesperrten Modells erscheint die Meldung „restricted by your organization's settings".
+- **Einsatz:** Automatisch aktiv (sofern die Organisation Modell-Restriktionen konfiguriert hat)
+- **Mehrwert:** Unternehmen können verbindlich vorgeben, welche Modelle genutzt werden dürfen — der Nutzer sieht klar, warum ein Modell nicht wählbar ist.
+- **Version:** v2.1.187
+
+### [Maus-Klick in Auswahl-Menüs (Fullscreen-Modus)]
+- **Was:** Auswahl-Menüs (Permission-Prompts, `/model`, `/config` usw.) lassen sich im Fullscreen-Modus jetzt per Mausklick bedienen.
+- **Einsatz:** Im Fullscreen-Modus Menüeinträge direkt anklicken
+- **Mehrwert:** Schnellere, intuitivere Bedienung — kein zwingendes Tab-/Pfeiltasten-Navigieren mehr in Dialogen.
+- **Version:** v2.1.187
+
+### [`/install-github-app`: GitHub-Actions-Workflow jetzt optional]
+- **Was:** Bei `/install-github-app` ist das Einrichten des GitHub-Actions-Workflows nun optional — man kann nur die GitHub-App installieren und die Workflow-/Secret-Schritte überspringen.
+- **Einsatz:** `/install-github-app` ausführen und die Workflow-Einrichtung überspringen
+- **Mehrwert:** Wer nur die App-Integration will (z. B. ohne CI), spart sich die unnötigen Workflow- und Secret-Schritte.
+- **Version:** v2.1.187
+
+### [`/btw`: Pfeiltasten-Navigation durch frühere Antworten]
+- **Was:** `/btw` unterstützt jetzt ←/→-Navigation, um durch frühere Antworten zu blättern.
+- **Einsatz:** In `/btw` mit ←/→ zwischen den Antworten wechseln
+- **Mehrwert:** Frühere Zwischenantworten lassen sich bequem erneut ansehen, ohne sie neu anzufordern.
+- **Version:** v2.1.187
+
+### [`/plugin`: selten genutzte Plugins zum Aufräumen]
+- **Was:** `/plugin` hebt jetzt Plugins hervor, die man länger nicht genutzt hat, damit man sie aufräumen kann.
+- **Einsatz:** `/plugin` öffnen
+- **Mehrwert:** Hält die Plugin-Liste schlank — ungenutzte Plugins fallen auf und können gezielt entfernt werden.
+- **Version:** v2.1.187
+
+### [Remote-MCP-Tool-Calls: Timeout statt 5-Minuten-Hänger]
+- **Was:** Remote-MCP-Tool-Calls, die 5 Minuten lang keine Antwort liefern, brechen jetzt mit einem Fehler ab, statt unbegrenzt zu blockieren. Das Timeout ist über `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` einstellbar.
+- **Einsatz:** Automatisch aktiv; Timeout per `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` anpassbar
+- **Mehrwert:** Hängende Remote-MCP-Server legen die Session nicht mehr für Minuten lahm — man bekommt einen sauberen Fehler und kann weiterarbeiten.
+- **Version:** v2.1.187
+
+### [Fix: Strukturierte Ausgabe (`--json-schema` / Workflow-`agent({schema})`)]
+- **Was:** Das Modell kann `StructuredOutput` nach einem erfolgreichen Aufruf nicht mehr endlos erneut aufrufen; Folge-Turns liefern jetzt zuverlässig strukturierte Ausgabe.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere strukturierte Ausgaben in Skripten und Workflows — keine Endlos-Schleifen oder fehlende Schema-Antworten mehr.
+- **Version:** v2.1.187
+
+### [Fix: Sammelpaket Remote, Agents-View, Worktrees & Subagent-Tiefe]
+- **Was:** Mehrere Fixes: `--resume` scheiterte mit „No conversation found", wenn der ursprüngliche `-p`-Lauf keine Modell-Turns erzeugte; Claude-Code-Remote-Sessions starteten ~2,7 s langsamer (Agent-Proxy-CA-Install); `/update` über Remote Control hing bei anstehendem Trust-Dialog; Hintergrund-Jobs in der Agents-View blieben endlos auf „working"; Channel-Verbindungen brachen nach Wechsel in die Agents-View (sowie nach `/bg`, `/tui`, `/update`); Agent-Stop-Benachrichtigungen ordneten den Verursacher falsch zu (jetzt „finished"/„stopped" statt „came to rest"); Subagent-Tiefe wird bei Resume/Fork korrekt verfolgt; verwaiste Worktree-Registrierungen getöteter Agents werden automatisch aufgeräumt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Robusteres Arbeiten mit Remote-Sessions, Hintergrund-Agents und Worktrees — weniger Hänger, korrektere Statusmeldungen und kein Müll in `.git/worktrees/`.
+- **Version:** v2.1.187
+
+### [Fix: Sammelpaket Eingabe, UI & Terminal]
+- **Was:** Mehrere Fixes: eingefügter koreanischer/CJK-Text wurde in manchen Terminals zu Mojibake; Cmd+Klick öffnete URLs im Fullscreen-Modus von Ghostty (macOS) nicht; `claude --help` listete das `--bg`/`--background`-Flag nicht; Esc, Ctrl-C und Ctrl-D funktionierten während eines laufenden `/share`-Uploads nicht; die VSCode-Extension reagierte beim Fortsetzen einer großen Session nicht mehr.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Saubere Texteingabe (auch CJK), funktionierende Tastatur-/Maus-Shortcuts und eine reaktionsfähige VSCode-Extension auch bei großen Sessions.
+- **Version:** v2.1.187
+
+---
 
 ### Woche 25 (22. Juni 2026) — v2.1.186
 
