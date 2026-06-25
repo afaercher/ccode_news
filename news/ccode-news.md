@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-25 (Crawl: neuer CLI-Release v2.1.191 (25.6.) mit umfangreicher Detailliste eingepflegt — u. a. `/rewind` über `/clear` hinaus, endgültiges Stoppen von Hintergrund-Agents, ~37 % weniger CPU beim Streamen, MCP-Zuverlässigkeits-Retries, gemerkte Sandbox-Netzwerk-Freigaben sowie zahlreiche Fixes. v2.1.191 ist neueste CLI; Week 24 bleibt letzter offizieller Digest (Week 25/26 nur Changelog); Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen gegengeprüft, unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-25 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.191 (GitHub-Datum 24.6. 21:58) bleibt neueste CLI — kein v2.1.192+; Week 24 weiterhin letzter offizieller What's-New-Digest (Week 25/26 nur Changelog); Blog-Ankündigungen bis 18.6. (zentrale MCP-Connector-Autorisierung) und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen gegengeprüft, unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
