@@ -1,11 +1,65 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-24 (Crawl: drei neue CLI-Releases v2.1.188 / v2.1.189 / v2.1.190 (24.6.) eingepflegt. v2.1.188 & v2.1.190 sind reine „Bug fixes and reliability improvements" ohne Detailliste; v2.1.189 trägt im kanonischen Changelog exakt das Feature-Sammelpaket, das hier bereits unter v2.1.187 dokumentiert ist (Versionsnummern-Verschiebung, siehe Hinweis unten — keine inhaltlichen Neuerungen). v2.1.190 ist neueste CLI; Week 24 bleibt letzter offizieller Digest (Week 25/26 nur Changelog); Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen gegengeprüft, unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-25 (Crawl: neuer CLI-Release v2.1.191 (25.6.) mit umfangreicher Detailliste eingepflegt — u. a. `/rewind` über `/clear` hinaus, endgültiges Stoppen von Hintergrund-Agents, ~37 % weniger CPU beim Streamen, MCP-Zuverlässigkeits-Retries, gemerkte Sandbox-Netzwerk-Freigaben sowie zahlreiche Fixes. v2.1.191 ist neueste CLI; Week 24 bleibt letzter offizieller Digest (Week 25/26 nur Changelog); Blog-Ankündigungen bis 18.6. und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen gegengeprüft, unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 26 (25. Juni 2026) — v2.1.191
+
+---
+
+### [`/rewind`: Konversation von vor einem `/clear` wiederherstellen]
+- **Was:** `/rewind` kann eine Konversation jetzt aus dem Zustand *vor* einem `/clear` wiederherstellen — der zuvor verworfene Verlauf ist also nicht endgültig weg.
+- **Einsatz:** Nach einem versehentlichen `/clear` einfach `/rewind` ausführen
+- **Mehrwert:** Ein versehentliches `/clear` ist kein Datenverlust mehr — der frühere Gesprächsverlauf lässt sich gezielt zurückholen.
+- **Version:** v2.1.191
+
+### [Hintergrund-Agents lassen sich endgültig stoppen]
+- **Was:** Über das Tasks-Panel gestoppte Hintergrund-Agents werden nicht mehr „wiederbelebt" — ein Stopp ist jetzt permanent.
+- **Einsatz:** Automatisch aktiv (Agent im Tasks-Panel stoppen)
+- **Mehrwert:** Verlässliche Kontrolle über laufende Agents — gestoppte Tasks bleiben gestoppt und verbrauchen keine Ressourcen mehr.
+- **Version:** v2.1.191
+
+### [~37 % weniger CPU-Last beim Streamen von Antworten]
+- **Was:** Während des Streamens von Antworten werden Text-Updates jetzt auf 100 ms zusammengefasst, was die CPU-Auslastung um rund 37 % senkt. Zusätzlich wächst der Speicherverbrauch langer Sessions langsamer (Terminal-Output-Cache verkleinert).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar geringere Systemlast und stabilere lange Sessions — gerade auf schwächeren Maschinen oder bei langen Streaming-Antworten.
+- **Version:** v2.1.191
+
+### [Sandbox-Netzwerk-Freigaben werden für die Session gemerkt]
+- **Was:** Im Sandbox-Netzwerk-Berechtigungsdialog mit „Yes" freigegebene Hosts werden jetzt für den Rest der Session gemerkt, statt bei jeder Verbindung erneut zu fragen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein wiederholtes Wegklicken desselben Host-Dialogs mehr — flüssigeres Arbeiten in der Sandbox.
+- **Version:** v2.1.191
+
+### [MCP-Zuverlässigkeit: Retries, bessere OAuth- & Fehlerausgaben]
+- **Was:** Mehrere MCP-Verbesserungen: Capability-Discovery wiederholt vorübergehende Netzwerkfehler mit kurzem Backoff; OAuth-Discovery und Token-Requests wiederholen sich einmalig nach transienten Fehlern, und Headless-Umgebungen überspringen das Browser-Popup und gehen direkt zum URL-Einfügen-Prompt; HTTP-404-Fehler zeigen jetzt die URL und verweisen auf die MCP-Konfiguration.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Stabilere MCP-Server-Verbindungen trotz Netzwerk-Hängern und klarere Fehlermeldungen erleichtern die Fehlersuche bei MCP-Setups.
+- **Version:** v2.1.191
+
+### [`/voice`: klare Meldung bei Organisations-Sperre]
+- **Was:** Wenn `/voice` durch eine Organisationsrichtlinie deaktiviert ist, erklärt die Meldung jetzt die Einschränkung, statt nur generisch „not available" zu zeigen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Nutzer verstehen sofort, warum ein Feature gesperrt ist, statt zu rätseln.
+- **Version:** v2.1.191
+
+### [Managed Settings: `forceRemoteSettingsRefresh` & frischere Policy-Fetches]
+- **Was:** `forceRemoteSettingsRefresh` greift jetzt auch, wenn es per MDM oder Datei-Policy gesetzt wurde; der Fetch sendet zudem `Cache-Control: no-cache`, damit Proxys keine veralteten Antworten ausliefern.
+- **Einsatz:** Automatisch aktiv (für verwaltete Deployments via MDM/Datei-Policy)
+- **Mehrwert:** Zentrale Einstellungen erreichen verwaltete Geräte zuverlässig und ohne Proxy-Cache-Verzögerung.
+- **Version:** v2.1.191
+
+### [Sammel-Fixes & kleinere Verbesserungen v2.1.191]
+- **Was:** Zahlreiche Korrekturen, u. a.: Scroll-Position springt beim Lesen älterer Ausgabe während eines Streams nicht mehr nach unten; Cmd+Klick auf Links im Fullscreen für Ghostty über ssh/tmux gefixt; `claude agents` sendet Builtin-Slash-Befehle (z. B. `/usage`) nicht mehr als Prompt-Text an Hintergrund-Sessions; eingefügte Bilder zeigen wieder `[Image #N]` statt voller Pfade; Hooks mit komma-getrennten Matchern (`"Bash,PowerShell"`) feuern wieder; `/permissions`-Tab „Recently denied" behält Freigaben beim Schließen; Agent-Panel springt beim Scrollen nicht mehr um eine Zeile; Welcome-Splash passt wieder ins 80×24-Terminal; `/login`-URL bricht im Windows Terminal nicht mehr ab; vim-Mode-Prompt-History-Suche weist auf Slash-Befehle hin.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Viele kleine Reibungspunkte in Scrolling, Hintergrund-Agents, Hooks, Permissions und Terminal-Darstellung verschwinden — insgesamt rundere Bedienung.
+- **Version:** v2.1.191
+
+---
 
 ### Woche 26 (24. Juni 2026) — v2.1.188 / v2.1.189 / v2.1.190
 
