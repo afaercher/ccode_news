@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-26 (Crawl: v2.1.193 (25.6. 21:45) eingepflegt — `autoMode.classifyAllShell`, Auto-Mode-Ablehnungsgründe in Transkript/Toast/`/permissions`, OTel-Event `claude_code.assistant_response`, Live-Pfad-Autovervollständigung im Bash-Modus, MCP-Auth-Startup-Hinweis, Speicherdruck-Reaping untätiger BG-Shells, robustere Hintergrund-Agents, MCP-`headersHelper`-Re-Auth bei 401/403, Plugin-Auto-Rename + Sammel-Fixes; **kein v2.1.192** (Versionssprung). Zusätzlich Platform-Release-Note 18.6. eingepflegt: SDK-Support für `code_execution_20260120` (REPL-State, Programmatic Tool Calling). v2.1.193 neueste CLI, Week 24 letzter What's-New-Digest, Blog bis 18.6. gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-26 (Bestätigungs-Crawl: keine neuen Einträge — alle vier Quellen gegengeprüft und vollständig. v2.1.193 (25.6.) weiterhin neueste CLI (kein v2.1.194+; v2.1.192 wurde übersprungen), Week 24 letzter What's-New-Digest, Blog bis 18.6. (Artifacts, MCP-Connector-Authorization, Claude Design On-Brand, Workload Identity Federation), Platform-Release-Notes bis 18.6. (`code_execution_20260120`) / 15.6. (Sonnet-4- & Opus-4-Retirement) — alles bereits dokumentiert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
