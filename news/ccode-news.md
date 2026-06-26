@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-25 18:00 (Bestätigungs-Crawl: keine neuen Einträge. v2.1.191 (GitHub-Datum 24.6. 21:58) bleibt neueste CLI — kein v2.1.192+; Week 24 weiterhin letzter offizieller What's-New-Digest (Week 25/26 nur Changelog); Blog-Ankündigungen bis 18.6. (zentrale MCP-Connector-Autorisierung) und Platform-API bis 15.6. (Sonnet-4-/Opus-4-Retirement) über alle vier Quellen gegengeprüft, unverändert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-26 (Crawl: v2.1.193 (25.6. 21:45) eingepflegt — `autoMode.classifyAllShell`, Auto-Mode-Ablehnungsgründe in Transkript/Toast/`/permissions`, OTel-Event `claude_code.assistant_response`, Live-Pfad-Autovervollständigung im Bash-Modus, MCP-Auth-Startup-Hinweis, Speicherdruck-Reaping untätiger BG-Shells, robustere Hintergrund-Agents, MCP-`headersHelper`-Re-Auth bei 401/403, Plugin-Auto-Rename + Sammel-Fixes; **kein v2.1.192** (Versionssprung). Zusätzlich Platform-Release-Note 18.6. eingepflegt: SDK-Support für `code_execution_20260120` (REPL-State, Programmatic Tool Calling). v2.1.193 neueste CLI, Week 24 letzter What's-New-Digest, Blog bis 18.6. gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 26 (25. Juni 2026) — v2.1.193
+
+---
+
+### [Auto-Mode: alle Shell-Befehle durch den Klassifizierer leiten (`autoMode.classifyAllShell`)]
+- **Was:** Mit der neuen Einstellung `autoMode.classifyAllShell` werden *alle* Bash-/PowerShell-Befehle durch den Auto-Mode-Klassifizierer geprüft — nicht mehr nur die Muster, die nach beliebiger Code-Ausführung aussehen.
+- **Einsatz:** In den Settings `autoMode.classifyAllShell` aktivieren
+- **Mehrwert:** Strengere Sicherheitsprüfung im Auto-Mode: auch unscheinbare Shell-Befehle laufen durch die Hintergrund-Sicherheitschecks, statt ungeprüft durchzurutschen.
+- **Version:** v2.1.193
+
+### [Auto-Mode: Ablehnungsgründe sichtbar gemacht]
+- **Was:** Wenn der Auto-Mode eine Aktion blockiert, erscheint der konkrete Grund jetzt im Transkript, im Ablehnungs-Toast und unter „Recently denied" in `/permissions`.
+- **Einsatz:** Automatisch aktiv (im Auto-Mode)
+- **Mehrwert:** Man versteht sofort, *warum* eine Aktion abgelehnt wurde, statt nur zu sehen, *dass* sie blockiert wurde — erleichtert das Nachjustieren der Regeln.
+- **Version:** v2.1.193
+
+### [OpenTelemetry: Modell-Antworttext als Log-Event (`claude_code.assistant_response`)]
+- **Was:** Ein neues OTel-Log-Event `claude_code.assistant_response` enthält den Antworttext des Modells. Standardmäßig redigiert; wird nur geloggt, wenn `OTEL_LOG_ASSISTANT_RESPONSES=1`. Ist die Variable nicht gesetzt, folgt sie `OTEL_LOG_USER_PROMPTS` — Deployments, die bereits Prompt-Inhalte loggen, erhalten nach dem Upgrade also auch Antwort-Inhalte. Mit `OTEL_LOG_ASSISTANT_RESPONSES=0` bleibt es bei reinem Prompt-Logging.
+- **Einsatz:** `OTEL_LOG_ASSISTANT_RESPONSES=1` setzen (bzw. `=0` zum Deaktivieren)
+- **Mehrwert:** Vollständigere Observability für Teams — Modell-Antworten lassen sich zentral auswerten; gleichzeitig wichtiger Hinweis zum Datenschutz beim Upgrade.
+- **Version:** v2.1.193
+
+### [Bash-Modus: Live-Autovervollständigung für Dateipfade]
+- **Was:** Im Bash-Modus (`!`) vervollständigt Claude Code Dateipfade jetzt live während des Tippens.
+- **Einsatz:** Automatisch aktiv (im `!`-Bash-Modus)
+- **Mehrwert:** Schnelleres, fehlerfreieres Eingeben von Pfaden bei direkten Shell-Befehlen — kein Raten oder Abtippen langer Pfade mehr.
+- **Version:** v2.1.193
+
+### [Startup-Hinweis bei MCP-Servern, die Authentifizierung brauchen]
+- **Was:** Beim Start erscheint jetzt ein Hinweis, wenn MCP-Server eine Authentifizierung benötigen, mit Verweis auf `/mcp`.
+- **Einsatz:** Automatisch aktiv (bei Bedarf `/mcp` aufrufen)
+- **Mehrwert:** Nicht authentifizierte MCP-Server fallen sofort beim Start auf, statt erst beim ersten fehlschlagenden Tool-Call — weniger rätselhafte MCP-Fehler.
+- **Version:** v2.1.193
+
+### [Automatisches Aufräumen untätiger Hintergrund-Shell-Befehle bei Speicherdruck]
+- **Was:** Bei Speicherdruck beendet Claude Code automatisch untätige Hintergrund-Shell-Befehle, um Ressourcen freizugeben.
+- **Einsatz:** Automatisch aktiv (Deaktivieren mit `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1`)
+- **Mehrwert:** Lange Sessions mit vielen Hintergrundprozessen bleiben stabiler und belegen weniger Speicher.
+- **Version:** v2.1.193
+
+### [Verbesserte Hintergrund-Agents: keine „end your response"-Anweisung mehr]
+- **Was:** Das Start-Ergebnis eines Hintergrund-Agents weist Claude nicht mehr an, „die Antwort zu beenden" — Claude arbeitet stattdessen an anderen Aufgaben weiter, während der Agent läuft. Zusätzlich gefixt: Hintergrund-Agents werden beim Backgrounding nicht mehr fälschlich abgebrochen, gepinnte Agents werden nach jedem Auto-Update nicht mehr erneut „Continue from where you left off" gefragt, und das Backgrounding des Haupt-Turns erzeugt keinen Phantom-Subagent („general-purpose (resumed)") mehr, der die Konversation neu durchläuft.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hintergrund-Agents laufen zuverlässig parallel weiter, ohne den Haupt-Thread auszubremsen oder Geister-Subagents zu spawnen.
+- **Version:** v2.1.193
+
+### [MCP `headersHelper`: automatische Re-Auth bei 401/403]
+- **Was:** Der MCP-`headersHelper` wird jetzt automatisch erneut ausgeführt und verbindet neu, wenn ein Tool-Call mit 401/403 antwortet.
+- **Einsatz:** Automatisch aktiv (für MCP-Server mit `headersHelper`-Auth)
+- **Mehrwert:** Abgelaufene Tokens werden transparent erneuert — MCP-Verbindungen brechen bei Auth-Ablauf nicht mehr ab.
+- **Version:** v2.1.193
+
+### [Plugin-Auto-Rename folgt Marketplace-`renames`-Map]
+- **Was:** Umbenennungen von Plugins über die `renames`-Map eines Marketplaces werden jetzt automatisch übernommen — die eigenen Settings werden auf den neuen Namen aktualisiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Plugins funktionieren nach einer Umbenennung durch den Anbieter ohne manuelles Eingreifen weiter.
+- **Version:** v2.1.193
+
+### [Sammel-Fixes & kleinere Verbesserungen v2.1.193]
+- **Was:** Weitere Korrekturen: `/model` und andere client-daten-abhängige UI zeigen direkt nach `/login` keinen veralteten/leeren Zustand mehr; das Agent-Panel blendet beim Betrachten eines Subagents nicht mehr die Geschwister-Agents aus; die `/add-dir`-Meldung ist klarer, wenn das Verzeichnis bereits ein Arbeitsverzeichnis ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Rundere Bedienung bei Login, Agent-Panel und `/add-dir`.
+- **Version:** v2.1.193
+
+---
 
 ### Woche 26 (25. Juni 2026) — v2.1.191
 
@@ -352,6 +418,18 @@
 - **Einsatz:** In der Claude Console WIF einrichten (externe Identität an Service-Account binden); Migration schrittweise, da Keys und WIF koexistieren. Org-weite/programmatische Konfiguration über die Admin-API.
 - **Mehrwert:** Schluss mit langlebigen API-Keys in CI/CD und Prod — kurzlebige, gescopte Credentials senken das Leak-Risiko und passen in bestehende IAM-/OIDC-Infrastruktur, von GitHub-Actions-Startups bis Enterprise.
 - **Version:** Blog-Ankündigung 17.06.2026
+
+---
+
+### Platform-Update (18. Juni 2026)
+
+---
+
+### [Code-Execution-Tool `code_execution_20260120`: SDK-Support in allen Sprach-SDKs]
+- **Was:** Die SDKs für Python, TypeScript, Go, Java, Ruby, PHP und C# unterstützen jetzt `code_execution_20260120` — die Version des Code-Execution-Tools mit persistentem REPL-State und der Mindestversion für Programmatic Tool Calling. Zum Aktivieren den `type` des Tools auf `code_execution_20260120` setzen; kein Beta-Header nötig. Verfügbar auf Claude Fable 5, Mythos 5, Opus 4.5+ und Sonnet 4.5+.
+- **Einsatz:** Im SDK das Tool mit `type: "code_execution_20260120"` konfigurieren (Voraussetzung für Programmatic Tool Calling)
+- **Mehrwert:** Code-Execution behält jetzt den REPL-Zustand über Zellen hinweg — Variablen und Importe bleiben erhalten — und schaltet zugleich Programmatic Tool Calling in allen offiziellen SDKs frei.
+- **Version:** Platform Release Notes 18.06.2026
 
 ---
 
