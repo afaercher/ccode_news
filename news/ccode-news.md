@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-26 (Bestätigungs-Crawl: keine neuen Einträge — alle vier Quellen gegengeprüft und vollständig. v2.1.193 (25.6.) weiterhin neueste CLI (kein v2.1.194+; v2.1.192 wurde übersprungen), Week 24 letzter What's-New-Digest, Blog bis 18.6. (Artifacts, MCP-Connector-Authorization, Claude Design On-Brand, Workload Identity Federation), Platform-Release-Notes bis 18.6. (`code_execution_20260120`) / 15.6. (Sonnet-4- & Opus-4-Retirement) — alles bereits dokumentiert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-26 18:01 (Bestätigungs-Crawl: keine neuen Einträge — alle vier Quellen erneut gegengeprüft und vollständig. v2.1.193 (25.6.) weiterhin neueste CLI (kein v2.1.194+; v2.1.192 wurde übersprungen), Week 24 letzter What's-New-Digest, Blog bis 18.6. (Artifacts, MCP-Connector-Authorization, Claude Design On-Brand, Workload Identity Federation), Platform-Release-Notes bis 18.6. (`code_execution_20260120`) / 15.6. (Sonnet-4- & Opus-4-Retirement) — alles bereits dokumentiert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
