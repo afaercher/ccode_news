@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-26 18:01 (Bestätigungs-Crawl: keine neuen Einträge — alle vier Quellen erneut gegengeprüft und vollständig. v2.1.193 (25.6.) weiterhin neueste CLI (kein v2.1.194+; v2.1.192 wurde übersprungen), Week 24 letzter What's-New-Digest, Blog bis 18.6. (Artifacts, MCP-Connector-Authorization, Claude Design On-Brand, Workload Identity Federation), Platform-Release-Notes bis 18.6. (`code_execution_20260120`) / 15.6. (Sonnet-4- & Opus-4-Retirement) — alles bereits dokumentiert. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-27 (Crawl: v2.1.195 (26.6.) eingepflegt — `CLAUDE_CODE_DISABLE_MOUSE_CLICKS`, exakte Hook-Matcher bei Bindestrich-Namen, Voice-Diktat-Fixes (macOS-Stille, Auto-Submit für JP/CN/TH), Linux-Voice „kein Mic vs. SoX fehlt", Plugin-Install-Consent & Enable/Disable-Fix, robustere Hintergrund-Agents/Daemons, `claude agents`-Liste füllt Höhe, Remote-Provisioning-Checkliste; v2.1.194 wurde übersprungen. Zusätzlich Platform-Notes 25.6. (Fast Mode für Opus 4.7 deprecated, Entfernung 24.7.) und 26.6. (höhere API-Rate-Limits, Tiers auf Start/Build/Scale konsolidiert). v2.1.195 neueste CLI, Week 26 letzter What's-New-Digest, Blog bis 18.6. gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 26 (26. Juni 2026) — v2.1.195
+
+---
+
+### [Mausklicks im Fullscreen deaktivierbar (`CLAUDE_CODE_DISABLE_MOUSE_CLICKS`)]
+- **Was:** Die neue Umgebungsvariable `CLAUDE_CODE_DISABLE_MOUSE_CLICKS` schaltet im Fullscreen-Modus Maus-Klick/-Drag/-Hover ab, während das Scrollen mit dem Mausrad erhalten bleibt.
+- **Einsatz:** `CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1` setzen
+- **Mehrwert:** Wer im Terminal lieber natives Markieren/Kopieren per Maus nutzt, behält die gewohnte Maussteuerung — ohne dass Claude Code die Klicks abfängt, aber weiterhin mit Mausrad-Scroll.
+- **Version:** v2.1.195
+
+### [Hook-Matcher mit Bindestrich matchen jetzt exakt]
+- **Was:** Hook-Matcher mit Bindestrich-Bezeichnern (z. B. `code-reviewer`, `mcp__brave-search`) führten versehentlich zu Teilstring-Matches; sie matchen jetzt exakt. Um alle Tools eines MCP-Servers mit Bindestrich zu treffen, `mcp__brave-search__.*` verwenden.
+- **Einsatz:** Automatisch aktiv (ggf. Matcher auf `…__.*` umstellen)
+- **Mehrwert:** Hooks feuern wieder genau für die gemeinten Tools — keine unbeabsichtigten Treffer durch Teilstring-Überschneidungen mehr.
+- **Version:** v2.1.195
+
+### [Voice-Diktat: Fixes für macOS-Stille und sprachenfreie Auto-Submit-Erkennung]
+- **Was:** Zwei Voice-Diktat-Fixes: Auf macOS wurde in langen Sessions nach Wechsel des Standard-Eingabegeräts nur noch Stille aufgenommen; das ist behoben. Außerdem feuerte das Auto-Submit nie für Sprachen ohne Wortzwischenräume (Japanisch, Chinesisch, Thai) — jetzt funktioniert es auch dort.
+- **Einsatz:** Automatisch aktiv (`/voice`)
+- **Mehrwert:** Zuverlässiges Diktat über lange Sessions und über Gerätewechsel hinweg, plus korrektes Auto-Submit für ostasiatische Sprachen.
+- **Version:** v2.1.195
+
+### [Voice-Modus auf Linux: „kein Mikrofon" vs. „SoX fehlt" unterschieden]
+- **Was:** Der Voice-Modus auf Linux unterscheidet jetzt zwischen „kein Mikrofon vorhanden" und „SoX nicht installiert" — auch wenn SoX zwar installiert ist, aber kein Audio-Aufnahmegerät existiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Klarere Fehlerdiagnose beim Voice-Setup unter Linux — man weiß sofort, ob die Software oder die Hardware fehlt.
+- **Version:** v2.1.195
+
+### [Plugin-Fixes: Install-Consent & Enable/Disable bei abweichenden Namen]
+- **Was:** Zwei Plugin-Korrekturen: Externe Plugins, die nur über die projektlokale `.claude/settings.json` aktiviert sind, verlangen jetzt auf jedem Lade-Pfad explizite Install-Zustimmung. Und `/plugin` Enable/Disable funktioniert jetzt auch, wenn der `name` in der `plugin.json` vom Namen des Marketplace-Eintrags abweicht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sicherheit (kein stilles Laden projektaktivierter Plugins ohne Zustimmung) und Zuverlässigkeit beim Ein-/Ausschalten von Plugins mit abweichendem Namen.
+- **Version:** v2.1.195
+
+### [Hintergrund-Agents: Robustheit von Daemons & abgestürzten Tasks]
+- **Was:** Mehrere Fixes für Hintergrund-Jobs: Sie verschwanden aus `claude agents` bzw. verloren Daten, wenn sie von einer neueren Claude-Code-Version geschrieben wurden; ein abgestürzter Task zeigte beim erneuten Öffnen bis zu 5 Sekunden lang einen leeren Bildschirm statt seines Neustarts; und Background-Agent-Daemons liefen unerreichbar weiter, wenn der Control-Socket nicht startete, was Neustarts blockierte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hintergrund-Agents überstehen Versions-Upgrades und Abstürze zuverlässig — kein Datenverlust, keine hängenden, unerreichbaren Daemons mehr.
+- **Version:** v2.1.195
+
+### [`claude agents`-Liste füllt die Höhe; Remote-Startup mit Provisioning-Checkliste]
+- **Was:** Die „Completed"-Liste in `claude agents` füllt jetzt den verfügbaren vertikalen Platz; auf niedrigen Terminals wird der Header kompakter, damit Live-Sessions sichtbar bleiben. Zusätzlich zeigt der Remote-Session-Start eine Provisioning-Checkliste, während der Container hochfährt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Bessere Platznutzung in der Agent-Übersicht und transparenter Fortschritt beim Hochfahren von Remote-Sessions statt unkommentierter Wartezeit.
+- **Version:** v2.1.195
+
+---
+
+### Platform / API (Juni 2026)
+
+---
+
+### [Höhere API-Rate-Limits & konsolidierte Usage-Tiers (Start, Build, Scale)]
+- **Was:** Die Rate-Limits der Claude API wurden über alle Tiers angehoben: Sonnet- und Haiku-Limits entsprechen jetzt auf jeder Stufe den Opus-Limits. Die Usage-Tiers wurden auf drei konsolidiert — **Start, Build, Scale**. Die meisten Organisationen rücken auf eine höhere Stufe; keine erhält niedrigere Limits als zuvor, keine Aktion nötig.
+- **Einsatz:** Aktuellen Tier und Limits in der [Claude Console](https://platform.claude.com/settings/limits) einsehen
+- **Mehrwert:** Mehr Durchsatz für Sonnet/Haiku ohne Zutun, und ein einfacheres, übersichtlicheres Tier-Modell.
+- **Version:** Platform-Release-Note 26.6.2026
+
+### [Fast Mode für Opus 4.7 deprecated (Entfernung 24.7.2026)]
+- **Was:** Der Fast Mode für Claude Opus 4.7 ist als deprecated markiert; Entfernung am **24. Juli 2026**. Danach liefern Requests an `claude-opus-4-7` mit `speed: "fast"` einen Fehler. Migration: Fast Mode auf Claude Opus 4.8.
+- **Einsatz:** `speed: "fast"` von `claude-opus-4-7` auf `claude-opus-4-8` umstellen
+- **Mehrwert:** Frühzeitige Warnung, damit Integrationen mit Opus-4.7-Fast-Mode rechtzeitig migrieren, bevor der harte Cutoff greift.
+- **Version:** Platform-Release-Note 25.6.2026
+
+---
 
 ### Woche 26 (25. Juni 2026) — v2.1.193
 
