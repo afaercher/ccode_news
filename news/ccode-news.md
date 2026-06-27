@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-27 12:02 UTC (Bestätigungs-Crawl: keine neuen Einträge. v2.1.195 (26.6.) weiterhin neueste CLI — kein v2.1.194 (übersprungen), kein v2.1.196+; Week 26 weiterhin letzter What's-New-Digest; Platform-Release-Notes bis 26.6. (höhere API-Rate-Limits, Tiers Start/Build/Scale) und 25.6. (Fast Mode Opus 4.7 deprecated, Entfernung 24.7.); Blog bis 18.6. (Artifacts) — alle vier Quellen erneut gegengeprüft und vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-27 18:01 UTC (Bestätigungs-Crawl 18:01 UTC: keine neuen Einträge. v2.1.195 (26.6.) weiterhin neueste CLI — kein v2.1.194 (übersprungen), kein v2.1.196+; Week 26 (22.–26.6., v2.1.185–v2.1.193) weiterhin letzter What's-New-Digest; Platform-Release-Notes bis 26.6. (höhere API-Rate-Limits, Tiers Start/Build/Scale) und 25.6. (Fast Mode Opus 4.7 deprecated, Entfernung 24.7.); Blog bis 18.6. (Artifacts, zentral verwaltete MCP-Connector-Authorization, WIF, Claude Design on brand) — alle vier Quellen erneut gegengeprüft und vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
