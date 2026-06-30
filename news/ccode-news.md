@@ -1,11 +1,77 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-29 12:00 UTC (Bestätigungs-Crawl 12:00 UTC: keine neuen Einträge. v2.1.195 (26.6.) weiterhin neueste CLI — kein v2.1.194 (übersprungen), kein v2.1.196+; Week 26 (22.–26.6., v2.1.185–v2.1.193) weiterhin letzter What's-New-Digest; Platform-Release-Notes bis 26.6. (höhere API-Rate-Limits, Tiers Start/Build/Scale), 25.6. (Fast Mode Opus 4.7 deprecated, Entfernung 24.7.) und 18.6. (code_execution_20260120 SDK-Support); Blog bis 18.6. (Artifacts, zentral verwaltete MCP-Connector-Authorization, WIF, Claude Design on brand) — alle vier Quellen erneut gegengeprüft und vollständig. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-30 (Crawl: NEUE Einträge ergänzt. v2.1.196 (29.6.) ist die neueste CLI — Org-Default-Modelle, lesbare Session-Namen, klickbare Datei-Anhänge, Streaming-Idle-Watchdog standardmäßig an, MCP-Self-Approval-Lücke geschlossen, robustere Hintergrund-Sessions, `/code-review` −25 % Tokens, große Bugfix-Sammlung. Platform 29.6.: Fast Mode für Opus 4.6 entfernt (läuft jetzt Standard, kein Fehler). Blog 29.6.: Claude apps gateway für Amazon Bedrock & Google Cloud, Claude in Microsoft Foundry GA. Week 26 (22.–26.6.) weiterhin letzter What's-New-Digest (Week 27 dort noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 27 (29. Juni 2026) — v2.1.196
+
+---
+
+### [Organisations-Default-Modelle im Console setzen]
+- **Was:** Admins können jetzt im Org-Console Default-Modelle festlegen. Im `/model`-Picker erscheinen sie als „Org default" (bzw. „Role default"), solange kein Modell manuell gewählt wurde.
+- **Einsatz:** Default-Modell in der Org-Console konfigurieren; wirkt im `/model`-Menü
+- **Mehrwert:** Organisationen steuern zentral, mit welchem Modell ihre Entwickler standardmäßig arbeiten — ohne dass jeder einzeln umstellen muss.
+- **Version:** v2.1.196
+
+### [Lesbare Session-Namen]
+- **Was:** Sessions bekommen beim Start automatisch einen klickbaren, lesbaren Default-Namen — zur leichteren Identifikation und zum Anschreiben (Messaging).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Sessions sind auf einen Blick auseinanderzuhalten, statt sich kryptische IDs merken zu müssen.
+- **Version:** v2.1.196
+
+### [Klickbare Datei-Anhänge im Chat]
+- **Was:** Der Chat unterstützt jetzt klickbare Datei-Anhänge. Per Cmd/Ctrl-Klick wird die Datei direkt im Finder/Explorer angezeigt.
+- **Einsatz:** Cmd/Ctrl-Klick auf einen Datei-Anhang
+- **Mehrwert:** Schneller Sprung von einem referenzierten File zum tatsächlichen Speicherort im Dateisystem.
+- **Version:** v2.1.196
+
+### [Streaming-Idle-Watchdog standardmäßig aktiv]
+- **Was:** Der Streaming-Idle-Watchdog ist jetzt für alle Provider per Default aktiviert: Er bricht ab und wiederholt, wenn ein Antwort-Stream 5 Minuten lang keine Events mehr liefert.
+- **Einsatz:** Standardmäßig aktiv; abschalten mit `CLAUDE_ENABLE_STREAM_WATCHDOG=0`
+- **Mehrwert:** Hängengebliebene Streams (z. B. bei Netz-/Provider-Problemen) blockieren nicht mehr endlos, sondern werden automatisch neu angestoßen.
+- **Version:** v2.1.196
+
+### [Agent-View: Öffnen aus Vordergrund-Session mit einem `←`]
+- **Was:** Die Agents-Ansicht aus einer Vordergrund-Session zu öffnen verlangt jetzt nur noch ein einzelnes `←` statt zweier — analog zum Verhalten bei Hintergrund-Sessions.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Konsistente, schnellere Navigation in die Agent-Übersicht.
+- **Version:** v2.1.196
+
+### [MCP-Security: keine Selbst-Freigabe in nicht vertrauten Workspaces]
+- **Was:** `claude mcp list`/`get` starten keine `.mcp.json`-Server mehr, die sich über eine eingecheckte `.claude/settings.json` in nicht vertrauten Workspaces selbst freigegeben hatten. Stattdessen erscheint `⏸ Pending approval`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Schließt eine Lücke, über die ein geteiltes Repo MCP-Server ohne explizite Zustimmung des Nutzers hätte starten können.
+- **Version:** v2.1.196
+
+### [Hintergrund-Sessions überleben Stops, Neustarts & Updates]
+- **Was:** Lang laufende Befehle und Workflows überleben jetzt Prozess-Stops, Neustarts und Updates (auf Windows per Shell-Hand-off statt Kill). Von einem Daemon-Neustart getötete Worker setzen beim nächsten Öffnen der Agents-Ansicht automatisch an ihrem letzten Punkt fort.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hintergrund-Arbeit geht bei Updates oder Abstürzen nicht mehr verloren — sie nimmt zuverlässig den Faden wieder auf.
+- **Version:** v2.1.196
+
+### [`/code-review`: ~25 % weniger Tokens]
+- **Was:** `/code-review` führt seine fünf Cleanup-Finder zu einem zusammen, was den Token-Verbrauch um rund 25 % senkt.
+- **Einsatz:** Automatisch aktiv (`/code-review`)
+- **Mehrwert:** Günstigere und schnellere Code-Reviews bei gleichem Funktionsumfang.
+- **Version:** v2.1.196
+
+### [Bugfix-Sammlung v2.1.196]
+- **Was:** Viele Fixes auf einen Schlag, u. a.: eine Hintergrund-Job-Transkript-Probe löschte Konversationen dauerhaft und führte Prompts erneut aus (Dateien werden jetzt beiseitegelegt statt gelöscht); flackernde Rate-Limit-Warnung und über-zählte Telemetrie bei parallelen Requests; doppelte Recap-Zeilen nach Background-Turns; PowerShell `git diff`/`git grep`, `egrep`/`fgrep` und gequotete `|`-Muster meldeten falsche Fehler; diverse `claude agents`-Panel-Probleme (Tastatur-Fokus, verlorene Subagent-Typen, falscher Status); `--dangerously-skip-permissions` fiel still auf Auto-Mode zurück statt den Bypass-Hinweis zu zeigen; durch Server-Neustart unterbrochene Remote-Sessions resumten nicht; mit `/cd` verschobene Sessions tauchten im alten Verzeichnis wieder auf; `/context` zeigte auf Bedrock 0 Tokens; `/deep-research` meldete Verifier-Fehler fälschlich als „all claims refuted"; und Voice-Diktat verschluckte Leerzeichen bzw. startete bei schnellem Tippen spurious die Aufnahme.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar stabilere Background-Jobs, Agents-Ansicht, PowerShell-Tooling und Voice-Diktat — plus ein behobener Datenverlust-Bug bei Konversationen.
+- **Version:** v2.1.196
+
+### [Terminal-UI: weniger Rendering pro Frame]
+- **Was:** Die Terminal-UI überspringt während des Streamings No-op-Subtree-Walks, was das Rendering pro Frame reduziert. Remote Control wird zudem deaktiviert, wenn `ANTHROPIC_BASE_URL` auf einen Nicht-Anthropic-Host zeigt (analog zu Bedrock/Vertex/Foundry).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Flüssigere Ausgabe beim Streaming und konsistentes Remote-Control-Verhalten bei Drittanbieter-Endpunkten.
+- **Version:** v2.1.196
+
+---
 
 ### Woche 26 (26. Juni 2026) — v2.1.195
 
@@ -59,6 +125,12 @@
 
 ---
 
+### [Fast Mode für Opus 4.6 entfernt]
+- **Was:** Der Fast Mode für Claude Opus 4.6 wurde entfernt. Requests an `claude-opus-4-6` mit `speed: "fast"` laufen jetzt mit Standard-Geschwindigkeit, werden zu Standard-Raten abgerechnet und liefern **keinen Fehler** mehr. Das Feld `usage.speed` in der Antwort zeigt die tatsächlich genutzte Geschwindigkeit. Für weiterhin schnelle Antworten: Migration auf Claude Opus 4.8.
+- **Einsatz:** `speed: "fast"` von `claude-opus-4-6` auf `claude-opus-4-8` umstellen; `usage.speed` zur Kontrolle prüfen
+- **Mehrwert:** Klare Stilllegung des alten Fast Mode ohne harten Bruch — bestehende Requests brechen nicht ab, laufen aber zum Standardtarif; Opus 4.8 ist der neue Pfad für Fast Mode.
+- **Version:** Platform-Release-Note 29.6.2026
+
 ### [Höhere API-Rate-Limits & konsolidierte Usage-Tiers (Start, Build, Scale)]
 - **Was:** Die Rate-Limits der Claude API wurden über alle Tiers angehoben: Sonnet- und Haiku-Limits entsprechen jetzt auf jeder Stufe den Opus-Limits. Die Usage-Tiers wurden auf drei konsolidiert — **Start, Build, Scale**. Die meisten Organisationen rücken auf eine höhere Stufe; keine erhält niedrigere Limits als zuvor, keine Aktion nötig.
 - **Einsatz:** Aktuellen Tier und Limits in der [Claude Console](https://platform.claude.com/settings/limits) einsehen
@@ -70,6 +142,18 @@
 - **Einsatz:** `speed: "fast"` von `claude-opus-4-7` auf `claude-opus-4-8` umstellen
 - **Mehrwert:** Frühzeitige Warnung, damit Integrationen mit Opus-4.7-Fast-Mode rechtzeitig migrieren, bevor der harte Cutoff greift.
 - **Version:** Platform-Release-Note 25.6.2026
+
+### [Claude Apps Gateway für Amazon Bedrock & Google Cloud]
+- **Was:** Ein neuer „Claude apps gateway" bringt die Claude-Apps (Web/Desktop-Erlebnis, nicht nur die rohe API) über Amazon Bedrock und Google Cloud in die eigene Cloud-Umgebung.
+- **Einsatz:** Über Bedrock bzw. Google Cloud bereitstellen (siehe Announcement-Post)
+- **Mehrwert:** Unternehmen, die Daten in Bedrock/Google Cloud halten, können das Claude-App-Erlebnis innerhalb ihres bestehenden Cloud- und Compliance-Rahmens nutzen.
+- **Version:** Blog-Ankündigung 29.06.2026
+
+### [Claude in Microsoft Foundry allgemein verfügbar (GA)]
+- **Was:** Claude in Microsoft Foundry ist jetzt allgemein verfügbar (General Availability).
+- **Einsatz:** Claude-Modelle über Microsoft Foundry produktiv einsetzen
+- **Mehrwert:** Foundry-Kunden erhalten einen offiziell unterstützten, GA-reifen Weg zu Claude — auch als Provider für Claude Code (`ANTHROPIC_*`-Foundry-Setups).
+- **Version:** Blog-Ankündigung 29.06.2026
 
 ---
 
