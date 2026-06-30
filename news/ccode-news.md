@@ -1,11 +1,23 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-30 (Nachtrag-Crawl: v2.1.196 (29.6.) bleibt die neueste CLI — kein v2.1.197+. Die v2.1.196-Bugfix-Sammlung um fünf zuvor fehlende Fixes vervollständigt (`claude plugin validate` lokale Plugins, `Esc Esc`-Rewind-Regression, MCP-OAuth `invalid_scope` bei Enterprise-IdPs, Plugin-Versions-Pins bei lokalem Marketplace, `claude agents`-Status-Flips). Platform 29.6. (Fast Mode Opus 4.6 entfernt), 26.6. (höhere Rate-Limits, Tiers Start/Build/Scale) und Blog 29.6. (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) unverändert dokumentiert. Week 26 (22.–26.6.) weiterhin letzter What's-New-Digest (Week 27 dort noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-06-30 (Abend-Crawl: **v2.1.197 (30.6.) neu** — Claude Sonnet 5 ist jetzt das Default-Modell in Claude Code, mit nativem 1M-Token-Kontextfenster und Aktionspreis 2 $/10 $ pro Mtok bis 31.8. v2.1.196 (29.6.) und älter unverändert. Platform 29.6. (Fast Mode Opus 4.6 entfernt), 26.6. (höhere Rate-Limits, Tiers Start/Build/Scale) und Blog 29.6. (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) unverändert dokumentiert. Week 26 (22.–26.6.) weiterhin letzter What's-New-Digest (Week 27 dort noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 27 (30. Juni 2026) — v2.1.197
+
+---
+
+### [Claude Sonnet 5 — neues Default-Modell mit 1M-Kontext]
+- **Was:** Claude Sonnet 5 ist jetzt das Standard-Modell in Claude Code. Es bringt ein natives 1-Million-Token-Kontextfenster mit und läuft zur Einführung zum Aktionspreis von 2 $ / 10 $ pro Mtok (Input/Output) bis zum 31. August 2026. Für den Zugang ist ein Update auf v2.1.197 nötig.
+- **Einsatz:** Auf v2.1.197 aktualisieren; Sonnet 5 ist danach automatisch voreingestellt (Modellwahl weiterhin über `/model`)
+- **Mehrwert:** Deutlich größerer Kontext (1M Token) zum vergünstigten Einführungspreis — große Codebasen und lange Sessions passen ohne Aufteilung in ein einziges Fenster, bei niedrigeren Token-Kosten.
+- **Version:** v2.1.197
+
+---
 
 ### Woche 27 (29. Juni 2026) — v2.1.196
 
