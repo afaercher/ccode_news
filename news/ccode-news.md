@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-06-30 (Abend-Crawl: **v2.1.197 (30.6.) neu** — Claude Sonnet 5 ist jetzt das Default-Modell in Claude Code, mit nativem 1M-Token-Kontextfenster und Aktionspreis 2 $/10 $ pro Mtok bis 31.8. v2.1.196 (29.6.) und älter unverändert. Platform 29.6. (Fast Mode Opus 4.6 entfernt), 26.6. (höhere Rate-Limits, Tiers Start/Build/Scale) und Blog 29.6. (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) unverändert dokumentiert. Week 26 (22.–26.6.) weiterhin letzter What's-New-Digest (Week 27 dort noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-07-01 (Crawl 01.07.: **Platform-Release-Notes vom 30.6. nachgetragen** — 6 neue API-Einträge: Claude Sonnet 5 auf der API mit Verhaltensänderungen (Adaptive Thinking default, manuelles Extended Thinking → 400, Nicht-Default-Sampling → 400, neuer Tokenizer +30 %, kein Priority Tier) sowie fünf Managed-Agents-Features (Event-Deltas, Rückwärts-Paginierung, Session-Config-Override via `agent_with_overrides`, Vault-`injection_location`, Webhooks für Agent-/Deployment-/Deployment-Run-Lifecycle). CLI weiterhin **v2.1.197 (30.6.)** als neueste Version — kein v2.1.198+. Blog weiterhin 29.6. (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post. Week 26 (22.–26.6.) weiterhin letzter What's-New-Digest (Week 27 dort noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
@@ -16,6 +16,48 @@
 - **Einsatz:** Auf v2.1.197 aktualisieren; Sonnet 5 ist danach automatisch voreingestellt (Modellwahl weiterhin über `/model`)
 - **Mehrwert:** Deutlich größerer Kontext (1M Token) zum vergünstigten Einführungspreis — große Codebasen und lange Sessions passen ohne Aufteilung in ein einziges Fenster, bei niedrigeren Token-Kosten.
 - **Version:** v2.1.197
+
+---
+
+### Platform / API (30. Juni 2026)
+
+---
+
+### [Claude Sonnet 5 auf der API — Verhaltensänderungen & neuer Tokenizer]
+- **Was:** Claude Sonnet 5 (`claude-sonnet-5`) ist auch auf der Claude API verfügbar: 1M-Token-Kontextfenster, 128k Max-Output, gleiche Tools/Features wie Sonnet 4.6 — **außer Priority Tier** (nicht unterstützt). Einführungspreis 2 $ / 10 $ pro Mtok bis 31.8.2026 (danach Standard 3 $ / 15 $). Beim Umstieg gelten drei Verhaltensänderungen: **Adaptive Thinking ist per Default an**; **manuelles Extended Thinking** (`thinking: {type: "enabled", budget_tokens: N}`) ist entfernt und liefert HTTP 400 (war auf 4.6 schon deprecated); und **Sampling-Parameter** (`temperature`, `top_p`, `top_k`) auf Nicht-Default-Werten liefern HTTP 400. Sonnet 5 nutzt zudem einen **neuen Tokenizer**, der für denselben Text ~30 % mehr Tokens erzeugt.
+- **Einsatz:** `model: "claude-sonnet-5"`; manuelle Thinking-Budgets und abweichende Sampling-Werte aus dem Code entfernen; Token-Budgets für +30 % Tokenizer-Aufschlag neu kalkulieren
+- **Mehrwert:** Größter Kontext zum Aktionspreis auch programmatisch nutzbar — aber Migration erfordert Anpassung, da Extended-Thinking- und Sampling-Aufrufe sonst mit 400 abbrechen.
+- **Version:** Platform API (30.6.)
+
+### [Managed Agents: Event-Deltas im Session-Event-Stream]
+- **Was:** Session-Event-Streams für Claude Managed Agents unterstützen jetzt Event-Deltas. Per Opt-in über den Query-Parameter `event_deltas[]` auf `GET /v1/sessions/{session_id}/events/stream` liefern `event_start`- und `event_delta`-Events eine Vorschau auf den Text einer Agent-Nachricht, während er generiert wird — noch bevor das vollständige `agent.message`-Event eintrifft.
+- **Einsatz:** `event_deltas[]`-Query-Parameter am Events-Stream-Endpoint setzen
+- **Mehrwert:** Streaming-artige Live-Ausgabe von Managed-Agent-Antworten für responsivere UIs, statt auf die fertige Nachricht warten zu müssen.
+- **Version:** Platform API (30.6.)
+
+### [Managed Agents: Rückwärts-Paginierung beim Session-Listing]
+- **Was:** `GET /v1/sessions` liefert jetzt neben `next_page` auch einen `prev_page`-Cursor. Diesen als `page`-Parameter übergeben, um zur vorherigen Seite zurückzublättern.
+- **Einsatz:** `prev_page`-Cursor als `page` an `GET /v1/sessions` übergeben
+- **Mehrwert:** Bidirektionales Blättern durch Session-Listen — vorherige Seiten sind ohne Neuaufbau der Paginierung erreichbar.
+- **Version:** Platform API (30.6.)
+
+### [Managed Agents: Agent-Konfiguration pro Session überschreiben]
+- **Was:** Beim Erstellen einer Managed-Agents-Session lässt sich die Agent-Konfiguration nur für diese eine Session überschreiben. Mit `agent` und `type: "agent_with_overrides"` können Modell, System-Prompt, Tools, MCP-Server oder Skills ersetzt werden; der Agent selbst bleibt unverändert.
+- **Einsatz:** `agent` mit `type: "agent_with_overrides"` beim Session-Erstellen übergeben
+- **Mehrwert:** Ein-Session-Experimente und Sonderfälle (anderes Modell, angepasste Tools) ohne einen separaten Agent anlegen oder den Basis-Agent verändern zu müssen.
+- **Version:** Platform API (30.6.)
+
+### [Managed Agents: `injection_location` für Environment-Variable-Credentials]
+- **Was:** Vaults für Managed Agents unterstützen jetzt ein `injection_location`-Setting auf Environment-Variable-Credentials (Tab „Environment variable"). Es steuert, ob der Wert beim Egress in die ausgehenden Request-Header, den Request-Body oder in beides eingesetzt wird.
+- **Einsatz:** `injection_location` an der Credential konfigurieren
+- **Mehrwert:** Feinsteuerung, wohin ein Secret injiziert wird — passend zu APIs, die den Token im Body statt im Header (oder in beiden) erwarten.
+- **Version:** Platform API (30.6.)
+
+### [Managed Agents: Webhooks für Agent-, Deployment- & Deployment-Run-Lifecycle]
+- **Was:** Webhooks für Managed Agents decken jetzt den Lebenszyklus von Agent, Deployment und Deployment-Run ab. Man kann auf eine neu veröffentlichte Agent-Version, ein pausiertes Deployment oder einen fehlgeschlagenen geplanten Run reagieren — ohne zu pollen.
+- **Einsatz:** Auf die neuen Event-Typen (Agent-, Deployment-, Deployment-Run-Events) unter „Subscribe to webhooks" subscriben
+- **Mehrwert:** Ereignisgetriebene Automatisierung rund um Agent-Deployments (z. B. Alarm bei fehlgeschlagenem Scheduled Run) statt periodischem Status-Polling.
+- **Version:** Platform API (30.6.)
 
 ---
 
