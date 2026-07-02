@@ -1,11 +1,89 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-07-01 18:00 UTC (Bestätigungs-Crawl 01.07. abends: **keine neuen Einträge** — alle vier Quellen erneut gegengeprüft. CLI weiterhin **v2.1.197 (30.6.)** als neueste Version (kein v2.1.198+), Platform-Release-Notes weiterhin bis **30.6.** (Top-Eintrag; 6 Einträge dokumentiert, dahinter 29.6. Fast-Mode-Removal — kein 01.07.-Eintrag), Blog weiterhin **29.6.** (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA), What's-New weiterhin **Week 26 (22.–26.6.)** als letzter Digest (Week 27 noch nicht veröffentlicht). Vorheriger Crawl 01.07.: **Platform-Release-Notes vom 30.6. nachgetragen** — 6 neue API-Einträge: Claude Sonnet 5 auf der API mit Verhaltensänderungen (Adaptive Thinking default, manuelles Extended Thinking → 400, Nicht-Default-Sampling → 400, neuer Tokenizer +30 %, kein Priority Tier) sowie fünf Managed-Agents-Features (Event-Deltas, Rückwärts-Paginierung, Session-Config-Override via `agent_with_overrides`, Vault-`injection_location`, Webhooks für Agent-/Deployment-/Deployment-Run-Lifecycle). CLI weiterhin **v2.1.197 (30.6.)** als neueste Version — kein v2.1.198+. Blog weiterhin 29.6. (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post. Week 26 (22.–26.6.) weiterhin letzter What's-New-Digest (Week 27 dort noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-07-02 12:00 UTC (Crawl 02.07.: **v2.1.198 (01.07.) nachgetragen** — neue neueste CLI-Version mit u. a. Claude in Chrome GA, Background-Agent-Notifications-Hooks (`agent_needs_input`/`agent_completed`), `/dataviz`-Skill, Gateway-Upstream „Claude Platform on AWS" (`anthropicAws`), Auto-Commit/Push/Draft-PR bei Background-Agent-Abschluss, Explore-Agent erbt Session-Modell (max. Opus), Subagents erben Extended-Thinking-Config, `/agents`-Wizard entfernt, highlight.js 11 sowie große Bugfix-Sammlung. **Platform-Release-Notes 01.07. nachgetragen**: Zugriff auf Claude Fable 5 & Mythos 5 wiederhergestellt. Blog weiterhin **29.6.** (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post. What's-New weiterhin **Week 26 (22.–26.6.)** als letzter Digest (Week 27 noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 27 (1. Juli 2026) — v2.1.198
+
+---
+
+### [Claude in Chrome — allgemein verfügbar (GA)]
+- **Was:** Claude in Chrome ist jetzt allgemein verfügbar (nicht mehr nur Preview). Die Browser-Integration erlaubt Claude, im Chrome-Kontext zu agieren.
+- **Einsatz:** Automatisch aktiv (Chrome-Integration)
+- **Mehrwert:** Stabile, produktiv nutzbare Browser-Anbindung ohne Preview-Vorbehalte.
+- **Version:** v2.1.198
+
+### [Background-Agent-Notifications via Hooks (`agent_needs_input` / `agent_completed`)]
+- **Was:** Zwei neue Hook-Events feuern für Hintergrund-Agents: `agent_needs_input`, wenn ein Agent auf eine Eingabe wartet, und `agent_completed`, wenn er fertig ist. So lassen sich eigene Benachrichtigungen (Desktop, Slack, Push …) an den Agent-Lebenszyklus knüpfen.
+- **Einsatz:** Hooks auf `agent_needs_input` / `agent_completed` in den Settings registrieren
+- **Mehrwert:** Man wird proaktiv informiert, wenn ein langlaufender Hintergrund-Agent blockiert ist oder abgeschlossen hat — kein manuelles Poll-Checken der Agents-Ansicht mehr.
+- **Version:** v2.1.198
+
+### [`/dataviz`-Skill für Diagramme & Dashboards]
+- **Was:** Neuer `/dataviz`-Skill, der beim Entwurf von Charts und Dashboards unterstützt.
+- **Einsatz:** `/dataviz`
+- **Mehrwert:** Schneller strukturierte Datenvisualisierungen aufsetzen, ohne die Chart-Konfiguration von Hand herzuleiten.
+- **Version:** v2.1.198
+
+### [Gateway: „Claude Platform on AWS" als Upstream-Provider]
+- **Was:** Das Gateway unterstützt jetzt „Claude Platform on AWS" (`anthropicAws`) als vorgelagerten Provider.
+- **Einsatz:** Upstream-Provider `anthropicAws` im Gateway konfigurieren
+- **Mehrwert:** Claude-Code-Gateway-Setups können Traffic direkt über die Claude Platform auf AWS leiten.
+- **Version:** v2.1.198
+
+### [Background-Agents: Auto-Commit, Push & Draft-PR bei Abschluss]
+- **Was:** Hintergrund-Agents committen, pushen und öffnen bei Abschluss jetzt automatisch einen Draft-PR mit ihrer Arbeit.
+- **Einsatz:** Automatisch aktiv (Background-Agents)
+- **Mehrwert:** Ergebnisse eines fertigen Hintergrund-Agents landen ohne manuelle Git-Schritte direkt als reviewbarer Draft-PR — der Weg vom Agent-Ergebnis zum Review verkürzt sich deutlich.
+- **Version:** v2.1.198
+
+### [Explore-Agent erbt das Session-Modell (max. Opus)]
+- **Was:** Der Explore-Agent nutzt jetzt das Modell der Haupt-Session (nach oben auf Opus gedeckelt), statt ein festes eigenes Modell zu verwenden.
+- **Einsatz:** Automatisch aktiv (Explore-Agent)
+- **Mehrwert:** Konsistente Modellqualität bei Erkundungs-Aufgaben — der Explore-Agent ist so leistungsfähig wie die laufende Session (bis Opus).
+- **Version:** v2.1.198
+
+### [Subagents erben die Extended-Thinking-Konfiguration]
+- **Was:** Subagents übernehmen jetzt die Extended-Thinking-Einstellung der Session, statt sie separat konfigurieren zu müssen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Einheitliches Reasoning-Verhalten über Haupt-Session und ihre Subagents hinweg — keine überraschend „flacher" denkenden Subagents mehr.
+- **Version:** v2.1.198
+
+### [`/agents`-Wizard entfernt]
+- **Was:** Der interaktive `/agents`-Einrichtungs-Wizard wurde entfernt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Aufräumen einer nicht mehr benötigten Setup-Oberfläche; Agent-Konfiguration läuft über die etablierten Wege.
+- **Version:** v2.1.198
+
+### [Fokus-Modus mit Subagent-Aktivitäts-Zusammenfassungen & highlight.js 11]
+- **Was:** Der Fokus-Modus zeigt jetzt Zusammenfassungen der Subagent-Aktivität. Zudem wurde das Syntax-Highlighting auf highlight.js 11 aktualisiert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Besserer Überblick, was Subagents im Fokus-Modus gerade tun, plus moderneres/robusteres Code-Highlighting.
+- **Version:** v2.1.198
+
+### [Bugfix-Sammlung v2.1.198]
+- **Was:** Viele Fixes auf einen Schlag, u. a.: Netzwerk-Abbrüche mitten in der Antwort werden mit Retry-Backoff abgefangen; übermäßige Background-Classifier-Requests reduziert; `/diff`-Panel aktualisierte sich beim Branch-Wechsel nicht; Markdown-Tabellen liefen im Vollbild-Modus über; AWS- und Mantle-Sessions liefen ab (jetzt automatischer Token-Refresh); Local-Network-Host-Probleme auf macOS mit Local-Network-Entitlements; `/desktop` schlug nach Worktree-Operationen fehl; Background-Agents zeigten auf macOS wiederholt „Reconnecting…"; bedingte `.claude/rules/`-Regeln über symlinkte Pfade funktionierten nicht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar stabilere Antworten bei Netzproblemen, zuverlässigere Cloud-Sessions (AWS/Mantle), korrekte `/diff`- und Vollbild-Darstellung sowie robustere Background-Agents auf macOS.
+- **Version:** v2.1.198
+
+---
+
+### Platform / API (1. Juli 2026)
+
+---
+
+### [Zugriff auf Claude Fable 5 & Mythos 5 wiederhergestellt]
+- **Was:** Der Zugriff auf die Modelle Claude Fable 5 und Claude Mythos 5 wurde wiederhergestellt (Redeployment). Details im Anthropic-Statement „Redeploying Fable 5 & Mythos 5".
+- **Einsatz:** `model: "claude-fable-5"` bzw. `claude-mythos-5` wieder nutzbar
+- **Mehrwert:** Wer auf diese Modelle gebaut hatte, kann sie wieder produktiv einsetzen — die vorherige Nicht-Verfügbarkeit ist aufgehoben.
+- **Version:** Platform API (1.7.)
+
+---
 
 ### Woche 27 (30. Juni 2026) — v2.1.197
 
