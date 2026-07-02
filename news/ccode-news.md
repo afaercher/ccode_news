@@ -1,11 +1,23 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-07-02 12:00 UTC (Bestätigungs-Crawl 02.07.: **keine neuen Einträge** — v2.1.198 (01.07.) weiterhin neueste CLI-Version (kein v2.1.199+); Platform-Release-Notes weiterhin Top-Eintrag 01.07. (Fable 5 & Mythos 5 wiederhergestellt), dahinter 30.6.; Blog weiterhin 29.6. (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post; What's-New weiterhin Week 26 (22.–26.6.) als letzter Digest, Week 27 noch nicht veröffentlicht; alle vier Quellen gegengeprüft. — Vorheriger Crawl 02.07.: **v2.1.198 (01.07.) nachgetragen** — neue neueste CLI-Version mit u. a. Claude in Chrome GA, Background-Agent-Notifications-Hooks (`agent_needs_input`/`agent_completed`), `/dataviz`-Skill, Gateway-Upstream „Claude Platform on AWS" (`anthropicAws`), Auto-Commit/Push/Draft-PR bei Background-Agent-Abschluss, Explore-Agent erbt Session-Modell (max. Opus), Subagents erben Extended-Thinking-Config, `/agents`-Wizard entfernt, highlight.js 11 sowie große Bugfix-Sammlung. **Platform-Release-Notes 01.07. nachgetragen**: Zugriff auf Claude Fable 5 & Mythos 5 wiederhergestellt. Blog weiterhin **29.6.** (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post. What's-New weiterhin **Week 26 (22.–26.6.)** als letzter Digest (Week 27 noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-07-02 17:30 UTC (Crawl 02.07. abends: **1 neuer Eintrag** — Blog-Post vom **02.07.** „Giving admins more visibility and control over Claude spend" nachgetragen (Admin-Analytics & Kostenkontrolle: Team-/User-Dashboards, Claude-Code-Analytics, Value-Tab/ROI, Analytics-Chat & -API, Spend-Alerts 75/90 %, Per-Group-Caps, Model-Defaults/Entitlements, Admin-API). CLI weiterhin **v2.1.198** (01.07., kein v2.1.199+); Platform-Release-Notes weiterhin Top-Eintrag **01.07.** (Fable 5 & Mythos 5 wiederhergestellt), dahinter 30.6.; What's-New weiterhin **Week 26** (22.–26.6.) als letzter Digest, Week 27 noch nicht veröffentlicht; alle vier Quellen gegengeprüft. — Vorheriger Crawl 02.07. (Bestätigung): keine neuen Einträge. — Crawl 02.07. früh: **v2.1.198 (01.07.) nachgetragen** — neue neueste CLI-Version mit u. a. Claude in Chrome GA, Background-Agent-Notifications-Hooks (`agent_needs_input`/`agent_completed`), `/dataviz`-Skill, Gateway-Upstream „Claude Platform on AWS" (`anthropicAws`), Auto-Commit/Push/Draft-PR bei Background-Agent-Abschluss, Explore-Agent erbt Session-Modell (max. Opus), Subagents erben Extended-Thinking-Config, `/agents`-Wizard entfernt, highlight.js 11 sowie große Bugfix-Sammlung. **Platform-Release-Notes 01.07. nachgetragen**: Zugriff auf Claude Fable 5 & Mythos 5 wiederhergestellt. Blog weiterhin **29.6.** (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post. What's-New weiterhin **Week 26 (22.–26.6.)** als letzter Digest (Week 27 noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Blog / Ankündigungen (2. Juli 2026)
+
+---
+
+### [Admin-Analytics & Kostenkontrolle für Claude-Ausgaben]
+- **Was:** Anthropic hat ein Bündel neuer Admin-Werkzeuge für Sichtbarkeit und Steuerung der Claude-Ausgaben in Organisationen (Enterprise) veröffentlicht. **Analytics/Sichtbarkeit:** Admin-Dashboard mit Nutzungs- und Kosten-Aufschlüsselung pro Team und pro Nutzer; Claude-Code-spezifische Analytics (täglich aktualisiert: aktive Entwickler, Session-Zahlen, Top-Befehle); ein **Value-Tab**, der Produktivitätsgewinn, Kosten pro Commit und Jahres-ROI mit anpassbaren Eingaben schätzt; **Analytics Chat** für natürlichsprachige Abfragen („Welche Teams haben ihre Nutzung diesen Monat verdoppelt?"); eine **Analytics-API** zur Integration in bestehende Tools (Datadog, CloudZero); sowie individuelle Nutzer-Sicht auf eigene Trends, Ausgaben pro Produkt/Modell/Skill und Fortschritt zum Limit. **Kostenkontrolle:** Model-Defaults & Entitlements (welches Modell je Rolle/org-weit Gespräche startet), Spend-Alerts bei 75 % und 90 % des Org-Limits (Nutzer: 75 %/95 % mit In-App-Anfrage), Per-Group-Spend-Caps und Zugriffskontrollen, sowie eine **Admin-API** für automatisierte Limit-Reviews und das Aufspüren gefährdeter Nutzer.
+- **Einsatz:** Admin-Konsole → Analytics/Dashboards (Filter u. a. nach SCIM-Gruppen); Analytics- und Admin-API für eigene Reporting-/Automations-Workflows
+- **Mehrwert:** Kontinuierliche Kostentransparenz und Governance für agentische Workloads — Ausgaben werden laufend statt erst zum Monatsende sichtbar, Premium-Modell-Nutzung lässt sich per Default eindämmen, und Reporting integriert sich in bestehende Cloud-Kosten-Tools.
+- **Version:** Blog-Ankündigung (2.7.)
+
+---
 
 ### Woche 27 (1. Juli 2026) — v2.1.198
 
