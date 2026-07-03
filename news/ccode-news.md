@@ -1,11 +1,65 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-07-02 17:30 UTC (Crawl 02.07. abends: **1 neuer Eintrag** — Blog-Post vom **02.07.** „Giving admins more visibility and control over Claude spend" nachgetragen (Admin-Analytics & Kostenkontrolle: Team-/User-Dashboards, Claude-Code-Analytics, Value-Tab/ROI, Analytics-Chat & -API, Spend-Alerts 75/90 %, Per-Group-Caps, Model-Defaults/Entitlements, Admin-API). CLI weiterhin **v2.1.198** (01.07., kein v2.1.199+); Platform-Release-Notes weiterhin Top-Eintrag **01.07.** (Fable 5 & Mythos 5 wiederhergestellt), dahinter 30.6.; What's-New weiterhin **Week 26** (22.–26.6.) als letzter Digest, Week 27 noch nicht veröffentlicht; alle vier Quellen gegengeprüft. — Vorheriger Crawl 02.07. (Bestätigung): keine neuen Einträge. — Crawl 02.07. früh: **v2.1.198 (01.07.) nachgetragen** — neue neueste CLI-Version mit u. a. Claude in Chrome GA, Background-Agent-Notifications-Hooks (`agent_needs_input`/`agent_completed`), `/dataviz`-Skill, Gateway-Upstream „Claude Platform on AWS" (`anthropicAws`), Auto-Commit/Push/Draft-PR bei Background-Agent-Abschluss, Explore-Agent erbt Session-Modell (max. Opus), Subagents erben Extended-Thinking-Config, `/agents`-Wizard entfernt, highlight.js 11 sowie große Bugfix-Sammlung. **Platform-Release-Notes 01.07. nachgetragen**: Zugriff auf Claude Fable 5 & Mythos 5 wiederhergestellt. Blog weiterhin **29.6.** (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post. What's-New weiterhin **Week 26 (22.–26.6.)** als letzter Digest (Week 27 noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
+> Letzte Aktualisierung: 2026-07-03 (Crawl 03.07.: **v2.1.199** (02.07. 23:35) nachgetragen — neue neueste CLI-Version mit u. a. gestapelten Slash-Skill-Aufrufen (bis zu 5 Skills), sofortigem SSL-Fehler-Hinweis, Auto-Retry transienter 429er mit Backoff, `CLAUDE_CODE_RETRY_WATCHDOG` (300 Retries, Cap-Aufhebung für `CLAUDE_CODE_MAX_RETRIES`), erhaltenen Teil-Streaming-Antworten, korrekter Subagent-Fehlerweitergabe an den Parent, `#N`-PR-Links in `claude agents` sowie großer Bugfix-Sammlung (Background-Agent-Daemon-Selbstabschuss, SSH-/macOS-Coldstart, `claude stop`-Race, Config-Recovery-Backup u. v. m.). Übrige Quellen unverändert: Platform-Release-Notes weiterhin Top-Eintrag **01.07.** (Fable 5 & Mythos 5 wiederhergestellt), dahinter 30.6. (Sonnet 5); Blog weiterhin **02.07.** (Admin-Analytics & Kostenkontrolle); What's-New weiterhin **Week 26** (22.–26.6.), Week 27 noch nicht als Digest veröffentlicht. Alle vier Quellen gegengeprüft. — Vorheriger Stand 2026-07-02 17:30 UTC (Crawl 02.07. abends: **1 neuer Eintrag** — Blog-Post vom **02.07.** „Giving admins more visibility and control over Claude spend" nachgetragen (Admin-Analytics & Kostenkontrolle: Team-/User-Dashboards, Claude-Code-Analytics, Value-Tab/ROI, Analytics-Chat & -API, Spend-Alerts 75/90 %, Per-Group-Caps, Model-Defaults/Entitlements, Admin-API). CLI weiterhin **v2.1.198** (01.07., kein v2.1.199+); Platform-Release-Notes weiterhin Top-Eintrag **01.07.** (Fable 5 & Mythos 5 wiederhergestellt), dahinter 30.6.; What's-New weiterhin **Week 26** (22.–26.6.) als letzter Digest, Week 27 noch nicht veröffentlicht; alle vier Quellen gegengeprüft. — Vorheriger Crawl 02.07. (Bestätigung): keine neuen Einträge. — Crawl 02.07. früh: **v2.1.198 (01.07.) nachgetragen** — neue neueste CLI-Version mit u. a. Claude in Chrome GA, Background-Agent-Notifications-Hooks (`agent_needs_input`/`agent_completed`), `/dataviz`-Skill, Gateway-Upstream „Claude Platform on AWS" (`anthropicAws`), Auto-Commit/Push/Draft-PR bei Background-Agent-Abschluss, Explore-Agent erbt Session-Modell (max. Opus), Subagents erben Extended-Thinking-Config, `/agents`-Wizard entfernt, highlight.js 11 sowie große Bugfix-Sammlung. **Platform-Release-Notes 01.07. nachgetragen**: Zugriff auf Claude Fable 5 & Mythos 5 wiederhergestellt. Blog weiterhin **29.6.** (Bedrock/Google-Cloud-Gateway, Microsoft Foundry GA) als neuester Post. What's-New weiterhin **Week 26 (22.–26.6.)** als letzter Digest (Week 27 noch nicht veröffentlicht). Alle vier Quellen gegengeprüft. Hinweis: Platform-Release-Notes liegen unter platform.claude.com/docs/en/release-notes/api.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 27 (2. Juli 2026) — v2.1.199
+
+---
+
+### [Gestapelte Slash-Skill-Aufrufe laden alle führenden Skills (bis zu 5)]
+- **Was:** Bei verketteten Aufrufen wie `/skill-a /skill-b do XYZ` werden jetzt alle führenden Skills geladen (bis zu 5), nicht mehr nur der erste.
+- **Einsatz:** `/skill-a /skill-b /skill-c <Auftrag>`
+- **Mehrwert:** Man kann mehrere Skills in einem Prompt kombinieren und ihre Anweisungen greifen alle gemeinsam — kein Umweg über Einzelaufrufe mehr.
+- **Version:** v2.1.199
+
+### [SSL-Zertifikatsfehler scheitern sofort mit Lösungshinweis]
+- **Was:** SSL-Zertifikatsfehler (TLS-inspizierende Proxies, fehlendes `NODE_EXTRA_CA_CERTS`, abgelaufene Zertifikate) verbrannten bisher erst mehrere Retries, bevor eine hilfreiche Meldung kam. Jetzt scheitern sie sofort mit konkretem Fix-Hinweis.
+- **Einsatz:** Automatisch aktiv; bei Bedarf `NODE_EXTRA_CA_CERTS` setzen
+- **Mehrwert:** Hinter Corporate-Proxies wird die Ursache sofort statt nach langem Warten sichtbar — schnellere Fehlerbehebung.
+- **Version:** v2.1.199
+
+### [Transiente 429-Ratelimits werden automatisch mit Backoff wiederholt]
+- **Was:** Transiente Server-Ratelimit-Fehler (429er, die nichts mit dem eigenen Nutzungslimit zu tun haben) werden für Abonnenten jetzt automatisch mit Backoff wiederholt, statt den Turn abzubrechen.
+- **Einsatz:** Automatisch aktiv (Abonnenten)
+- **Mehrwert:** Kurzzeitige Kapazitätsengpässe unterbrechen die Arbeit nicht mehr — der Turn läuft nach dem Backoff einfach weiter.
+- **Version:** v2.1.199
+
+### [Retry-Watchdog: höhere Retry-Grenzen für transiente Fehler]
+- **Was:** `CLAUDE_CODE_RETRY_WATCHDOG` hebt die Standard-Retry-Zahl für nicht-kapazitätsbedingte transiente Fehler auf 300 an und hebt die bisherige Obergrenze von 15 für `CLAUDE_CODE_MAX_RETRIES` auf.
+- **Einsatz:** `CLAUDE_CODE_RETRY_WATCHDOG` / `CLAUDE_CODE_MAX_RETRIES` als Env-Var setzen
+- **Mehrwert:** Langlaufende, unbeaufsichtigte Sessions überstehen deutlich mehr transiente Störungen, ohne abzubrechen.
+- **Version:** v2.1.199
+
+### [Teilweise Streaming-Antworten bleiben bei Mid-Stream-Fehlern erhalten]
+- **Was:** Wenn die API nach bereits gestreamter Teilantwort mitten im Stream einen Overloaded-/Server-Fehler wirft, wird die Teilantwort nicht mehr verworfen, sondern mit einem „unvollständig"-Hinweis behalten. Analog geben Subagents, die von Ratelimit/Server-Fehler abgeschnitten werden, jetzt ihre Teilarbeit an den Parent zurück (statt still zu scheitern).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kein Totalverlust bereits erzeugter Ausgabe bei Netz-/Server-Hickups — auch angefangene Subagent-Ergebnisse gehen nicht verloren.
+- **Version:** v2.1.199
+
+### [Subagent-API-Fehler werden korrekt an den Parent gemeldet]
+- **Was:** Subagents meldeten API-Fehler (z. B. „usage limit reached") bisher fälschlich als erfolgreiches Ergebnis. Der Fehler wird jetzt korrekt an den Parent-Agent durchgereicht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der Parent erkennt echte Fehlschläge seiner Subagents und kann reagieren, statt mit einem Scheinerfolg weiterzuarbeiten.
+- **Version:** v2.1.199
+
+### [`claude agents`: PR-Links als schlichtes `#N`]
+- **Was:** In den `claude agents`-Session-Zeilen erscheinen Pull-Request-Links jetzt als schlichtes `#N` ohne das redundante „PR"-Label.
+- **Einsatz:** `claude agents`
+- **Mehrwert:** Aufgeräumtere, kompaktere Agent-Übersicht.
+- **Version:** v2.1.199
+
+### [Bugfix-Sammlung v2.1.199]
+- **Was:** Umfangreiche Fehlerbehebungen, u. a.: Background-Agent-Daemon auf Linux tötete sich (und alle laufenden Agents) nach unsauberem Shutdown alle ~50 s selbst — behoben; Background-Agents scheiterten beim Cold-Start über SSH auf macOS mit „Could not switch to audit session" (Regression in 2.1.196); `claude stop` wurde bei Kollision mit einem Background-Agent-Respawn still rückgängig gemacht — Respawn respektiert jetzt den Stop; Fortschrittsanzeigen von Background-Jobs blieben bei langen Befehlen minutenlang stehen; Background-Sessions auf speicherarmen Maschinen zeigen jetzt „wenig Speicher" statt generischem Fehler; Remote-Sessions flackerten in der Agent-Ansicht zwischen Working/Idle; leerlaufende Subagents verschwanden aus dem Panel, während andere noch arbeiteten — überzählige klappen jetzt in eine ausklappbare Summary-Zeile; `/model` bzw. `/fast` beim Betrachten eines Subagents öffnete still den Modell-Picker des Leads — jetzt Hinweis, dass der Befehl für den Lead gilt; `SessionStart`-/`Setup`-/`SubagentStart`-Hooks verbargen stderr bei Exit-Code 2 — Fehler wird jetzt im Transcript gezeigt; `claude --dangerously-skip-permissions daemon <subcommand>` wurde als Chat-Prompt statt als Subcommand behandelt; `SendMessage` leitete bei wiederverwendeten Agent-Namen falsch weiter — erkennt jetzt den Mismatch; Öffnen/Fortsetzen einer Session ohne neue Nachrichten ließ die Transcript-Datei unnötig wachsen; Backgrounden einer Session per `←`/`/background` verlor ihre `/color` in der Agent-Zeile; Zurücksetzen einer korrupten Config aus dem Recovery-Dialog zerstörte sie unwiederbringlich — jetzt vorher Backup; Claude in Chrome öffnete wiederholt die Reconnect-Seite bei unterschiedlichen Builds/Config-Verzeichnissen; Plan-Modus fragte bei zustandsändernden Browser-Tool-Aufrufen nicht nach — schreibgeschützte `browser_batch`-Aufrufe werden jetzt korrekt auto-erlaubt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Deutlich stabilere Background-Agents (kein Selbstabschuss, sauberes Stop-Verhalten, verlässliche SSH-/macOS-Coldstarts), robusteres Config-Recovery und ehrlichere Fehlersichtbarkeit in Hooks und Subagents.
+- **Version:** v2.1.199
+
+---
 
 ### Blog / Ankündigungen (2. Juli 2026)
 
