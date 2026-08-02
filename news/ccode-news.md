@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-01 18:00 UTC (Bestätigungs-Crawl 01.08. 3. Lauf: **keine neuen Einträge** — alle vier Quellen gegengeprüft: neueste CLI weiterhin **v2.1.220** (25.07. 01:35), kein v2.1.221+ (WebSearch gegenbestätigt, Changelog endet bei v2.1.220); Platform-Release-Notes Top-Eintrag weiterhin **24.07.** (Claude Opus 5 auf API/Bedrock/Vertex/Foundry); Blog weiterhin **28.07.** („Bringing MCP to Claude"); What's-New weiterhin **Week 29** (13.–17.7., Tags v2.1.207–v2.1.212) als neuester Digest, **Week 30 noch nicht veröffentlicht**. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-02 06:00 UTC (Bestätigungs-Crawl 02.08.: **keine neuen Einträge** — alle vier Quellen gegengeprüft: neueste CLI weiterhin **v2.1.220** (25.07. 01:35), kein v2.1.221+ (WebSearch gegenbestätigt, Changelog endet bei v2.1.220); Platform-Release-Notes Top-Eintrag weiterhin **24.07.** (Claude Opus 5 auf API/Bedrock/Vertex/Foundry); Blog weiterhin **28.07.** („Bringing MCP to Claude"); What's-New weiterhin **Week 29** (13.–17.7., Tags v2.1.207–v2.1.212) als neuester Digest, **Week 30 noch nicht veröffentlicht**. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
