@@ -1,11 +1,53 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-03 18:00 UTC (Bestätigungs-Crawl 03.08. 18:00 UTC: **keine neuen Einträge** — alle vier Quellen gegengeprüft: neueste CLI weiterhin **v2.1.220** (25.07. 01:35), kein v2.1.221+ (WebSearch gegenbestätigt, Changelog endet bei v2.1.220); Platform-Release-Notes Top-Eintrag weiterhin **24.07.** (Claude Opus 5 auf API/Bedrock/Vertex/Foundry); Blog weiterhin **28.07.** („Bringing MCP to Claude"); What's-New weiterhin **Week 29** (13.–17.7., Tags v2.1.207–v2.1.212) als neuester Digest, **Week 30 noch nicht veröffentlicht**. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-04 06:00 UTC (Crawl 04.08. 06:00 UTC: **NEU — v2.1.221** (04.08. 00:14) dokumentiert: Focus-View (`Ctrl+Alt+F`), Sandbox-Credential-Masking `mode: "mask"` (Linux/WSL), `prompt-audit` in `claude-api`-Skill, selbstständig committende Background-Sessions, `/fork`-eigener-Worktree, `/status`-Session-Art, plus große Bugfix-Runde (u. a. Bash-`[[ ]]`-Permission-Bypass, PowerShell-Quotes, Print-Mode-MCP, WebSearch-400 bei xhigh/max). Weiterhin: Platform-Release-Notes-URL liefert **404**; Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31 noch unveröffentlicht. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 32 (4. August 2026) — v2.1.221
+
+---
+
+### [Focus-View — Tool-Aktivität hinter Klapp-Zusammenfassung verbergen]
+- **Was:** Neue Chat-Menü-Ansicht „Focus view", die die laufende Tool-Aktivität hinter einer aufklappbaren Pro-Turn-Zusammenfassung versteckt und stattdessen nur einen kompakten Live-Indikator des gerade laufenden Tools zeigt.
+- **Einsatz:** Umschalten mit `Ctrl+Alt+F` oder dem Befehl „Claude Code: Toggle Focus view".
+- **Mehrwert:** Deutlich ruhigeres UI bei langen Agent-Läufen — man sieht das Wesentliche pro Turn statt endloser Tool-Logs, kann aber bei Bedarf aufklappen.
+- **Version:** v2.1.221
+
+### [Sandbox-Credential-Masking (`mode: "mask"`) auf Linux/WSL]
+- **Was:** Neuer Modus `mode: "mask"` für Sandbox-Credential-Dateien: Sandbox-Befehle lesen eine Sentinel-Kopie, während der Sandbox-Proxy den echten Wert erst beim Egress einsetzt. Unter macOS fällt File-Masking auf `deny` zurück.
+- **Einsatz:** In der Sandbox-Konfiguration `mode: "mask"` für Credential-Dateien setzen (Linux/WSL).
+- **Mehrwert:** Prozesse in der Sandbox bekommen echte Secrets nie zu Gesicht — sie sehen nur Platzhalter, der reale Wert verlässt erst beim tatsächlichen Netzwerk-Egress die Grenze. Reduziert das Leak-Risiko bei nicht vertrauenswürdigen Tools.
+- **Version:** v2.1.221
+
+### [`prompt-audit` in der `claude-api`-Skill]
+- **Was:** Die `claude-api`-Skill bekommt ein neues Unterkommando `prompt-audit`, das Prompts und Tool-Beschreibungen auf Muster prüft, die für ältere Modelle geschrieben wurden.
+- **Einsatz:** `prompt-audit`-Subcommand der `claude-api`-Skill aufrufen.
+- **Mehrwert:** Hilft, veraltete Prompt-Konstruktionen (z. B. für frühere Modellgenerationen optimierte Formulierungen) aufzuspüren und für aktuelle Modelle zu modernisieren.
+- **Version:** v2.1.221
+
+### [Background-Sessions committen & pushen selbstständig]
+- **Was:** Background-Sessions committen und pushen ihre Arbeit jetzt zur Sicherung, öffnen nur bei Bedarf einen Draft-PR, folgen den Git-Anweisungen aus deiner CLAUDE.md und melden am Ende immer, wo die Arbeit liegt.
+- **Einsatz:** Automatisch aktiv (greift bei Background-/Unattended-Jobs).
+- **Mehrwert:** Ergebnisse einer Hintergrund-Session gehen nicht mehr verloren und sind nachvollziehbar auffindbar, ohne dass unnötige PRs entstehen.
+- **Version:** v2.1.221
+
+### [Weitere Verbesserungen v2.1.221 (`/fork`-Worktree, `/status`, Plugins, Auto-Mode)]
+- **Was:** `/fork`-Sessions legen jetzt einen eigenen Worktree an statt im Checkout der Ursprungs-Session zu arbeiten; `/status` zeigt die Session-Art (`interactive` bzw. `attached`/`unattended` Background-Job); aus `/plugin` installierte Plugins werden sofort aktiv (kein `/reload-plugins` mehr nötig, wenn sicher), `/plugin install` frischt einen veralteten Marketplace-Katalog auf und wiederholt den Versuch; Plugins akzeptieren `"."` als `skills`-Pfad; Emoji-Autocomplete akzeptiert Alternativen wie `:thumbsup:`/`:thumbsdown:`/`:love:`; Auto-Mode-Permission-Checks für parallele Tool-Calls sind jetzt cache-effizient (reduzierte Prompt-Cache-Kosten durch Wiederverwendung des Konversations-Prefix); Tool-Search auf Google Vertex AI für Claude-4.5-Generation und neuer wieder aktiviert; Claude in Chrome schließt geöffnete Tabs wieder; Stats-Panel zählt Cache-Tokens mit Aufschlüsselung (Input/Output/Cache-Read/Cache-Write); Windows-Startup liest Prozess-Erstellzeiten über nativen kernel32-Call statt PowerShell (kein Endpoint-Security-Prompt mehr).
+- **Einsatz:** Automatisch aktiv bzw. über die genannten Befehle.
+- **Mehrwert:** Sauberere Fork-Isolation, mehr Transparenz über Session-Art, reibungsloseres Plugin-Handling und günstigere/schnellere Auto-Mode-Checks.
+- **Version:** v2.1.221
+
+### [Bugfix-Sammlung v2.1.221]
+- **Was:** Große Fix-Runde: Bash-Permission-Bypass, bei dem zsh versteckte Befehle in `[[ ]]`-Regex-Conditionals ausführen konnte (fragt jetzt nach); PowerShell-Permission-Checks mit Anführungszeichen in Pfaden auf Windows; Thinking-Toggle ohne Wirkung, wenn Session mit Thinking-off startete; MCP-Server aus `--mcp-config` wurden im Print-Mode (`-p`) nicht vor dem ersten Turn verbunden (Modell gab Tool-Calls als Klartext aus); @-erwähnte Dateien wurden beim Esc-Zurückziehen und erneutem Absenden stillschweigend verworfen; Crash bei SDK-MCP-Tools mit Namen von Built-in-Objekt-Properties (`constructor`); WebSearch-400-Fehler bei Effort `xhigh`/`max` mit deaktiviertem Thinking; TLS-Fehler bei großen Sandbox-Uploads; falsche Team-/Enterprise-Spend-Limit-Meldung (Org- statt Individual-Limit); Bedrock-Auth mit AWS-SSO-Named-Profiles in Desktop-Managed-Sessions auf Windows mit fehlerhafter `HOME`-Variable; `CLAUDE_CODE_RESUME_INTERRUPTED_TURN=0` wurde ignoriert; seltene Wake-from-Sleep-Race beim MCP-/WIF-OAuth-Token-Refresh; Session-Umbenennung aus Desktop/claude.ai aktualisierte CLI-Namen nicht; Plugin-/Org-Skills mit Namen von Terminal-Built-ins (`/help`, `/feedback`) waren in nicht-interaktiven Sessions nicht aufrufbar; „Plugins changed"-Notiz blieb nach Reload hängen; Vim-Mode Yank-Register überlebt jetzt Dialoge/History-Search/Transcript-View; Fast-Mode meldet erschöpfte Credits jetzt im Stream statt still zu scheitern.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar sicherere Permission-Checks (Bash/PowerShell), robusteres Print-Mode-/MCP-/Bedrock-Verhalten und stabilere Vim-/Session-/Plugin-Abläufe.
+- **Version:** v2.1.221
+
+---
 
 ### Blog / Ankündigung (28. Juli 2026)
 
