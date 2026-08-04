@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-04 12:00 UTC (Bestätigungs-Crawl 04.08. 12:00 UTC: keine neuen Einträge seit 06:00 UTC. **v2.1.221** (04.08.) weiterhin neueste CLI — offizielles Changelog + GitHub gegenbestätigt, kein v2.1.222+ (ein WebSearch-Treffer nannte „v2.1.222", beschrieb aber die bereits dokumentierten v2.1.219-Fixes → Fehltreffer). Weiterhin: Platform-Release-Notes-URL liefert **404**; Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. Bereits dokumentiert: Focus-View (`Ctrl+Alt+F`), Sandbox-Credential-Masking `mode: "mask"`, `prompt-audit`-Skill, selbstständig committende Background-Sessions, `/fork`-Worktree, `/status`-Session-Art, große Bugfix-Runde. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-04 18:00 UTC (Bestätigungs-Crawl 04.08. 18:00 UTC: keine neuen Einträge seit 12:00 UTC. **v2.1.221** (04.08.) weiterhin neueste CLI — GitHub-Releases + offizielles Changelog gegenbestätigt, kein v2.1.222+ (WebSearch-Treffer beschrieben nur bereits dokumentierte v2.1.219/221-Fixes → keine neue Version). Weiterhin: Platform-Release-Notes-URL nicht erreichbar (DNS/404); Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. Bereits dokumentiert: Focus-View (`Ctrl+Alt+F`), Sandbox-Credential-Masking `mode: "mask"`, `prompt-audit`-Skill, selbstständig committende Background-Sessions, `/fork`-Worktree, `/status`-Session-Art, große Bugfix-Runde. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
