@@ -1,11 +1,23 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-05 12:00 UTC (Bestätigungs-Crawl 05.08. 12:00 UTC: **keine neuen Einträge** seit 06:00 UTC — v2.1.222 (04.08.) weiterhin neueste CLI (GitHub gegenbestätigt, kein v2.1.223+); Platform-Release-Notes-URL weiterhin 404; Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht; alle vier Quellen gegengeprüft. — Vorheriger Crawl 05.08. 06:00 UTC: **NEU v2.1.222** dokumentiert — Worktree-Isolation gilt jetzt für Datei-Edits & Bash in allen Session-Arten (Security-Fix gegen destruktive Git-Befehle am Haupt-Checkout), PreToolUse-Auto-Allow-Hooks umgehen keine Tool-Restriktionen mehr in Background-Tasks, Auto-Mode prüft `SendMessage`-Nachrichten vor Versand per Permission-Classifier, Remote-Control-Auto-Start nicht mehr per Repo-lokalen Settings aktivierbar, **Ultraplan entfernt**, plus große Bugfix-Runde (`/usage`-MCP-Attribution, HTTPS-Proxy-Startup, PR-Verlinkung nach Push, org-Modell-Step-Down, rohe Git-Blob-Diffs). Weiterhin: Platform-Release-Notes-URL nicht erreichbar (404); Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-05 18:00 UTC (Crawl 05.08. 18:00 UTC: **NEU** Blog-Ankündigung **05.08.** „Inference hooks: inline data loss prevention for Claude Enterprise" dokumentiert (org-weite Prompt-Prüfung vor der Inferenz, gilt u. a. für **Claude-Code-Sessions**). CLI weiterhin v2.1.222 (04.08.) — kein v2.1.223+ (GitHub gegenbestätigt); Platform-Release-Notes-URL weiterhin nicht auflösbar (DNS/404); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Vorheriger Crawl 05.08. 12:00 UTC: keine neuen Einträge seit 06:00 UTC — v2.1.222 (04.08.) neueste CLI, Blog Top damals **28.07.**. — Vorheriger Crawl 05.08. 06:00 UTC: **NEU v2.1.222** dokumentiert — Worktree-Isolation gilt jetzt für Datei-Edits & Bash in allen Session-Arten (Security-Fix gegen destruktive Git-Befehle am Haupt-Checkout), PreToolUse-Auto-Allow-Hooks umgehen keine Tool-Restriktionen mehr in Background-Tasks, Auto-Mode prüft `SendMessage`-Nachrichten vor Versand per Permission-Classifier, Remote-Control-Auto-Start nicht mehr per Repo-lokalen Settings aktivierbar, **Ultraplan entfernt**, plus große Bugfix-Runde (`/usage`-MCP-Attribution, HTTPS-Proxy-Startup, PR-Verlinkung nach Push, org-Modell-Step-Down, rohe Git-Blob-Diffs). Weiterhin: Platform-Release-Notes-URL nicht erreichbar (404); Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Blog-Ankündigung (5. August 2026)
+
+---
+
+### [Inference Hooks — Inline-DLP für Claude Enterprise (gilt auch für Claude Code)]
+- **Was:** Neues Enterprise-Governance-Feature (Beta): Jeder Prompt einer Organisation wird **vor der Inferenz** — nachdem er den Client verlassen hat, bevor das Modell ihn sieht — an einen org-eigenen Security-Server geroutet, der ein binäres **Allow/Deny**-Verdikt zurückgibt. Zieht die aus E-Mail/Web bekannte Inline-Data-Loss-Prevention auf KI-Prompts hoch und deckt mit **einer** org-weiten Konfiguration alle betroffenen Oberflächen ab — ausdrücklich **Chat, Claude Code und Claude Cowork**. Läuft serverseitig, nichts auf den Endgeräten der Nutzer zu installieren. Grenzen: Verdikt ist nur Allow/Deny (kein Umschreiben/Redigieren), Anhänge kommen nur als Metadaten + extrahierter Text an (reine Bild-/Screenshot-Inhalte bleiben ungeprüft). Neben DLP nennt die Doku drei weitere Einsätze: Echtzeit-Transcript-Archivierung (Push statt Compliance-API-Polling), Prompt-Telemetrie zum Nutzungszeitpunkt und eigene Policy-Engines (z. B. Modell-Allowlists, projekt-scoped Restriktionen).
+- **Einsatz:** Org-Admin-Feature auf **Claude Enterprise** — org-weit konfigurierbar; kein CLI-Kommando. Betrifft dich als Claude-Code-Nutzer, wenn deine Organisation es aktiviert (dann können einzelne Prompts serverseitig geblockt werden).
+- **Mehrwert:** Sicherheits-/Compliance-Teams können bestehende DLP-Kontrollen erstmals **einheitlich** über alle Claude-Oberflächen inkl. Claude Code legen, ohne Client-Agenten auszurollen — sensible Daten werden vor dem Modellzugriff abgefangen.
+- **Version:** Blog-Ankündigung 05.08.2026 (Claude Enterprise, Beta) — keine CLI-Version
+
+---
 
 ### Woche 32 (5. August 2026) — v2.1.222
 
