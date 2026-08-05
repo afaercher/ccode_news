@@ -1,11 +1,53 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-04 18:00 UTC (Bestätigungs-Crawl 04.08. 18:00 UTC: keine neuen Einträge seit 12:00 UTC. **v2.1.221** (04.08.) weiterhin neueste CLI — GitHub-Releases + offizielles Changelog gegenbestätigt, kein v2.1.222+ (WebSearch-Treffer beschrieben nur bereits dokumentierte v2.1.219/221-Fixes → keine neue Version). Weiterhin: Platform-Release-Notes-URL nicht erreichbar (DNS/404); Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. Bereits dokumentiert: Focus-View (`Ctrl+Alt+F`), Sandbox-Credential-Masking `mode: "mask"`, `prompt-audit`-Skill, selbstständig committende Background-Sessions, `/fork`-Worktree, `/status`-Session-Art, große Bugfix-Runde. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-05 06:00 UTC (Crawl 05.08. 06:00 UTC: **NEU v2.1.222** dokumentiert — Worktree-Isolation gilt jetzt für Datei-Edits & Bash in allen Session-Arten (Security-Fix gegen destruktive Git-Befehle am Haupt-Checkout), PreToolUse-Auto-Allow-Hooks umgehen keine Tool-Restriktionen mehr in Background-Tasks, Auto-Mode prüft `SendMessage`-Nachrichten vor Versand per Permission-Classifier, Remote-Control-Auto-Start nicht mehr per Repo-lokalen Settings aktivierbar, **Ultraplan entfernt**, plus große Bugfix-Runde (`/usage`-MCP-Attribution, HTTPS-Proxy-Startup, PR-Verlinkung nach Push, org-Modell-Step-Down, rohe Git-Blob-Diffs). Weiterhin: Platform-Release-Notes-URL nicht erreichbar (404); Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 32 (5. August 2026) — v2.1.222
+
+---
+
+### [Worktree-Isolation gilt jetzt für Datei-Edits & Bash in allen Session-Arten]
+- **Was:** Fix einer Sicherheitslücke: Worktree-isolierte Sessions und ihre Subagenten konnten destruktive Git-Befehle gegen den Haupt-Checkout ausführen. Die Isolation greift jetzt für Datei-Edits **und** Bash in jeder Session-Art.
+- **Einsatz:** Automatisch aktiv (betrifft `/fork`-Worktrees, `isolation: worktree`-Agenten u. Ä.).
+- **Mehrwert:** Eine isolierte Session kann den Arbeitsstand der Ursprungs-Session nicht mehr versehentlich oder durch einen Umweg beschädigen — echte Sandbox-Grenze statt Teil-Isolation.
+- **Version:** v2.1.222
+
+### [PreToolUse-Auto-Allow-Hooks umgehen keine Tool-Restriktionen mehr in Background-Agent-Tasks]
+- **Was:** Fix: `PreToolUse`-Hooks mit Auto-Allow konnten Tool-Beschränkungen in Background-Agent-Tasks (Zusammenfassungen, Compaction, Umbenennungen) aushebeln. Das ist unterbunden.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Schließt einen Permission-Bypass, bei dem interne Hintergrund-Tasks mehr durften, als die konfigurierten Restriktionen erlaubten.
+- **Version:** v2.1.222
+
+### [Auto-Mode: SendMessage-Nachrichten vor Versand vom Permission-Classifier geprüft]
+- **Was:** Verbesserte Auto-Mode-Sicherheit: Nachrichten, die per `SendMessage` an andere Agent-Sessions gehen, werden jetzt vor dem Dispatch vom Permission-Classifier bewertet.
+- **Einsatz:** Automatisch aktiv (Auto-Mode).
+- **Mehrwert:** Verhindert, dass über Agent-zu-Agent-Kommunikation riskante Anweisungen ungeprüft an eine andere Session weitergereicht werden.
+- **Version:** v2.1.222
+
+### [Remote-Control-Auto-Start nicht mehr per Repo-lokalen Settings aktivierbar]
+- **Was:** Repo-lokale Settings (`.claude/settings.json` / `.claude/settings.local.json`) können Remote-Control-Auto-Start nur noch **abschalten**, nicht mehr **einschalten**. Aktivieren geht jetzt ausschließlich auf User-Ebene über `/config`.
+- **Einsatz:** Remote Control auf User-Ebene per `/config` einschalten.
+- **Mehrwert:** Ein geklontes/fremdes Repo kann nicht mehr durch eingecheckte Settings ungefragt die Fernsteuerung deiner Session aktivieren — reduziert die Angriffsfläche bei nicht vertrauenswürdigen Projekten.
+- **Version:** v2.1.222
+
+### [Ultraplan entfernt]
+- **Was:** Das Ultraplan-Feature (Cloud-Plan aus dem CLI entwerfen, im Web-Editor kommentieren, remote/lokal ausführen) wurde entfernt.
+- **Einsatz:** Nicht mehr verfügbar.
+- **Mehrwert:** Aufräumen einer nicht weitergeführten Preview-Funktion; relevant, falls du Workflows darauf gestützt hattest — dann auf andere Plan-Mechanismen umstellen.
+- **Version:** v2.1.222
+
+### [Bugfix-Sammlung v2.1.222]
+- **Was:** Weitere Fix-Runde: `/usage` überattribuierte Verbrauch an MCP-Server (Anteil zählt jetzt nur Requests, die tatsächlich MCP-Tool-Ergebnisse konsumiert haben) — analog zählte `--ax-screen-reader`; `/usage-credits` auf Team/Enterprise zeigte fälschlich „Anfrage bereits gesendet", obwohl die frühere verworfen wurde (blockierte neue Anfrage); Startup-Connectivity-Check hing/scheiterte hinter HTTPS-Proxy (nutzt jetzt denselben proxy-fähigen Transport wie API-Requests, mit klarem Timeout); „Connection closed mid-response" wurde für bereits abgeschlossene Responses gemeldet; Sessions verlinkten keine PRs, die erst nach dem Push des Branches (auch via GitHub-REST-API) erstellt wurden; org-restringierte `model: opus`-Subagent-/Teammate-Aliase fielen auf das Parent-Modell zurück statt aufs neueste org-erlaubte Familienmodell; Stream-Idle-Timeout feuerte auf eigenen `ANTHROPIC_BASE_URL`-Gateways trotz eintreffender Keep-Alive-Pings; claude.ai-Connectors wurden bei ungültigem Session-Token fälschlich als „braucht Autorisierung" markiert (zeigen jetzt `/login`-Hinweis); Tool-Fehler wurden für lokal nicht mehr verfügbare Tools (z. B. nach MCP-Server-Entfernung) nicht angezeigt; `SendMessage` lehnte lange Summaries ab (kürzt jetzt statt zu scheitern); Effort-Label im Subagent-Transkript zeigte Session- statt Subagent-Effort; seltene Crashes bei Filewatcher-Fehlern/-Teardown; Screen-Reader lasen in `--ax-screen-reader` bei jedem Backspace die ganze Zeile neu (echoen jetzt nur die gelöschten Zeichen); Host-Model-Selection-Keys hatten keinen Vorrang vor veralteter `managed-settings.json` bei gesetztem `CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST`. Zusätzlich: Skill-Refusal bei `disable-model-invocation` weist Claude jetzt an, dich um die Ausführung zu bitten, statt den Workflow nachzubauen; `/diff`, Remote-Control-Workspace-Diff und Datei-Edit-Diffs (auch Web) nutzen rohen Git-Blob-Content und ignorieren Workspace-Diff-Driver/textconv.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Genauere `/usage`-Zuordnung, robuster Betrieb hinter Proxys/eigenen Gateways, korrekte PR-Verlinkung und Modell-Step-Downs sowie verlässlichere Diffs und Screen-Reader-Ausgabe.
+- **Version:** v2.1.222
+
+---
 
 ### Woche 32 (4. August 2026) — v2.1.221
 
