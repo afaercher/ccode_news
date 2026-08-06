@@ -1,11 +1,59 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-05 18:00 UTC (Crawl 05.08. 18:00 UTC: **NEU** Blog-Ankündigung **05.08.** „Inference hooks: inline data loss prevention for Claude Enterprise" dokumentiert (org-weite Prompt-Prüfung vor der Inferenz, gilt u. a. für **Claude-Code-Sessions**). CLI weiterhin v2.1.222 (04.08.) — kein v2.1.223+ (GitHub gegenbestätigt); Platform-Release-Notes-URL weiterhin nicht auflösbar (DNS/404); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Vorheriger Crawl 05.08. 12:00 UTC: keine neuen Einträge seit 06:00 UTC — v2.1.222 (04.08.) neueste CLI, Blog Top damals **28.07.**. — Vorheriger Crawl 05.08. 06:00 UTC: **NEU v2.1.222** dokumentiert — Worktree-Isolation gilt jetzt für Datei-Edits & Bash in allen Session-Arten (Security-Fix gegen destruktive Git-Befehle am Haupt-Checkout), PreToolUse-Auto-Allow-Hooks umgehen keine Tool-Restriktionen mehr in Background-Tasks, Auto-Mode prüft `SendMessage`-Nachrichten vor Versand per Permission-Classifier, Remote-Control-Auto-Start nicht mehr per Repo-lokalen Settings aktivierbar, **Ultraplan entfernt**, plus große Bugfix-Runde (`/usage`-MCP-Attribution, HTTPS-Proxy-Startup, PR-Verlinkung nach Push, org-Modell-Step-Down, rohe Git-Blob-Diffs). Weiterhin: Platform-Release-Notes-URL nicht erreichbar (404); Blog Top **28.07.** („Bringing MCP to Claude"); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-06 06:00 UTC (Crawl 06.08. 06:00 UTC: **NEU v2.1.223** (06.08.) dokumentiert — Marketplace-Wildcards `"owner/*"` für `strictKnownMarketplaces`/`blockedMarketplaces`, Warnung bei restriktiertem Subagenten-Modell, `/teleport`-Hint in Cloud-Sessions, Security-Fix-Runde (Bash-Permission-Bypass durch präparierte Befehle, unsichtbare Unicode-/Tab-Padding-Verschleierung im Approval-Dialog, Workflow-Sandbox-Escape per dynamischem `import()`, `bypassPermissions`-Agenten ignorierten Org-Disable-Policy), Kontextfenster-Härtung (`CLAUDE_CODE_DISABLE_1M_CONTEXT` generalisiert, Auto-Compact für unbekannte Modell-IDs), `/review` jetzt Alias von `/code-review` (mit Effort-Level-Merken), plus Bugfix-Runde (leere Sessions nach `/cd`+Resume, Gateway-Modell-Discovery mit Provider-Präfixen, `modelOverrides`-Fremdschlüssel, Managed-Settings-Env-Merge, Linux-Sandbox `denyWrite` aufs Arbeitsverzeichnis, festhängende geforkte Background-Agenten, kaputte Diagnostics-Attachments, `git push`-Parse-Hang). Blog Top weiterhin **05.08.** (Inference Hooks); Platform-Release-Notes-URL weiterhin nicht auflösbar (DNS); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Vorheriger Crawl 05.08. 18:00 UTC: **NEU** Blog-Ankündigung 05.08. „Inference hooks: inline data loss prevention for Claude Enterprise" (org-weite Prompt-Prüfung vor der Inferenz, gilt u. a. für Claude-Code-Sessions); CLI damals v2.1.222 (04.08.). — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 32 (6. August 2026) — v2.1.223
+
+---
+
+### [Security-Fix-Runde: Permission-Bypasses & Workflow-Sandbox-Escape geschlossen]
+- **Was:** Vier Sicherheitslücken gefixt: (1) Ein präparierter Bash-Befehl konnte Teile von sich vor der Permission-Prüfung verstecken. (2) Befehle, die mit Tabs oder unsichtbaren Unicode-Zeichen aufgefüllt waren, konnten Teile des Befehls im Approval-Dialog verbergen. (3) Workflow-Skripte konnten per dynamischem `import()` Code außerhalb der Workflow-Sandbox ausführen. (4) Der `bypassPermissions`-Modus einer Agent-Definition ignorierte die Org-Policy, die Bypass-Permissions deaktiviert.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Was im Approval-Dialog steht, ist jetzt wieder das, was tatsächlich läuft — und weder Workflow-Skripte noch Agent-Definitionen können konfigurierte Schranken umgehen. Wichtiges Update für alle, die mit Auto-Mode, Workflows oder Org-Policies arbeiten.
+- **Version:** v2.1.223
+
+### [Marketplace-Wildcards: ganze GitHub-Orgs erlauben oder blocken]
+- **Was:** Die Managed Settings `strictKnownMarketplaces` und `blockedMarketplaces` akzeptieren jetzt Owner-Wildcards wie `"owner/*"`, um alle Marketplace-Repos einer GitHub-Organisation auf einmal zu erlauben bzw. zu blocken.
+- **Einsatz:** In den Managed Settings z. B. `"blockedMarketplaces": ["untrusted-org/*"]` oder `"strictKnownMarketplaces": ["my-company/*"]` eintragen.
+- **Mehrwert:** Admins müssen nicht mehr jedes einzelne Plugin-Repo pflegen — eine Zeile deckt die ganze Org ab.
+- **Version:** v2.1.223
+
+### [Warnung bei restriktiertem Subagenten-Modell]
+- **Was:** Wenn das von Workflow-Agenten, geforkten Skills, Slash-Commands oder wiederaufgenommenen Background-Agenten angeforderte Subagenten-Modell per Policy restriktiert ist und stattdessen das Parent-Modell läuft, erscheint jetzt eine Warnung.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Kein stilles Downgrade mehr — man sieht sofort, wenn ein Agent nicht mit dem konfigurierten Modell läuft, statt sich über abweichende Ergebnisse zu wundern.
+- **Version:** v2.1.223
+
+### [`/teleport`-Hint: Cloud-Session lokal weiterführen]
+- **Was:** Cloud-Sessions zeigen jetzt einen Hinweis, wie man sie lokal fortsetzt: `claude --teleport <session id>`.
+- **Einsatz:** `claude --teleport <session id>` im Terminal.
+- **Mehrwert:** Der Weg von der Cloud-Session zurück auf die eigene Maschine ist jetzt direkt in der Session dokumentiert — kein Suchen in der Doku.
+- **Version:** v2.1.223
+
+### [Kontextfenster-Härtung: 1M-Opt-out generalisiert, Auto-Compact für unbekannte Modelle]
+- **Was:** `CLAUDE_CODE_DISABLE_1M_CONTEXT` hält jetzt **jedes** Claude-Modell mit nativem 1M-Fenster per Auto-Compaction auf 200K (vorher nur eine feste Modell-Liste); eine Startup-Warnung erscheint, wenn die Auto-Compaction die Session nicht auf 200K hält. Außerdem hält Auto-Compact Sessions auf unbekannten Modell-IDs jetzt innerhalb des angenommenen Kontextfensters, statt sie darüber hinauswachsen zu lassen (`CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT=1` stellt das alte Verhalten wieder her).
+- **Einsatz:** `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` setzen, um 1M-Kontext (und dessen Kosten) zu vermeiden; sonst automatisch aktiv.
+- **Mehrwert:** Kostenkontrolle funktioniert jetzt zuverlässig auch für neue 1M-Modelle und Gateway-/Custom-Modell-IDs — keine unbemerkt explodierenden Kontexte mehr.
+- **Version:** v2.1.223
+
+### [`/review` ist jetzt Alias von `/code-review` — mit Effort-Level-Gedächtnis]
+- **Was:** `/review` ist nur noch ein Alias von `/code-review`, das den aktuellen Diff oder eine PR reviewt (`/code-review <level> <pr#>`); für das tiefe Cloud-Review gibt es `/code-review ultra`. Außerdem merkt sich `/code-review` ohne Angabe das zuletzt getippte Effort-Level.
+- **Einsatz:** `/code-review`, `/code-review high`, `/code-review ultra <pr#>`.
+- **Mehrwert:** Ein Kommando statt zwei überlappender; das gemerkte Effort-Level spart Tipparbeit bei wiederholten Reviews.
+- **Version:** v2.1.223
+
+### [Bugfix-Runde v2.1.223]
+- **Was:** Umfangreiche Fixes: Session-Resume nach einem Mid-Session-`/cd` kommt nicht mehr leer zurück; Gateway-Modell-Discovery versteckt keine Claude-Modelle mit Provider-Präfix mehr (`vertex_ai/claude-*`, `bedrock/anthropic.claude-*`); `modelOverrides`-Schlüssel, die keine Anthropic-Modell-IDs sind, werden wie dokumentiert ignoriert statt als kanonische Modell-ID missverstanden; server-gelieferte Managed Settings deaktivieren nicht mehr den Env-Block einer lokalen `managed-settings.json` (Admin-Env merged jetzt pro Schlüssel); sandboxte Befehle starten auf Linux auch, wenn `sandbox.filesystem.denyWrite` das Arbeitsverzeichnis abdeckt; geforkte Background-Agenten hängen nach fehlgeschlagenem Prompt-Rebuild nicht mehr dauerhaft in „already resuming"; Sessions mit kaputtem Diagnostics-Attachment schlagen nicht mehr jede Runde fehl; seltener Hang beim Parsen ungewöhnlicher `git push`-Ausgaben behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Stabilere Resume-, Gateway- und Sandbox-Workflows; besonders relevant für Enterprise-Setups (Managed Settings) und Bedrock/Vertex-Nutzer.
+- **Version:** v2.1.223
+
+---
 
 ### Blog-Ankündigung (5. August 2026)
 
