@@ -1,11 +1,89 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-06 18:00 UTC (Bestätigungs-Crawl 06.08. 18:00 UTC: **keine neuen Einträge** seit dem Crawl um 06:00 UTC. **v2.1.223** (06.08.) ist weiterhin die neueste CLI-Version — GitHub-Releases **und** offizielles `CHANGELOG.md` gegenbestätigt, kein v2.1.224+. Blog-Announcements Top weiterhin **05.08.** („Inference hooks"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. Alle vier Quellen gegengeprüft. — Vorheriger Crawl 06.08. 06:00 UTC: **NEU v2.1.223** (06.08.) dokumentiert — Marketplace-Wildcards `"owner/*"` für `strictKnownMarketplaces`/`blockedMarketplaces`, Warnung bei restriktiertem Subagenten-Modell, `/teleport`-Hint in Cloud-Sessions, Security-Fix-Runde (Bash-Permission-Bypass durch präparierte Befehle, unsichtbare Unicode-/Tab-Padding-Verschleierung im Approval-Dialog, Workflow-Sandbox-Escape per dynamischem `import()`, `bypassPermissions`-Agenten ignorierten Org-Disable-Policy), Kontextfenster-Härtung (`CLAUDE_CODE_DISABLE_1M_CONTEXT` generalisiert, Auto-Compact für unbekannte Modell-IDs), `/review` jetzt Alias von `/code-review` (mit Effort-Level-Merken), plus Bugfix-Runde (leere Sessions nach `/cd`+Resume, Gateway-Modell-Discovery mit Provider-Präfixen, `modelOverrides`-Fremdschlüssel, Managed-Settings-Env-Merge, Linux-Sandbox `denyWrite` aufs Arbeitsverzeichnis, festhängende geforkte Background-Agenten, kaputte Diagnostics-Attachments, `git push`-Parse-Hang). Blog Top weiterhin **05.08.** (Inference Hooks); Platform-Release-Notes-URL weiterhin nicht auflösbar (DNS); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-07 06:00 UTC (Crawl 07.08. 06:00 UTC: **NEU v2.1.224** (07.08.) dokumentiert — **Self-hosted Environments** (`claude self-hosted-runner`: Web-/Mobile-/Desktop-Sessions laufen auf eigenen Maschinen/Containern, Team & Enterprise), **Cross-Session-`SendMessage`** (Sessions können sich maschinenübergreifend Nachrichten schicken, `ListAgents` zum Finden, macOS/Linux) mit neuen Settings `crossSessionInbound`/`dialogExpiry`, **`archive`-Plugin-Source** (Plugin als Zip über HTTPS, optionales SHA-256-Pinning), erweiterte **Sandbox-Credential-Masking** (`extract`/`onExtractNoMatch`, `decode: "jwt"` + `maskClaims`, `awsPairs`/`sigv4`-Re-Signing), `ANTHROPIC_BEDROCK_REGION_PREFIX`, **Security-Fixes** (lange Projektpfade trafen fremde Session-Verzeichnisse, Sandbox-Deny-Einträge mit Slash am Ende umgehbar, Sandbox-Verstöße jetzt im Bash-Ergebnis sichtbar), **200-Subagenten-Cap entfernt**, große Remote-Control-Runde, plus **Datenschutz-relevante Änderung am Feedback-Transkript-Share** (lädt mit Zustimmung jetzt auch System-Prompt inkl. `CLAUDE.md` hoch). Zusätzlich **NEU Blog-Ankündigung 06.08.** „Run Claude Code sessions on your own compute" (Fixed-/On-demand-Runner, ZDR ausgeschlossen). GitHub-Releases **und** offizielles `CHANGELOG.md` gegenbestätigt. What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. — Vorheriger Crawl 06.08. 18:00 UTC: **keine neuen Einträge** seit dem Crawl um 06:00 UTC. **v2.1.223** (06.08.) ist weiterhin die neueste CLI-Version — GitHub-Releases **und** offizielles `CHANGELOG.md` gegenbestätigt, kein v2.1.224+. Blog-Announcements Top weiterhin **05.08.** („Inference hooks"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. Alle vier Quellen gegengeprüft. — Vorheriger Crawl 06.08. 06:00 UTC: **NEU v2.1.223** (06.08.) dokumentiert — Marketplace-Wildcards `"owner/*"` für `strictKnownMarketplaces`/`blockedMarketplaces`, Warnung bei restriktiertem Subagenten-Modell, `/teleport`-Hint in Cloud-Sessions, Security-Fix-Runde (Bash-Permission-Bypass durch präparierte Befehle, unsichtbare Unicode-/Tab-Padding-Verschleierung im Approval-Dialog, Workflow-Sandbox-Escape per dynamischem `import()`, `bypassPermissions`-Agenten ignorierten Org-Disable-Policy), Kontextfenster-Härtung (`CLAUDE_CODE_DISABLE_1M_CONTEXT` generalisiert, Auto-Compact für unbekannte Modell-IDs), `/review` jetzt Alias von `/code-review` (mit Effort-Level-Merken), plus Bugfix-Runde (leere Sessions nach `/cd`+Resume, Gateway-Modell-Discovery mit Provider-Präfixen, `modelOverrides`-Fremdschlüssel, Managed-Settings-Env-Merge, Linux-Sandbox `denyWrite` aufs Arbeitsverzeichnis, festhängende geforkte Background-Agenten, kaputte Diagnostics-Attachments, `git push`-Parse-Hang). Blog Top weiterhin **05.08.** (Inference Hooks); Platform-Release-Notes-URL weiterhin nicht auflösbar (DNS); What's-New Top **Week 29** (13.–17.7.), Week 30/31/32 noch unveröffentlicht. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 32 (7. August 2026) — v2.1.224
+
+---
+
+### [Self-hosted Environments — Cloud-Sessions auf eigener Hardware laufen lassen]
+- **Was:** Neues Deployment-Modell: `claude self-hosted-runner` macht eigene Maschinen oder Container zu dem Ort, an dem Claude-Code-Sessions von **Web, Mobile und Desktop** tatsächlich ausgeführt werden — statt auf Anthropic-Servern. Die Session läuft damit **innerhalb des eigenen Netzes** und erreicht interne Services, Datenbanken und Registries. Zwei Betriebsarten: **Fixed** (feste Anzahl langlaufender Runner, Sessions werden verteilt) und **On-demand** (ein Orchestrator startet Runner, wenn Sessions anstehen, und skaliert mit der Last). Jede Session bekommt ihren eigenen isolierten Checkout, sodass sich Entwickler nicht gegenseitig stören.
+- **Einsatz:** `claude self-hosted-runner` auf der Zielmaschine/im Container starten; Runner-Image und (bei On-demand) Orchestrator betreibt das eigene Plattform-Team. Nur auf **Team- und Enterprise-Plänen**, standardmäßig **deaktiviert**.
+- **Mehrwert:** Repository-Checkouts, Build-Artefakte und Secrets bleiben auf der eigenen Infrastruktur, und Sessions von allen Oberflächen laufen über **ein** Deployment. Für Teams, die Cloud-Sessions bisher wegen Netzwerk-/Compliance-Grenzen nicht nutzen konnten, ist das der Türöffner. Wichtige Einschränkungen: Conversation-Transkripte gehen weiterhin zur Inferenz an Anthropic, für Orgs mit **Zero Data Retention (ZDR) nicht verfügbar**, und der Betrieb (Images, Updates, Orchestrator) kostet echte Team-Ressourcen. Nicht zu verwechseln mit Remote Control, das auf der eigenen Maschine des Nutzers arbeitet.
+- **Version:** v2.1.224 (+ Blog-Ankündigung 06.08.2026)
+
+### [Cross-Session-`SendMessage` — Sessions reden maschinenübergreifend miteinander]
+- **Was:** Claude-Code-Sessions können sich jetzt gegenseitig Nachrichten schicken — **auch über Maschinengrenzen hinweg** —, und `ListAgents` findet die erreichbaren Sessions (macOS und Linux). Dazu zwei neue Settings: `crossSessionInbound` hält Nachrichten an eine Session, die mit umgangenen Permissions läuft, zur manuellen Freigabe zurück, während Nachrichten an andere Sessions automatisch zugestellt werden; `dialogExpiry` steuert, wie lange so ein Dialog offen bleibt.
+- **Einsatz:** `SendMessage` bzw. `ListAgents` im Agenten; Freigabe-Verhalten über `crossSessionInbound` und `dialogExpiry` in den Settings konfigurieren.
+- **Mehrwert:** Mehrere parallel laufende Sessions — auch auf verschiedenen Rechnern — lassen sich zu einem koordinierten Team verschalten, statt jede isoliert zu betreiben. Das `crossSessionInbound`-Gate verhindert dabei, dass eine Session mit `bypassPermissions` ungefragt Anweisungen von außen ausführt.
+- **Version:** v2.1.224
+
+### [`archive`-Plugin-Source — Plugins als Zip über HTTPS, ohne Git und npm]
+- **Was:** Neue Plugin-Quelle `archive`: Ein Plugin lässt sich direkt aus einem Zip über HTTPS installieren, ganz ohne Git- oder npm-Toolchain — optional mit **SHA-256-Pinning** des Archivs.
+- **Einsatz:** Plugin-Source vom Typ `archive` mit der HTTPS-URL des Zips eintragen, optional den SHA-256-Hash zum Pinnen dazu.
+- **Mehrwert:** Plugin-Verteilung in Umgebungen ohne Git/npm-Zugang (Air-gapped, restriktive Enterprise-Netze) wird möglich, und das Hash-Pinning macht die Installation reproduzierbar und manipulationssicher.
+- **Version:** v2.1.224
+
+### [Sandbox-Credential-Masking: JWT-Claims, strukturierte Werte und AWS-SigV4]
+- **Was:** Die Credential-Maskierung der Sandbox versteht jetzt deutlich mehr Formate: `extract` (plus `onExtractNoMatch` als Fallback-Verhalten) zieht das Geheimnis aus strukturierten Env-Werten heraus, `decode: "jwt"` zusammen mit `maskClaims` maskiert gezielt einzelne Claims innerhalb eines JWT, und `awsPairs`/`sigv4` signieren AWS-SigV4-Requests neu. Alle drei brauchen `network.tlsTerminate` und werden nur aus User-, Managed- oder `--settings`-Settings übernommen (nicht aus Repo-Settings).
+- **Einsatz:** In der Sandbox-Konfiguration unter den Credential-Masking-Optionen setzen; `network.tlsTerminate` muss aktiv sein.
+- **Mehrwert:** Echte Zugangsdaten bleiben vor dem Modell verborgen, auch wenn sie in JSON-Werten, JWTs oder AWS-Signaturen stecken — der Request funktioniert trotzdem, weil die Sandbox ihn neu signiert. Dass die Optionen nicht aus Repo-Settings ziehen, verhindert, dass ein fremdes Repo die Maskierung entschärft.
+- **Version:** v2.1.224
+
+### [`ANTHROPIC_BEDROCK_REGION_PREFIX` — Cross-Region-Inference-Profil selbst wählen]
+- **Was:** Neue Env-Variable für Amazon Bedrock: Damit lässt sich ein bestimmtes Cross-Region-Inference-Profil bevorzugen, statt das aus `AWS_REGION` abgeleitete zu nehmen.
+- **Einsatz:** `ANTHROPIC_BEDROCK_REGION_PREFIX=<präfix>` setzen (z. B. für ein `eu`- oder `us`-Profil).
+- **Mehrwert:** Bedrock-Nutzer können Inferenz gezielt in der gewünschten Region-Gruppe halten — relevant für Data-Residency-Vorgaben — ohne dafür `AWS_REGION` umbiegen zu müssen.
+- **Version:** v2.1.224
+
+### [Security-Fixes: Session-Verzeichnisse, Sandbox-Deny-Pfade und sichtbare Sandbox-Verstöße]
+- **Was:** Drei sicherheitsrelevante Fixes: (1) Projektpfade über 200 Zeichen konnten unter einem gemeinsamen sanitisierten Präfix auf das Session-Verzeichnis eines **anderen** Projekts zeigen — Session-Liste, Umbenennen, Fork, Löschen und `/resume` greifen jetzt nicht mehr projektübergreifend zu. (2) Sandbox-Filesystem-Deny-Einträge mit Schrägstrich am Ende (z. B. `denyRead: "~/.aws/"`) ließen sich auf Linux und macOS still umgehen. (3) Details zu Sandbox-Verstößen tauchten nie im Bash-Tool-Ergebnis auf — Claude sieht jetzt, welcher Datei- oder Netzwerkzugriff warum verweigert wurde.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Wer tiefe Verzeichnisstrukturen hat, riskiert keine Session-Vermischung zwischen Projekten mehr; ein `denyRead` schützt jetzt auch mit Slash am Ende zuverlässig; und Claude läuft nicht mehr blind gegen eine Sandbox-Wand, sondern kann die Ursache benennen und einen anderen Weg wählen.
+- **Version:** v2.1.224
+
+### [200-Subagenten-Limit pro Session entfernt]
+- **Was:** Der Cap von 200 gespawnten Subagenten pro Session ist weg — langlaufende Sessions verweigern keine neuen Agenten mehr. Concurrency- und Tiefen-Limits gelten weiterhin.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Marathon-Sessions mit vielen Workflows oder Fan-out-Läufen laufen nicht mehr irgendwann in eine harte Wand, bei der man die Session nur zum Zurücksetzen des Zählers neu starten musste.
+- **Version:** v2.1.224
+
+### [Feedback-Transkript-Share lädt jetzt auch System-Prompt und Tool-Definitionen hoch]
+- **Was:** Der Transkript-Share der Feedback-Umfrage überträgt mit Zustimmung jetzt zusätzlich die Modell-Einstellungen des letzten Requests: den **System-Prompt (der die eigenen `CLAUDE.md`-Anweisungen enthält)**, die Tool-Definitionen und die Modell-Parameter. Secrets werden wie bisher redigiert, und diese Felder fliegen als erstes raus, wenn der Share zu groß wird. Außerdem gefixt: Bei langen Sessions schlug der Share still fehl und meldete trotzdem Erfolg — jetzt gibt es eine Fehlermeldung.
+- **Einsatz:** Betrifft nur den freiwilligen Transkript-Share in der Feedback-Umfrage — schlicht ablehnen, wenn `CLAUDE.md`-Inhalte nicht rausgehen sollen.
+- **Mehrwert:** Aussagekräftigere Bug-Reports, aber bewusst zu entscheiden: Wer projektinterne Anweisungen oder Tool-Definitionen in `CLAUDE.md` stehen hat, teilt beim Zustimmen mehr als nur den Chatverlauf.
+- **Version:** v2.1.224
+
+### [Remote Control: Compaction sichtbar, Reconnect-Anzeige, keine Zombie-Sessions]
+- **Was:** Große Runde für Remote Control: Angehängte Web- und Mobile-Clients sehen jetzt den Compaction-Fortschritt und die Grenze danach statt einer stillen Pause, und `/clear`-Resets werden an sie durchgereicht. Verbindungsfehler zeigen einen **dauerhaften** Fehler-Indikator mit Details und Reconnect-Shortcut statt eines 8-Sekunden-Toasts. Wird nach Compaction oder `/resume` eine frische Session erzeugt, wird die veraltete Server-Session archiviert statt als tote Session in der Liste stehenzubleiben. Dazu Fixes: Auto-Start scheiterte bei kaltem Start mit abgelaufenem Login-Token sporadisch an „Remote credentials fetch failed"; Remote-Control- und SDK-Clients zeigten nach `/clear` und anderen ausgabelosen Kommandos ein leeres „(no content)"; eine nach Ablauf der Server-Session neu erzeugte Remote-Session lud den bisherigen lokalen Verlauf in die neue Session hoch; ein Session-Resume schaltete Remote Control still wieder an, obwohl es der Nutzer ausgeschaltet hatte (`--resume`, SDK-Hosts, VS-Code-Extension); \[VSCode\] die Extension zeigte Remote Control nach einer fehlgeschlagenen Verbindung als verbunden an und beachtete `remoteControlAtStartup` bei explizitem Einschalten nicht.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Wer vom Handy oder Web an einer laufenden Session hängt, sieht endlich, was gerade passiert, statt Stille zu interpretieren — und ein einmal abgeschaltetes Remote Control bleibt abgeschaltet.
+- **Version:** v2.1.224
+
+### [Bugfix-Runde v2.1.224]
+- **Was:** Weitere Fixes: `SendMessage` meldete „Message sent", obwohl der Schreibvorgang in die Inbox des Teammates fehlgeschlagen war — fehlgeschlagene Zustellungen sind jetzt Fehler; MCP-Tools, die mitten im Turn verbinden, wurden für die Tool-Suche zurückgestellt, ohne dem Modell ihre Namen zu nennen; Plugin-Installationsdaten wurden still beschädigt, wenn dasselbe Plugin in mehreren Projekten installiert war; wiederhergestellte Paste-Inhalte hängten gelegentlich falsche Daten an oder verloren still Text, wenn der Paste zu alt war oder Platzhalter-Nummern kollidierten; Copy-on-Select erreichte unter Wayland manchmal die Zwischenablage nicht (die beiden Selection-Writes rennen nicht mehr gegeneinander). Verbessert: Der Fullscreen-Modus behält die vollständige Historie vor der Compaction im Scrollback — über wiederholte Compactions hinweg, nicht mehr nur das letzte Intervall. Geändert: Managed Settings fragen nach Re-Login oder Org-Wechsel nicht erneut nach Zustimmung, solange die Org-Settings unverändert sind; beim Entfernen eines nicht verfügbaren Pastes, das den Befehlstext ändert, gibt es jetzt einen Abbrechen-und-Bestätigen-Schritt; Paste-Platzhalter-Nummern werden beim Übernehmen in die Eingabe neu durchnummeriert; die Beschreibung des Bash-Tools weist jetzt immer darauf hin, dass die Befehlsausgabe dem Modell angezeigt wird, nicht verlässlich dem Nutzer.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Weniger stille Fehlschläge (Nachrichten, Pastes, Plugin-Daten) und ein Fullscreen-Scrollback, das nach mehreren Compactions noch die ganze Sitzung zeigt.
+- **Version:** v2.1.224
+
+---
+
+### Blog-Ankündigung (6. August 2026)
+
+---
+
+### [Run Claude Code sessions on your own compute — Self-hosted Environments offiziell angekündigt]
+- **Was:** Die Blog-Ankündigung zum CLI-Feature aus v2.1.224: Organisationen können Claude-Code-Sessions statt auf Anthropic-Servern auf **eigener Infrastruktur** ausführen. Grundbaustein sind langlaufende Prozesse („Runner"), betrieben entweder im **Fixed**-Modus (feste Runner-Anzahl, Sessions werden verteilt) oder im **On-demand**-Modus (ein Orchestrator startet Runner, sobald Sessions anstehen). Sessions **jeder** unterstützten Oberfläche — Web, Mobile, Desktop und programmatische Routines — landen im selben Environment, also genügt ein Deployment. Jede Session läuft in ihrem eigenen Checkout isoliert.
+- **Einsatz:** Org-Feature auf **Team- und Enterprise-Plänen**, standardmäßig deaktiviert; technisch über `claude self-hosted-runner` (siehe v2.1.224). Setzt ein Plattform-/Developer-Productivity-Team voraus, das Runner-Images baut und pflegt und bei On-demand den Orchestrator betreibt.
+- **Mehrwert:** Code, Build-Artefakte und Secrets verlassen das eigene Netz nicht, und die Session erreicht interne Services, Datenbanken und Registries direkt. Ausdrückliche Grenzen: Conversation-Transkripte gehen zur Inferenz weiterhin an Anthropic, für **ZDR-Organisationen nicht verfügbar**, und der laufende Betrieb ist echter Engineering-Aufwand. Klar abgegrenzt von Remote Control, das auf der vom Nutzer selbst verwalteten Maschine arbeitet.
+- **Version:** Blog-Ankündigung 06.08.2026 (Team & Enterprise) — CLI-seitig v2.1.224
+
+---
 
 ### Woche 32 (6. August 2026) — v2.1.223
 
