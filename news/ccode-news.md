@@ -1,11 +1,107 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-07 18:00 UTC (Crawl 07.08. 18:00 UTC: **Platform-Release-Notes nach Wochen wieder erreichbar** — die bisher mit 404/DNS-Fehler quittierte URL `platform.claude.com/docs/en/release-notes` leitet jetzt per 307 auf `/docs/en/release-notes/system-prompts`; die API-/Plattform-Notes stehen unter `/docs/en/release-notes/overview`. Daraus **6 neue Einträge** nachdokumentiert: Claude Managed Agents bekommen **Session-Budgets** (harte Ausgabengrenze, neuer Stop-Reason `budget_reached`), einen **Advisor** im Multiagent-Roster, **`inference_geo`** zur Steuerung der Inferenz-Region (Data Residency) und **Skills direkt aus dem gemounteten GitHub-Repo** (`.claude/skills`) — alle vier vom **07.08.**; dazu **Claude Opus 4.1 endgültig retired** (05.08., Requests liefern jetzt Fehler, empfohlene Migration ist Opus 5) und **Dreams unterstützt Claude Opus 5** (01.08.). CLI weiterhin **v2.1.224** (07.08.) — GitHub-Releases-API, npm-Registry und offizielles `CHANGELOG.md` gegenbestätigt, kein v2.1.225+. Blog-Announcements Top weiterhin **06.08.** („Run Claude Code sessions on your own compute"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht). — Vorheriger Crawl 07.08. 12:00 UTC: **keine neuen Einträge** seit dem Crawl um 06:00 UTC. **v2.1.224** (07.08.) ist weiterhin die neueste CLI-Version — GitHub-Releases-API **und** npm-Registry (`@anthropic-ai/claude-code@latest`) gegenbestätigt, kein v2.1.225+. Blog-Announcements Top weiterhin **06.08.** („Run Claude Code sessions on your own compute"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. Alle vier Quellen gegengeprüft. — Vorheriger Crawl 07.08. 06:00 UTC: **NEU v2.1.224** (07.08.) dokumentiert — **Self-hosted Environments** (`claude self-hosted-runner`: Web-/Mobile-/Desktop-Sessions laufen auf eigenen Maschinen/Containern, Team & Enterprise), **Cross-Session-`SendMessage`** (Sessions können sich maschinenübergreifend Nachrichten schicken, `ListAgents` zum Finden, macOS/Linux) mit neuen Settings `crossSessionInbound`/`dialogExpiry`, **`archive`-Plugin-Source** (Plugin als Zip über HTTPS, optionales SHA-256-Pinning), erweiterte **Sandbox-Credential-Masking** (`extract`/`onExtractNoMatch`, `decode: "jwt"` + `maskClaims`, `awsPairs`/`sigv4`-Re-Signing), `ANTHROPIC_BEDROCK_REGION_PREFIX`, **Security-Fixes** (lange Projektpfade trafen fremde Session-Verzeichnisse, Sandbox-Deny-Einträge mit Slash am Ende umgehbar, Sandbox-Verstöße jetzt im Bash-Ergebnis sichtbar), **200-Subagenten-Cap entfernt**, große Remote-Control-Runde, plus **Datenschutz-relevante Änderung am Feedback-Transkript-Share** (lädt mit Zustimmung jetzt auch System-Prompt inkl. `CLAUDE.md` hoch). Zusätzlich **NEU Blog-Ankündigung 06.08.** „Run Claude Code sessions on your own compute" (Fixed-/On-demand-Runner, ZDR ausgeschlossen). GitHub-Releases **und** offizielles `CHANGELOG.md` gegenbestätigt. What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. — Vorheriger Crawl 06.08. 18:00 UTC: **keine neuen Einträge** seit dem Crawl um 06:00 UTC. **v2.1.223** (06.08.) ist weiterhin die neueste CLI-Version — GitHub-Releases **und** offizielles `CHANGELOG.md` gegenbestätigt, kein v2.1.224+. Blog-Announcements Top weiterhin **05.08.** („Inference hooks"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. Alle vier Quellen gegengeprüft. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-08 12:00 UTC (Crawl 08.08. 12:00 UTC: **keine neuen Einträge** seit dem Crawl um 06:00 UTC. **v2.1.226** (08.08., 02:48 UTC) ist weiterhin die neueste CLI-Version — GitHub-Releases-API, npm-Registry (`@anthropic-ai/claude-code@latest` = 2.1.226) **und** offizielles `CHANGELOG.md` gegenbestätigt, kein v2.1.227+. Blog-Announcements Top weiterhin **06.08.** („Run Claude Code sessions on your own compute"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes Top weiterhin **07.08.** (Session-Budgets, Advisor, `inference_geo`, GitHub-Skills — alle bereits dokumentiert). Alle vier Quellen gegengeprüft. — Vorheriger Crawl 08.08. 06:00 UTC: **NEU v2.1.225** (08.08.) mit Gateway-Spend-Limit in der Usage-Warnung, Workspace-Trust-Prompt in `claude agents`, aktivem `SendMessage` an Remote-Control-Sessions anderer Maschinen und einer großen Fix-Runde (langlebiger `CLAUDE_CODE_OAUTH_TOKEN` durch transienten 401 zerschossen, MCP-OAuth-401-Salven nach Keychain-Timeout, Auto-Mode-Block-Zähler, still geparkte Cross-Session-Nachrichten, Remote-Control-Resume nach Compact, Hover-Verzeichniswechsel in der Agents-Liste, `claude self-hosted-runner` Fail-fast, Web-Session-Event-Backlog, Remote-Control-Fotos direkt an Claude, VSCode-Focus-View) sowie **NEU v2.1.226** (08.08.) als reine Bugfix-/Stabilitäts-Runde. — Vorheriger Crawl 07.08. 18:00 UTC: **Platform-Release-Notes nach Wochen wieder erreichbar** — die bisher mit 404/DNS-Fehler quittierte URL `platform.claude.com/docs/en/release-notes` leitet jetzt per 307 auf `/docs/en/release-notes/system-prompts`; die API-/Plattform-Notes stehen unter `/docs/en/release-notes/overview`. Daraus **6 neue Einträge** nachdokumentiert: Claude Managed Agents bekommen **Session-Budgets** (harte Ausgabengrenze, neuer Stop-Reason `budget_reached`), einen **Advisor** im Multiagent-Roster, **`inference_geo`** zur Steuerung der Inferenz-Region (Data Residency) und **Skills direkt aus dem gemounteten GitHub-Repo** (`.claude/skills`) — alle vier vom **07.08.**; dazu **Claude Opus 4.1 endgültig retired** (05.08., Requests liefern jetzt Fehler, empfohlene Migration ist Opus 5) und **Dreams unterstützt Claude Opus 5** (01.08.). CLI weiterhin **v2.1.224** (07.08.) — GitHub-Releases-API, npm-Registry und offizielles `CHANGELOG.md` gegenbestätigt, kein v2.1.225+. Blog-Announcements Top weiterhin **06.08.** („Run Claude Code sessions on your own compute"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht). — Vorheriger Crawl 07.08. 12:00 UTC: **keine neuen Einträge** seit dem Crawl um 06:00 UTC. **v2.1.224** (07.08.) ist weiterhin die neueste CLI-Version — GitHub-Releases-API **und** npm-Registry (`@anthropic-ai/claude-code@latest`) gegenbestätigt, kein v2.1.225+. Blog-Announcements Top weiterhin **06.08.** („Run Claude Code sessions on your own compute"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. Alle vier Quellen gegengeprüft. — Vorheriger Crawl 07.08. 06:00 UTC: **NEU v2.1.224** (07.08.) dokumentiert — **Self-hosted Environments** (`claude self-hosted-runner`: Web-/Mobile-/Desktop-Sessions laufen auf eigenen Maschinen/Containern, Team & Enterprise), **Cross-Session-`SendMessage`** (Sessions können sich maschinenübergreifend Nachrichten schicken, `ListAgents` zum Finden, macOS/Linux) mit neuen Settings `crossSessionInbound`/`dialogExpiry`, **`archive`-Plugin-Source** (Plugin als Zip über HTTPS, optionales SHA-256-Pinning), erweiterte **Sandbox-Credential-Masking** (`extract`/`onExtractNoMatch`, `decode: "jwt"` + `maskClaims`, `awsPairs`/`sigv4`-Re-Signing), `ANTHROPIC_BEDROCK_REGION_PREFIX`, **Security-Fixes** (lange Projektpfade trafen fremde Session-Verzeichnisse, Sandbox-Deny-Einträge mit Slash am Ende umgehbar, Sandbox-Verstöße jetzt im Bash-Ergebnis sichtbar), **200-Subagenten-Cap entfernt**, große Remote-Control-Runde, plus **Datenschutz-relevante Änderung am Feedback-Transkript-Share** (lädt mit Zustimmung jetzt auch System-Prompt inkl. `CLAUDE.md` hoch). Zusätzlich **NEU Blog-Ankündigung 06.08.** „Run Claude Code sessions on your own compute" (Fixed-/On-demand-Runner, ZDR ausgeschlossen). GitHub-Releases **und** offizielles `CHANGELOG.md` gegenbestätigt. What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. — Vorheriger Crawl 06.08. 18:00 UTC: **keine neuen Einträge** seit dem Crawl um 06:00 UTC. **v2.1.223** (06.08.) ist weiterhin die neueste CLI-Version — GitHub-Releases **und** offizielles `CHANGELOG.md` gegenbestätigt, kein v2.1.224+. Blog-Announcements Top weiterhin **05.08.** („Inference hooks"), What's-New Top weiterhin **Week 29** (13.–17.7., Week 30/31/32 unveröffentlicht), Platform-Release-Notes-URL weiterhin **404**. Alle vier Quellen gegengeprüft. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 32 (8. August 2026) — v2.1.226
+
+---
+
+### [v2.1.226 — reine Bugfix- und Stabilitäts-Runde]
+- **Was:** Die Version bringt laut offiziellem Changelog ausschließlich „Bug fixes and reliability improvements" — keine neuen Features, keine neuen Settings, keine Verhaltensänderungen, die dokumentiert wären. Sie folgt keine zwei Stunden auf v2.1.225 und ist damit typischerweise ein Nachzügler-Release, das Regressionen der vorherigen Runde glättet.
+- **Einsatz:** Automatisch aktiv — `claude update` bzw. beim nächsten Start des Auto-Updaters.
+- **Mehrwert:** Update ist risikoarm mitzunehmen. Wer v2.1.225 bereits eingespielt hat, sollte direkt auf v2.1.226 gehen, weil Fixes so kurz nach einem Feature-Release fast immer genau dessen Kanten betreffen.
+- **Version:** v2.1.226
+
+---
+
+### Woche 32 (8. August 2026) — v2.1.225
+
+---
+
+### [Gateway-Spend-Limit erscheint in der Usage-Warnung — mit Cap, Reset-Zeit und Betreiber-Nachricht]
+- **Was:** Läuft Claude Code über ein Gateway mit Ausgabenlimit, kennt die Usage-Warnung dieses Limit jetzt. Die Meldung beim Erreichen der Grenze nennt **den Cap selbst**, **wann er zurückgesetzt wird** und **die vom Betreiber hinterlegte Nachricht** — statt eines generischen „Limit erreicht". Voraussetzung: Das Gateway läuft ebenfalls auf 2.1.225.
+- **Einsatz:** Automatisch aktiv, sobald CLI *und* Gateway auf v2.1.225+ sind; die Betreiber-Nachricht wird gatewayseitig konfiguriert.
+- **Mehrwert:** Wer in einer Firma hinter einem Gateway arbeitet, weiß beim Anschlagen des Limits sofort, ob es sich um Minuten oder Tage handelt und an wen er sich wendet — statt raten zu müssen, ob die Session kaputt ist oder das Budget aufgebraucht. Für Plattform-Teams ist die Betreiber-Nachricht der Kanal, um Eskalationswege direkt an der Fehlerstelle zu platzieren.
+- **Version:** v2.1.225
+
+### [Workspace-Trust-Prompt auch in `claude agents`]
+- **Was:** Die Agent-Übersicht `claude agents` fragt jetzt bei **nicht vertrauenswürdigen Verzeichnissen** nach — genau wie `claude` es beim direkten Start schon länger tut. Bisher war die Agent-View hier die Lücke.
+- **Einsatz:** Automatisch aktiv; der Prompt erscheint, wenn aus der Agent-Liste heraus in einem noch nicht als vertrauenswürdig markierten Verzeichnis gearbeitet wird.
+- **Mehrwert:** Schließt einen Umweg um die Trust-Abfrage: Ein fremdes, frisch geklontes Repo konnte über die Agent-View gestartet werden, ohne dass die übliche Rückfrage kam — inklusive der `CLAUDE.md`- und Hook-Auswertung, die daran hängt. Jetzt gilt dieselbe Hürde auf beiden Wegen.
+- **Version:** v2.1.225
+
+### [SendMessage erreicht Remote-Control-Sessions auf anderen Maschinen per Name]
+- **Was:** `SendMessage` kann jetzt von sich aus eine Unterhaltung mit den eigenen **Remote-Control-Sessions auf anderen Rechnern** beginnen — direkt über den Namen. `ListAgents` zeigt sie dazu als `name [ref]` an. Bisher war das strikt reply-only: Man konnte einer solchen Session nur antworten, nachdem sie einen selbst angeschrieben hatte. Zusätzlich abgesichert: Ein bereits bestätigter Remote-Control-Empfänger wird **nie** gegen eine gleichnamige Session auf der lokalen Maschine getauscht, auch wenn dessen eigene Liste gerade nicht abgefragt werden konnte.
+- **Einsatz:** `ListAgents` aufrufen, den angezeigten Namen (bei Mehrdeutigkeit inkl. ` [ref]`) exakt übernehmen und `SendMessage({to: "<name>", message: "…"})` senden.
+- **Mehrwert:** Der letzte blinde Fleck der Cross-Session-Kommunikation aus v2.1.224 fällt weg — man kann jetzt aktiv eine Session auf dem Laptop, dem Dev-Host oder im Cloud-Runner ansprechen, statt auf deren ersten Zuruf zu warten. Die Anti-Swap-Regel verhindert dabei den unangenehmsten Fehlerfall: dass eine Nachricht für die entfernte Session still an eine lokale Namensvetterin geht.
+- **Version:** v2.1.225
+
+### [Fix: Kurzzeitiger 401 zerschoss den langlebigen `CLAUDE_CODE_OAUTH_TOKEN`]
+- **Was:** Ein einzelner, vorübergehender 401 führte dazu, dass Claude Code den **langlebigen** `CLAUDE_CODE_OAUTH_TOKEN` durch das **kurzlebige** Token eines gespeicherten Logins ersetzte. Headless-Sessions liefen danach bis zum Neustart in Fehler.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Genau der Fehler, der CI-Jobs, Cron-Läufe und `-p`-Automatisierungen scheinbar grundlos abstürzen ließ — und zwar erst *nach* einem erfolgreichen Start, was die Ursachensuche besonders zäh machte. Wer Claude Code unbeaufsichtigt mit einem Service-Token fährt, sollte dieses Update zeitnah einspielen.
+- **Version:** v2.1.225
+
+### [Fix: MCP-OAuth-Server auf macOS warfen nach Keychain-Timeout 401-Salven]
+- **Was:** Lief ein Keychain-Zugriff auf macOS in einen Timeout, verhielten sich per OAuth authentifizierte MCP-Server anschließend so, als wären sie **nie authentifiziert** worden — mit einer ganzen Serie von 401-Fehlern statt eines sauberen Retries.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Betroffene mussten den MCP-Server neu authentifizieren, obwohl die gespeicherten Credentials völlig in Ordnung waren. Das Fehlerbild („plötzlich ausgeloggt") war maximal irreführend; jetzt übersteht die Verbindung eine hängende Keychain.
+- **Version:** v2.1.225
+
+### [Fix: Auto-Mode zählte die eigene Safety-Filter-Ablehnung als Block]
+- **Was:** Lehnte der Safety-Filter im Auto-Mode die **eigene Permission-Prüfung** ab, wurde das fälschlich auf das Limit aufeinanderfolgender Blocks angerechnet. Die Aktion wird weiterhin verweigert — aber das Modell bekommt jetzt gesagt, dass es weitergehen soll, statt dieselbe Prüfung erneut anzustoßen.
+- **Einsatz:** Automatisch aktiv im Auto-Mode.
+- **Mehrwert:** Verhindert, dass eine Session im Auto-Mode an einer einzelnen harmlosen Aktion in eine Retry-Schleife läuft und schließlich am Block-Limit stehenbleibt — obwohl die eigentliche Arbeit gar nicht blockiert war.
+- **Version:** v2.1.225
+
+### [Fix: Cross-Session-Nachrichten parkten still — ohne Hinweis und ohne Ablauf]
+- **Was:** In **Headless-Sessions** und **während des Starts** blieben eingehende Cross-Session-Nachrichten liegen, ohne dass ein Hinweis erschien und ohne dass die in v2.1.224 eingeführte `dialogExpiry` griff. Der Absender sah eine zugestellte Nachricht, der Empfänger nie etwas.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Macht das brandneue Cross-Session-Messaging überhaupt erst verlässlich: Nachrichten verschwinden nicht mehr lautlos in einer gerade startenden oder unbeaufsichtigt laufenden Session. Wer mehrere Sessions koordiniert, sollte deshalb nicht auf v2.1.224 stehenbleiben.
+- **Version:** v2.1.225
+
+### [Fix: Remote-Control-Resume verlor die Historie nach Compact großer Konversationen]
+- **Was:** Wurde eine sehr große Konversation komprimiert (Auto-Compact) und die Session später über **Remote Control** wieder aufgenommen, brach die Konversationshistorie.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Traf genau die langlaufenden Sessions, bei denen Resume den größten Wert hat — mehrstündige Arbeit, die man vom Handy oder einem anderen Rechner fortsetzen will. Der Kontext übersteht jetzt die Kombination aus Compact und Remote-Resume.
+- **Version:** v2.1.225
+
+### [Fix: Hovern in der Agents-Liste verstellte das Startverzeichnis des nächsten Agents]
+- **Was:** Fuhr man in der Agent-Liste mit der Maus über eine Session, die zu einem **anderen Projekt** gehört, änderte das das Verzeichnis, in dem der nächste gestartete Agent lief.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Ein reiner Hover — also eine Bewegung ohne jede Absicht — konnte einen Agent im falschen Repo starten lassen. Bei einem Agent mit Schreibrechten ist das keine Kosmetik, sondern der Unterschied zwischen „arbeitet am richtigen Projekt" und „editiert fremde Dateien".
+- **Version:** v2.1.225
+
+### [Fix: `claude self-hosted-runner` scheiterte erst pro Session statt beim Start]
+- **Was:** Konnte das über `--base-dir` angegebene Verzeichnis nicht angelegt oder beschrieben werden, registrierte sich der Self-hosted-Runner trotzdem — und ließ dann **jede einzelne Session** fehlschlagen. Jetzt bricht er direkt beim Start mit einer klaren Fehlermeldung ab.
+- **Einsatz:** Automatisch aktiv; betrifft `claude self-hosted-runner --base-dir <pfad>`.
+- **Mehrwert:** Fail-fast statt Fail-oft: Ein Berechtigungs- oder Mount-Problem im Container zeigt sich beim Rollout, nicht erst, wenn das Team schon Sessions dagegen fährt. Für die frisch in v2.1.224 eingeführten Self-hosted Environments ist das der wichtigste Betriebs-Fix.
+- **Version:** v2.1.225
+
+### [Fix: Web-Sessions galten fälschlich als hängend und schickten wachsenden Event-Backlog]
+- **Was:** Sessions in **Claude Code on the web** wurden fälschlich als „stuck" gemeldet und sendeten bei **jedem Reconnect** einen immer größer werdenden Rückstau an Events erneut.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Der Effekt verstärkte sich selbst — je länger die Session lief, desto größer der bei jeder Verbindungsunterbrechung erneut übertragene Stapel. Web-Sessions bleiben jetzt bei wackliger Verbindung ansprechbar, statt sich zunehmend zuzuschütten.
+- **Version:** v2.1.225
+
+### [Remote Control: Fotos aus der Claude-App gehen direkt an Claude]
+- **Was:** Ein in der Claude-App angehängtes Foto wird Claude jetzt **direkt gezeigt**, statt es über einen separaten Tool-Call von der Platte zu lesen.
+- **Einsatz:** Automatisch aktiv — Foto in der Claude-App an die Remote-Control-Session anhängen.
+- **Mehrwert:** Ein Umweg und ein Roundtrip weniger pro Bild: Screenshot vom Fehler, Foto vom Whiteboard oder vom Gerätedisplay landen ohne Zwischenschritt im Kontext. Spürbar schneller, und es kann kein Lesefehler mehr dazwischenkommen.
+- **Version:** v2.1.225
+
+### [VSCode-Fix: Focus-View faltete To-do-Liste und offene Rückfragen weg]
+- **Was:** Die **Focus-View** in der VSCode-Extension klappte fälschlich die aktuellste To-do-Liste, den Kontext einer noch offenen Rückfrage und bereits geklärte Antworten weg. Zusätzlich neu: Faltungen, die nur Thinking enthalten, zeigen jetzt „Thought for Ns" und klappen wieder zu, sobald ihr Turn abgeschlossen ist.
+- **Einsatz:** Automatisch aktiv in der VSCode-Extension mit aktiver Focus-View.
+- **Mehrwert:** Genau die drei Dinge, die man in einer aufgeräumten Ansicht sehen *will* — was ansteht, was Claude von einem wissen will und was schon entschieden ist — verschwanden. Die neue „Thought for Ns"-Zusammenfassung hält die Ansicht ruhig, ohne dass man die Denkdauer verliert.
+- **Version:** v2.1.225
+
+---
 
 ### Woche 32 (7. August 2026) — Platform-Release-Notes (Claude API / Managed Agents)
 
