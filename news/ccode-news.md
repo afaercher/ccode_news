@@ -1,11 +1,297 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-24 18:00 UTC (Crawl 24.08. 18:00 UTC — **Bestätigungs-Crawl 18:00 UTC: keine Bewegung in allen vier Quellen — der Montag ist bis 18:00 UTC leer.** **CLI unverändert v2.1.241** (npm-Publish 22.08. 23:58 UTC, GitHub-Release 23.08. 00:52 UTC) — **kein v2.1.242 bis 18:00 UTC**, der jüngste npm-Publish liegt damit 42 Stunden zurück; Tags still: `latest` und `next` einheitlich **2.1.241**, `stable` unverändert **2.1.231**. **Zur Rhythmus-Frage weiterhin keine Entscheidung:** 18:00 UTC entspricht 11:00 Montagvormittag an der US-Westküste — von den sechs Releases der Serie 19.–22.08. kamen nur zwei vor 18:00 UTC (v2.1.239 um 17:18, v2.1.240 um 13:03), die übrigen vier zwischen 18:01 und 23:58 UTC (v2.1.236 18:45, v2.1.237 23:57, v2.1.238 18:01, v2.1.241 23:58). Ein Montags-Release nach dem üblichen Muster wäre also erst beim 06:00-Crawl am 25.08. sichtbar; erst wenn auch der leer bleibt, ist die Wochenend-Pausen-Lesart widerlegt und die Serie 17.–22.08. beendet. **Changelog-Endstand bestätigt:** `CHANGELOG.md` und GitHub-Release-Bodies zu v2.1.241 und v2.1.240 unverändert je einzeilig („Bug fixes and reliability improvements“). **What’s-New unverändert:** Week 34 oben, Week 33 darunter, beide vollständig in dieser Datei; nächster fälliger Digest wäre **Week 35** (24.–28.08.), Week 31 fehlt weiterhin (Sprung Week 32 → Week 30). **Blog-Top unverändert 21.08.**, exakt dieselben fünfzehn Slugs wie am 24.08. 12:00, kein Beitrag vom 22.–24.08. **Platform-Top unverändert 20.08.** (Python-SDK 1.0), kein Eintrag vom 21.–24.08. **Quellenlage:** npm, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com` und die Blog-Slug-Liste alle per `curl -L --retry 3` im ersten Versuch; `platform.claude.com` weiterhin nur per WebFetch auf `…/docs/en/release-notes/overview`. **Keine neuen Einträge**; der älteste Crawl-Block (24.08. 06:00) aus dem Header in die Git-Historie ausgelagert. — Vorheriger Crawl 24.08. 12:00 UTC — **Bestätigungs-Crawl 12:00 UTC: keine Bewegung in allen vier Quellen.** **CLI unverändert v2.1.241** (npm-Publish 22.08. 23:58 UTC, GitHub-Release 23.08. 00:52 UTC) — **kein v2.1.242 bis 12:00 UTC**, der jüngste npm-Publish liegt damit 36 Stunden zurück; Tags still: `latest` und `next` einheitlich **2.1.241**, `stable` unverändert **2.1.231**. **Zur Rhythmus-Frage bringt dieser Lauf noch keine Antwort:** 12:00 UTC entspricht 05:00 Montagmorgen an der US-Westküste — die Werktags-Releases der Serie 17.–22.08. kamen zwischen 13:03 und 23:58 UTC, ein Montags-Release wäre also frühestens beim 18:00-Crawl (11:00 Westküste), sicher erst beim 06:00-Crawl am 25.08. zu sehen. Bleibt auch der Montag leer, wäre die Wochenend-Pausen-Lesart aus dem 06:00-Lauf widerlegt und die Release-Serie tatsächlich beendet. **Changelog-Endstand bestätigt:** `CHANGELOG.md` und GitHub-Release-Bodies zu v2.1.241 und v2.1.240 unverändert je einzeilig („Bug fixes and reliability improvements“). **What’s-New unverändert:** Week 34 oben, Week 33 darunter, beide vollständig in dieser Datei; nächster fälliger Digest wäre **Week 35** (24.–28.08.), Week 31 fehlt weiterhin (Sprung Week 32 → Week 30). **Blog-Top unverändert 21.08.**, exakt dieselben fünfzehn Slugs wie am 24.08. 06:00, kein Beitrag vom 22.–24.08. **Platform-Top unverändert 20.08.** (Python-SDK 1.0), kein Eintrag vom 21.–24.08. **Quellenlage:** npm, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com` und die Blog-Slug-Liste alle per `curl -L --retry 3` im ersten Versuch; `platform.claude.com` weiterhin nur per WebFetch auf `…/docs/en/release-notes/overview`. **Keine neuen Einträge**; der älteste Crawl-Block (23.08. 18:00) aus dem Header in die Git-Historie ausgelagert. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-25 12:00 UTC (Crawl 25.08. 12:00 UTC — **Bestätigungs-Crawl 12:00 UTC: keine Bewegung in allen vier Quellen — und die beiden offenen Fragen vom 06:00-Lauf sind beantwortet, beide mit Nein.** **CLI unverändert v2.1.245** (npm-Publish 25.08. 04:45 UTC, GitHub-Release 05:13 UTC) — **kein v2.1.246 bis 12:00 UTC**, der jüngste Publish liegt gut sieben Stunden zurück; Tags still: `latest` und `next` einheitlich **2.1.245**, `stable` unverändert **2.1.231**. **Nachgefasst, wie am 06:00-Lauf angekündigt:** **v2.1.242 und v2.1.243 haben weiterhin kein GitHub-Release** — die Releases-API listet unverändert v2.1.245 (25.08. 05:13 UTC) und direkt darunter v2.1.241 (23.08. 00:52 UTC); und **für v2.1.242 ist auch kein Changelog-Abschnitt nachgereicht worden** — die `CHANGELOG.md` springt weiter 2.1.245 → 2.1.243 → 2.1.241. Beides liegt jetzt 13 bzw. 17 Stunden zurück, ein Nachreichen ist damit unwahrscheinlich; die Lücke bleibt der Endstand. **Praktische Folge — für diese Datei festgehalten:** Wer Claude-Code-Änderungen ausschließlich über die GitHub-Releases verfolgt, hat den 60-Punkte-Changelog von v2.1.243 nie gesehen; das GitHub-Release v2.1.245 nennt nur den glibc-Fix. Die `CHANGELOG.md` ist damit die vollständigere Quelle und bleibt Pflichtabruf, GitHub-Releases allein reichen nicht. **Rhythmus:** Der Werktags-Takt seit dem 17.08. hält (nur der Sonntag 23.08. blieb leer); 12:00 UTC entspricht 05:00 Dienstagmorgen an der US-Westküste — die Releases der Serie kamen zwischen 13:03 und 23:58 UTC, ein Dienstags-Release wäre also frühestens beim 18:00-Crawl sichtbar. **What's-New unverändert:** Week 34 (17.–21.08.) oben, Week 33 darunter, beide vollständig in dieser Datei; **Week 35** (24.–28.08.) läuft noch und ist erwartungsgemäß nicht veröffentlicht, **Week 31 fehlt weiterhin** (die Liste springt Week 32 → Week 30, inzwischen über vier Wochen). **Blog-Top unverändert 21.08.** („Bringing the cybersecurity capabilities of Claude Mythos 5 to more defenders"), darunter zweimal 20.08.; exakt dieselben fünfzehn Slugs wie am 06:00-Lauf, **kein Beitrag vom 22.–25.08.** **Platform-Top unverändert 20.08.** (Python-SDK 1.0 mit dem httpx→httpx2-Wechsel), kein Eintrag vom 21.–25.08. **Quellenlage:** GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com` und die Blog-Slug-Liste per `curl -L --retry 3` im ersten Versuch; **die npm-Registry lieferte im ersten Versuch trotz `--retry 3` eine leere Antwort** und erst im zweiten Anlauf das JSON — dieselbe Störung wie zuvor bei den GitHub-Hosts, eine leere Antwort darf nie als „unverändert" gelesen werden; `platform.claude.com` per WebFetch auf `…/docs/en/release-notes/overview`. **Keine neuen Einträge**; der älteste Crawl-Block (24.08. 18:00) aus dem Header in die Git-Historie ausgelagert. — Vorheriger Crawl 25.08. 06:00 UTC — **Der Montag hat geliefert — drei neue npm-Versionen seit dem 18:00-Crawl:** **v2.1.242** (24.08. 19:16 UTC), **v2.1.243** (24.08. 23:10 UTC) und **v2.1.245** (25.08. 04:45 UTC); **v2.1.244 wurde übersprungen** (weder auf npm noch im Changelog). **CLI jetzt v2.1.245**, `latest` und `next` einheitlich **2.1.245**, `stable` unverändert **2.1.231**. **Rhythmus-Frage entschieden:** Wochenend-Pause, kein Serienende — die Werktags-Serie läuft seit dem 17.08. weiter, der 23.08. (Sonntag) bleibt der einzige leere Tag; v2.1.242/243 kamen um 12:16 bzw. 16:10 Uhr Westküstenzeit, der Hotfix v2.1.245 um 21:45 Uhr Montagabend. **Dokumentationslage uneinheitlich:** v2.1.243 hat einen vollen Changelog-Abschnitt (**60 Punkte**), aber **kein GitHub-Release**; v2.1.242 hat **weder Changelog-Abschnitt noch GitHub-Release** (nur npm-Publish); v2.1.245 hat beides — Changelog mit einem Punkt (**Startup-Crash auf glibc 2.44**, Arch/CachyOS/Fedora Rawhide) und GitHub-Release 25.08. 05:13 UTC, nur 28 Minuten nach npm. Die `CHANGELOG.md` springt 2.1.245 → 2.1.243 → 2.1.241. Naheliegend, aber unbelegt: v2.1.242 als kurzlebiger Vorläufer von v2.1.243, v2.1.245 als Hotfix für die Native-Build-Umbauten (zstd, Laden bei Bedarf) aus v2.1.243. **Nachfassen beim 12:00-Lauf:** ob GitHub-Releases für v2.1.242/243 nachgereicht werden und ob ein Changelog-Abschnitt 2.1.242 erscheint. **What's-New unverändert:** Week 34 oben, Week 33 darunter; Week 35 (24.–28.08.) läuft noch, Week 31 fehlt weiterhin (Sprung Week 32 → Week 30). **Blog-Top unverändert 21.08.**, dieselben fünfzehn Slugs, kein Beitrag vom 22.–25.08. **Platform-Top unverändert 20.08.** (Python-SDK 1.0), kein Eintrag vom 21.–25.08. **Quellenlage:** npm, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com` und die Blog-Slug-Liste alle per `curl -L --retry 3` im ersten Versuch; `platform.claude.com` per WebFetch auf `…/docs/en/release-notes/overview`. **Neue Einträge: 45** (v2.1.245: 1, v2.1.243: 43 Einträge für 60 Changelog-Punkte, plus Überblick v2.1.242/243); der älteste Crawl-Block (24.08. 12:00) aus dem Header in die Git-Historie ausgelagert. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 35 (25. August 2026) — v2.1.245
+
+#### v2.1.245 — Hotfix: Startup-Crash auf Distributionen mit glibc 2.44
+- **Was:** Claude Code stürzte auf Linux-Distributionen, die bereits **glibc 2.44** ausliefern — genannt werden **Arch Linux, CachyOS und Fedora Rawhide** — direkt beim Start ab. v2.1.245 behebt das und ist der einzige Punkt dieses Releases. Die Version wurde am **25.08. um 04:45 UTC auf npm veröffentlicht** und **28 Minuten später (05:13 UTC) als GitHub-Release** nachgezogen — der bisher kürzeste Versatz der Serie. **v2.1.244 wurde übersprungen**: Die Nummer existiert weder auf npm noch in der `CHANGELOG.md`. `latest` und `next` zeigen beide auf 2.1.245, `stable` bleibt bei 2.1.231.
+- **Einsatz:** `claude update` bzw. `npm i -g @anthropic-ai/claude-code@latest`
+- **Mehrwert:** Für Rolling-Release-Nutzer der entscheidende Fix — wer auf Arch oder CachyOS mit aktueller glibc arbeitet und mit v2.1.243 einen sofortigen Absturz gesehen hat, bekommt hier die lauffähige Version. Alle anderen Plattformen erhalten keine Änderung. Dass der Fix rund fünfeinhalb Stunden nach v2.1.243 kam, spricht dafür, dass der Crash erst mit den Native-Build-Umbauten dieses Releases (zstd-Kompression, Laden bei Bedarf) auftrat; belegt ist das in den Quellen allerdings nicht.
+- **Version:** v2.1.245
+
+### Woche 35 (24. August 2026) — v2.1.243 (und v2.1.242 ohne Changelog)
+
+#### Überblick: v2.1.242 und v2.1.243 — der Montag bringt die Serie zurück
+- **Was:** Nach dem release-freien Sonntag kamen am Montag **zwei npm-Versionen**: **v2.1.242 um 19:16 UTC** und **v2.1.243 um 23:10 UTC** (12:16 bzw. 16:10 Uhr US-Westküste). Die Werktags-Serie seit dem 17.08. läuft damit weiter, die Wochenend-Pause ist als Erklärung für den leeren Sonntag bestätigt. Die Dokumentationslage ist ungewöhnlich: **v2.1.242 hat weder einen Abschnitt in der `CHANGELOG.md` noch ein GitHub-Release** — sie existiert ausschließlich als npm-Publish. **v2.1.243 hat einen vollständigen Changelog-Abschnitt mit 60 Punkten**, aber **ebenfalls kein GitHub-Release**; das einzige GitHub-Release seit v2.1.241 ist v2.1.245. Die `CHANGELOG.md` springt entsprechend von 2.1.245 über 2.1.243 direkt auf 2.1.241. Naheliegend ist, dass v2.1.242 ein kurzlebiger Vorläufer war, dessen Inhalt vier Stunden später unter v2.1.243 dokumentiert wurde — die Quellen sagen dazu nichts, deshalb steht hier kein geratener Inhalt. Die 60 Punkte von v2.1.243 sind in den folgenden Einträgen aufgeschlüsselt; nach zwei einzeiligen Releases (v2.1.240, v2.1.241) ist das wieder ein Changelog im Umfang von v2.1.239 (59 Punkte).
+- **Einsatz:** `claude update` bzw. `npm i -g @anthropic-ai/claude-code@latest` — landet direkt auf v2.1.245, das v2.1.243 plus den glibc-Hotfix enthält
+- **Mehrwert:** Wer die npm-Versionsliste liest, sieht drei neue Nummern und findet nur zwei erklärt. Für die Praxis ist das unerheblich — ein Update springt ohnehin auf v2.1.245 —, aber wer Release-Bodies auf GitHub als Änderungsquelle nutzt, verpasst mit v2.1.243 einen 60-Punkte-Changelog und muss auf `CHANGELOG.md` ausweichen.
+- **Version:** v2.1.242 / v2.1.243
+
+#### `/usage` zeigt eine Loops-Aufschlüsselung
+- **Was:** `/usage` bekommt einen Abschnitt **Loops**: pro `/loop`-Aufgabe die Zahl der Durchläufe, die Gesamt-Tokens, Tokens je Durchlauf und der Zeitpunkt des letzten Laufs.
+- **Einsatz:** `/usage` → Abschnitt „Loops"
+- **Mehrwert:** Ein wiederkehrender Loop, der bei jedem Aufwachen zu viel liest oder zu oft feuert, fiel bisher nur in der Gesamtrechnung auf. Jetzt sieht man auf einen Blick, welche Schleife das Budget frisst — und ob „Tokens je Durchlauf" für eine Status-Abfrage plausibel ist.
+- **Version:** v2.1.243
+
+#### `modelPicker`-Setting: eigene, sortierte Modellliste für `/model`
+- **Was:** Mit der neuen Einstellung `modelPicker` kuratiert man die Auswahl im `/model`-Picker: eine geordnete Liste mit eigenen Bezeichnungen, beliebiger ID-Schreibweise (auch Vertex- und Bedrock-IDs), die entweder an die eingebaute Liste angehängt wird oder sie vollständig ersetzt.
+- **Einsatz:** `"modelPicker"` in `settings.json` (Liste aus `{ id, label }`-Einträgen, Modus „anhängen" oder „ersetzen")
+- **Mehrwert:** Teams auf Bedrock oder Vertex mussten bisher mit rohen Anbieter-IDs im Picker leben oder Modelle per Env-Variable vorgeben. Jetzt steht dort „Prod-Modell (Sonnet 5, eu-central-1)" statt einer ARN-ähnlichen Kennung — und Modelle, die im eigenen Kontext nicht erlaubt sind, tauchen gar nicht erst auf.
+- **Version:** v2.1.243
+
+#### `promptCacheTtl` und `subagentPromptCacheTtl`: Cache-Lebensdauer getrennt einstellen
+- **Was:** Zwei neue Settings steuern die Prompt-Cache-TTL getrennt für die Hauptunterhaltung und für Subagenten. Nutzer mit API-Key oder Cloud-Anbieter können so die Hauptunterhaltung auf den **1-Stunden-Cache** legen, während Subagenten beim **5-Minuten-Cache** bleiben.
+- **Einsatz:** `"promptCacheTtl": "1h"` und `"subagentPromptCacheTtl": "5m"` in `settings.json`
+- **Mehrwert:** Der 1-Stunden-Cache lohnt sich für die lange Hauptunterhaltung, deren Kontext über viele Minuten stabil bleibt — bei kurzlebigen Subagenten wäre der teurere Cache-Write dagegen oft verschenkt. Die Trennung holt den Spareffekt dort, wo er entsteht, ohne die Subagenten-Kosten zu erhöhen.
+- **Version:** v2.1.243
+
+#### `modelPricing`: Vertragspreise statt Listenpreise in `/cost`, Statusline und Telemetrie
+- **Was:** Die neue Managed-Einstellung `modelPricing` hinterlegt die vertraglich vereinbarten Preise je Modell und einen Rabatt-Multiplikator der Organisation. `/cost`, die Statusline und die Telemetrie-Kostenwerte rechnen dann mit diesen Sätzen statt mit dem Listenpreis.
+- **Einsatz:** `modelPricing` in den Managed Settings der Organisation (Admin-seitig)
+- **Mehrwert:** Bisher zeigten Kostenanzeigen bei Enterprise-Rabatten systematisch zu hohe Beträge, und Budget-Grenzen wie `--max-budget-usd` griffen zu früh. Mit hinterlegten Vertragspreisen stimmen Anzeige und Rechnung wieder überein.
+- **Version:** v2.1.243
+
+#### Console-Login ohne API-Key: „Sign in with your Console account"
+- **Was:** Unter `/login` → Anthropic Console gibt es jetzt neben dem Anlegen eines API-Keys die (empfohlene) Option **„Sign in with your Console account"** — eine schlüssellose Anmeldung für Organisationen, die keine API-Keys erlauben.
+- **Einsatz:** `/login` → „Anthropic Console" → „Sign in with your Console account"
+- **Mehrwert:** Organisationen mit API-Key-Verbot mussten Claude Code bisher über Umwege anbinden. Jetzt reicht das Console-Konto — ohne dass irgendwo ein langlebiger Schlüssel auf der Platte liegt.
+- **Version:** v2.1.243
+
+#### `/status`: „Skipped sources" und GitHub-Verbindung für Claude Code on the web
+- **Was:** `/status` zeigt zwei neue Zeilen: **„Skipped sources"** listet Managed-Settings-Quellen (etwa `managed-settings.json`), die zwar vorhanden sind, aber nicht angewendet werden, weil eine höher priorisierte Managed-Quelle aktiv ist. Außerdem zeigt `/status` für Pro/Max, ob **GitHub für Claude Code on the web verbunden** ist, und verweist andernfalls auf `/web-setup`; claude.ai-Nutzer ohne GitHub-Verbindung bekommen zusätzlich einen Tipp auf `/web-setup`.
+- **Einsatz:** `/status`; bei fehlender Verbindung `/web-setup`
+- **Mehrwert:** Die klassische Enterprise-Verwirrung „meine `managed-settings.json` wird ignoriert" ist damit in einer Zeile erklärt, statt eine Debugging-Sitzung zu kosten. Und wer sich wundert, warum Web-Sessions nicht auf das Repository zugreifen, sieht den fehlenden Schritt direkt.
+- **Version:** v2.1.243
+
+#### `managed`-Markierung für organisationsverwaltete claude.ai-Connectoren
+- **Was:** In `/mcp` und `/plugins` tragen claude.ai-Connectoren, deren Authentifizierung von der Organisation verwaltet wird, jetzt die Markierung `managed`.
+- **Einsatz:** `/mcp`, `/plugins`
+- **Mehrwert:** Man erkennt sofort, welche Verbindung man selbst nicht neu autorisieren kann oder muss — und wendet sich bei Problemen an den Admin, statt vergeblich `/mcp`-Logins zu wiederholen.
+- **Version:** v2.1.243
+
+#### `/tasks` zeigt Modell und Effort-Level jedes Subagenten
+- **Was:** In `/tasks` und den Agent-Detail-Dialogen steht jetzt, auf welchem Modell (und mit welchem Effort-Level) jeder Subagent gelaufen ist.
+- **Einsatz:** `/tasks` → Agent auswählen
+- **Mehrwert:** Bei Agent-Definitionen mit `model`-Override oder bei Sonnet/Haiku-Fallbacks war bisher unklar, was tatsächlich lief — die Angabe macht Kosten- und Qualitätsunterschiede zwischen Subagenten nachvollziehbar.
+- **Version:** v2.1.243
+
+#### Remote-MCP-Server in `-p`- und SDK-Sessions verbinden sich wieder
+- **Was:** In nicht-interaktiven Sessions (`-p`) und über das SDK blieben Remote-MCP-Server nach einem Verbindungsabbruch dauerhaft tot. Jetzt verbinden sie sich automatisch neu oder werden als fehlgeschlagen gemeldet.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lang laufende Automationen und CI-Jobs verloren still ihre MCP-Tools und lieferten dann falsche oder leere Ergebnisse — jetzt gibt es entweder eine funktionierende Verbindung oder einen sichtbaren Fehler.
+- **Version:** v2.1.243
+
+#### MCP-Login aus der Desktop-App: „Invalid redirect URI" bei Linear und Co. behoben
+- **Was:** Ein aus der Desktop-App gestarteter MCP-Server-Login scheiterte mit „Invalid redirect URI" bei Servern, die Client-ID-Metadata-Dokumente unterstützen (zum Beispiel Linear).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Linear und ähnliche Server lassen sich aus der Desktop-App direkt anbinden, ohne den Umweg über die CLI.
+- **Version:** v2.1.243
+
+#### Auto-Modus: nicht mehr fälschlich „vorübergehend nicht verfügbar"
+- **Was:** Zwei Fixes am Auto-Modus: Er blieb beim Start unverfügbar, wenn eine temporäre serverseitige Abschaltung gecacht war und spätere Flag-Abrufe fehlschlugen. Und bei einer kurzzeitigen API-Überlastung mit Retry-Aufforderung wurden Tool-Aufrufe nach rund einer Minute Wartezeit als „temporarily unavailable" abgelehnt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der Auto-Modus fällt nicht mehr wegen eines alten Cache-Eintrags oder einer kurzen API-Delle in den Bestätigungsmodus zurück — und man muss die Session nicht neu starten, um ihn zurückzubekommen.
+- **Version:** v2.1.243
+
+#### `/model`-Picker übernimmt die Ultracode-Auswahl
+- **Was:** Wählte man im `/model`-Picker Ultracode, wurde die Auswahl still ignoriert. Jetzt gilt sie für die laufende Session.
+- **Einsatz:** `/model` → Ultracode
+- **Mehrwert:** Der Weg zur Multi-Agent-Orchestrierung über den Picker funktioniert jetzt; bisher blieb nur das Schlüsselwort `ultracode` im Prompt.
+- **Version:** v2.1.243
+
+#### `/resume` lädt mehr als 50 Sessions
+- **Was:** `/resume` listete nur die 50 jüngsten Sessions. Der Picker lädt jetzt beim Scrollen weitere nach.
+- **Einsatz:** `/resume`, dann nach unten scrollen
+- **Mehrwert:** Wer viele kurze Sessions am Tag startet, kam mit 50 Einträgen nur wenige Tage zurück — ältere Arbeit war nur noch über die Session-ID erreichbar.
+- **Version:** v2.1.243
+
+#### Cloud-Sessions: Neustart mitten im Turn schickt keine Hook-Meldung als Prompt
+- **Was:** Wurde eine Cloud-Session nach einem Neustart mitten im Turn fortgesetzt, konnte eine ausstehende Hook- oder Background-Task-Benachrichtigung als Prompt gesendet werden statt der normalen Fortsetzungsnachricht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Session macht nach dem Neustart dort weiter, wo sie war, statt eine Systemmeldung als vermeintliche Nutzeranweisung zu verarbeiten.
+- **Version:** v2.1.243
+
+#### Cross-Session-Messaging in User-Namespaces und Rootless-Containern repariert
+- **Was:** Seit der Socket-Verzeichnis-Härtung in v2.1.232 schaltete sich das Cross-Session-Messaging in User-Namespaces und Rootless-Containern still ab; das ist behoben. Zusätzlich geändert: Der Inbox-Socket schließt Verbindungen, die innerhalb von 30 Sekunden keine vollständige Zeile senden — Skripte, die an den Socket posten, sollten sich erst verbinden, wenn die Daten bereitstehen.
+- **Einsatz:** Automatisch aktiv; eigene Skripte: erst Daten vorbereiten, dann verbinden
+- **Mehrwert:** `SendMessage` und `ListAgents` funktionieren wieder in Podman-, Rootless-Docker- und ähnlichen Umgebungen, in denen sie seit fast zwei Wochen still versagten. Die 30-Sekunden-Regel verhindert, dass halboffene Verbindungen die Inbox blockieren.
+- **Version:** v2.1.243
+
+#### Überlaufender Text verliert beim Neuzeichnen keine Spalten mehr
+- **Was:** Text, der über seinen Container hinausragt (zum Beispiel die Anmelde-URL in `/login`), verlor seine führenden Spalten, sobald ein anderer Bildschirmbereich neu gezeichnet wurde.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Login-URL bleibt vollständig kopierbar — bisher konnte der Anfang beim Öffnen fehlen, wenn parallel eine Statusmeldung erschien.
+- **Version:** v2.1.243
+
+#### `spellcheck` unterstreicht auch Wörter direkt nach einem Emoji
+- **Was:** Ein direkt hinter einem Emoji getipptes, falsch geschriebenes Wort wurde von `spellcheck` nicht unterstrichen.
+- **Einsatz:** Automatisch aktiv (bei aktiviertem `spellcheck`)
+- **Mehrwert:** Kleiner Fix — die Rechtschreibprüfung hat keine Lücke mehr hinter Emojis in Commit-Messages oder Prompts.
+- **Version:** v2.1.243
+
+#### Hintergrund-Subagenten wachen nach ihrem letzten Bash-Task auf
+- **Was:** Hintergrund-Subagenten wurden nicht geweckt, wenn ihr letzter Hintergrund-Bash-Task endete — sie blieben hängen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ein Subagent, der einen Build oder Testlauf im Hintergrund startet und auf das Ergebnis wartet, kommt jetzt zuverlässig zum Abschluss, statt als „läuft noch" in `/tasks` zu verharren.
+- **Version:** v2.1.243
+
+#### Sessions hängen nicht mehr 10+ Minuten, wenn die API nicht antwortet
+- **Was:** Startete die Anthropic-API nie eine Antwort, blieb die Session zehn Minuten oder länger stumm. Jetzt läuft die Anfrage nach rund **3 Minuten** in einen Timeout, wird einmal wiederholt und meldet dann `API Error: No response from API`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Man erkennt einen hängenden Request in Minuten statt nach einer Viertelstunde — und kann den Turn neu anstoßen, statt zu rätseln, ob das Modell noch denkt.
+- **Version:** v2.1.243
+
+#### Client-Fehlermeldungen sehen nicht mehr wie Modellausgabe aus
+- **Was:** Fehlermeldungen des Clients — Auth, Modellverfügbarkeit und andere — wurden wie Modellausgabe gerendert; jetzt erscheinen sie als Fehlerzeilen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** „Model not available" liest sich jetzt wie das, was es ist, und nicht wie eine Behauptung des Modells, die man erst einordnen muss.
+- **Version:** v2.1.243
+
+#### Workload Identity Federation in CI: Token wird geteilt statt mehrfach eingetauscht
+- **Was:** Prozesse innerhalb eines CI-Jobs teilen sich jetzt das eingetauschte Token, statt das nur einmal verwendbare Token je Prozess neu einzutauschen; ein abgelehnter Tausch scheitert sofort mit der Fehlermeldung des Servers.
+- **Einsatz:** Automatisch aktiv (CI-Setups mit Workload Identity Federation)
+- **Mehrwert:** Mehrere Claude-Aufrufe in einem Job liefen bisher in „Token already used"-Fehler; jetzt funktioniert der zweite Aufruf, und ein echter Konfigurationsfehler ist sofort lesbar.
+- **Version:** v2.1.243
+
+#### Server-verwaltete `companyAnnouncements` erscheinen auch nach dem Login
+- **Was:** Begann eine Session mit einer Anmeldung (etwa der erste Start nach `/logout`), wurden serverseitig verwaltete `companyAnnouncements` beim Start nicht angezeigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Organisationsweite Hinweise erreichen jetzt auch den, der gerade frisch angemeldet ist — also genau die Zielgruppe für Onboarding-Ansagen.
+- **Version:** v2.1.243
+
+#### Hook-`if`-Bedingungen feuern nicht mehr bei `$()`-Substitutionen
+- **Was:** Bedingungen wie `Bash(cat *)` griffen auch bei fremden Bash-Befehlen, wenn diese eine `$()`- oder Backtick-Substitution gefolgt von weiteren Argumenten enthielten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Hooks, die auf bestimmte Befehle reagieren sollen, laufen nicht mehr bei jedem `echo "$(date)" foo` mit — weniger Fehlalarme in Pre-/PostToolUse-Hooks.
+- **Version:** v2.1.243
+
+#### Plugins: `marketplace`-Abhängigkeiten via `--plugin-dir`, `/reload-plugins` räumt LSP-Tool auf
+- **Was:** Plugin-Abhängigkeiten mit `marketplace`-Feld wurden nie aufgelöst, wenn beide Plugins zusammen per `--plugin-dir` geladen wurden. Außerdem behielt `/reload-plugins` das LSP-Tool, nachdem das letzte LSP-Plugin deaktiviert wurde; jetzt wird es entfernt, und vor einer LSP-Plugin-Änderung, die die Unterhaltung neu einliest, gibt es eine Warnung.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lokale Plugin-Entwicklung mit Abhängigkeiten funktioniert ohne Marketplace-Installation, und ein verwaistes LSP-Tool taucht nicht mehr im Toolset auf.
+- **Version:** v2.1.243
+
+#### `--agents` bricht bei ungültigem JSON mit klarer Meldung ab
+- **Was:** `--agents` ignorierte ungültiges JSON oder ungültige Agent-Definitionen still. Jetzt beendet sich Claude Code mit einer klaren Fehlermeldung — wie bei `--mcp-config`.
+- **Einsatz:** `claude --agents '<json>'`
+- **Mehrwert:** Ein Tippfehler in der Agent-Definition fällt sofort auf, statt dass der Agent einfach fehlt und man ihn erst in `/agents` vermisst.
+- **Version:** v2.1.243
+
+#### `/status` nennt die Datei bei ungültigen MCP-Einträgen
+- **Was:** Bei einem ungültigen MCP-Server-Eintrag in `~/.claude.json` meldete `/status` „Found invalid entries in: ." ohne Dateinamen.
+- **Einsatz:** `/status`
+- **Mehrwert:** Die Fehlermeldung zeigt jetzt auf die richtige Datei.
+- **Version:** v2.1.243
+
+#### `/clear` löscht den `/rename`-Namen nicht mehr aus der Prompt-Leiste
+- **Was:** Nach `/clear` verschwand der per `/rename` vergebene Session-Name aus der Prompt-Leiste, obwohl er für die neue Session beibehalten wurde.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Anzeige und tatsächlicher Zustand stimmen wieder überein.
+- **Version:** v2.1.243
+
+#### Terminal-Eingabe: defekte `history.jsonl`, Ctrl+[ im Vim-Modus
+- **Was:** Die Ctrl+R-Verlaufssuche und der Pfeil-nach-oben-Verlauf brachen ab, wenn `~/.claude/history.jsonl` einen fehlerhaften Eintrag enthielt. Und Ctrl+[ verließ den Vim-INSERT-Modus nicht in Terminals, die modifizierte Tasten kodieren (modifyOtherKeys, kitty-Protokoll).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Eine einzelne kaputte Zeile im Verlauf macht den ganzen Verlauf nicht mehr unbrauchbar; Vim-Nutzer in kitty, WezTerm und Co. bekommen ihr gewohntes Escape zurück.
+- **Version:** v2.1.243
+
+#### IDE-Verbindung: `NO_PROXY` und `no_proxy` gleichwertig
+- **Was:** Stand `localhost` in `NO_PROXY`, aber nicht in `no_proxy` (kleingeschrieben), wurde die lokale IDE-Verbindung dennoch über `HTTPS_PROXY` geleitet und schlug teils fehl. Beide Schreibweisen werden jetzt berücksichtigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer hinter einem Unternehmens-Proxy arbeitet, muss die Ausnahme nicht mehr doppelt setzen, damit VS Code oder JetBrains Claude Code erreichen.
+- **Version:** v2.1.243
+
+#### Sandbox: Netzwerk-Verletzungen erscheinen auch bei Exit-Code 0
+- **Was:** Blockierte die Sandbox eine Netzwerkanfrage, der Befehl endete aber trotzdem mit Exit-Code 0 (etwa `curl`, das die 403-Seite des Proxys ausgibt), gingen die Details der Verletzung im Bash-Tool-Ergebnis verloren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Claude sieht, dass ein Host blockiert wurde, und bittet um Freigabe — statt die 403-Seite des Proxys als Antwort zu interpretieren.
+- **Version:** v2.1.243
+
+#### Statusline und `/usage` zeigen nach dem Fenster-Reset keine alten Prozente mehr
+- **Was:** Die `rate_limits`-Felder der Statusline und `/usage` zeigten nach dem Zurücksetzen eines Rate-Limit-Fensters weiter den alten Auslastungswert, wenn die Session währenddessen untätig war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Anzeige „87 % des 5-Stunden-Fensters" verschwindet, sobald das Fenster tatsächlich neu beginnt — ohne Neustart der Session.
+- **Version:** v2.1.243
+
+#### `claude --teleport` bietet bei lokalen Änderungen das Stashen an
+- **Was:** `claude --teleport <session>` brach bei nicht-committeten Änderungen ab, statt — wie der Session-Picker es längst tut — das Stashen anzubieten und fortzufahren.
+- **Einsatz:** `claude --teleport <session>`
+- **Mehrwert:** Eine Cloud-Session lässt sich auch mit schmutzigem Arbeitsverzeichnis lokal übernehmen; das Stashen übernimmt Claude Code.
+- **Version:** v2.1.243
+
+#### `/web-setup` erkennt ältere, bereits angemeldete GitHub-CLIs
+- **Was:** `/web-setup` forderte wiederholt zum Login auf, obwohl eine ältere `gh`-Version (ohne `gh auth token`) bereits authentifiziert war.
+- **Einsatz:** `/web-setup`
+- **Mehrwert:** Kein Login-Karussell mehr für Nutzer mit älterem GitHub-CLI.
+- **Version:** v2.1.243
+
+#### Claude in Chrome überlebt Auto-Updates der CLI
+- **Was:** Nach einem Auto-Update, das die eingerichtete Version aufräumte, verlor Claude in Chrome die Verbindung zu Claude Code. Der Native Host startet jetzt über den stabilen `claude`-Launcher statt über einen versionsgebundenen Pfad.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Browser-Integration muss nicht mehr nach jedem Update neu eingerichtet werden.
+- **Version:** v2.1.243
+
+#### [VS Code] Permission-Modus beim ersten Start, Focus-View-Abschnitte bleiben offen
+- **Was:** Sessions, die vor dem ersten Abruf der Feature-Flags starteten (etwa direkt nach der Installation), öffneten im Standard-Permission-Modus statt im Auto-Modus oder dem konfigurierten Default. Und in der Focus-View klappten aufgeklappte Abschnitte während Subagenten-Tool-Aktivität von selbst wieder zu. Zusätzlich: Beim Kürzen der Historie langer Sessions fallen jetzt zuerst ältere Tool-Aktivitätszeilen weg, sodass die eigenen Nachrichten und Claudes Antworten sichtbar bleiben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der erste Start nach der Installation verhält sich wie konfiguriert, und man muss die Focus-View nicht ständig neu aufklappen.
+- **Version:** v2.1.243
+
+#### Native Build: schnellerer Start, 75 statt 340 MB Download, 40–70 MB weniger RAM
+- **Was:** Ein Bündel von Optimierungen am nativen Build: Sandbox- und MCP-Start blockieren nicht mehr den ersten Frame, reine Starts überspringen die Subcommand-Registrierung, Workflow-Discovery, Settings und Trust-Store sind günstiger. Die Binary wird **zstd-komprimiert** ausgeliefert (auf Linux x64 rund **75 MB statt 340 MB**), ist durch kompaktere Speicherung der eingebauten Skill- und Prompt-Texte etwa 2 MB kleiner, und der Code wird **bei Bedarf geladen** statt komplett resident gehalten (**rund 40–70 MB weniger Speicher je Session**). In langen Sessions sammelt die Laufzeit zudem früher Garbage ein, was den Spitzenverbrauch senkt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Spürbar beim Auto-Update (ein Viertel der Download-Größe) und auf Maschinen mit vielen parallelen Sessions — fünf Sessions sparen zusammen bis zu 350 MB. Vermutlich hängt mit genau diesen Umbauten der glibc-2.44-Crash zusammen, den v2.1.245 wenige Stunden später behebt.
+- **Version:** v2.1.243
+
+#### Telemetrie: Zuordnung zur Organisation bei `ANTHROPIC_AUTH_TOKEN` und in VS Code
+- **Was:** Sessions, die sich mit `ANTHROPIC_AUTH_TOKEN` direkt gegen die Anthropic-API authentifizieren, ordnen ihre Nutzungstelemetrie jetzt der Organisation zu, sodass deren Datenverarbeitungs-Einstellungen gelten. Dasselbe gilt für die eigene Telemetrie der VS-Code-Erweiterung bei Anmeldung mit Claude-Konto.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Organisationen mit besonderen Data-Handling-Einstellungen (etwa Zero Data Retention) bekommen sie auch für Token-basierte und VS-Code-Sessions angewendet.
+- **Version:** v2.1.243
+
+#### `/login` über SSH: URL sofort da, ehrliche Kopier-Rückmeldung
+- **Was:** Bei `/login` über SSH erscheint die Anmelde-URL sofort; die Taste `c` meldet, *wie* die URL kopiert wurde, statt pauschal Erfolg zu behaupten, und ein Hinweis erklärt, wie man im Fullscreen Text markiert.
+- **Einsatz:** `/login` in einer SSH-Session
+- **Mehrwert:** Auf dem Remote-Host gibt es keine Zwischenablage — bisher hieß es „kopiert", obwohl nichts passiert war. Jetzt weiß man, ob man die URL selbst markieren muss.
+- **Version:** v2.1.243
+
+#### Klarere Fehlermeldung: Effort `xhigh`/`max` bei abgeschaltetem Thinking
+- **Was:** Ist Thinking deaktiviert und das Effort-Level steht auf `xhigh` oder `max`, nennt die Fehlermeldung jetzt das Level, die Einstellung, die Thinking abgeschaltet hat, und `/effort high` als Ausweg.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Kombination war bisher ein kryptischer Fehler; jetzt steht die Lösung direkt dabei.
+- **Version:** v2.1.243
+
+#### `/loop`: leere Wake-ups werden zu einer Zeile zusammengefasst
+- **Was:** Aufeinanderfolgende `/loop`-Wake-ups, bei denen Claude nichts zu tun hat, werden im Terminal zu einer einzelnen Zeile gefaltet, statt jedes einzeln auszugeben.
+- **Einsatz:** Automatisch aktiv bei `/loop`
+- **Mehrwert:** Ein Loop, der alle fünf Minuten eine CI-Pipeline prüft, füllt das Terminal nicht mehr mit Dutzenden „nichts Neues"-Zeilen — die Historie bleibt lesbar.
+- **Version:** v2.1.243
+
+#### Sandbox-Bash-Prompt listet erlaubte Hosts nicht mehr auf
+- **Was:** Der Prompt des sandboxed Bash-Tools nennt die freigegebenen Netzwerk-Hosts nicht mehr. Claude versucht Anfragen deshalb einfach — und man kann neue Hosts freigeben —, statt nicht gelistete Hosts von vornherein als blockiert anzunehmen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Claude verweigerte bisher mitunter Anfragen an Hosts, die man gern freigegeben hätte, weil sie nicht auf der Liste standen. Jetzt entsteht die Freigabe-Frage an der Stelle, an der sie gebraucht wird.
+- **Version:** v2.1.243
+
+#### Sonnet 5: 2 $/10 $ pro Mio. Tokens als regulärer Listenpreis
+- **Was:** Der `/model`-Picker und der eingebaute `claude-api`-Skill zeigen den Sonnet-5-Preis von 2 $/10 $ pro Million Tokens jetzt als regulären Listenpreis, nicht mehr als zeitlich begrenzte Aktion.
+- **Einsatz:** `/model`, `/claude-api`
+- **Mehrwert:** Kalkulationen auf Sonnet-5-Basis brauchen keine Fußnote „Aktionspreis bis …" mehr.
+- **Version:** v2.1.243
+
+#### Computer Use auf macOS: Finder-Freigabe wie bei jeder anderen App
+- **Was:** Klicks auf den Desktop, das Dock oder ein Finder-Fenster erfordern jetzt, dass man dem Finder im Zugriffsdialog die Freigabe erteilt — wie bei jeder anderen Anwendung.
+- **Einsatz:** Freigabe-Dialog beim ersten Finder-Zugriff bestätigen
+- **Mehrwert:** Einheitliches Berechtigungsmodell: Der Finder bekommt keine stille Sonderrolle mehr.
+- **Version:** v2.1.243
+
+#### `/model`, `/fast` und `/effort` wirken sofort — auch auf Bedrock, Vertex, Foundry
+- **Was:** Die drei Befehle liefen auf Bedrock, Vertex und Foundry sowie bei abgeschalteter Telemetrie bisher erst nach dem Turn-Ende; jetzt werden sie überall sofort ausgeführt.
+- **Einsatz:** `/model`, `/fast`, `/effort` während eines laufenden Turns
+- **Mehrwert:** Ein Modellwechsel mitten in einer langen Aufgabe greift sofort — Cloud-Anbieter-Nutzer sind mit dem Anthropic-API-Verhalten gleichgestellt.
+- **Version:** v2.1.243
+
+#### Remote Control: übersteht Umgebungswechsel und Neustarts, klarere Hinweise
+- **Was:** `claude remote-control` beendete sich und ließ angebundene Remote-Control-Sessions hängen, wenn der Server mitten in der Session seine Umgebung wechselte; jetzt erholt es sich. Team- und Enterprise-Mitglieder ohne Admin- oder Owner-Rolle sahen nach Stopp und Neustart von `claude remote-control` mitunter festhängende Sessions — behoben. Der Hinweis beim Fortsetzen einer Unterhaltung, deren Remote Control ein anderes Terminal hält, erklärt jetzt, dass Sessions auf anderen Maschinen von hier aus weder sichtbar noch erreichbar sind.
+- **Einsatz:** `claude remote-control`
+- **Mehrwert:** Nachdem Remote Control mit Week 34 die Research Preview verlassen hat, werden die Robustheitslücken geschlossen, die im Dauerbetrieb auffallen — ein einmal gestarteter Daemon bleibt auch über Server-Wechsel hinweg erreichbar.
+- **Version:** v2.1.243
 
 ### Woche 34 (22./23. August 2026) — v2.1.241
 
