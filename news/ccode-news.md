@@ -1,11 +1,205 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-25 18:00 UTC (Crawl 25.08. 18:00 UTC — **Erste Bewegung seit vier Läufen — aber nicht bei der CLI: ein neuer Blog-Beitrag vom 25.08.**, „Claude's memory works everywhere, and you decide what's in it" (Slug `claudes-memory-works-everywhere-and-you-decide-whats-in-it`, Kategorie „Product announcements", Produkt Claude Cowork). Er verdrängt den bisherigen Blog-Top vom 21.08. („Claude Mythos 5 … to more defenders") auf Platz zwei; die übrigen vierzehn Slugs sind unverändert. Inhalt: **ein gemeinsames Gedächtnis für Chat und Cowork**, **Befüllung während des Gesprächs** statt Zusammenfassung danach, **einsehbare und editierbare Topics-Dateien** unter Settings → Memory, und ein **standardmäßig ausgeschalteter Schalter für sensible Themen** (Gesundheit, Herkunft, Religion, Politik, Geschlechtsidentität; nur ab Aktivierung wirksam, nie rückwirkend, mit harten Ausnahmen für Ausweisnummern, Vorstrafen, Aufenthaltsstatus und AUP-Verstöße). An by default auf Free/Pro/Max, auf Team/Enterprise erst nach Admin-Freigabe und dann pro Nutzer aus. **Kein direkter Claude-Code-Bezug** — die CLI und ihr projektbezogenes Gedächtnis (`CLAUDE.md`, `~/.claude/`) sind nicht betroffen; aufgenommen wird der Beitrag trotzdem, wie die übrigen Cowork-/Chrome-/Government-Ankündigungen dieser Datei. **CLI unverändert v2.1.245** (npm 25.08. 04:45 UTC, GitHub-Release 05:13 UTC) — **kein v2.1.246 bis 18:00 UTC**, `time.modified` der Registry steht weiterhin auf 25.08. 05:12 UTC; Tags still: `latest` und `next` einheitlich **2.1.245**, `stable` unverändert **2.1.231**. **Rhythmus:** 18:00 UTC entspricht 11:00 Dienstagvormittag an der US-Westküste — von den acht Releases der Werktags-Serie seit dem 17.08. kamen nur zwei vor 18:00 UTC (v2.1.239 um 17:18, v2.1.240 um 13:03), die übrigen zwischen 18:01 und 23:58 UTC. Ein Dienstags-Release nach Muster wäre also erst beim 26.08.-06:00-Lauf sichtbar; aus dem leeren Dienstagvormittag lässt sich noch nichts ableiten. **Changelog-Endstand bestätigt:** die `CHANGELOG.md` springt weiter 2.1.245 → 2.1.243 → 2.1.241, für **v2.1.242 ist auch 23 Stunden nach dem npm-Publish kein Abschnitt nachgereicht**; die Releases-API listet unverändert v2.1.245 direkt über v2.1.241, **v2.1.242 und v2.1.243 bleiben ohne GitHub-Release**. Damit gilt endgültig: `CHANGELOG.md` ist Pflichtabruf, GitHub-Releases allein reichen nicht. **What's-New unverändert:** Week 34 (17.–21.08.) oben, Week 33 darunter, beide vollständig in dieser Datei; **Week 35** (24.–28.08.) läuft noch, **Week 31 fehlt weiterhin** (die Liste springt Week 32 → Week 30, inzwischen über vier Wochen). **Platform-Top unverändert 20.08.** (Python-SDK 1.0 mit dem httpx→httpx2-Wechsel), kein Eintrag vom 21.–25.08. **Quellenlage:** npm-Registry, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com`, die Blog-Slug-Liste und der Beitrag selbst alle per `curl -L --retry 3` im ersten Versuch; `platform.claude.com` ebenfalls per `curl` auf `…/docs/en/release-notes/overview` (HTTP 200, 1,7 MB). **Neue Einträge: 1** (Blog-Ankündigung „Memory everywhere", 25.08.); der älteste Crawl-Block (25.08. 06:00) aus dem Header in die Git-Historie ausgelagert. — Vorheriger Crawl 25.08. 12:00 UTC — **Bestätigungs-Crawl 12:00 UTC: keine Bewegung in allen vier Quellen — und die beiden offenen Fragen vom 06:00-Lauf sind beantwortet, beide mit Nein.** **CLI unverändert v2.1.245** (npm-Publish 25.08. 04:45 UTC, GitHub-Release 05:13 UTC) — **kein v2.1.246 bis 12:00 UTC**, der jüngste Publish liegt gut sieben Stunden zurück; Tags still: `latest` und `next` einheitlich **2.1.245**, `stable` unverändert **2.1.231**. **Nachgefasst, wie am 06:00-Lauf angekündigt:** **v2.1.242 und v2.1.243 haben weiterhin kein GitHub-Release** — die Releases-API listet unverändert v2.1.245 (25.08. 05:13 UTC) und direkt darunter v2.1.241 (23.08. 00:52 UTC); und **für v2.1.242 ist auch kein Changelog-Abschnitt nachgereicht worden** — die `CHANGELOG.md` springt weiter 2.1.245 → 2.1.243 → 2.1.241. Beides liegt jetzt 13 bzw. 17 Stunden zurück, ein Nachreichen ist damit unwahrscheinlich; die Lücke bleibt der Endstand. **Praktische Folge — für diese Datei festgehalten:** Wer Claude-Code-Änderungen ausschließlich über die GitHub-Releases verfolgt, hat den 60-Punkte-Changelog von v2.1.243 nie gesehen; das GitHub-Release v2.1.245 nennt nur den glibc-Fix. Die `CHANGELOG.md` ist damit die vollständigere Quelle und bleibt Pflichtabruf, GitHub-Releases allein reichen nicht. **Rhythmus:** Der Werktags-Takt seit dem 17.08. hält (nur der Sonntag 23.08. blieb leer); 12:00 UTC entspricht 05:00 Dienstagmorgen an der US-Westküste — die Releases der Serie kamen zwischen 13:03 und 23:58 UTC, ein Dienstags-Release wäre also frühestens beim 18:00-Crawl sichtbar. **What's-New unverändert:** Week 34 (17.–21.08.) oben, Week 33 darunter, beide vollständig in dieser Datei; **Week 35** (24.–28.08.) läuft noch und ist erwartungsgemäß nicht veröffentlicht, **Week 31 fehlt weiterhin** (die Liste springt Week 32 → Week 30, inzwischen über vier Wochen). **Blog-Top unverändert 21.08.** („Bringing the cybersecurity capabilities of Claude Mythos 5 to more defenders"), darunter zweimal 20.08.; exakt dieselben fünfzehn Slugs wie am 06:00-Lauf, **kein Beitrag vom 22.–25.08.** **Platform-Top unverändert 20.08.** (Python-SDK 1.0 mit dem httpx→httpx2-Wechsel), kein Eintrag vom 21.–25.08. **Quellenlage:** GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com` und die Blog-Slug-Liste per `curl -L --retry 3` im ersten Versuch; **die npm-Registry lieferte im ersten Versuch trotz `--retry 3` eine leere Antwort** und erst im zweiten Anlauf das JSON — dieselbe Störung wie zuvor bei den GitHub-Hosts, eine leere Antwort darf nie als „unverändert" gelesen werden; `platform.claude.com` per WebFetch auf `…/docs/en/release-notes/overview`. **Keine neuen Einträge**; der älteste Crawl-Block (24.08. 18:00) aus dem Header in die Git-Historie ausgelagert. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-08-26 12:00 UTC (**Crawl 26.08. 12:00 UTC — Bestätigungs-Crawl: keine Bewegung in allen vier Quellen, der Mittwoch ist bis 12:00 UTC leer.** **CLI unverändert v2.1.246** (npm-Publish 25.08. 19:17 UTC, GitHub-Release 25.08. 22:31 UTC) — **kein v2.1.247 bis 12:00 UTC**, `time.modified` der Registry steht weiterhin auf 25.08. 22:31 UTC; **Tags still:** `latest` und `next` einheitlich **2.1.246**, `stable` unverändert **2.1.231**. **Rhythmus:** 12:00 UTC entspricht 05:00 Mittwochmorgen an der US-Westküste — von den neun Releases der Werktags-Serie seit dem 17.08. kamen **sieben nach 18:00 UTC**, ein Mittwochs-Release nach Muster wäre also frühestens beim 18:00-Lauf, sicher erst am 27.08. um 06:00 sichtbar; aus dem leeren Mittwochmorgen lässt sich nichts ableiten. Bemerkenswert bleibt das **Doppelmuster der Vortage**: Der 24.08. brachte zwei Releases (v2.1.242 um 19:16, v2.1.243 um 23:10 UTC), der 25.08. ebenfalls zwei (v2.1.245 um 04:45, v2.1.246 um 19:17 UTC). **Changelog-Endstand bestätigt:** Die `CHANGELOG.md` springt unverändert 2.1.246 → 2.1.245 → 2.1.243 → 2.1.241 — für **v2.1.242 ist auch gut 40 Stunden nach dem npm-Publish kein Abschnitt nachgereicht**, **v2.1.244 existiert weiterhin nirgends**, und die Releases-API listet unverändert v2.1.246 → v2.1.245 → v2.1.241, **v2.1.242 und v2.1.243 bleiben ohne GitHub-Release**. Damit gilt weiter: `CHANGELOG.md` ist Pflichtabruf, GitHub-Releases allein reichen nicht. **What's-New unverändert:** Week 34 (17.–21.08.) oben, Week 33 darunter, beide vollständig in dieser Datei; **Week 35** (24.–28.08.) läuft noch, **Week 31 fehlt weiterhin** (die Liste springt Week 32 → Week 30, inzwischen über vier Wochen). **Blog unverändert:** exakt dieselben fünfzehn Slugs wie am 06:00-Lauf, Top weiterhin der Memory-Beitrag vom 25.08., **kein Beitrag vom 26.08.** **Platform-Top unverändert 20.08.** (Python-SDK 1.0 mit dem httpx→httpx2-Wechsel), kein Eintrag vom 21.–26.08. **Quellenlage:** npm-Registry, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com`, die Blog-Slug-Liste und `platform.claude.com` alle per `curl -L --retry 3` im ersten Versuch, keine leeren Antworten. **Neue Einträge: 0.** **Betriebs-Befund:** Der 06:00-Lauf lief in den 300-Sekunden-Timeout des Wrappers (HTTP 504) — die 195 Zeilen zu v2.1.246 waren zwar geschrieben, aber **nicht committet**; dieser Lauf holt den Commit nach. Der älteste Crawl-Block (25.08. 18:00) aus dem Header in die Git-Historie ausgelagert. — Vorheriger Crawl 26.08. 06:00 UTC — Bewegung: v2.1.246 ist da, der bislang umfangreichste Release der Serie mit 61 Changelog-Punkten.** Der Publish erfolgte am **25.08. um 19:17 UTC auf npm** — also nach dem 18:00-Crawl, was die dort formulierte Erwartung bestätigt: Von den nun neun Releases der Werktags-Serie seit dem 17.08. kamen sieben nach 18:00 UTC. Das **GitHub-Release folgte am 25.08. um 22:31 UTC**, gut drei Stunden später; `time.modified` der Registry steht entsprechend auf 25.08. 22:31 UTC. **Tags:** `latest` und `next` beide auf **2.1.246**, `stable` unverändert **2.1.231**. Damit brachte der 25.08. **zwei Releases** (v2.1.245 um 04:45, v2.1.246 um 19:17 UTC) — dasselbe Doppelmuster wie am 22.08. und am 24.08. **Zusammensetzung des Releases:** drei neue Funktionen, sechs Verbesserungen, fünf Verhaltensänderungen und **47 Fehlerbehebungen** — ein Aufräum-Release, der die Altlasten der Umbauten der letzten Wochen abarbeitet (Fullscreen-Renderer, Background-Sessions, Plugin-System, MCP, Gateway-/Enterprise-Pfade). **Zwei Punkte sind sicherheitsrelevant:** Telemetrie- und Metrik-Anfragen an Anthropic trugen den für einen Drittanbieter-Gateway (`ANTHROPIC_BASE_URL`) konfigurierten API-Key mit (Credential nur noch an den eigenen Host — betroffene Gateway-Keys sollten rotiert werden), und Bash-Kommandos mit hängendem `&&`/`||` liefen durch die Permission-Prüfung statt zur Bestätigung vorgelegt zu werden. **Dokumentationslage wieder normal:** `CHANGELOG.md`-Abschnitt und GitHub-Release-Body von v2.1.246 stimmen **Punkt für Punkt überein** — anders als bei v2.1.242 (nie ein Abschnitt) und v2.1.243 (Abschnitt, aber kein Release). Die Lücken davor bleiben Endstand: Die `CHANGELOG.md` springt 2.1.246 → 2.1.245 → 2.1.243 → 2.1.241, **v2.1.244 existiert weiterhin nirgends**. **What's-New unverändert:** Week 34 (17.–21.08.) oben, Week 33 darunter, beide vollständig in dieser Datei; **Week 35** (24.–28.08.) läuft noch, **Week 31 fehlt weiterhin** (die Liste springt Week 32 → Week 30, inzwischen über vier Wochen). **Blog unverändert:** exakt dieselben fünfzehn Slugs wie am 18:00-Lauf, Top weiterhin der Memory-Beitrag vom 25.08., **kein Beitrag vom 26.08.** **Platform-Top unverändert 20.08.** (Python-SDK 1.0 mit dem httpx→httpx2-Wechsel), kein Eintrag vom 21.–26.08. **Quellenlage:** npm-Registry, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com`, die Blog-Slug-Liste und `platform.claude.com` alle per `curl -L --retry 3` im ersten Versuch, keine leeren Antworten. **Neue Einträge: 32** (v2.1.246, alle 61 Changelog-Punkte thematisch gebündelt); der älteste Crawl-Block (25.08. 12:00) aus dem Header in die Git-Historie ausgelagert. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 35 (25. August 2026) — v2.1.246
+
+#### Überblick: v2.1.246 — 61 Punkte, der große Aufräum-Release der Serie
+- **Was:** Am 25.08. kam mit **v2.1.246 die zweite Version des Tages** — nach dem glibc-Hotfix v2.1.245 vom Morgen (04:45 UTC) folgte um **19:17 UTC der npm-Publish** (12:17 Uhr US-Westküste), das **GitHub-Release drei Stunden später um 22:31 UTC**. Der Changelog umfasst **61 Punkte** und ist damit der umfangreichste der Serie (v2.1.243 hatte 60, v2.1.239 59). Die Zusammensetzung ist ungewöhnlich einseitig: **drei neue Funktionen, sechs Verbesserungen, fünf Verhaltensänderungen — und siebenundvierzig Fehlerbehebungen.** Das ist kein Feature-Release, sondern ein Aufräum-Release, der die Altlasten aus den Umbauten der letzten Wochen abarbeitet: Fullscreen-Renderer, Background-Sessions, Plugin-System, MCP und die Gateway-/Enterprise-Pfade. **Dokumentationslage wieder normal:** Anders als v2.1.242 und v2.1.243, die ganz oder teilweise ohne GitHub-Release blieben, hat v2.1.246 sowohl einen vollständigen `CHANGELOG.md`-Abschnitt als auch ein GitHub-Release mit identischem Wortlaut — beide Quellen stimmen Punkt für Punkt überein. Die Lücken davor bleiben allerdings bestehen: Die `CHANGELOG.md` springt weiterhin 2.1.246 → 2.1.245 → 2.1.243 → 2.1.241, **v2.1.242 hat auch jetzt keinen Abschnitt**, **v2.1.244 existiert weiterhin gar nicht**. `latest` und `next` zeigen beide auf 2.1.246, `stable` bleibt unverändert bei 2.1.231.
+- **Einsatz:** `claude update` bzw. `npm i -g @anthropic-ai/claude-code@latest`
+- **Mehrwert:** Für die meisten lohnt das Update, ohne dass man einen Grund suchen müsste: Wer den Fullscreen-Modus nutzt, lange Sessions fährt, Plugins installiert hat oder über ein Gateway arbeitet, ist mit hoher Wahrscheinlichkeit von mindestens einem der 47 Fixes betroffen. Zwei Punkte sind sicherheitsrelevant genug, um das Update nicht aufzuschieben — die Telemetrie schickte den Gateway-API-Key an Anthropic, und Bash-Kommandos mit hängendem `&&` umgingen die Permission-Prüfung; beide sind unten einzeln beschrieben.
+- **Version:** v2.1.246
+
+#### Sicherheits-Fix: Telemetrie schickte den Gateway-API-Key an Anthropic
+- **Was:** Wer Claude Code über einen **Drittanbieter-Gateway** (`ANTHROPIC_BASE_URL`) betreibt, hinterlegt dort einen API-Key, der nur für diesen Gateway gilt. Telemetrie- und Metrik-Anfragen gingen jedoch weiterhin direkt an Anthropic — **und trugen diesen fremden Key mit**. Ab v2.1.246 gilt: **Ein Credential wird nur noch an den Host geschickt, zu dem es gehört.**
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Das ist ein Credential-Leak über die Vertrauensgrenze hinweg — ein Schlüssel, der für einen internen Proxy, einen LiteLLM-Router oder ein Firmen-Gateway ausgestellt wurde, landete bei einem Dritten, der ihn nie hätte sehen sollen. Wer eine solche Konstruktion betreibt und Telemetrie aktiviert hat, sollte nicht nur updaten, sondern den betroffenen Gateway-Key **rotieren** — der Fix verhindert künftige Übertragungen, macht die vergangenen aber nicht ungeschehen.
+- **Version:** v2.1.246
+
+#### Sicherheits-Fix: Bash-Kommandos mit hängendem `&&` oder `||` umgingen die Permission-Prüfung
+- **Was:** Ein Bash-Kommando, das auf einen **unvollständigen Operator endet** — also etwa `git status &&` oder `npm test ||` — ist syntaktisch kaputt. Die Permission-Prüfung kam mit solchen Kommandos nicht zurecht. Ab v2.1.246 werden **fehlerhaft geformte Kommandos immer zur Bestätigung vorgelegt**, statt sie durch die Regelprüfung laufen zu lassen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ein Parser, der bei kaputter Eingabe nicht sauber scheitert, ist die klassische Umgehungsstelle für Permission-Systeme — genau dasselbe Muster wie die PowerShell- und Cygwin-Bypässe aus v2.1.232. Die neue Regel „im Zweifel fragen" ist die richtige Antwort darauf; in der Praxis wird sie kaum auffallen, weil legitime Kommandos selten auf einem Operator enden.
+- **Version:** v2.1.246
+
+#### Startup-Warnung: Bash-Allow-Rules mit Wildcard **vor** dem Subcommand
+- **Was:** Eine Regel wie `Bash(git * main)` sieht harmlos aus — gemeint ist meist „irgendein Git-Subcommand auf `main`". Tatsächlich passt der Platzhalter aber **auch auf Optionen, die vor dem Subcommand eingeschoben werden**, etwa `git -c core.pager=<befehl> ... main`. Claude Code weist beim Start jetzt auf solche Regeln hin.
+- **Einsatz:** Automatisch aktiv (Warnung beim Start); Regeln in `settings.json` unter `permissions.allow` prüfen
+- **Mehrwert:** Der Hinweis kommt an genau der Stelle, an der Permission-Regeln typischerweise zu weit greifen, ohne dass es jemandem auffällt: Wer sich Git-Kommandos bequem freischalten wollte, hat unter Umständen einen Weg mit freigeschaltet, über den sich beliebige Kommandos in die Git-Konfiguration einschleusen lassen. Die Warnung ändert nichts an der Regel — sie zeigt nur, welche man sich noch einmal ansehen sollte.
+- **Version:** v2.1.246
+
+#### `/permissions` bekommt einen Auto-Mode-Tab
+- **Was:** Der Permissions-Dialog hat einen neuen Reiter **Auto mode**, in dem sich die **Klassifizierer-Regeln des Auto-Modus** ansehen und bearbeiten lassen.
+- **Einsatz:** `/permissions` → Tab „Auto mode"
+- **Mehrwert:** Der Auto-Modus entscheidet bislang weitgehend unsichtbar, welche Tool-Aufrufe ohne Rückfrage durchgehen. Wer sich gewundert hat, warum ein bestimmter Befehl mal gefragt wird und mal nicht, kann jetzt nachsehen statt zu raten — und die Regeln dort anpassen, wo der Klassifizierer zu großzügig oder zu streng ist.
+- **Version:** v2.1.246
+
+#### Abschlusszeit in der Turn-Dauer-Zeile
+- **Was:** Die Zeile am Ende eines Turns nennt neben der Dauer jetzt auch den **Zeitpunkt der Fertigstellung** — etwa `✻ Sautéed for 23s · done 6:05 PM`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kleinigkeit mit spürbarem Nutzen bei langen Läufen: Wer nach einer Pause an den Rechner zurückkommt, sieht sofort, ob die Antwort vor zwei Minuten oder vor einer Stunde fertig wurde — bisher stand dort nur, wie lange sie gedauert hat.
+- **Version:** v2.1.246
+
+#### Fullscreen-Modus: leeres Transkript nach Resize, erratisches Scrollen, Fokus-Klau, wachsender Speicher
+- **Was:** Vier Fehler im Fullscreen-Renderer sind behoben. (1) Nach dem **Verändern der Terminalgröße** blieb das Transkript leer und sprang bis zum nächsten Tastendruck ans Ende. (2) Das **Scrollen war unberechenbar**, wenn man sich bei einer früheren Nachricht befand — der Sprung ans Ende blieb dabei mitten im Transkript hängen. (3) Ein **Klick ins Terminalfenster**, nur um es wieder in den Vordergrund zu holen, verschob den Tastaturfokus auf das Bedienelement unter dem Mauszeiger. (4) Der **Speicherverbrauch wuchs mit der Sessionlänge** in der Fullscreen- und der Ctrl+O-Ansicht, weil jede gerenderte Nachrichtenzeile eine vollständige Kopie der transkriptweiten Tool-Tabellen festhielt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der Fullscreen-Renderer wurde in v2.1.239 zum Standard gemacht; das hier ist die Rechnung dafür. Vor allem der Speicherpunkt ist wichtig für alle, die stundenlange Sessions fahren — dort wuchs der Verbrauch bisher linear mit, ohne dass es einen Grund dafür gab.
+- **Version:** v2.1.246
+
+#### Transkript wurde extrem langsam bei sehr langen Einzelzeilen im Diff
+- **Was:** Enthielt ein Diff eine **einzelne, sehr lange Zeile** — der Klassiker ist ein einkopierter Base64-String —, wurde das gesamte Transkript spürbar zäh. Solche Zeilen werden jetzt **gekürzt und mit einer Markierung** dargestellt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ein einziges eingebettetes Bild, ein Zertifikat oder ein Minified-Bundle in einer geänderten Datei reichte bisher, um die Bedienung für den Rest der Session auszubremsen — und es war nicht offensichtlich, woran es lag.
+- **Version:** v2.1.246
+
+#### Background-Sessions: 45-Sekunden-Timeout und `EACCES` beim Start
+- **Was:** Zwei Startfehler für Hintergrund-Sessions sind behoben. (1) Der Start **scheiterte nach 45 Sekunden**, wenn das Startverzeichnis von Claude Code inzwischen gelöscht war, die Maschine geschlafen hatte oder der Rechner generell langsam Prozesse startet. (2) Der Start scheiterte mit **„Couldn't start the background service … EACCES"**, wenn zur selben Zeit ein anderer Claude-Code-Prozess das npm-Paket neu installierte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Beide Fälle sind Alltag und nicht Sonderfall: Ein zugeklappter Laptop, ein gelöschtes Temp-Verzeichnis oder ein parallel laufendes `claude update` reichten aus. Statt einer Fehlermeldung nach 45 Sekunden Wartezeit startet die Session jetzt einfach.
+- **Version:** v2.1.246
+
+#### `claude agents`: Start-Race unter Windows und doppelte Einträge
+- **Was:** Drei Fehler in der Agenten-Übersicht. (1) Öffnete man eine **gerade gestartete Session, während ihr Worker noch hochfuhr** — unter Windows der Regelfall —, wurde sie mit „was stopped while the respawn was in flight" gestoppt. (2) Eine benannte Session, die man in den Hintergrund schickte, erschien **doppelt in der Liste**; dieselbe Konversation erneut zu backgrounden nummeriert die neue Zeile jetzt durch (z. B. `my-session (2)`). (3) Der **Aufräumlauf für alte Hintergrund-Sessions löschte Git-Worktrees unter `.claude/worktrees/`, die man selbst angelegt hatte**, sobald ein veralteter Session-Eintrag darauf zeigte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Punkt drei ist der ernste: Ein Aufräumlauf, der eigene Arbeitsverzeichnisse mitnimmt, kostet im Zweifel uncommittete Arbeit. Wer mit Worktrees unter `.claude/worktrees/` arbeitet, sollte hier zügig updaten.
+- **Version:** v2.1.246
+
+#### Dynamic Workflows: `←` oder `/background` startete fertige Subagenten neu
+- **Was:** Drückte man während eines laufenden dynamischen Workflows die **Pfeiltaste nach links** oder rief `/background` auf, wurden dessen **bereits fertige Subagenten erneut gestartet**. Jetzt fragt Claude Code vorher nach und nennt dabei, **wie viele Subagenten neu starten würden**.
+- **Einsatz:** Automatisch aktiv (Rückfrage)
+- **Mehrwert:** Bei einem Workflow mit einem Dutzend abgeschlossener Subagenten war ein versehentlicher Tastendruck teuer — an Zeit und an Tokens. Die Rückfrage nennt jetzt die Zahl, was die Entscheidung leicht macht.
+- **Version:** v2.1.246
+
+#### Auto-Modus verweigerte Tool-Aufrufe in sehr großen Sessions als „temporarily unavailable"
+- **Was:** In sehr umfangreichen Sessions wurden Tool-Aufrufe im Auto-Modus mit **„temporarily unavailable" abgelehnt**, weil die Sicherheitsprüfung in ihre feste Frist lief. Die Frist **skaliert jetzt mit der Prompt-Größe**.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der Fehler traf ausgerechnet die langen Sessions, in denen der Auto-Modus am meisten spart — je weiter die Arbeit fortgeschritten war, desto häufiger fiel er aus. Dass die Frist jetzt mitwächst, ist die naheliegende Lösung.
+- **Version:** v2.1.246
+
+#### Plugin-System: sieben Fehlerbehebungen
+- **Was:** (1) Der **Plugin-Cache legte für dasselbe Plugin mehrere SHA-benannte Verzeichnisse** an. (2) Plugin-Skills, deren Frontmatter-`name` den `<plugin>:`-Präfix bereits enthält, erschienen im Slash-Menü **doppelt präfigiert** (`/plugin:plugin:skill`). (3) **`claude plugin update` scheiterte**, wenn man ein installiertes Plugin mit seinem bloßen Namen ansprach — nur der voll qualifizierte Name funktionierte. (4) Die **Installation scheiterte**, wenn `plugin.json` mit einem **UTF-8-BOM** gespeichert war. (5) **`/reload-plugins` meldete 0 Skills** für Plugins, die ihre Skills unter `skills/*/SKILL.md` ablegen. (6) **Hook-Fehlermeldungen zeigten das literale `${CLAUDE_PLUGIN_ROOT}`** statt des aufgelösten Plugin-Pfads. (7) **`claude plugin install <name>` beendete sich stillschweigend** (oder hing im Terminal), statt einen Fehler zu melden, wenn `~/.claude/plugins/known_marketplaces.json` leer oder beschädigt war.
+- **Einsatz:** Automatisch aktiv; `claude plugin update <name>` funktioniert jetzt auch mit dem Kurznamen
+- **Mehrwert:** Das ist der Rückstand, der sich seit der Marketplace-Erweiterung der letzten Wochen angesammelt hat. Punkt 5 und 6 sind für Plugin-Autoren die wichtigsten — ein Skill-Verzeichnis, das schlicht als leer gemeldet wird, und ein Hook-Fehler, der den Pfad nicht auflöst, kosten beide eine halbe Stunde Suche an der falschen Stelle.
+- **Version:** v2.1.246
+
+#### MCP: unterbrochene Tool-Calls, leere Parameter-Schemata, `requiresUserInteraction`, `--strict-mcp-config`
+- **Was:** Vier MCP-Fehler. (1) Wurde ein **MCP-Tool-Call in einer Headless- oder Remote-Session durch eine eingehende Nachricht unterbrochen**, meldete Claude Code dem Modell „completed with no output" statt eines expliziten Abbruch-Fehlers. (2) **MCP-Tool-Argumente wurden als JSON-Strings übertragen**, wenn das Schema des Parameters leer (`{}`) war, statt in ihrem tatsächlichen Typ. (3) MCP-Tools mit der Markierung **`requiresUserInteraction` boten im Permission-Prompt weiterhin „Yes, and don't ask again"** an — die Option schrieb eine Allow-Regel, die das Tool anschließend ignorierte. (4) **`--strict-mcp-config`-Sessions fragten nach Freigabe für `.mcp.json`-Server, die sie ohnehin nie laden würden**, wodurch Hintergrund-Sessions beim Start hängen blieben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Punkt 1 ist der heimtückischste: Ein Modell, dem ein abgebrochener Aufruf als „erfolgreich, aber ohne Ausgabe" gemeldet wird, zieht daraus die falschen Schlüsse und arbeitet auf einer erfundenen Grundlage weiter. Punkt 4 erklärt eine ganze Klasse hängender Hintergrund-Sessions — sie warteten auf eine Freigabe, die niemand sah und die gar nicht nötig war.
+- **Version:** v2.1.246
+
+#### Abgebrochener Befehl zeigte „Ran 1 shell command" ohne Hinweis auf den Abbruch
+- **Was:** Ein Kommando, das **mitten im Lauf unterbrochen** wurde, erschien im Transkript als „Ran 1 shell command" — **ohne jedes Zeichen dafür, dass es abgeschnitten wurde**.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ein halb gelaufenes Migrationsskript oder ein abgebrochener Build, der im Protokoll wie ein normaler Durchlauf aussieht, ist eine unangenehme Fehlerquelle — man sucht die Ursache anschließend überall, nur nicht dort.
+- **Version:** v2.1.246
+
+#### Markdown-Rendering setzte für ganze Nachrichten aus
+- **Was:** Die Markdown-Darstellung wurde für eine **komplette Nachricht abgeschaltet**, wenn deren erste 500 Zeichen kein Markdown enthielten — außerdem funktionierte sie nicht für Listen mit `+` oder `N)` als Aufzählungszeichen und nicht für **Setext-Überschriften** (die mit `===`/`---` unterstrichene Variante).
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer eine Antwort mit ein paar Sätzen Vorrede beginnt und erst danach eine Tabelle oder Codeblöcke bringt, bekam bisher alles als Rohtext — und zwar unvorhersehbar, weil die Grenze bei genau 500 Zeichen lag.
+- **Version:** v2.1.246
+
+#### Theme- und Keybinding-Fixes: Prompt-Rahmen, Diff-Farben, tote Tasten
+- **Was:** (1) **`/rename` ersetzte die Rahmenfarbe des Prompts** durch das Standard-Cyan — auch die `promptBorder`-Farbe eines eigenen Themes; der Rahmen behält jetzt die Theme-Farbe, sofern man nicht selbst per `/color` eine wählt. (2) Die **Diff-Farben eigener Themes** (`diffAdded`/`diffRemoved` samt gedimmter Varianten) wurden in Diffs und in der `/theme`-Vorschau **ignoriert**. (3) Ein Eintrag in `keybindings.json` mit einem **unbekannten Aktionsnamen legte die betreffende Taste stillschweigend lahm**; solche Einträge werden jetzt übersprungen, sodass die Standardbelegung erhalten bleibt, und unter `--debug` wird gewarnt.
+- **Einsatz:** Automatisch aktiv; Keybinding-Probleme mit `claude --debug` sichtbar machen
+- **Mehrwert:** Punkt 3 war ein echter Zeitfresser — ein Tippfehler im Aktionsnamen führte nicht zu einer Fehlermeldung, sondern zu einer Taste, die einfach nichts mehr tat. Jetzt gibt es eine Warnung an der Stelle, an der man sie sucht.
+- **Version:** v2.1.246
+
+#### `/stats`-Heatmap zeigte östlich von UTC jeden Tag eine Zelle versetzt
+- **Was:** Die Aktivitäts-Heatmap in `/stats` ordnete in **Zeitzonen östlich von UTC** jeden Tag der falschen Zelle zu — die Sonntagswerte standen unter Montag.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Betrifft alle in Mitteleuropa. Die Heatmap war damit als Wochenübersicht schlicht falsch beschriftet; wer daraus Gewohnheiten abgelesen hat, hat sie um einen Tag verschoben gelesen.
+- **Version:** v2.1.246
+
+#### `/fork` einer bereits geforkten oder backgroundeten Session begann leer
+- **Was:** Ein `/fork` aus einer Session, die selbst schon ein Fork war oder in den Hintergrund geschickt wurde, startete die neue Session **mit leerer Konversation**.
+- **Einsatz:** `/fork`
+- **Mehrwert:** Der Sinn eines Forks ist der übernommene Kontext; ohne ihn ist er wertlos. Da Forken und Backgrounden beides Alltagsoperationen sind, traf der Fehler genau die Leute, die diese Funktionen intensiv nutzen.
+- **Version:** v2.1.246
+
+#### Weitere Eingabe- und Anzeige-Fixes
+- **Was:** (1) Prompts, die mit **`/--` beginnen** — etwa Lean-Doc-Kommentare —, wurden als unbekannter Slash-Befehl abgewiesen, statt an Claude geschickt zu werden. (2) Der **`@`-Dateipicker blieb offen**, nachdem der getippte Text auf keinen realen Pfad mehr passte. (3) **Kosten und Dauer in der Statusline sprangen auf null**, nachdem man in die Agenten-Ansicht und wieder zurück gewechselt war. (4) Die **Pfad-Vervollständigung scheiterte**, wenn das Vervollständigungs-Token oder das Arbeitsverzeichnis ein **Null-Byte** enthielt. (5) **Windows/macOS:** Headless-Sessions räumten **verwaiste Einträge in `~/.claude/sessions`** nicht auf, die von unsauber beendeten Sessions übrig blieben.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lauter Kleinigkeiten, die sich im Alltag summieren. Punkt 5 ist für Vielnutzer der relevanteste: Ein Verzeichnis, das mit jeder abgestürzten Session weiter zuwächst, macht irgendwann die Session-Listen unbrauchbar.
+- **Version:** v2.1.246
+
+#### Write-Tool meldete „Out of memory" nach dem Überschreiben sehr großer Dateien
+- **Was:** Das **Write-Tool meldete „Out of memory"** oder blockierte lange, nachdem es eine sehr große bestehende Datei überschrieben hatte — **obwohl die Datei bereits geschrieben war**.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Kombination aus geschriebener Datei und Fehlermeldung ist die schlechteste: Das Modell hält die Operation für gescheitert und versucht sie erneut, obwohl das Ergebnis längst auf der Platte liegt. Wer große Datendateien oder generierte Bundles schreiben lässt, war regelmäßig betroffen.
+- **Version:** v2.1.246
+
+#### Gateway- und Proxy-Pfade: `tool_use` ohne `id`, 400er beim Resume, `apiKeyHelper`-JWTs
+- **Was:** Drei Fehler bei der Arbeit über fremde Endpunkte. (1) Die **Oberfläche blieb beim ersten Tool-Aufruf mit einem Render-Fehler stehen**, wenn ein Anthropic-kompatibler Drittanbieter-Endpunkt (`ANTHROPIC_BASE_URL`) einen `tool_use`-Block **ohne `id`** streamte. (2) **Wiederaufgenommene Sessions scheiterten in jedem Turn mit einem 400er**, wenn die gespeicherte Historie Tool-Blöcke enthielt, die die Anthropic-API nicht akzeptiert — typischerweise von einem API-Proxy hineingeschrieben. (3) Beim ersten Prompt nach einer Pause erschien ein **sichtbarer API-Fehler**, wenn `apiKeyHelper` kurzlebige JWTs liefert; ein abgelaufener Token wird jetzt **vor dem Senden erneuert**, und 401/403-Fehler werden **still wiederholt**.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Punkt 2 machte eine betroffene Session unrettbar — jeder Versuch, dort weiterzuarbeiten, endete mit demselben Fehler, ohne dass erkennbar war, dass der Proxy die Ursache war. Punkt 3 betrifft jeden Enterprise-Aufbau mit kurzlebigen Tokens: Die erste Anfrage nach der Mittagspause scheiterte reproduzierbar.
+- **Version:** v2.1.246
+
+#### Weitere Enterprise- und Sandbox-Fixes
+- **Was:** (1) **`curl -fsSL https://claude.ai/install.sh | bash` scheiterte mit „Raw mode is not supported"** bei manchen Team- und Enterprise-Nutzern mit servergesteuerten Einstellungen. (2) Sessions, die **im Plan-Modus endeten, kamen außerhalb des Plan-Modus zurück** — in der VS-Code-Erweiterung sowie bei `claude -p --continue`/`--resume` mit Permission-Prompt-Tool, sofern kein Permission-Modus gesetzt war. (3) Der **`Notification`-Hook feuerte nicht**, solange der Sandbox-Prompt „Network request outside of sandbox" auf eine Antwort wartete. (4) Die **Dateisystem-Konfiguration der Kommando-Sandbox respektierte `--setting-sources` nicht**. (5) Der **Self-hosted Runner beendete seine laufenden Sessions oder stieg ganz aus**, wenn eine Work-Poll-Antwort fehlerhaft war (etwa die HTML-Seite eines dazwischengeschalteten Proxys); er wiederholt die Abfrage jetzt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Punkt 2 ist im Alltag der ärgerlichste — eine Session, die im Plan-Modus stehengeblieben ist, nimmt man wieder auf, um den Plan zu besprechen, und sie fängt stattdessen an zu arbeiten. Punkt 5 erklärt Runner, die scheinbar grundlos aussetzten: Ein Firmenproxy, der einmal eine Fehlerseite ausliefert, riss bisher alle laufenden Sessions mit.
+- **Version:** v2.1.246
+
+#### Cloud-Sessions: vermischte uncommittete Änderungen, fehlende Tasks, Platzhalter-Namen
+- **Was:** (1) **`/ultrareview`-Läufe und Cloud-Sessions, die gleichzeitig aus einem Repository gestartet wurden** — etwa aus mehreren Worktrees —, begannen gelegentlich **mit den uncommitteten Änderungen eines anderen Starts**. (2) Der **Task-Fortschritt** (z. B. `3/5`) bei Hintergrund-Cloud-Sessions wie `/autofix-pr` **ließ gelegentlich eine Aufgabe aus**. (3) **Remote-Control-Sessions behielten ihren Platzhalternamen** in claude.ai und der Claude-App bis zum zweiten Prompt; der automatisch erzeugte Titel erscheint jetzt nach dem ersten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Punkt 1 ist mehr als ein Schönheitsfehler: Ein Review, das über den Arbeitsstand eines anderen Worktrees läuft, liefert Befunde zu Code, den man gerade gar nicht ansieht — und das ohne erkennbaren Hinweis. Wer parallel aus mehreren Worktrees arbeitet, sollte das Update mitnehmen.
+- **Version:** v2.1.246
+
+#### `/cd` übernimmt Projekt-Settings, Hooks, MCP-Server, Skills und Agents sofort
+- **Was:** Nach einem `/cd` treten die **Projekt-Einstellungen, Hooks, `.mcp.json`-Server** (weiterhin hinter der üblichen Freigabe), **Skills und Agents des neuen Verzeichnisses direkt in Kraft** — bisher erst nach einem `--resume`.
+- **Einsatz:** `/cd <verzeichnis>`
+- **Mehrwert:** `/cd` war damit nur ein halber Verzeichniswechsel: Man arbeitete im neuen Projekt, aber mit den Hooks und Skills des alten. Wer zwischen zwei Repositories mit unterschiedlichen Konventionen wechselt, musste bisher neu starten, um die richtigen Regeln zu bekommen.
+- **Version:** v2.1.246
+
+#### Bash-Tool startet schneller: kein Base64-Subshell mehr pro Funktion
+- **Was:** Die **Latenz des Bash-Tools auf Bash-Shells** ist verbessert, weil die Snapshot-Funktionen jetzt **ohne eine Base64-Subshell je Funktion** eingespielt werden.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer in seiner `.bashrc` viele Funktionen definiert, zahlte für jede einzelne bei jedem Bash-Aufruf eine Subshell. Bei den zig Bash-Aufrufen einer normalen Session summiert sich das spürbar.
+- **Version:** v2.1.246
+
+#### Subagenten am `maxTurns`-Limit liefern jetzt ein als unvollständig markiertes Ergebnis
+- **Was:** Ein Subagent, der an seinem **`maxTurns`-Limit stoppt**, gibt sein Ergebnis jetzt **als unvollständig markiert** zurück, mit dem Hinweis, ihn über `SendMessage` fortzusetzen — statt fertig auszusehen.
+- **Einsatz:** Automatisch aktiv; Fortsetzung mit `SendMessage(<agent-id>, "…")`
+- **Mehrwert:** Ein abgeschnittenes Teilergebnis, das wie ein Endergebnis aussieht, ist bei delegierter Arbeit besonders teuer: Der Hauptagent baut darauf auf und merkt den Abbruch nie. Der Hinweis auf `SendMessage` macht aus dem Abbruch außerdem eine fortsetzbare Situation statt einer verlorenen.
+- **Version:** v2.1.246
+
+#### Nicht-interaktive Sessions setzen abgebrochene Antworten selbst fort
+- **Was:** **Nicht-interaktive Sessions** (`-p`, SDK, Cloud-Sessions) **setzen eine mitten im Stream abgebrochene Antwort automatisch fort** — bei Serverfehler, Verbindungsverlust oder Stillstand —, statt mit einem Fehler zu enden.
+- **Einsatz:** Automatisch aktiv (`claude -p`, SDK, Cloud-Sessions)
+- **Mehrwert:** Das ist der wichtigste Punkt für alles Automatisierte: Ein Cron-Lauf, ein CI-Schritt oder ein SDK-Aufruf, der an einem einzelnen Netzwerkhänger scheitert, muss bisher von außen wiederholt werden — mit allem, was das an Doppelarbeit und verlorenem Kontext bedeutet.
+- **Version:** v2.1.246
+
+#### `/code-review` startet Claude jetzt auch auf Bedrock, Vertex AI und Foundry selbst
+- **Was:** Claude darf `/code-review` **von sich aus starten** — jetzt auch auf **Bedrock, Vertex AI und Foundry**, über das Claude-Apps-Gateway und selbst dann, wenn Telemetrie oder nicht-essenzieller Datenverkehr abgeschaltet sind.
+- **Einsatz:** Automatisch aktiv; `/code-review` weiterhin auch manuell
+- **Mehrwert:** Die Einschränkung traf ausgerechnet die Unternehmensumgebungen, in denen ein automatischer Review am meisten wert ist. Dass es auch bei abgeschalteter Telemetrie funktioniert, zeigt, dass die vorherige Kopplung eher technisch als inhaltlich begründet war.
+- **Version:** v2.1.246
+
+#### `/goal`: höchstens drei Check-ins pro Ziel bei Leerlauf
+- **Was:** Leerlaufende Sessions starten pro Ziel **höchstens drei Nachfragen** zu langlaufender Hintergrundarbeit; die **nächste eigene Nachricht gibt drei weitere frei**.
+- **Einsatz:** `/goal`
+- **Mehrwert:** Ein Ziel, das auf einen Build oder eine CI-Pipeline wartet, konnte bisher unbegrenzt weiter nachfassen — jedes Mal auf Token-Kosten. Die Grenze von drei ist zugleich das Signal, dass man selbst gefragt ist, wenn danach immer noch nichts passiert ist.
+- **Version:** v2.1.246
+
+#### `claude install`/`claude update` unterbrechen nicht mehr für die Managed-Settings-Zustimmung
+- **Was:** **`claude install` und `claude update` verschieben eine ausstehende Zustimmung zu Managed Settings auf die nächste interaktive Session**, statt mitten im Kommando danach zu fragen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Ein Update, das in einem Skript oder einem Dockerfile auf eine interaktive Rückfrage wartet, hängt dort bis zum Timeout. Für alle, die Claude Code automatisiert ausrollen, war das ein echtes Hindernis.
+- **Version:** v2.1.246
+
+#### Telemetrie: bessere Zuordnung zur Organisation, korrigierte OTel-Plugin-Events
+- **Was:** (1) Die **Zuordnung der Nutzungs-Telemetrie zur eigenen Organisation** ist verbessert für Sessions mit Workload Identity Federation, für Ereignisse, die während des `apiKeyHelper`-Starts gesendet werden, und für den Fall, dass ein Login-Token im Leerlauf abgelaufen ist. (2) Bei **OpenTelemetry-Plugin-Events für aus claude.ai synchronisierte Plugins** spiegelt `plugin_id_hash` jetzt den tatsächlichen Marketplace des Plugins wider, und `enabled_via` steht bei admin-installierten Plugins auf `admin-install`.
+- **Einsatz:** Automatisch aktiv (OTel-Telemetrie muss konfiguriert sein)
+- **Mehrwert:** Relevant für alle, die Nutzung und Kosten pro Organisation auswerten: Bisher fielen genau die Sessions aus der Statistik, die über Workload Identity Federation oder einen `apiKeyHelper` laufen — also oft die produktiven Enterprise-Aufbauten. Die Plugin-Events lassen sich jetzt danach filtern, ob ein Plugin von Nutzern selbst oder von der Administration installiert wurde.
+- **Version:** v2.1.246
 
 ### Woche 35 (25. August 2026) — Blog-Ankündigung
 
