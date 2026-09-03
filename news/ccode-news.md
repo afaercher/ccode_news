@@ -1,11 +1,193 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-08-27 18:00 UTC (**Crawl 27.08. 18:00 UTC — die Werktags-Serie hält: v2.1.247 ist da, dazu ein zweiter Blog-Beitrag vom 26.08.** **CLI: v2.1.247** — npm-Publish **26.08. 18:02 UTC** (11:02 Uhr US-Westküste), GitHub-Release fünf Stunden später **26.08. 23:06 UTC**; `time.modified` der Registry steht jetzt auf **27.08. 00:07 UTC**. **Tags:** `latest` und `next` einheitlich **2.1.247**, `stable` unverändert **2.1.231** (seit über zwei Wochen). **Kein v2.1.248 bis 27.08. 18:00 UTC** — das ist nach Muster erwartbar, denn sieben der bisherigen Releases der Serie kamen nach 18:00 UTC; ein Donnerstags-Release wäre erst beim Lauf am 28.08. um 06:00 sichtbar. **Rhythmus-Befund korrigiert:** Der am 26.08. um 18:00 UTC noch leere Mittwoch war tatsächlich kein Serienende — v2.1.247 kam zwei Minuten nach jenem Crawl. Die Serie läuft damit werktäglich seit dem 17.08. durch. **Changelog v2.1.247: 33 Punkte** — vier neue Funktionen, ein aktualisiertes Skill, zwei Verbesserungen, sieben Verhaltensänderungen, neunzehn Fehlerbehebungen. `CHANGELOG.md` und GitHub-Release stimmen **Punkt für Punkt überein** (beide 33 Einträge), die Dokumentationslage ist also wieder normal. **Die älteren Lücken bleiben Endstand:** `CHANGELOG.md` springt 2.1.247 → 2.1.246 → 2.1.245 → 2.1.243 → 2.1.241, **v2.1.242 hat auch drei Tage nach dem npm-Publish keinen Abschnitt**, **v2.1.244 existiert nirgends**, und v2.1.242/243 haben weiterhin kein GitHub-Release — `CHANGELOG.md` bleibt Pflichtabruf. **Blog:** ein **zweiter Beitrag vom 26.08.** ist dazugekommen, der beim 18:00-Lauf des Vortags noch nicht in der Liste stand: „Claude Cowork built-in browser" steht jetzt auf Platz zwei hinter der Chrome-GA. Cowork bekommt einen **eigenen, vom persönlichen Browser getrennten Browser** in der Desktop-App (Enterprise sofort, Pro/Max/Team im Wochenverlauf; macOS/Windows/Linux, Linux Beta), mit Credential-Import aus Chrome/Edge/Firefox und **standardmäßigem Ausschluss von Banking-, E-Mail- und SSO-Seiten**; laut Anthropic dieselben Prompt-Injection-Abwehrmechanismen wie bei Claude in Chrome. **Kein direkter Claude-Code-Bezug**, aber das Gegenstück zur Chrome-GA. Liste weiterhin **fünfzehn Slugs**, kein Beitrag vom 27.08. **Platform-Top unverändert 26.08.** (Compliance-API-GA, lokale Sessions für Claude Science/M365, Admin API in CLI und sieben SDKs) — alle drei Punkte bereits in dieser Datei, kein Eintrag vom 27.08. **What's-New unverändert:** Week 34 (17.–21.08.) oben, Week 33 darunter; **Week 35 weiterhin HTTP 404** — der Digest der laufenden Woche erscheint erst nach deren Ende. **Week 31 fehlt weiterhin** (die Liste springt Week 32 → Week 30, inzwischen über vier Wochen). **Quellenbefund (neu, wichtig):** Der bisherige Pfad **`platform.claude.com/docs/en/release-notes` liefert jetzt HTTP 404** — die Seite ist nach **`/docs/en/release-notes/overview`** umgezogen; verlässlich abrufbar ist die Markdown-Fassung unter **`/docs/en/release-notes/overview.md`** (`/docs/en/release-notes/api` leitet ebenfalls auf `overview` um). Ein 404 auf dem alten Pfad ist also **kein** Beleg für „keine neuen Platform-Einträge". Ebenfalls notiert: Der HTML-Abruf von `platform.claude.com` per `curl` liefert das gerenderte Docs-Gerüst einer **fremden** Seite (hier „System prompts") — für diese Quelle nur die `.md`-Variante verwenden. npm-Registry, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com` und die Blog-Slug-Liste alle per `curl -L --retry 3` im ersten Versuch, keine leeren Antworten. **Neue Einträge: 22** (21 zu v2.1.247, ein Blog-Punkt). Der älteste Crawl-Block (26.08. 12:00) aus dem Header in die Git-Historie ausgelagert. — Vorheriger **Crawl 26.08. 18:00 UTC — Bewegung in zwei Quellen, aber nicht bei der CLI: der Blog meldet die allgemeine Verfügbarkeit von Claude in Chrome, die Platform-Release-Notes bringen den ersten Eintrag seit dem 20.08.** **Blog:** Neuer Beitrag vom 26.08. „Claude in Chrome is generally available“ (Kategorie Product announcements, Produkte Claude Cowork/Claude apps) verdrängt den Memory-Beitrag vom 25.08. auf Platz zwei; die übrige Liste bleibt bei fünfzehn Slugs, der älteste fällt unten heraus. Inhaltlich relevant für Claude Code ist weniger die GA als der **Safety-Classifier**, der jetzt Browser-Aktionen ohne Rückfrage freigibt — Anthropic benennt ihn als **denselben Mechanismus wie den Auto-Modus in Claude Code** und legt dafür **Prompt-Injection-Zahlen** offen: ohne Schutz 17,6 % erfolgreiche Angriffe gegen Opus 4.5 und 3,8 % gegen Opus 5, mit Probes plus Classifier ab Opus 4.8 aufwärts 0 % (Fable 5: 0,3 %). **Platform:** Erster Eintrag seit dem 20.08. — die **Compliance-API-Session-Endpunkte für Cowork und Claude Code verlassen die Beta** (GA der am 11.08. gestarteten Funktion), die **lokalen** Session-Endpunkte liefern zusätzlich Claude-Science- und Claude-für-Microsoft-365-Sessions (Beta, `product_surface` = `claude_science` bzw. `office_agents*`), und die **Admin API ist jetzt in der `ant`-CLI und in sieben SDKs** unter `client.beta.organization` verfügbar (Nutzungs-/Kostenberichte bleiben curl-only). **CLI unverändert v2.1.246** (npm-Publish 25.08. 19:17 UTC, GitHub-Release 25.08. 22:31 UTC) — **kein v2.1.247 bis 18:00 UTC**, `time.modified` der Registry steht weiterhin auf 25.08. 22:31 UTC; **Tags still:** `latest` und `next` einheitlich **2.1.246**, `stable` unverändert **2.1.231**. **Rhythmus:** 18:00 UTC entspricht 11:00 Mittwochvormittag an der US-Westküste — von den neun Releases der Werktags-Serie seit dem 17.08. kamen **sieben nach 18:00 UTC**, ein Mittwochs-Release nach Muster wäre also erst beim Lauf am 27.08. um 06:00 sichtbar; der leere Mittwoch ist bis hierhin **kein** Signal für ein Serienende. Bemerkenswert bleibt, dass sowohl der 24.08. (v2.1.242 19:16, v2.1.243 23:10 UTC) als auch der 25.08. (v2.1.245 04:45, v2.1.246 19:17 UTC) **je zwei Releases** brachten. **Changelog-Endstand bestätigt:** Die `CHANGELOG.md` springt unverändert 2.1.246 → 2.1.245 → 2.1.243 → 2.1.241 — für **v2.1.242 auch rund 47 Stunden nach dem npm-Publish kein Abschnitt**, **v2.1.244 existiert weiterhin nirgends**; die Releases-API listet unverändert v2.1.246 → v2.1.245 → v2.1.241, **v2.1.242 und v2.1.243 bleiben ohne GitHub-Release**. `CHANGELOG.md` bleibt Pflichtabruf. **What's-New unverändert:** Week 34 (17.–21.08.) oben, Week 33 darunter, beide vollständig in dieser Datei; **Week 35 existiert noch nicht** — der direkte Abruf von `whats-new/2026-w35` liefert **HTTP 404**, der Digest der laufenden Woche wird also erst nach deren Ende veröffentlicht. **Week 31 fehlt weiterhin** (die Liste springt Week 32 → Week 30, inzwischen über vier Wochen). **Quellenlage:** npm-Registry, GitHub-Releases-API, `CHANGELOG.md`, `code.claude.com`, die Blog-Slug-Liste und `platform.claude.com` alle per `curl -L --retry 3` im ersten Versuch, keine leeren Antworten. **Neue Einträge: 4** (ein Blog-, drei Platform-Punkte). Der älteste Crawl-Block (26.08. 06:00) aus dem Header in die Git-Historie ausgelagert. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-09-03 18:00 UTC (**Crawl 03.09. 18:00 UTC — erster erfolgreicher Lauf seit dem 27.08.: alle Läufe vom 28.08. bis 03.09. 12:00 scheiterten am 300s-Timeout des Wrappers bzw. an einem 429-Session-Limit (02.09. 18:00).** Nachgeholt: **sieben CLI-Versionen** — v2.1.248 (27.08. 20:35 UTC, 49 Punkte), v2.1.250 (27.08. 22:27, nur „Bug fixes"), v2.1.251 (28.08. 15:34, 71 Punkte), v2.1.252 (31.08. 17:07, 4 Punkte), v2.1.257 (01.09. 17:15, 104 Punkte, **Claude Fable 5.1 als Standard-Fable**), v2.1.258 (01.09. 22:25, Monterey-Hotfix), v2.1.259 (02.09. 21:21, 37 Punkte). Übersprungen: 249, 253–256. **Tags:** `latest`=`next`=**2.1.259**, `stable` von 2.1.231 auf **2.1.236**. **Kein v2.1.260 bis 18:00 UTC.** **Platform:** Einträge vom 27.08. (Personal/Service-Account-Keys, Files/Skills aus der Beta) und 01.09. (Fable 5.1/Mythos 5.1, Per-Message-Effort, Turn-scoped System-Messages, `thinking.display: updates`). **What's-New unverändert** Week 34 oben, Week 35/36 weiterhin 404 (Digest-Rückstand jetzt zwei Wochen), Week 31 fehlt weiter. **Blog:** Slug-Liste bei fünfzehn; Detailabgleich neuer Beiträge wegen Zeitbudget ausgelassen. Quellen: npm-Registry, GitHub-Releases-API, `CHANGELOG.md`, `whats-new.md`, `release-notes/overview.md`, Blog-HTML alle per `curl -L --retry 2` im ersten Versuch. **Neue Einträge: 27** (Sammel-Einträge pro Version; die 300+ Changelog-Punkte sind priorisiert, nicht einzeln aufgeführt). — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 36 (2. September 2026) — v2.1.259
+
+#### Überblick: v2.1.259 — 37 Punkte, Serie seit dem 17.08. ungebrochen
+- **Was:** Nach v2.1.258 am Vorabend kam **v2.1.259** am 02.09.: npm-Publish **21:21 UTC**, GitHub-Release **22:33 UTC**. Der Changelog umfasst **37 Punkte**: vier neue Funktionen, 27 Fehlerbehebungen, fünf Verbesserungen, eine Verhaltensänderung. `CHANGELOG.md` und GitHub-Release sind deckungsgleich. **Tags:** `latest` und `next` einheitlich **2.1.259**, `stable` ist von 2.1.231 auf **2.1.236** vorgerückt. Seit dem letzten Crawl dieser Datei (27.08.) sind **sieben Versionen** erschienen: v2.1.248, 250, 251, 252, 257, 258, 259 — die Nummern 249, 253–256 wurden übersprungen (kein npm-Publish, kein Changelog).
+- **Einsatz:** `claude update` bzw. `npm i -g @anthropic-ai/claude-code@latest`
+- **Mehrwert:** Wer viele Sessions parallel fährt, bekommt den wichtigsten Fix seit Wochen: Konkurrierende Sessions überschrieben sich gegenseitig die `~/.claude.json` — Workspace-Trust und MCP-Zustand gingen verloren. Dazu kommt mit `managedMcpServers` endlich der verwaltete MCP-Rollout für Organisationen.
+- **Version:** v2.1.259
+
+#### `managedMcpServers`: Organisationen verteilen MCP-Server an alle Nutzer
+- **Was:** Neue verwaltete Einstellung **`managedMcpServers`**: Organisationen können HTTP-/SSE-MCP-Server für alle Nutzer bereitstellen, im selben Eintragsformat wie `.mcp.json`. Einträge, die ein lokales Kommando starten würden, werden übersprungen. Zugleich gilt **`allowedMcpServers` nur noch für Server, die Nutzer selbst hinzufügen** — ein bisher durch die Allowlist ausgefilterter `managed-mcp.json`-Server lädt nach dem Upgrade; wer ihn nicht will, nutzt `deniedMcpServers`.
+- **Einsatz:** `managedMcpServers` in `managed-settings.json` bzw. über MDM/Server-managed Settings
+- **Mehrwert:** Bisher musste jeder Entwickler den internen Jira-, Confluence- oder Observability-MCP-Server selbst eintragen. Jetzt ist er einfach da. Achtung beim Upgrade: Wer `allowedMcpServers` als Sperre für verwaltete Server missbraucht hat, muss auf `deniedMcpServers` umstellen.
+- **Version:** v2.1.259
+
+#### `--permission-prompts none` für unbeaufsichtigte Headless-Hosts
+- **Was:** Neuer Schalter **`--permission-prompts none`**: Alles, was eine Rückfrage auslösen würde, wird automatisch abgelehnt, während der aktive Permission-Modus (auch der Auto-Modus) weiterhin entscheidet.
+- **Einsatz:** `claude -p --permission-prompts none "..."`
+- **Mehrwert:** Die saubere Alternative zu `--dangerously-skip-permissions` in CI und Cron: Der Auto-Modus genehmigt Harmloses, alles Heikle scheitert hart statt ewig auf eine Antwort zu warten, die nie kommt.
+- **Version:** v2.1.259
+
+#### GitLab: `glab mr` wird erkannt, `claude plugin validate --json`
+- **Was:** `glab mr create/merge/close/reopen/note/update` erscheint als **`MR !N`** in der Tool-Zusammenfassung und aktualisiert das MR-Badge im Footer. `claude plugin validate` bekommt **`--json`** für maschinenlesbare Berichte. `/install-github-app` erklärt in GitLab-Repos, dass es GitHub-only ist, und verweist auf die GitLab-CI/CD-Doku.
+- **Einsatz:** `claude plugin validate --json`; `glab mr ...` in Bash
+- **Mehrwert:** GitLab-Teams bekommen Schritt für Schritt die Parität, die GitHub-Nutzer längst haben; das JSON-Validate lässt sich in Plugin-CI einbauen.
+- **Version:** v2.1.259
+
+#### Fixes v2.1.259: `~/.claude.json`-Wettlauf, Bash-`Read()`-Deny-Lücken, Managed-Settings-Parsefehler
+- **Was:** Wichtigste Fehlerbehebungen: **Parallele Sessions setzten sich gegenseitig die `~/.claude.json` zurück** (Workspace-Trust weg, MCP-/Projektzustand verloren). **Bash-`Read()`-Deny-Regeln** griffen nicht bei Optionswerten (`--ignore-revs-file=.env`, `-f.env`, `@file`), `git diff`/`git grep`-Operanden oder `cd DIR && cat FILE`; `grep -r`/`cp -r` über ein Verzeichnis mit verbotener Datei fragt jetzt. **Nicht parsbare Managed-Settings** (Datei, Drop-in, MDM-Plist, HKLM) wurden stillschweigend ignoriert — Claude Code **startet jetzt nicht** und nennt die Quelle. Weiter: einmal abgelehntes Thinking wurde in jedem späteren Turn erneut abgelehnt; Prompt-Cache-Verlust beim OAuth-Refresh mit abgeschalteter Telemetrie; Frontmatter-`model:` in Commands/Skills wurde interaktiv ignoriert, und der Auto-Modus lief dadurch auf nicht unterstützten Modellen; `--resume` scheiterte an Anhängen ohne Payload; Stop stoppte Background-Agents in Remote-Control-Sessions nicht wirklich; blockierende Stop-Hooks kosteten Reasoning und Prompt-Cache; Worktree-Isolation verweigerte gängige Bash-Loops und xargs-Pipelines; OTel-Metriken aus Cloud-Sessions ohne `user.email`/`organization.id`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der Managed-Settings-Fix ist sicherheitsrelevant: Ein Tippfehler in der Plist hieß bisher „keine Policy", jetzt heißt er „kein Start". Der Deny-Regel-Fix schließt reale Umgehungswege für `.env`-Schutz.
+- **Version:** v2.1.259
+
+#### Verbesserungen v2.1.259: Rendering, `/workflows`-Detail, VS-Code-Filter
+- **Was:** Schnelleres Terminal-Resize und Erstrendering langer Antworten; `/workflows` zeigt JSON-Ergebnisse formatiert mit Syntaxfarben und Ausklapp-Toggle; SDK-Sessions starten bis zu 50 ms früher; Ergebnisse verschachtelter Background-Subagenten landen im Transcript des Eltern-Subagenten. **VS Code:** Quick-Filter „Active" und Status-Filtermenü (Needs input, Working, Completed) in der Session-Liste.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kleinkram, der sich bei langen Sessions summiert.
+- **Version:** v2.1.259
+
+### Woche 36 (1. September 2026) — v2.1.258
+
+#### v2.1.258: Hotfix für macOS 12 und Remote-Sessions
+- **Was:** Zwei Fixes: Claude Code startete auf **macOS 12 Monterey** nicht mehr (Regression aus 2.1.255, das nie auf npm erschien), und Remote-/Scheduled-Sessions scheiterten mit „user messages must have non-empty content", wenn eine erneut gesendete Permission-Freigabe nicht anwendbar war. npm-Publish 01.09. 22:25 UTC, GitHub-Release 22:33 UTC.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Monterey-Nutzer waren fünf Stunden lang ausgesperrt; wer v2.1.257 installiert hatte, sollte direkt weiter.
+- **Version:** v2.1.258
+
+### Woche 36 (1. September 2026) — v2.1.257
+
+#### Überblick: v2.1.257 — 104 Punkte, Claude Fable 5.1 als Standard
+- **Was:** Das größte Release der Serie: **104 Changelog-Punkte** (acht neue Funktionen, 63 Fixes, elf Verbesserungen, elf Verhaltensänderungen, eine Entfernung, zehn VS-Code-Punkte). npm-Publish **01.09. 17:15 UTC**, GitHub-Release 17:53 UTC. Zwischen v2.1.252 (31.08.) und v2.1.257 liegen die nie veröffentlichten Nummern 253–256 — das erklärt die Regression „introduced in 2.1.255" im Folgerelease. Kern: **Claude Fable 5.1 (`claude-fable-5-1`) ist das neue Standard-Fable-Modell** — 1M Kontext, 10 $/50 $ pro Mtok, **Cache-Reads 0,25 $/Mtok**.
+- **Einsatz:** `claude update`; Modell über `/model` wählen. In Claude-apps-Gateway-Sessions bleiben `fable` und `best` vorerst auf Fable 5, bis das Gateway 5.1 kennt — dort Fable 5.1 explizit in `/model` wählen.
+- **Mehrwert:** Cache-Reads zum Viertel des bisherigen Preises (0,025× statt 0,1× des Input-Preises) sind für lange Agent-Sessions der eigentliche Kostenhebel.
+- **Version:** v2.1.257
+
+#### `timeFormat` und `timeZone`: Uhrzeiten nach eigenem Muster
+- **Was:** Neue Einstellungen **`timeFormat`** (12h, 24h, 24h UTC oder strftime-Muster) und **`timeZone`** für die Uhr am Turn-Ende und die Zeitstempel in der Transcript-Ansicht.
+- **Einsatz:** `"timeFormat": "%H:%M", "timeZone": "Europe/Berlin"` in `settings.json`
+- **Mehrwert:** Wer Sessions über Zeitzonen hinweg oder auf Servern in UTC nachvollzieht, sieht endlich lokale Zeiten.
+- **Version:** v2.1.257
+
+#### Auto-Modus: Containment-Escape-Regel und Lese-Sperre außerhalb des Arbeitsverzeichnisses
+- **Was:** Der Auto-Modus bekommt eine **Containment-Escape-Regel**: Abrufe von Cloud-Metadaten-Credentials, Egress-Umgehung und Cross-Tenant-Zugriffe werden nicht mehr automatisch genehmigt, sofern die Umgebung sie nicht als erwartet markiert. Außerdem eine **einmalige Rückfrage vor dem ersten Dateilesen außerhalb der Arbeitsverzeichnisse** mit der Option, solche Zugriffe zu blockieren (**`permissions.blockReadsOutsideWorkingDirectories`**). Weitere Auto-Modus-Fixes: `permissions.ask`-Regeln griffen nicht in Compound-Commands/Subshells; `[[ ]]`-Konditionale, die zsh anders parst, wurden auto-genehmigt; Plugins konnten über Symlink-Komponentenpfade außerhalb ihres Verzeichnisses lesen.
+- **Einsatz:** `"permissions": {"blockReadsOutsideWorkingDirectories": true}`
+- **Mehrwert:** Wer in Kubernetes-Pods oder EC2 arbeitet, schließt damit die Klassiker der Prompt-Injection (IMDS-Token-Abruf, Ausbruch aus dem Netz-Sandkasten) explizit aus.
+- **Version:** v2.1.257
+
+#### `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`, `/effort s`, Gateway-Modellbeschreibungen
+- **Was:** **`CLAUDE_CODE_SUBAGENT_MODEL_FORCE`** zwingt `CLAUDE_CODE_SUBAGENT_MODEL` (oder das Hauptmodell) auf jeden Subagenten, unabhängig von Agent-Definitionen — das Gegenstück zur Umstellung aus v2.1.251, seit der `CLAUDE_CODE_SUBAGENT_MODEL` nur noch Default ist. **`s` in `/effort`** ändert den Effort nur für die Session (wie bei `/model`); `--effort` hebt den Default-Effort-Hold eines neuen Modells nur noch für die Session auf. `/doctor` warnt vor **veralteten Sandbox-Mask-Dateien** einer gekillten Session. Gateway-Modellentdeckung (`CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY`) zeigt eine vom Gateway gelieferte `description` im `/model`-Picker und läuft auch unter `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`.
+- **Einsatz:** `CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1 CLAUDE_CODE_SUBAGENT_MODEL=claude-sonnet-5 claude`
+- **Mehrwert:** Kostenkontrolle über Plugins hinweg: Ein Plugin-Agent mit `model: opus` im Frontmatter kann so nicht mehr das Budget sprengen.
+- **Version:** v2.1.257
+
+#### Verhaltensänderungen v2.1.257: `bypassPermissions` nicht mehr aus Projekt-Settings, Netzpfade abgelehnt
+- **Was:** **`defaultMode: "bypassPermissions"` in `.claude/settings.json` oder `settings.local.json` wird ignoriert** (wie schon `"auto"`) — nur User-/Managed-Settings oder `--permission-mode`. `--add-dir`, `/add-dir` und `additionalDirectories` **verweigern Netzpfade** (UNC, `/net/<host>`). `/btw`-History wandert von `←`/`→` auf **`Shift+←`/`Shift+→`** (oder `[`/`]`). `claude --resume <id> --bg` setzt die Session unter eigener ID fort statt still eine Kopie zu starten. Cowork-/claude.ai-Cloud-Sessions fragen beim Lesen fremder Artifacts immer, auch im Auto-Modus. Gateway-Sign-in prüft das gepinnte TLS-Zertifikat. Die Ctrl+E-Kommandoerklärung im Bash-Prompt ist entfernt.
+- **Einsatz:** Automatisch aktiv; `bypassPermissions` bei Bedarf in `~/.claude/settings.json` setzen
+- **Mehrwert:** Ein geklontes Repo kann Claude Code nicht mehr per mitgelieferter Projekt-Settings in den Bypass-Modus schalten — eine echte Supply-Chain-Lücke weniger.
+- **Version:** v2.1.257
+
+#### Fixes v2.1.257: Subagenten überleben Verbindungsabbrüche, Prompt-Cache-Lecks, Provider-Header
+- **Was:** Auswahl aus 63 Fixes: **Subagenten laufen nach Stream-Abbruch (Schlafmodus, Verbindungsverlust, Serverfehler) automatisch weiter** statt mit unvollständiger Antwort zu enden. Prompt-Cache-Misses bei Advisor-Modell (Compaction, `/recap`), bei Remote-Control-Beitritt mitten in der Session und in screenshot-lastigen Sessions behoben. Doppelt gelisteter `Authorization`-Header überschrieb Credentials auf Bedrock/Mantle/Vertex/WIF; Gateway sendete fremde Host-Header an Foundry/Vertex/Bedrock. `claude -p` wartet jetzt auf einen laufenden Monitor statt nach 5 s zu beenden. `/add-dir` akzeptiert Unterverzeichnisse des cwd. Bash-`Read()`/`Edit()`-Deny greift bei `< file`-Redirects und `tac`/`egrep`. Subagenten-Transcripts über 5 MB ließen sich nicht fortsetzen. Bedrock-Streams brachen in langen Hidden-Thinking-Phasen ab (jetzt Progress-Events). Background-Sessions alter Binaries häuften sich über Auto-Updates an. Einstellungen in nachträglich angelegten `.claude/`-Ordnern wurden erst nach Neustart gelesen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der Subagenten-Fix allein rechtfertigt das Update für Laptop-Nutzer: Deckel zu, Deckel auf — der Agent macht weiter.
+- **Version:** v2.1.257
+
+#### Verbesserungen v2.1.257: Rendering, `/code-review --comment` für GitLab, VS Code
+- **Was:** Weniger Re-Renders pro Turn, Streaming wird bei langen Antworten nicht mehr langsamer, Eingabe reagiert schneller. **`/code-review --comment` postet Findings auf GitLab-MRs per `glab mr note`.** `/fork` behält den Prompt-Cache der Originalsession. Policy-Helper-Diagnose in `/status`. Credentials in MCP-URLs/Headern werden in Logs redigiert. `claude self-hosted-runner --configure-git` aktiviert Push-Negotiation. **VS Code:** Account-&-Usage- und Session-Manager-Sektionen, Modell-Pill im Footer mit Effort-Zeile, Output-Style-Auswahl, „Delete session" wird zu **„Archive session"**, Slash-Commands als filterbarer Dialog; Bedrock/Vertex-Deployments zeigen keine claude.ai-Funktionen mehr.
+- **Einsatz:** `/code-review --comment` in einem GitLab-Repo
+- **Mehrwert:** GitLab-Teams können den Review-Workflow jetzt komplett in Claude Code abbilden.
+- **Version:** v2.1.257
+
+### Woche 36 (31. August 2026) — v2.1.252
+
+#### v2.1.252: vier Fixes, darunter Request-Size-Überlauf durch Background-Task-Fehler
+- **Was:** Bash-Kommandos scheiterten auf manchen Macs mit „task output swap refused"; „always allow" wurde ohne bestehende `.claude/settings.local.json` nicht gespeichert; Remote-Control-Sessions aus Desktop/VS Code hingen minutenlang nach Tool-Ende bei schlechter Verbindung; Background-Task-Benachrichtigungen mit riesiger Fehlerausgabe (z. B. git bei voller Platte) sprengten das API-Request-Limit. npm-Publish 31.08. 17:07 UTC, GitHub-Release 19:46 UTC — der Montag nach dem Wochenende, die Serie hielt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der „always allow"-Fix erklärt, warum in frischen Projekten dieselbe Freigabe immer wieder abgefragt wurde.
+- **Version:** v2.1.252
+
+### Woche 35 (28. August 2026) — v2.1.251
+
+#### Überblick: v2.1.251 — 71 Punkte, Modellwechsel-Hooks und Prompt-Cache-Statistik
+- **Was:** npm-Publish **28.08. 15:34 UTC**, GitHub-Release 18:19 UTC. **71 Punkte**: fünf neue Funktionen, 41 Fixes, zehn Verbesserungen, 13 Verhaltensänderungen, eine Entfernung, zwei VS-Code-Punkte. Dazwischen v2.1.250 (27.08. 22:27 UTC) mit dem Einzeiler „Bug fixes and reliability improvements" — GitHub-Release am 28.08. 00:49 UTC, kein Inhalt.
+- **Einsatz:** `claude update`
+- **Mehrwert:** Das Release mit den meisten Sicherheitsfixes der Serie: Symlink-Swap nach der Permission-Prüfung, Plugin-Path-Traversal, Projekt-Settings, die Beta-Tracing einschalten konnten.
+- **Version:** v2.1.251
+
+#### `PreModelSwitch`/`PostModelSwitch`-Hooks, Prompt-Cache-Zeile in `/cost`
+- **Was:** Neue Hook-Events **`PreModelSwitch`** und **`PostModelSwitch`** (Modellwechsel blockieren, bestätigen oder annotieren); `SessionStart`-Resume-Hooks erhalten Session-Alter und geschätzte Re-Cache-Kosten. **`/cost` zeigt eine Prompt-Cache-Zeile** (Trefferquote, Misses, neu gecachte Token, warm/kalt), mit passendem **`prompt_cache`-Objekt für Statusline-Skripte**. `/usage` bekommt einen **Spend-Limit-Balken** und die Statusline das Feld `rate_limits.spend_limit` (Claude-apps-Gateway). `claude --help` listet `attach`, `logs`, `stop`, `respawn`, `rm`. Foreground-Subagenten streamen ihre Tool-Calls live an Remote-Control-Clients.
+- **Einsatz:** Hook in `settings.json` unter `hooks.PreModelSwitch`; `/cost`; Statusline-Skript liest `.prompt_cache`
+- **Mehrwert:** Der Modellwechsel-Hook erlaubt Organisationen, Opus nur mit Begründung freizugeben; die Cache-Statistik macht endlich sichtbar, warum eine Session teuer wurde.
+- **Version:** v2.1.251
+
+#### Sicherheitsfixes v2.1.251: Symlink-Swap, Plugin-Pfade, Tracing-Eskalation
+- **Was:** Read/Write/Edit folgten einem **nach der Permission-Prüfung ausgetauschten Symlink** ins Arbeitsverzeichnis und konnten so außerhalb lesen/schreiben. Plugin-Commands aus Marketplace-Einträgen konnten außerhalb des Plugin-Verzeichnisses zeigen (jetzt Path-Traversal-Fehler). **Projekt-Settings konnten detailliertes Beta-Tracing oder Raw-API-Body-Logging aktivieren** und einen per Managed-Settings gepinnten OTLP-Collector umgehen. Das Workflow-Tool las `scriptPath` vor der Permission-Prüfung. Grep/Glob wendeten `Read()`-Deny nicht auf symlinkte Suchpfade an. Bash-Checks genehmigten arithmetische Zuweisungen an Integer-Variablen (`OPTIND=1/0`) automatisch. Zusätzlich: Server-managed Settings, die Sandbox-TLS terminieren, Traffic umleiten oder Isolation schwächen, brauchen jetzt Zustimmung; ebenso `ANTHROPIC_CUSTOM_HEADERS` mit Credential-/Routing-Headern aus Managed-/Projekt-Settings. Projekt-`env` kann `CLAUDE_CONFIG_DIR`, `CLAUDE_CODE_TMPDIR`, `TMPDIR` nicht mehr setzen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Mehrere dieser Punkte sind Varianten desselben Angriffs: ein präpariertes Repo, das über Projekt-Settings oder Symlinks aus dem Sandkasten ausbricht. Wer fremde Repos klont, sollte nicht unter v2.1.251 arbeiten.
+- **Version:** v2.1.251
+
+#### Verhaltensänderungen v2.1.251: Subagenten-Modell, Commit-Trailer, `/radio` überall
+- **Was:** **`CLAUDE_CODE_SUBAGENT_MODEL` ist nur noch Default** — `model:` in der Agent-Definition und explizite Per-Spawn-Modelle haben Vorrang (das Force-Gegenstück kam in v2.1.257). Der **Commit-Trailer lautet `Co-Authored-By: Claude Code`**, wenn das aktive Modell kein bekanntes Claude-Modell ist (Drittmodelle hinter `ANTHROPIC_BASE_URL`). **Enterprise-Seat-Abos starten mit Opus 5** als Standardmodell. `/effort` speichert den Default **pro Modell**. `/radio` läuft auf Bedrock/Vertex/Foundry und ohne Telemetrie. Claude in Chrome geht immer durch Claude Codes Permission-Prüfung. Sandbox-Bash-Ausgabedateien können vom Kommando nicht mehr umgeleitet oder ersetzt werden. Plugin-/LSP-Vorschläge und das Auto-Modus-Angebot warten, bis die Eingabe gesendet ist. Sechs seltene Syntax-Highlighting-Sprachen entfernt (Binary 2,5 MB kleiner), das native Binary insgesamt ~5 MB kleiner.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die Vorrang-Regel für Subagenten-Modelle ist die intuitive: Was der Plugin-Autor bewusst festgelegt hat, gewinnt gegen eine globale Umgebungsvariable.
+- **Version:** v2.1.251
+
+#### Fixes v2.1.251: leere Text-Blöcke, Auto-Modus beim Erststart, Agent-Teams
+- **Was:** Konversationen hingen nach reinen Thinking-Turns an „text content blocks must be non-empty"; Frischinstallationen starteten im Default- statt Auto-Modus; Opus-5-Requests mit xhigh/max-Effort scheiterten bei abgeschaltetem Thinking (jetzt `high`); Teammate-Endantworten erreichten den Team-Lead nicht; Background-Subagenten konnten unbenannten Geschwistern nicht antworten; Session-Transcripts wurden bei Verzeichniswechsel überschrieben; Background-Sessions konnten in selbst angelegten Worktrees nicht editieren; SDK-/Cloud-Sessions hingen bei verlorenem MCP-Handshake ewig (jetzt 70-s-Timeout); Ctrl+G mit `emacs -nw`/`micro` in Background-Sessions; Backgrounded Sessions verloren exportierte Vertex-/Bedrock-Gateways; `/ultrareview` wartete 30 Minuten bei Cloud-Startfehler.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der Team-Lead-Fix ist für Agent-Teams zentral: Bisher kam statt der Antwort eine inhaltsleere „available"-Notiz.
+- **Version:** v2.1.251
+
+### Woche 35 (27. August 2026) — v2.1.248 (und v2.1.250 ohne Changelog)
+
+#### Überblick: v2.1.248 — 49 Punkte, `--restricted`-Modus
+- **Was:** npm-Publish **27.08. 20:35 UTC**, GitHub-Release 22:12 UTC — zwei Stunden nach dem letzten Crawl dieser Datei. **49 Punkte**: sieben neue Funktionen, 30 Fixes, fünf Verbesserungen, fünf Verhaltensänderungen, ein VS-Code-Fix. v2.1.249 wurde übersprungen; **v2.1.250** kam am selben Abend um 22:27 UTC mit dem Einzeiler „Bug fixes and reliability improvements".
+- **Einsatz:** `claude update`
+- **Mehrwert:** Das Release für Betreiber: `--restricted`, `/usage-credits`, Diagnose für Server-managed Settings.
+- **Version:** v2.1.248
+
+#### `--restricted`: Claude Code ohne Kommando-Ausführung
+- **Was:** Neuer Schalter **`--restricted`** (oder `CLAUDE_CODE_RESTRICTED=1`): entfernt alle eingebauten Tools, die Kommandos oder Code ausführen, sowie `WebFetch` (sofern nicht in `--tools` genannt), hält Dateitools im Arbeitsverzeichnis, verweigert `bypassPermissions` und ignoriert User-, Projekt- und lokale Settings-Dateien.
+- **Einsatz:** `claude --restricted` bzw. `CLAUDE_CODE_RESTRICTED=1 claude -p "..."`
+- **Mehrwert:** Der Modus für „Claude soll nur lesen und erklären": Code-Reviews auf fremden Repos, Doku-Fragen auf Produktionsservern, Demos vor Publikum — ohne dass ein Prompt einen Shell-Befehl auslösen kann.
+- **Version:** v2.1.248
+
+#### `experimental.cacheTtl` pro Agent, `/usage-credits`, Diagnose für Server-managed Settings
+- **Was:** Agent-Frontmatter versteht **`experimental.cacheTtl`** (`"5m"` oder `"1h"`) als Prompt-Cache-TTL pro Agent. **`/usage-credits`** für Enterprise-Organisationen über AWS Marketplace, Self-Serve-Enterprise und Trials: Mitglieder fordern beim Admin ein höheres Limit an. **Server-managed Settings** melden Ladefehler beim Start sowie in `/doctor` und `/status` (inkl. Grund, warum nicht geholt: Bedrock/Vertex/Drittanbieter, eigene `ANTHROPIC_BASE_URL`). `claude self-hosted-runner --client-label` setzt das Registrierungslabel. `/web-setup` warnt, wenn dem GitHub-Token der `workflow`-Scope fehlt. **Cross-Session-Messaging** (`SendMessage`/`ListAgents`) funktioniert jetzt auch auf Bedrock/Vertex/Foundry und ohne Telemetrie.
+- **Einsatz:** `experimental: {cacheTtl: "1h"}` im Agent-Frontmatter; `/usage-credits`; `/status`
+- **Mehrwert:** Lang laufende Recherche-Agenten profitieren vom 1h-Cache, kurzlebige Helfer bleiben bei 5m — bisher galt ein TTL für alle.
+- **Version:** v2.1.248
+
+#### Fixes v2.1.248: stündlicher Cache-Miss, Desktop-Sessions nach 30 Tagen, `/ultrareview`-Upload von Credentials
+- **Was:** **Etwa stündlicher Prompt-Cache-Miss** (mit Verlust des Extended-Thinking-Kontexts) in langen Sessions, weil Tool-Definitionen nach OAuth-Refresh neu gerendert wurden. `ScheduleWakeup`-Definition änderte sich zwischen Session und `--resume` bei Usage-Overage (voller Cache-Miss). **Claude-Desktop-/Cowork-Sessions verschwanden nach 30 Tagen** — jetzt ausgenommen, Kappung über `desktopSessionCleanupPeriodDays`. **`/ultrareview` lud unkommittierte Änderungen an `prod.env`-, `*.tfvars`- und Editor-Swap-/Backup-Kopien von Credential-Dateien hoch** (`key.pem.tmp`, `id_rsa.swo`) — bleiben jetzt lokal. Hooks mit ungültigem JSON-Stdout werden als Fehler gemeldet statt still als Text behandelt. `claude agents`: Tastatur nach Detach (Windows), Crash bei kaputtem PR-Cache, Wiederbelebung wochenalter Sessions, Doppelprozess beim Öffnen bereits fortgesetzter Sessions, Löschverweigerung trotz gemergtem Branch. `headersHelper`-MCP-Server fielen bei 401 in OAuth-Discovery statt den Helper erneut auszuführen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der stündliche Cache-Miss war ein stiller Kostentreiber in jeder Session über 60 Minuten. Der Ultrareview-Fix betrifft jeden, der Terraform-Variablen oder Umgebungsdateien im Arbeitsbaum hat.
+- **Version:** v2.1.248
+
+#### Verbesserungen v2.1.248: Workflow-Tool 1k statt 5,7k Token, `/loop` überall
+- **Was:** Die Beschreibung des Workflow-Tools schrumpft von rund 5,7k auf ~1k Token; die Skript-Referenz wandert ins mitgelieferte Skill **`workflow-authoring`**. `/loop` (self-paced und autonom) ist immer verfügbar, auch auf Bedrock/Vertex/Foundry. Das PR-Badge fragt GitHub seltener ab. Timeout-, MCP-Startmodus- und Stream-Watchdog-Variablen lösen keinen Managed-Settings-Prompt mehr aus. `/ultrareview <PR#>` prüft vor dem Start den Repo-Zugriff des verknüpften GitHub-Kontos. Shift+Enter in der Agent-View-Eingabe fügt eine neue Zeile ein, Ctrl+Enter dispatcht.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** 4,7k Token weniger in jedem System-Prompt — das ist bei Cache-Misses bares Geld.
+- **Version:** v2.1.248
+
+### Woche 36 (1. September 2026) — Platform-Release-Notes
+
+#### Platform 01.09.: Claude Fable 5.1 und Claude Mythos 5.1
+- **Was:** **Claude Fable 5.1** (`claude-fable-5-1`) und **Claude Mythos 5.1** (`claude-mythos-5-1`, Project Glasswing) sind da: 1M Kontext standardmäßig, 128k Max-Output, Adaptive Thinking immer an, 10 $/50 $ pro MTok wie Fable 5, **Cache-Reads 0,25 $/MTok** (0,025× statt 0,1×). Verfügbar auf Claude API, Bedrock, Claude Platform on AWS, Vertex und Foundry. **Breaking:** `tool_choice` `any` und `tool` liefern 400 — stattdessen Strict Tool Use oder Structured Outputs. Thinking-Blöcke sind nur für das erzeugende oder ein neueres Modell lesbar; für Konten ab dem 31.08. lehnt die API Replays nach geändertem System-Prompt/Tools mit 400 ab (steuerbar per Beta `thinking-binding-controls-2026-08-01`). Beide Modelle erfordern 30-Tage-Retention, kein Zero-Data-Retention ohne Freigabe. Text trägt Anthropics Wasserzeichen, Dateien aus dem Code-Execution-Tool C2PA-Credentials.
+- **Einsatz:** `model: "claude-fable-5-1"`; Migration: `tool_choice: {type: "any"}` durch `strict: true` ersetzen
+- **Mehrwert:** Wer `tool_choice: any` nutzt, bricht beim Modellwechsel — vor dem Umstellen den Code greppen.
+- **Version:** Platform 2026-09-01
+
+#### Platform 01.09.: Per-Message-Effort, Turn-scoped System-Messages, `thinking.display: "updates"`
+- **Was:** Drei neue Betas: **Per-Message-Effort** (`role: "system"`-Nachricht mit `output_config.effort` in `messages`, Header `mid-conversation-output-config-2026-07-01`) ändert den Effort mitten im Gespräch bei erhaltenem Prompt-Cache. **Turn-scoped System-Messages** (`clear_at: "next_user_message"`, Header `mid-conversation-system-clear-at-2026-08-21`) gelten nur für den aktuellen Turn und kosten danach keine Token. **`thinking.display: "updates"`** (Header `thinking-display-updates-2026-08-18`) liefert die kurzen Fortschrittsmeldungen zwischen Tool-Calls als Text, das Reasoning selbst bleibt leer. Außerdem zeigen die Admin-/Analytics-/Compliance-API-Guides jetzt den `anthropic-version`-Header — auf jedem Request mitsenden.
+- **Einsatz:** Beta-Header setzen; `/claude-api` kennt die Details
+- **Mehrwert:** Per-Turn-Erinnerungen, die sich nicht aufsummieren und den Cache nicht sprengen, sind genau das, was Agent-Harnesses bisher mühsam umgebaut haben.
+- **Version:** Platform 2026-09-01
+
+#### Platform 27.08.: Personal Keys, Service-Account-Keys, Files/Skills aus der Beta
+- **Was:** In der Console gibt es jetzt **Personal Keys** und **Service-Account-Keys**, die als Person bzw. Service-Account handeln und mit dem Entfernen des Kontos erlöschen; Workspace-Keys bleiben als Legacy. In den SDKs (Python 1.2.0, TypeScript 0.122.0, Go 1.68.0, Java 2.59.0, Ruby 1.67.0, C# 12.44.0) senden `client.beta.files`/`client.beta.skills` keine Beta-Header mehr und liefern dieselben Shapes wie `client.files`/`client.skills`; `BetaSkill` heißt `BetaContainerSkill`, `beta.skills.delete()` löscht alle Versionen.
+- **Einsatz:** Console → API keys → Personal key / Service account key
+- **Mehrwert:** Endlich Keys, die einem Menschen zugeordnet sind und beim Offboarding automatisch sterben.
+- **Version:** Platform 2026-08-27
 
 ### Woche 35 (26. August 2026) — v2.1.247
 
