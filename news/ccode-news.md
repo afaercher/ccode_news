@@ -1,11 +1,125 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-11 18:00 UTC (**Crawl 11.09. 18:00 UTC — Leerlauf, alle Quellen unverändert zum 12:00-Lauf.** **Stand:** `latest` = `next` = **2.1.268** (npm 10.09. 18:41:11 UTC), `stable` **2.1.236**, `time.modified` weiter 10.09. 20:35:00 UTC; Git-Refs `v2.1.269`/`v2.1.270` HTTP 404; Releases-API oben v2.1.268 (20:30:54 UTC), Bodies der fünf obersten Releases unverändert. `CHANGELOG.md` byte-identisch (661 558 Bytes). **What's New** byte-identisch (14 051 Bytes), oben Week 34, `2026-w35`/`w36`/`w37` HTTP 404. **Platform** byte-identisch (105 263 Bytes), oben der Block vom 10.09. **Blog** Slug-Menge identisch (15 Slugs, gleicher Hash). Der Lauf liegt bei 11:00 PT (Freitag), also schon im üblichen Publish-Fenster (ca. 10–14 PT). Ein v2.1.269 ist bis dahin nicht erschienen. **Neue Einträge: 0.**) — Vorheriger **Crawl 11.09. 12:00 UTC — Leerlauf, 0 Einträge; Commit `64780f2`.** — Ältere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-12 06:00 UTC (**Crawl 12.09. 06:00 UTC — v2.1.269 ist da.** `latest` = `next` = **2.1.269** (npm 11.09. 18:12:49 UTC, GitHub-Release 19:17:55 UTC, `ashwin-ant`), `stable` unverändert **2.1.236**, `time.modified` 11.09. 19:18:00 UTC; Git-Ref `v2.1.269` HTTP 200, `v2.1.270`/`v2.1.271` HTTP 404. `CHANGELOG.md` auf 676 396 Bytes gewachsen (+14 838), **98 Punkte** unter `## 2.1.269`, keine Zeile entfernt. Schwerpunkte: `claude plugin eval`, `/output-style [name]` auch headless, Bash-Tool-Diffs (`bashEditDiffEnabled`), OTel-Repository-Attribute, drei Prompt-Cache-Lecks, `!`-Permission-Negation quellenlokal, `tee` unter Schreibschutz, `/goal` mit Backoff, VS-Code-Agent-Map sowie Hooks- und Permission-Dialoge. **What's New** byte-identisch (14 051 Bytes), oben weiter Week 34, `2026-w35`/`w36`/`w37`/`w38` HTTP 404 — realer Digest-Rückstand drei Wochen. **Platform** byte-identisch (105 263 Bytes), oben der Block vom 10.09. **Blog** Slug-Menge identisch (gleicher Hash). Das Release fiel am Freitag auf 11:12 PT und lag damit im üblichen Fenster — der 18:00-Lauf vom 11.09. verpasste es um 13 Minuten. **Neue Einträge: 16.**) — Vorheriger **Crawl 11.09. 18:00 UTC — Leerlauf, 0 Einträge; Commit `7e73bf5`.** — Ältere Crawl-Historie in den Git-Commits.
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 37 (11. September 2026) — v2.1.269
+
+#### `claude plugin eval`: Eval-Suite für Plugins
+
+- **Was:** Neuer Unterbefehl, der die Eval-Suite eines Plugins gegen Claude Code laufen lässt und bewertete, reproduzierbare Ergebnisse liefert — als JSON und als HTML-Report.
+- **Einsatz:** `claude plugin eval --help` für die Optionen; Suite im Plugin hinterlegen und `claude plugin eval` in CI aufrufen.
+- **Mehrwert:** Plugins waren bisher nur manuell prüfbar — man startete eine Session und schaute, ob der Skill greift. Mit maschinenlesbarem Score lässt sich eine Regression im Prompt oder in den Tool-Definitionen im Pull Request abfangen, statt sie erst im Alltag zu bemerken.
+- **Version:** v2.1.269
+
+#### `/output-style [name]` — auch headless und über Remote Control
+
+- **Was:** Der Output-Style lässt sich jetzt per Name auflisten und umschalten, nicht mehr nur über das interaktive Menü. Das funktioniert damit auch über Remote Control sowie in Cloud- und anderen Headless-Sessions.
+- **Einsatz:** `/output-style` listet auf, `/output-style explanatory` schaltet direkt um.
+- **Mehrwert:** Ein Menü, das eine Auswahl per Tastatur erwartet, ist in `-p`-Läufen und Cloud-Sessions unerreichbar. Der Style war dort faktisch auf dem Default festgenagelt; jetzt kann ein geplanter Lauf sein Ausgabeformat selbst setzen.
+- **Version:** v2.1.269
+
+#### Bash-Tool liefert einen Diff der geänderten Dateien
+
+- **Was:** Wenn das Bash-Tool Datei-Änderungen ausführt (statt Edit/Write), enthält das Tool-Ergebnis nun einen Diff der betroffenen Dateien.
+- **Einsatz:** Über die Einstellung `bashEditDiffEnabled` steuerbar.
+- **Mehrwert:** Genau die Lücke, die Bypass-Permissions-Setups aufreißen: Wer per `sed`, Heredoc oder Skript editiert, sah bisher nur den Exit-Code und musste die Datei zum Prüfen erneut lesen. Der Diff im Ergebnis spart diesen Extra-Read und macht im Transkript nachvollziehbar, was ein Shell-Befehl tatsächlich verändert hat.
+- **Version:** v2.1.269
+
+#### OpenTelemetry mit Repository-Attributen
+
+- **Was:** `OTEL_METRICS_INCLUDE_REPOSITORY` versieht Metriken und Events mit `vcs.*`-Attributen des Repositories. Commit-Events bekommen zusätzlich `vcs.ref.head.*`, sofern `OTEL_LOG_TOOL_DETAILS` gesetzt ist.
+- **Einsatz:** `OTEL_METRICS_INCLUDE_REPOSITORY=1` (zusammen mit der bestehenden OTel-Konfiguration).
+- **Mehrwert:** Telemetrie war bisher pro Nutzer und Session auswertbar, aber nicht pro Repository. Wer Claude-Code-Nutzung über viele Projekte hinweg misst, kann Kosten und Tool-Aufrufe endlich dem Repo zuordnen, das sie verursacht — die Voraussetzung dafür, Teams oder Services getrennt zu betrachten.
+- **Version:** v2.1.269
+
+#### Prompt-Cache: drei Lecks gestopft
+
+- **Was:** Der Cache wurde bisher teilweise verworfen, wenn eine Antwort am Output-Token-Limit abgeschnitten und automatisch fortgesetzt wurde. Ebenso konnte das Fortsetzen einer Session, die man mitten im Denken unterbrochen hatte, den früheren Kontext anders neu senden und damit die Wiederverwendung verschlechtern. In Cloud-Sessions wartet Claude Code jetzt kurz auf die Server-Konfiguration, bevor der erste Request rausgeht, statt ihn mit noch unvollständigem Präfix zu schicken.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Das sind die drei Situationen, die jeder kennt — lange Antwort läuft ins Limit, man drückt Escape, oder man arbeitet in der Cloud. Jede kostete bisher stillschweigend einen Cache-Miss über den gesamten bisherigen Kontext, also bei großen Sessions den teuersten Request des Tages. Fortsetzung der Cache-Kampagne aus v2.1.267/268.
+- **Version:** v2.1.269
+
+#### Terminal- und Tastatur-Fixes über acht Emulatoren
+
+- **Was:** Ein Bündel Regressions- und Kompatibilitätsfixes: F1/F2/F4 in Terminals mit Kitty-Protokoll und Delete in `st` funktionierten nicht, Alt+Pfeil wirkte in rxvt-unicode wie Escape, Shift+Satzzeichen tippte in WezTerm das ungeshiftete Zeichen (Regression aus v2.1.247). Antworten des Terminals auf Fähigkeits-Abfragen (`^[[?1;2c`, `22c`, Farb- oder Versions-Antworten) landeten als Buchstabensalat im Prompt — besonders über SSH und in Browser-Terminals. Im Fullscreen blieben nach dem Ändern der Terminalgröße Zeilen oben oder unten leer; der Blockcursor von rxvt-unicode blieb nach Fullscreen oder externem Editor sichtbar; die Oberfläche wurde nach Rückkehr aus dem externen Editor (Ctrl+G) doppelt gezeichnet, in Konsole ebenso. GNOME Terminal und Konsole in Versionen ohne Unterstützung bekommen kein „synchronized output" mehr unterstellt. Neu: Terminals, die die Kitty-Keyboard-Abfrage beantworten (foot, Alacritty 0.16+), erhalten Shift+Enter und Ctrl+Shift-Kürzel auch über SSH und wenn sie sonst unbekannt sind.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Der Sammelposten trifft alle, die nicht in iTerm oder VS Code arbeiten. Stray-Characters im Prompt beim Start über eine langsame SSH-Verbindung waren ein besonders unangenehmer Fehler, weil das erste eingetippte Kommando unbemerkt verfälscht wurde.
+- **Version:** v2.1.269
+
+#### Permission-Regeln: `!`-Negation bleibt lokal, `tee` wird geprüft
+
+- **Was:** Eine Deny- oder Ask-Regel, die mit `!` beginnt, wirkte über die Settings-Quelle hinaus, die sie geschrieben hat; sie gilt nun nur noch innerhalb ihrer eigenen Quelle, eine nackte `!`-Negation wird ignoriert. `Edit()`-Deny-Regeln und die Schreibpfad-Prüfung griffen nicht für die Datei, die ein `tee`-Befehl schreibt — eine `Bash(tee:*)`-Allow-Regel deckt jetzt keine Ziele außerhalb der Arbeitsverzeichnisse mehr ab. In `--output-format stream-json` fehlten in `permission_denials` die durch pfadgebundene Deny-Regeln blockierten Read-, Edit- und Write-Aufrufe.
+- **Einsatz:** Automatisch aktiv; bestehende Regeln mit `!`-Präfix prüfen, falls sie bisher quellenübergreifend wirken sollten.
+- **Mehrwert:** `tee` war das offensichtliche Loch in jedem Schreibschutz — ein Allow für `tee` reichte, um an jeder Edit-Deny-Regel vorbeizuschreiben. Für Headless-Pipelines ist zudem wichtig, dass `permission_denials` endlich vollständig ist: Wer darauf ein Audit aufbaut, bekam bisher ein zu sauberes Bild.
+- **Version:** v2.1.269
+
+#### Headless- und Resume-Robustheit
+
+- **Was:** Remote- und Headless-Sessions meldeten „waiting for your input", während im Hintergrund noch Agents liefen. Fortgesetzte Headless-Sessions verloren die Antworten eines Turns, wenn mitten darin das Modell gewechselt oder ein Request wiederholt wurde. Sessions blieben dauerhaft an „Prompt is too long" hängen, wenn die Auto-Compaction keinen vollständigen früheren Austausch zum Zusammenfassen fand (vor allem Agent-SDK-Sessions mit sehr großen Prompts). Der Git-Status, den Claude nach einer Compaction genannt bekommt, ist jetzt der aktuelle statt dem vom Sessionbeginn. `CLAUDE_CODE_RESUME_INTERRUPTED_TURN` spielte einen Turn erneut ab, dessen API-Fehler über sechs Stunden zurücklag — nun mit Altersgrenze (`CLAUDE_CODE_RESUME_INTERRUPTED_TURN_MAX_AGE_MS`). Dazu: Sessions aus SDK oder Desktop-App zeigten in der Agent-Liste anderer Sessions einen unbekannten Status; Escape-Codes, Zeilenumbrüche und Übergrößen aus dem On-Disk-Record eines Hintergrund-Tasks landeten in Task-Liste und Benachrichtigungen.
+- **Einsatz:** Automatisch aktiv; altes Verhalten der Hintergrund-Meldung über `CLAUDE_CODE_BG_TASKS_REPORT_RUNNING=0`.
+- **Mehrwert:** Der veraltete Git-Status nach Compaction ist der tückischste Posten: In langen Sessions handelte Claude danach auf Basis eines Arbeitsbaums von vor Stunden — genau der Fehler, der zu doppelten Commits oder übersehenen Änderungen führt. Für unbeaufsichtigte Cron-Läufe zählt vor allem, dass „Prompt is too long" nicht mehr endgültig ist.
+- **Version:** v2.1.269
+
+#### Slash-Befehle: `/goal` gibt nicht mehr auf, `/btw` erfindet nichts mehr
+
+- **Was:** `/goal`-Läufe blieben nach API-Fehlern, Netzabbrüchen oder Token-Limits still stehen; jetzt wird mit Backoff wiederholt, oder der Lauf pausiert und nennt den Grund — inklusive Warten bis zum Zurücksetzen eines Usage-Limits. `/btw`-Antworten enthielten erfundene Tool-Aufrufe samt Ausgabe; die Seitenfrage wird nun angewiesen, keine zu schreiben, und trotzdem auftauchende werden als nicht ausgeführt markiert. `/insights` scheiterte auf Bedrock, Vertex, Foundry und Gateway-Deployments, deren Konto das Default-Opus-Modell nicht erreicht — dort wird jetzt das Session-Modell verwendet. Das `/diff`-Panel öffnet fertig gerendert statt zuerst mit Ladezustand. `/ultrareview --post` schreibt den PR-Kommentar direkt beim Eintreffen der Befunde und gibt den Link aus, statt dafür eine zweite Cloud-Session zu starten.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Ein `/goal`, das nach einem Netzwackler still stehen bleibt, ist schlimmer als eines, das abbricht — man merkt es erst Stunden später. Und erfundene Tool-Ausgaben in `/btw` waren gefährlich, weil sie exakt wie echte Ergebnisse aussahen.
+- **Version:** v2.1.269
+
+#### Workflow-Fan-out und Gateway-Discovery konfigurierbar
+
+- **Was:** `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` (1–256) hebt das Limit gleichzeitiger Agents pro Workflow-Lauf an, gedacht für inferenzgebundene Fan-outs. `CLAUDE_CODE_GATEWAY_MODEL_DISCOVERY_TIMEOUT_MS` verlängert das Timeout der `/v1/models`-Erkennung am LLM-Gateway (Default 3 s). Dazu ein Spinner-Tipp, der `/focus` für eine Ansicht aus Prompt, einzeiliger Arbeitszusammenfassung und Antwort vorschlägt.
+- **Einsatz:** `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS=32 claude`; `CLAUDE_CODE_GATEWAY_MODEL_DISCOVERY_TIMEOUT_MS=10000` bei langsamen Gateways.
+- **Mehrwert:** Wer Reviews oder Recherchen über viele Dateien fächert, war bisher am eingebauten Deckel; die Wall-Clock-Zeit eines Fan-outs sinkt näherungsweise linear mit der Parallelität, solange nicht der Rechner limitiert. Das Discovery-Timeout betrifft selbst gehostete Gateways, deren Modell-Liste hinter einem langsamen Backend hängt — dort schlug der Start bisher mit unvollständiger Modell-Liste auf.
+- **Version:** v2.1.269
+
+#### Plugins: Dateirechte, Org-Rollout und saubere LSP-Beendigung
+
+- **Was:** Für eine Session entpackte Plugin-Archive waren für andere lokale Nutzer lesbar, entpackte Dateien behielten world-writable-Bits aus dem Archiv, und alte Dateien überlebten ein erneutes Entpacken. Über Managed Settings aktivierte Organisations-Plugins luden nicht in Headless-Sessions und auf Claude Desktop. Plugin-LSP-Server, die `shutdown`-Parameter ablehnen (etwa rust-analyzer), blieben am Sessionende laufen — `exit` wird jetzt auch nach fehlgeschlagenem `shutdown` gesendet. Synchronisierte Plugin-MCP-Server verbanden sich beim Fortsetzen einer Remote-Session nicht; MCP-Server verbanden sich neu, wenn eine geänderte Konfiguration nur die Reihenfolge der Query-Parameter in der Server-URL änderte. Die „Unknown skill"-Meldung nennt jetzt den vollen Namen, wenn ein bloßer Name genau einem Plugin-Skill entspricht. Aus claude.ai synchronisierte Skills heißen in Cloud-Sessions `anthropic-skills:<name>` (bloßer Name funktioniert weiter, solange er eindeutig ist).
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Die Dateirechte sind der ernste Posten: Auf einem geteilten Build-Host konnte jeder lokale Nutzer den Inhalt fremder Plugins lesen und teils überschreiben. Zurückbleibende rust-analyzer-Prozesse waren dagegen der stille Speicherfresser bei vielen kurzen Sessions.
+- **Version:** v2.1.269
+
+#### Attribution-Regel aus CLAUDE.md wird wieder respektiert
+
+- **Was:** Der eingebaute Attributions-Hinweis übersteuerte eine Regel aus `CLAUDE.md` oder dem Gedächtnis, die Attribution in Commits und Pull Requests untersagt. Solche Regeln gelten nun wieder; nur per Managed Settings gesetzte Attributionszeilen bleiben verbindlich.
+- **Einsatz:** Automatisch aktiv — bestehende Regel in `CLAUDE.md` genügt.
+- **Mehrwert:** Wer Attribution bewusst abgeschaltet hat, weil das Team sie in der Git-Historie nicht will, bekam sie trotzdem in jedem Commit. Der Fix stellt die dokumentierte Rangfolge wieder her: Nutzeranweisung schlägt Default, Managed Settings schlagen alles.
+- **Version:** v2.1.269
+
+#### VS Code: Agent-Map, Hooks- und Permission-Dialoge
+
+- **Was:** Eine Fußzeilen-Pille „N agents" öffnet eine Karte aller Sub-Agents der Session mit Karten pro Agent, Stop-Knopf und schreibgeschützten Transkripten; in der Focus-Ansicht erscheinen laufende Subagents als Live-Fortschrittszeilen unter den Tool-Gruppen. Neu im Befehlsmenü: ein Hooks-Dialog zum Ansehen, Anlegen, Ändern und Entfernen von Hooks in User-, Projekt- und Local-Settings sowie ein Permission-Rules-Dialog für dieselben Ebenen — Managed-, Plugin- und Session-Einträge bleiben schreibgeschützt. Der Switch-Account-Bildschirm hat einen Abbrechen-Knopf. Dazu rund ein Dutzend Fixes an Session-Liste, Plan-Vorschau, Prompt-Cache-Uhr, Umbenennungen und Remote Control sowie deutlich verbesserte Screenreader- und Tastatur-Bedienbarkeit in Slash-Command-Menü, @-Mention-Menü, Output-Style-Picker, Send/Stop-Knopf, Permission-Karten und Onboarding-Checkliste.
+- **Einsatz:** Extension aktualisieren; Dialoge über das Befehlsmenü.
+- **Mehrwert:** Hooks und Permission-Regeln von Hand über drei Settings-Dateien zu verteilen war die häufigste Fehlerquelle bei der Einrichtung — ein Dialog, der die wirksame Ebene zeigt und Managed-Einträge als unveränderlich markiert, beantwortet die Frage „warum greift meine Regel nicht" direkt. Die Agent-Map macht parallele Sub-Agents erstmals sichtbar und abbrechbar.
+- **Version:** v2.1.269
+
+#### Claude Code on the web: Nachricht aus der Warteschlange zurückholen
+
+- **Was:** Eine in einer Cloud-Session eingereihte Nachricht lässt sich zurücknehmen, bevor Claude sie liest — aus der Warteschlange entfernen oder Esc bzw. Pfeil-hoch drücken, der Text kehrt ins Eingabefeld zurück. Gefixt: `/model default` ließ in Organisationen mit eingeschränkter Modellauswahl jede weitere Nachricht scheitern; einmalige geplante Routinen liefen nach einem transienten Serverfehler gelegentlich ein zweites Mal; Routine-Läufe mit Subagents galten mitunter zu früh als beendet, wodurch ein Retry ausfiel oder ein Duplikat startete; Datei-Links in Cloud-Transkripten führten zu GitHub-404, wenn Claude aus einem Unterordner des Repositories arbeitete. Die Admin-Seite für Cloud-Umgebungen listet alle Umgebungen statt fünf pro Tabelle hinter einem teils unerreichbaren „Show more"; Free-Plan-Nutzer landen auf der Tarifseite statt auf „Disabled by org admin".
+- **Einsatz:** Automatisch aktiv auf claude.ai/code.
+- **Mehrwert:** Doppelt laufende Routinen sind in der Cloud teuer und potenziell schädlich, wenn sie committen oder deployen — dieser Fix und der zu früh gemeldete Abschluss betreffen jeden, der geplante Agents produktiv nutzt.
+- **Version:** v2.1.269
+
+#### Claude Tag: Routinen antworten im Thread
+
+- **Was:** Ein Routine-Lauf in einem Slack-Kanal kann jetzt in einem bestehenden Thread antworten, statt immer eine neue Top-Level-Nachricht zu posten. Zeitstempel auf Live-Fortschritts-Checklisten zeigen die lokale Zeit jedes Lesers und wie lange die letzte Aktualisierung her ist. Vor „Connect all"/„Disconnect" einer GitHub-Installation in den Admin-Einstellungen steht nun eine Bestätigung. Gefixt: Threads verstummten nach einem fehlgeschlagenen Turn, weil die Fehlermeldung bei kurzem Slack-Ratelimit verworfen wurde (wird jetzt wiederholt); Claude akzeptierte einen Wechsel auf ein von der Organisation nicht freigegebenes Modell und antwortete still mit einem Fallback — jetzt lehnt es ab und verweist auf den Admin; Tabellen wurden als rohe Pipe-Zeichen gepostet, wenn Claude derselben Nachricht Dateien anhängte; `@Claude !restart` in einem Kanal ohne aktive Konversation startete eine unbeteiligte Unterhaltung; Plugin-Zeilen in den Slack-Zugriffseinstellungen zeigten eine rohe ID ohne Abschaltmöglichkeit; Share-Dialog und Banner behaupteten, die ganze Organisation könne den Link öffnen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Die stille Modell-Ersetzung war die gefährlichste dieser Wanzen — man glaubte, mit Opus zu arbeiten, bekam aber die Antwort eines anderen Modells ohne Hinweis. Der irreführende Share-Hinweis wiederum hielt Teams davon ab, Sessions zu teilen, die tatsächlich nur der Kanal sehen konnte.
+- **Version:** v2.1.269
+
+#### Kleinigkeiten: CJK-Prompt-Vorschläge, CMYK-JPEGs, Telemetrie-Dialog
+
+- **Was:** Prompt-Vorschläge entfielen komplett für Japanisch, Chinesisch, Thai und andere Sprachen ohne Leerzeichen zwischen Wörtern; zusätzlich wird für Japanisch, Chinesisch und Koreanisch jetzt gefiltert wie für Englisch (gemischte Schriften und Einzelwörter bleiben, wertende Meta-Texte fliegen raus). CMYK-JPEGs scheiterten beim Anhängen mit „cannot decode" und werden nun wie andere JPEGs konvertiert und skaliert. Der Managed-Settings-Freigabedialog nannte den Collector eines gRPC-Telemetrie-Endpunkts ohne Schema nicht; `headersHelper`-Zustimmungsdialoge zeigten einen URL-Pfad, der als anderer Host missverstanden werden konnte; Plugin-Fehler zeigten `[redacted URL]` statt eines relativen Windows-Pfads mit `@`-Ordnernamen. Der Cursor fehlte in mehreren Textfeldern (Permission-Regel, Auto-Mode-Regel, Verzeichnis hinzufügen, Session umbenennen, Feedback-Review), wenn der native Terminal-Cursor aktiv ist. Artifact-Datenbank-Lesevorgänge, die in den Session-Scratchpad speichern, fragen nicht mehr nach Ordner-Freigabe. Wiederholte Klicks auf eine `/fork`-Quittung backgroundeten die Session nicht sofort. Organisations-Policy-Limits luden nicht, wenn parallel ein anderer Claude-Code-Prozess den Login erneuerte. Claude-Desktop-Sessions auf Bedrock, Vertex oder Gateway bekamen keinen kontextbezogenen Turn-Ende-Hinweis. Lange Sessions: Transkript-Updates verarbeiten die Konversation nicht mehr komplett neu, um die eingeklappten Tool-Zusammenfassungen zu bauen. Windows: PowerShell-Tool-Befehle im Hintergrund stoppten beim Beenden von Claude Code.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Die Sammlung zeigt, wo die Reibung im Alltag sitzt: nicht-englische Prompts ohne Vorschläge, ein fehlender Cursor in genau den Dialogen, in denen man tippen soll, und ein Transkript, das mit jeder Nachricht langsamer wurde.
+- **Version:** v2.1.269
 
 ### Woche 37 (10. September 2026) — v2.1.268
 
