@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-12 12:00 UTC (**Crawl 12.09. 12:00 UTC — Leerlauf, keine neue Version.** Alle vier Quellen byte-identisch zum 06:00-Lauf: `latest` = `next` = **2.1.269**, `stable` **2.1.236**, `time.modified` 11.09. 19:18:00 UTC; Git-Ref `v2.1.269` HTTP 200, `v2.1.270`/`v2.1.271` HTTP 404. `CHANGELOG.md` 676 396 Bytes, 98 Punkte unter `## 2.1.269`. **What's New** 14 051 Bytes, oben weiter Week 34, `2026-w35`–`w38` HTTP 404 — Digest-Rückstand unverändert drei Wochen. **Platform** 105 263 Bytes, oben der Block vom 10.09. **Blog** Slug-Menge identisch. GitHub-Releases oben unverändert v2.1.269 (11.09. 19:17:55 UTC). Nutzen dieses Laufs: die 98 Punkte von v2.1.269 vollständig gegen die 16 Einträge des 06:00-Laufs abgeglichen — vier Punkte waren nicht erfasst (zielgruppengerechtes Schreiben in VS Code, Datei-Chip und Rechtsklick-Menü, `alwaysLoad`-MCP-Server mitten im Gespräch, Prompt-Box-Rahmen bei Hintergrund-Agents) und sind als Nachtrag ergänzt. **Neue Einträge: 2.**) — Vorheriger **Crawl 12.09. 06:00 UTC — v2.1.269, 16 Einträge; Commit `04ef634`.** — Ältere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-12 18:00 UTC (**Crawl 12.09. 18:00 UTC — Leerlauf, keine neue Version.** Alle vier Quellen byte-identisch zum 12:00-Lauf: `latest` = `next` = **2.1.269**, `stable` **2.1.236**, `time.modified` 11.09. 19:18:00 UTC; Git-Refs `v2.1.270`–`v2.1.272` HTTP 404. `CHANGELOG.md` 676 396 Bytes. **What's New** 14 051 Bytes, oben weiter Week 34, `2026-w35`–`w38` HTTP 404 — Digest-Rückstand unverändert drei Wochen. **Platform** 105 263 Bytes (die dokumentierte URL leitet weiter auf die System-Prompts — korrekt ist `/docs/en/release-notes/overview.md`). **Blog** Slug-Menge identisch. GitHub-Releases oben unverändert v2.1.269 (11.09. 19:17:55 UTC). Nutzen dieses Laufs: Kreuzabgleich GitHub-Release-Body gegen `CHANGELOG.md` für v2.1.269 und v2.1.268 — beide deckungsgleich, je 98 bzw. 96 Punkte, keine Quelle führt etwas exklusiv. Anschließend Token-Abgleich der Versionen 2.1.267–2.1.269 gegen die Datei: drei Lücken gefunden und ergänzt — VS Code respektiert `CLAUDE_CONFIG_DIR` aus Settings/`environmentVariables` in der Session-Liste (v2.1.269), `WebFetch`-Regeln greifen nicht mehr auf das Artifact-Tool (v2.1.268, erweitert stillschweigend bestehende Berechtigungen), Managed-Allowlists `allowedHttpHookUrls`/`httpHookAllowedEnvVars`/`allowedChannelPlugins` sperren bei Lesefehler zu statt auf (v2.1.267). **Neue Einträge: 3.**) — Vorheriger **Crawl 12.09. 12:00 UTC — Leerlauf, 2 Nachtrag-Einträge; Commit `e6fa51b`.** — Ältere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -135,6 +135,13 @@
 - **Mehrwert:** `alwaysLoad` ist genau für Server gedacht, deren Tools ohne Umweg bereitstehen sollen — verband sich der Server langsam, fiel diese Zusage bisher ausgerechnet im ersten Turn danach aus, also dann, wenn man die Tools gerade braucht.
 - **Version:** v2.1.269
 
+#### VS Code respektiert `CLAUDE_CONFIG_DIR` in der Session-Liste
+
+- **Was:** Setzt man `CLAUDE_CONFIG_DIR` nicht als Umgebungsvariable der Shell, sondern in einer Settings-Datei oder über die VS-Code-Einstellung `environmentVariables`, zeigte die Session-Liste weiterhin die Sessions aus dem Standard-Verzeichnis `~/.claude`. In v2.1.268 waren bereits Settings-Umschalter und Chat-Tabs betroffen und wurden korrigiert; v2.1.269 zieht die Session-Liste nach.
+- **Einsatz:** Automatisch aktiv; `CLAUDE_CONFIG_DIR` kann damit zuverlässig über `environmentVariables` in den VS-Code-Settings gesetzt werden, statt die IDE aus einer präparierten Shell starten zu müssen.
+- **Mehrwert:** Betrifft jeden, der mehrere Claude-Konfigurationen trennt — etwa Arbeit und Privat oder ein abgeschottetes Kunden-Setup. Die Extension las die Variable nur aus der Prozess-Umgebung; wer sie in den Settings pflegte, bekam eine Session-Liste aus dem falschen Verzeichnis angezeigt und arbeitete unbemerkt gegen die Standard-Konfiguration. Der Einstieg über `environmentVariables` ist genau der Weg, den die IDE-Bedienung nahelegt.
+- **Version:** v2.1.269
+
 ### Woche 37 (10. September 2026) — v2.1.268
 
 #### Fix: HTTP 400 bei jedem Turn auf Anthropic-kompatiblen Drittanbieter-Endpunkten
@@ -216,6 +223,13 @@
 - **Mehrwert:** Passt direkt zur neuen `auto`-Policy: Pausiert ein Agent für eine Freigabe, lässt sie sich aus dem Terminal erteilen, ohne die Console im Browser zu öffnen.
 - **Version:** Platform, 10.09.2026 (ant-CLI)
 
+#### `WebFetch`-Regeln greifen nicht mehr auf das Artifact-Tool
+
+- **Was:** Einfache `WebFetch`-Deny- und Ask-Regeln galten bisher auch für Lese- und Schreibzugriffe des Artifact-Tools. Das ist entkoppelt: Wer Artifact-Zugriffe blocken oder abfragen lassen will, braucht jetzt eine eigene `Artifact`-Regel oder `WebFetch(domain:claude.ai)`. Ebenfalls in dieser Version: In lokalen Cowork-Sessions, die alle Nachfragen überspringen, verweigert das Artifact-Tool eine lokale Datei außerhalb der Session-Verzeichnisse oder hinter einem Symlink, statt sie ungefragt zu lesen.
+- **Einsatz:** Bestehende Regelwerke prüfen — ein pauschales `WebFetch`-Deny schützt Artifacts nicht mehr; stattdessen `Artifact` oder `WebFetch(domain:claude.ai)` in die Deny-/Ask-Liste aufnehmen.
+- **Mehrwert:** Die Trennung ist sauberer, aber sie ändert stillschweigend die Wirkung vorhandener Konfigurationen. Wer `WebFetch` gesperrt hatte, um ausgehende Zugriffe generell zu gaten, hat seit dieser Version ein offenes Tor, ohne dass sich an seiner Settings-Datei etwas geändert hätte — der seltene Fall, in dem ein Update eine Berechtigung erweitert statt einschränkt.
+- **Version:** v2.1.268
+
 ### Woche 37 (9. September 2026) — v2.1.267
 
 #### `maxEffortLevel` — providerübergreifende Obergrenze für die Effort-Stufe
@@ -261,6 +275,13 @@
 - **Version:** v2.1.267
 
 ---
+
+#### Managed-Allowlists sperren bei Lesefehler zu statt auf
+
+- **Was:** Ließen sich die Managed-Settings `allowedHttpHookUrls`, `httpHookAllowedEnvVars` oder `allowedChannelPlugins` nicht lesen — kaputte Datei, fehlende Rechte, ungültiges JSON —, wurden sie als „alles erlaubt" interpretiert. Jetzt gilt in diesem Fall „nichts erlaubt".
+- **Einsatz:** Automatisch aktiv; nach dem Update prüfen, ob HTTP-Hooks oder Channel-Plugins unerwartet blockiert werden — das ist dann der Hinweis auf eine defekte Managed-Settings-Datei, die vorher unbemerkt wirkungslos war.
+- **Mehrwert:** Genau der Fehler, der in einer Flotte niemandem auffällt: Eine Allowlist, die auf einigen Rechnern nicht gelesen werden kann, erlaubte dort still jede Hook-URL und jedes Channel-Plugin — die Policy sah in der Verwaltung korrekt aus, während sie auf den betroffenen Maschinen faktisch abgeschaltet war. Fail-closed macht den Defekt sichtbar, statt ihn in eine Lücke zu verwandeln.
+- **Version:** v2.1.267
 
 ### Woche 37 (8. September 2026) — v2.1.266
 
