@@ -1,11 +1,20 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-12 18:00 UTC (**Crawl 12.09. 18:00 UTC — Leerlauf, keine neue Version.** Alle vier Quellen byte-identisch zum 12:00-Lauf: `latest` = `next` = **2.1.269**, `stable` **2.1.236**, `time.modified` 11.09. 19:18:00 UTC; Git-Refs `v2.1.270`–`v2.1.272` HTTP 404. `CHANGELOG.md` 676 396 Bytes. **What's New** 14 051 Bytes, oben weiter Week 34, `2026-w35`–`w38` HTTP 404 — Digest-Rückstand unverändert drei Wochen. **Platform** 105 263 Bytes (die dokumentierte URL leitet weiter auf die System-Prompts — korrekt ist `/docs/en/release-notes/overview.md`). **Blog** Slug-Menge identisch. GitHub-Releases oben unverändert v2.1.269 (11.09. 19:17:55 UTC). Nutzen dieses Laufs: Kreuzabgleich GitHub-Release-Body gegen `CHANGELOG.md` für v2.1.269 und v2.1.268 — beide deckungsgleich, je 98 bzw. 96 Punkte, keine Quelle führt etwas exklusiv. Anschließend Token-Abgleich der Versionen 2.1.267–2.1.269 gegen die Datei: drei Lücken gefunden und ergänzt — VS Code respektiert `CLAUDE_CONFIG_DIR` aus Settings/`environmentVariables` in der Session-Liste (v2.1.269), `WebFetch`-Regeln greifen nicht mehr auf das Artifact-Tool (v2.1.268, erweitert stillschweigend bestehende Berechtigungen), Managed-Allowlists `allowedHttpHookUrls`/`httpHookAllowedEnvVars`/`allowedChannelPlugins` sperren bei Lesefehler zu statt auf (v2.1.267). **Neue Einträge: 3.**) — Vorheriger **Crawl 12.09. 12:00 UTC — Leerlauf, 2 Nachtrag-Einträge; Commit `e6fa51b`.** — Ältere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-13 06:00 UTC (**Crawl 13.09. 06:00 UTC — neue Version v2.1.270, ein Hotfix-Punkt.** npm: `latest` = `next` = **2.1.270**, publiziert 12.09. 18:52:44 UTC, `time.modified` 12.09. 19:45:49 UTC; `stable` unverändert **2.1.236**. Git-Ref `v2.1.270` HTTP 200, `v2.1.271`–`v2.1.273` HTTP 404. GitHub-Release v2.1.270 am 12.09. 19:45:44 UTC, Body **162 Bytes** — der kleinste seit v2.1.266. `CHANGELOG.md` 676 396 → **676 552 Bytes**, der Diff besteht aus genau vier Zeilen: der Überschrift `## 2.1.270` und **einem** Punkt — lesende Git-Befehle im Bash-Tool fragten nach längerer Sessionlaufzeit plötzlich nach Erlaubnis, Regression aus v2.1.269. Release-Body und CHANGELOG sind wortgleich. Die übrigen drei Quellen byte-identisch zum 18:00-Lauf: **What's New** 14 051 Bytes, oben weiter Week 34, `2026-w35`–`w38` HTTP 404; **Platform** 105 263 Bytes; **Blog** Slug-Menge identisch. Zusätzlich der offene Token-Abgleich für die älteren Versionen nachgeholt (2.1.260–2.1.266): 2.1.266 und 2.1.263 lückenlos, 2.1.262/2.1.264 existieren nicht; **2.1.265 sechs, 2.1.261 fünf, 2.1.260 vier** unbelegte Tokens, davon nach Gegenprüfung drei bereits sinngemäß dokumentiert (GitLab-Subgruppen, `oidc.scope_on_refresh`, 45-Minuten-Fenster für `claude ultrareview`). Aus den verbleibenden zwölf Punkten fünf Nachtrag-Einträge gebildet: Gateway-Anmeldung ab Start via `forceLoginGatewayUrl` plus direkter OTel-Export und `user.email`/`user.groups` (265), `/model opusplan[1m]` / `/add-dir` unter gesperrten Managed Settings / Plugin-Metadaten aus `plugin.json` (265), `/add-dir` auf `/net`-Automounts und `claude -p --resume <file>` mit defekter Session-ID (261), `X-Forwarded-For` mit Port plus `file_upload` in lokalen Cowork-Sessions plus `<claude-code-hint>`-Leck aus Hintergrund-Bash (261), `orgPluginSettings` in Listenform und Feldprüfung in verschachtelten Policy-Objekten (260). **Neue Einträge: 6.**) — Vorheriger **Crawl 12.09. 18:00 UTC — Leerlauf, 3 Nachtrag-Einträge; Commit `964239e`.** — Ältere Crawl-Historie in den Git-Commits.
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 37 (12. September 2026) — v2.1.270
+
+#### Hotfix: Lesende Git-Befehle fragten in langen Sessions plötzlich nach Erlaubnis
+
+- **Was:** Eine Regression aus v2.1.269: Lesende Git-Kommandos im Bash-Tool — `git status`, `git log`, `git diff` und Verwandte — liefen zu Sessionbeginn erwartungsgemäß ohne Rückfrage durch, lösten aber, nachdem eine Session eine Weile gelaufen war, unvermittelt einen Berechtigungsdialog aus. v2.1.270 stellt das alte Verhalten wieder her; das Release enthält genau diesen einen Punkt und sonst nichts.
+- **Einsatz:** Automatisch aktiv nach dem Update (`claude update` bzw. `npm i -g @anthropic-ai/claude-code@2.1.270`).
+- **Mehrwert:** `git status` und `git diff` sind die meistgerufenen Kommandos überhaupt — Claude Code fragt sie vor fast jedem Commit und nach jeder Änderungsrunde ab. Der Fehler war besonders unangenehm, weil er erst nach Laufzeit auftrat: Direkt nach dem Start ließ er sich nicht reproduzieren, also suchte man die Ursache in den eigenen Permission-Regeln statt in der Version. In unbeaufsichtigten Headless- und Cron-Läufen ist eine unerwartete Rückfrage zudem kein Ärgernis, sondern ein Abbruch — genau das Szenario, für das `--permission-prompts none` aus v2.1.259 gedacht ist.
+- **Version:** v2.1.270
 
 ### Woche 37 (11. September 2026) — v2.1.269
 
@@ -296,6 +305,20 @@
 
 ### Woche 37 (8. September 2026) — v2.1.265
 
+#### Nachtrag v2.1.265: Claude-apps-Gateway — Anmeldung ab Start, Telemetrie mit Nutzerfeldern, OTel direkt zum Collector
+
+- **Was:** Drei zusammenhängende Änderungen am Claude-apps-Gateway. Steht `forceLoginGatewayUrl` in den Managed Settings, gilt die Maschine **ab dem Start** als Gateway-Session — genau wie bei `forceLoginMethod: "gateway"`; eine übrig gebliebene claude.ai-Anmeldung oder ein herumliegender API-Key wird nicht mehr herangezogen. Gateway-Sessions exportieren OpenTelemetry jetzt **direkt** an den Collector, den die Managed Settings des Gateways unter `OTEL_EXPORTER_OTLP_ENDPOINT` benennen, statt den Umweg über das Relay des Gateways zu nehmen; ist kein Collector benannt, bleibt es beim Relay. Und die Telemetrie, die Claude Desktop und Cowork durch ein Gateway schicken, trägt jetzt `user.email` und `user.groups` — damit sind sie mit Terminal-Sessions gleichgezogen.
+- **Einsatz:** In den Managed Settings des Gateways `forceLoginGatewayUrl` bzw. `OTEL_EXPORTER_OTLP_ENDPOINT` setzen.
+- **Mehrwert:** Der erste Punkt schließt ein Zeitfenster, in dem eine verwaltete Maschine trotz Gateway-Pflicht noch mit altem Credential losläuft — ein Rollout auf bereits benutzte Rechner war bisher nicht sauber durchsetzbar. Der zweite nimmt das Gateway aus dem Telemetriepfad heraus: Wer Metriken ohnehin in einem eigenen Collector sammelt, spart einen Hop und ist nicht mehr davon abhängig, dass das Relay läuft. Der dritte macht Gateway-Telemetrie überhaupt erst auswertbar — ohne `user.email`/`user.groups` ließen sich Desktop- und Cowork-Nutzung weder Personen noch Teams zuordnen, Terminal-Sessions aber schon, was jede organisationsweite Auswertung verzerrte.
+- **Version:** v2.1.265 (Nachtrag, Token-Abgleich 13.09.)
+
+#### Nachtrag v2.1.265: `/model opusplan[1m]`, `/add-dir` unter gesperrten Managed Settings, Plugin-Metadaten aus `plugin.json`
+
+- **Was:** Drei Fehlerbehebungen. `/model opusplan[1m]` wurde mit „Model not found" abgewiesen — die 1M-Kontext-Variante des Opus-Plan-Modus war per Befehl also nicht erreichbar. `/add-dir <subdirectory>` verweigerte das Laden der Agents eines Unterverzeichnisses, wenn die Managed Settings nur **Skills** auf Plugins festnageln, und versprach umgekehrt Agents, wenn nur **Agents** gesperrt sind — die Sperre für den einen Artefakt-Typ wirkte auf den anderen. `/plugin` in der Discover-/Browse-Ansicht und `claude plugin list --json --available` zeigten weder Beschreibung noch Anzeigename für Marketplace-Plugins, deren Metadaten ausschließlich in ihrer `plugin.json` stehen statt im Marktplatz-Eintrag.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Der `/add-dir`-Fehler ist der teuerste der drei, weil er still danebenlag: Man bekam entweder weniger Fähigkeiten als erlaubt oder eine Zusage, die nicht eingelöst wurde, und beides merkt man erst, wenn ein Agent nicht reagiert. Die fehlenden Plugin-Beschreibungen trafen genau die Plugins, die ihre Metadaten am richtigen Ort pflegen — im Marktplatz-Browser sahen sie aus wie leere Einträge, was die Verbreitung von Plugins ohne redundanten Marketplace-Eintrag praktisch verhinderte.
+- **Version:** v2.1.265 (Nachtrag, Token-Abgleich 13.09.)
+
 #### `--plugin-dir` akzeptiert einen ganzen Plugin-Ordner
 
 - **Was:** `--plugin-dir` konnte bisher auf ein einzelnes Plugin zeigen; jetzt darf es auf einen **Ordner voller Plugins** zeigen. Jedes Unterverzeichnis mit einem Manifest wird geladen, und Unterverzeichnisse, die **im laufenden Betrieb** dazukommen oder verschwinden, werden erkannt.
@@ -451,6 +474,20 @@
 
 ### Woche 36 (4. September 2026) — v2.1.261
 
+#### Nachtrag v2.1.261: `/add-dir` auf `/net`-Automounts, `claude -p --resume <file>` mit defekter Session-ID
+
+- **Was:** Zwei Pfad- und Resume-Fixes. `/add-dir <subdirectory>` meldete fälschlich „couldn't be resolved", wenn das Arbeitsverzeichnis auf einem `/net`-Automount liegt — der Pfad existierte, wurde aber durch die Automounter-Indirektion nicht als auflösbar erkannt. Und `claude -p --resume <file>` übernahm eine im Transkript notierte, fehlerhafte Session-ID unbesehen; jetzt wird unter einer frischen Session-ID fortgesetzt, statt mit einer ungültigen weiterzuarbeiten.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Beides trifft Setups, die man sich nicht aussuchen kann. Wer auf NFS-Automounts arbeitet — in Universitäts- und Firmenumgebungen der Normalfall —, konnte `/add-dir` schlicht nicht benutzen und musste das Verzeichnis umständlich anders einbinden. Der Resume-Fix ist für Skripte relevant: Eine kaputte Session-ID ließ einen `-p`-Lauf scheitern, ohne dass die Ursache in der Fehlermeldung stand; jetzt läuft der Job durch, statt an einem Datenrest aus einer früheren Session hängenzubleiben.
+- **Version:** v2.1.261 (Nachtrag, Token-Abgleich 13.09.)
+
+#### Nachtrag v2.1.261: Client-IP hinter Proxy mit Port, `file_upload` in lokalen Cowork-Sessions, `<claude-code-hint>`-Leck
+
+- **Was:** Drei Fixes an den Rändern. Beim Claude-apps-Gateway wurde die Client-IP falsch bestimmt, wenn ein vertrauenswürdiger Proxy an `X-Forwarded-For` einen Port anhängt; ist eine Zugriffsliste gesetzt, führt ein nicht lesbarer Eintrag jetzt zu **403** statt zu einer Fehlinterpretation. Claude in Chrome scheiterte beim `file_upload` mit „paths: expected array, received undefined" in lokalen Cowork-Sessions, die aus der Claude-Desktop-App gestartet wurden. Und Plugin-Installationshinweise, die eine CLI in einem **Hintergrund**-Bash-Befehl ausgibt, wurden bisher nicht als solche erkannt — das rohe `<claude-code-hint>`-Tag rutschte sichtbar in die Konversation.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Der `X-Forwarded-For`-Punkt ist der einzige sicherheitsrelevante: Eine IP-Zugriffsliste, die einen Header-Eintrag nicht parsen kann, muss ablehnen und nicht raten — das ist der Unterschied zwischen einer wirksamen und einer dekorativen Allowlist. Das Hint-Leck wiederum zeigt gut, warum Hintergrund-Ausführung eine Sonderbehandlung braucht: Was im Vordergrund ein sauberer Installationshinweis ist, wird im Hintergrund zu Auszeichnungs-Müll im Gesprächsverlauf.
+- **Version:** v2.1.261 (Nachtrag, Token-Abgleich 13.09.)
+
 #### Überblick: v2.1.261 — 67 Punkte, lückenlose Montag-bis-Freitag-Woche
 - **Was:** Der Inhalt von **v2.1.261** ist jetzt vollständig veröffentlicht: npm-Publish 04.09. **17:49:34 UTC**, GitHub-Release **19:58:10 UTC** — der Nachtrag zum Rollout-Fenster, das der 18:00-Lauf im Zwischenzustand erwischt hatte. Die Tags stehen inzwischen auf `latest` = `next` = **2.1.261**, `stable` unverändert **2.1.236**. Der Changelog umfasst **67 Punkte**: 41 im CLI (4 neue Funktionen, 27 Fehlerbehebungen, 5 Verbesserungen, 5 Verhaltensänderungen) und **26 VS-Code-Punkte** — der bisher größte VS-Code-Block einer einzelnen Version. `CHANGELOG.md` und GitHub-Release sind deckungsgleich. Der Schwerpunkt liegt klar auf **Remote Control** (sieben Fixes) und der VS-Code-Erweiterung; neue CLI-Funktionen gibt es nur vier.
 - **Einsatz:** `claude update` bzw. `npm i -g @anthropic-ai/claude-code@latest`
@@ -524,6 +561,13 @@
 ---
 
 ### Woche 36 (3. September 2026) — v2.1.260
+
+#### Nachtrag v2.1.260: `orgPluginSettings` in Listenform und Feldprüfung in verschachtelten Policy-Objekten
+
+- **Was:** Das Claude-apps-Gateway schickt `orgPluginSettings` jetzt in der Listenform, die Claude Desktop ab Version 1.15200.0 liest; ältere Desktops ignorieren das Feld. Außerdem verweigert das Gateway den Start auch dann — und nennt dabei das betroffene Feld —, wenn eine `desktop`-Policy einen Feldnamen in einem **verschachtelten** Objekt eines `managedMcpServers`- oder `orgPluginSettings`-Eintrags falsch schreibt; bisher wurde nur die oberste Ebene geprüft.
+- **Einsatz:** Automatisch aktiv; Gateway-Policy nach dem Update auf Tippfehler in verschachtelten Objekten prüfen.
+- **Mehrwert:** Die Fail-fast-Prüfung ist der praktisch wichtigere Teil. Ein vertippter Feldname in einer verschachtelten Struktur wurde stillschweigend verworfen — die Policy galt also als ausgerollt, während ein Teil davon wirkungslos war, und das fiel frühestens auf, wenn jemand ein Plugin benutzte, das eigentlich gesperrt sein sollte. Ein Gateway, das mit Nennung des Feldes gar nicht erst startet, verschiebt den Fehler vom Betrieb in den Rollout, wo er hingehört.
+- **Version:** v2.1.260 (Nachtrag, Token-Abgleich 13.09.)
 
 #### Überblick: v2.1.260 — 68 Punkte, vierter Werktag in Folge mit Release
 - **Was:** **v2.1.260** erschien am 03.09.: npm-Publish **22:32 UTC**, GitHub-Release **23:48 UTC**. Der Changelog umfasst **68 Punkte**: sechs neue Funktionen, 38 Fehlerbehebungen, ein Revert, neun Verbesserungen, acht Verhaltensänderungen, eine Entfernung und sieben VS-Code-Punkte. `CHANGELOG.md` und GitHub-Release sind deckungsgleich. **Tags:** `latest` und `next` auf **2.1.260**, `stable` bleibt bei 2.1.236. Damit kam in dieser Woche an jedem Werktag von Montag bis Donnerstag ein Release (v2.1.252, 257/258, 259, 260).
