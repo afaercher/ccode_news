@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-13 18:00 UTC (**Crawl 13.09. 18:00 UTC — Leerlauf, alle vier Quellen byte-identisch zum 12:00-Lauf.** npm: `latest` = `next` = **2.1.270**, `stable` unverändert **2.1.236**, `time.modified` weiter 12.09. 19:45:49 UTC; Git-Ref `v2.1.270` HTTP 200, `v2.1.271`–`v2.1.273` HTTP 404. `CHANGELOG.md` **676 552 Bytes**, byte-identisch zum 06:00- und 12:00-Snapshot; **What's New** 14 051 Bytes, oben weiter Week 34, `2026-w35`–`w38` HTTP 404 (Rückstand vier Wochen); **Platform** 105 263 Bytes byte-identisch (über `release-notes/overview.md`); **Blog** 15 Slugs, Menge identisch; GitHub-Release oben unverändert v2.1.270 (12.09. 19:45:44 UTC, Body 162 Bytes). Den Leerlauf für den nächsten Token-Abgleich genutzt, jetzt für **2.1.243–2.1.251**: 2.1.243, 2.1.245, 2.1.246 und 2.1.250 lückenlos, 2.1.244 und 2.1.249 existieren nicht, **2.1.251 hatte 16, 2.1.248 sechs, 2.1.247 einen** unbelegten Token auf **18 Changelog-Punkten**. Zehn davon waren bereits sinngemäß dokumentiert (`claude attach <id>` in `--help`, `Read()`-Deny auf Symlink-Suchpfaden, `OPTIND=1/0`, Worktree-Edits aus Background-Sessions, Ctrl+G mit `emacs -nw`/`micro`, verlorene Vertex-/Bedrock-Gateways, `/ultrareview`-Wartezeit in 251; `--client-label` in 248; eingeklappte Peer-Nachrichten mit Ctrl+O in 247). Aus den verbleibenden **acht Punkten** drei Nachtrag-Einträge gebildet: `claude --bg --model fable` auf Max-Plänen plus PR-Badge direkt über die GitHub-API mit `gh auth token`/`GH_TOKEN`/`GITHUB_TOKEN` (251); `/mcp reconnect` über Remote Control mit echter Abhilfe, Hilfetext von `claude mcp add --header`/`add-json`, `--worktree --tmux` mit GitLab-MR-Nummer (251); `claude remote-control`-Flags hinter globalen Optionen, `/usage-credits`-Hinweis unter `DISABLE_EXTRA_USAGE_COMMAND`, Telemetrie-Exportfehler als `[Anthropic telemetry]` (248). Damit ist der Token-Abgleich rückwärts bis 2.1.243 geschlossen. **Neue Einträge: 3.**) — Vorheriger **Crawl 13.09. 12:00 UTC — Leerlauf, Token-Abgleich 2.1.252–2.1.259, 5 Nachträge; Commit `cb831f3`.** — Ältere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-14 12:00 UTC (**Crawl 14.09. 12:00 UTC — Leerlauf, alle vier Quellen byte-identisch zum 06:00-Lauf.** npm: `latest` = `next` = **2.1.270**, `stable` unverändert **2.1.236**, `time.modified` weiter 12.09. 19:45:49 UTC; Git-Ref `v2.1.270` HTTP 200, `v2.1.271`–`v2.1.273` HTTP 404. `CHANGELOG.md` **676 552 Bytes**, byte-identisch seit dem 13.09. 06:00-Snapshot; **What's New** 14 051 Bytes, oben weiter Week 34, `2026-w35`–`w38` HTTP 404 (Rückstand vier Wochen); **Platform** 105 263 Bytes byte-identisch (über `release-notes/overview.md`); **Blog** 15 Slugs, byte-identisch; GitHub-Release oben unverändert v2.1.270 (12.09. 19:45:44 UTC, Body 162 Bytes). Der 06:00-Lauf vom 14.09. war vom Wrapper nach 300 s abgebrochen worden (Log HTTP 504) und hatte **elf Nachtrag-Einträge für 2.1.234–2.1.236** unkommittiert hinterlassen (vier zu 236, zwei zu 235, fünf zu 234 — u. a. Berechtigungs-Vorschauen über Channels mit Trust-Gate, `thinking`-Block-Crash bei Gateways, `selection:clear`, Managed-Settings-Freigabe, die den ersten Tastendruck schluckte); alle elf gegen den Changelog gegengeprüft (jede Aussage belegt) und in diesem Lauf mit übernommen. Dazu den Token-Abgleich **rückwärts bis 2.1.220 geschlossen**: 2.1.237, 2.1.239–2.1.241, 2.1.222–2.1.229 und 2.1.220 lückenlos, 2.1.230 und 2.1.242 existieren nicht, 2.1.238 (`--defer-shutdown-max-min`), 2.1.235 (`-A/-C`), 2.1.234 (`/add-dir <path>`), 2.1.233 (`cd <dir> && … > file`) und 2.1.232 (`name-word-word`) je ein unbelegter Token, alle fünf bereits sinngemäß dokumentiert; einzige echte Lücke **2.1.221**: `/ultrareview`-Fehlermeldungen bei fehlender gemeinsamer Historie ohne irreführenden `git fetch --unshallow`-Rat — als Nachtrag ergänzt. **Neue Einträge: 12 (elf aus 06:00, einer aus 12:00).**) — Vorheriger **Crawl 13.09. 18:00 UTC — Leerlauf, Token-Abgleich 2.1.243–2.1.251, 3 Nachträge; Commit `1b78fad`.** — Ältere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -2066,6 +2066,34 @@
 
 ### Woche 34 (19. August 2026) — v2.1.236
 
+#### Nachtrag v2.1.236: Gelöschtes Arbeitsverzeichnis, Skills-Hot-Reload und `powershell.exe` auf WSL
+
+- **Was:** Drei Folgefehler älterer Umbauten. Seit v2.1.229 brachen Zwischenablage-Kopien, die Hintergrund-Aufräumarbeiten, Hintergrund-Sessions und die lokalen MCP-Logs ab, sobald das Verzeichnis entfernt wurde, in das eine Session zuvor gewechselt war; ebenfalls seit v2.1.229 warf das Hot-Reload der Skills in SDK- und VS-Code-Sessions nach dem Löschen des Arbeitsverzeichnisses bei jeder Skill-Änderung einen Fehler. Und ein Subprozess, der gar nicht erst starten konnte — typischer Fall `powershell.exe` unter WSL mit abgeschaltetem Windows-Interop — löste seit v2.1.234 eine unbehandelte Promise-Rejection aus.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer Worktrees oder temporäre Verzeichnisse anlegt und wieder wegräumt, kam mit einer laufenden Session leicht in diesen Zustand; die Session funktionierte dann nur noch halb. Der WSL-Fall traf alle, die Interop bewusst abgeschaltet haben.
+- **Version:** v2.1.236 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.236: Fullscreen nach Resize, tmux-Tab-Titel, Managed-Settings-Freigabe
+
+- **Was:** Im Fullscreen-Modus wurde eine gerade gesendete Nachricht nach einer Terminal-Größenänderung mitunter erst mit dem nächsten Update sichtbar; über dem Prompt konnte nach dem Leeren einer mehrzeiligen Eingabe ein leeres Band stehen bleiben, und Panes zeichneten sich nach Verkleinern und Vergrößern nicht neu. In tmux mit iTerm-Integration sprang der Tab-Titel, weil er alle 960 ms neu geschrieben wurde — jetzt nur noch bei geändertem Text. Und die Freigabeabfrage für Managed Settings erschien beim Start manchmal gar nicht, schluckte aber trotzdem den ersten Tastendruck als Zustimmung.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der letzte Punkt ist ein Sicherheitsfix: Eine unsichtbare Abfrage darf keine Zustimmung einsammeln. Die übrigen nehmen dem Fullscreen-Renderer die Darstellungsfehler, die beim Fensterwechsel am häufigsten auffielen.
+- **Version:** v2.1.236 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.236: Remote Control meldet Offline sofort, Usage-Credits-Abfrage, Cloud-Umgebungsliste, Runner-Post-Session-Hook
+
+- **Was:** Beendet sich die CLI oder schließt ihr Terminal, markiert Remote Control die Session jetzt binnen Sekunden als offline. Die einmalige Usage-Credits-Abfrage beim ersten Einsatz von Fable 5 wählte unter Remote Control nach 60 Sekunden ohne Antwort selbsttätig das Fallback-Modell — behoben. Eine leere oder fehlerhafte Antwort der Cloud-Umgebungsliste erzeugte eine unverständliche Fehlermeldung. Und Sessions auf Self-hosted Runnern, die wegen Leerlauf, Ruhestand oder Start-Timeout freigegeben wurden, liefen gelegentlich auf einem anderen Runner weiter, bevor der Post-Session-Hook des alten fertig war.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Am Handy sah man bisher tote Sessions als erreichbar; jetzt stimmt der Status. Wer Self-hosted Runner mit Aufräum-Hooks betreibt, bekommt keine Überschneidung zweier Runner auf derselben Session mehr.
+- **Version:** v2.1.236 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.236: Footer-Ausrichtung, Clawd-Maskottchen, Session-Zähler im Hintergrund
+
+- **Was:** Der Session-Titel-Chip am Prompt-Rahmen schließt jetzt mit dem rechten Rand des Footers ab; die rechtsbündigen Footer-Elemente (Goal-Anzeige, Session-Status, Hintergrund-Agent-Status) und gekürzte Hinweise teilen sich einen einheitlichen rechten Rand. Das Clawd-Maskottchen bekam in iTerm2 bei manchen Schriftgrößen ungleichmäßige Augen und Füße. Und der Session-Zähler wird jetzt im Hintergrund geschrieben, was den Start beschleunigt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Kosmetik, aber sichtbar bei jedem Start — und der Zähler war einer der kleinen synchronen Schreibzugriffe, die den Start ausbremsten.
+- **Version:** v2.1.236 (Nachtrag, Token-Abgleich 14.09.)
+
 #### `ANTHROPIC_DEFAULT_MODEL`
 - **Was:** Neue Umgebungsvariable, die das Startmodell neuer Sessions festlegt — anders als `ANTHROPIC_MODEL` überschreibt eine `/model`-Wahl sie und bleibt über Neustarts hinweg erhalten.
 - **Einsatz:** `export ANTHROPIC_DEFAULT_MODEL=claude-opus-5`
@@ -2130,6 +2158,20 @@
 
 ### Woche 34 (18. August 2026) — v2.1.235
 
+#### Nachtrag v2.1.235: Terminal-Darstellung — verschachtelte Listen, verrutschte Hervorhebungen, HTML-Entities, Dialog-Tastenfolgen
+
+- **Was:** Vier Darstellungsfehler im Terminal-UI. Markdown-Listen ab der dritten Verschachtelungstiefe standen schief, umgebrochene Listenpunkte bekommen jetzt einen hängenden Einzug. Die Hervorhebungen im Prompt-Eingabefeld (Slash-Commands, Schlüsselwörter, Erwähnungen) saßen in manchen mehrzeiligen Prompts um ein oder mehrere Zeichen versetzt. Slash-Commands, die ausgeführt wurden, während Claude noch antwortete, zeigten HTML-Entities statt der eigentlichen Zeichen. Und in Dialogen wählte eine schnelle Folge aus Pfeiltaste und Enter die zuvor markierte Option statt der angesteuerten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der letzte Punkt konnte im Berechtigungsdialog die falsche Antwort auslösen — wer flott „runter, Enter" tippt, traf bisher die vorherige Zeile.
+- **Version:** v2.1.235 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.235: Notebook-Dialoge nennen Lesefehler, Restart-Hinweis nach Auto-Update, VS-Code-Fokus, `claude rc` mit Gateway-Prüfung
+
+- **Was:** Die Freigabedialoge zum Löschen oder Ersetzen einer Notebook-Zelle ließen den bestehenden Zellinhalt still weg, wenn Notebook oder Zelle nicht lesbar waren — jetzt steht der Grund im Dialog. Der Prompt-Footer zeigte nach einem Hintergrund-Auto-Update den Hinweis „Update installed" mit Neustart-Aufforderung nicht an. In VS Code sprang der Fokus zwischen mehreren offenen Claude-Tabs von selbst hin und her, wenn ein Fenster mit mehreren Claude-Panels wiederhergestellt oder neu geladen wurde. Und `claude rc` (Remote Control) prüft jetzt beim Start dieselbe Enterprise-Gateway-Verfügbarkeit wie der interaktive Start.
+- **Einsatz:** Automatisch aktiv; Remote Control weiterhin per `claude rc` bzw. `claude remote-control`.
+- **Mehrwert:** Ein Notebook-Dialog ohne Inhalt sah aus wie eine leere Zelle — man genehmigte blind. Und ein Gateway-Zwang, der nur den interaktiven Start abdeckt, ließ sich über Remote Control umgehen; jetzt nicht mehr.
+- **Version:** v2.1.235 (Nachtrag, Token-Abgleich 14.09.)
+
 #### Rechtschreibprüfung im Prompt-Eingabefeld
 - **Was:** Optionale Einstellung, die falsch geschriebene Wörter beim Tippen unterringelt — genutzt wird das lokal installierte `aspell`, `hunspell` oder `ispell`.
 - **Einsatz:** Setting `spellcheck` aktivieren (benötigt eines der genannten Programme im System)
@@ -2181,6 +2223,41 @@
 ---
 
 ### Woche 34 (17. August 2026) — v2.1.234
+
+#### Nachtrag v2.1.234: Berechtigungs-Vorschauen über Channels — Trust-Gate, keine verdeckenden Masken, Token vor Shell-Trennzeichen
+
+- **Was:** Drei Härtungen an den Berechtigungs-Vorschauen, die an Channel-Server (etwa Chat-Integrationen) weitergereicht werden: Vorschauen gehen nur noch an Server, die das eingehende Trust-Gate passiert haben, und ein Server, der die Permission-Fähigkeit ausdrücklich abwählt, wird respektiert. Die Credential-Maskierung darf dem Genehmigenden keine Befehle, Pfade oder Ziele mehr verstecken; überlange Private-Key-Blöcke werden bei voller Redaktion trotzdem geschwärzt. Provider-API-Tokens werden jetzt auch dann maskiert, wenn direkt ein Shell-Trennzeichen folgt. Dazu zwei Dialog-Fixes: Der Trust-Prompt ließ die Warnung zum repositoryweiten Geltungsbereich weg, wenn das Verzeichnis schon vor Anlegen des Repos bekannt war; und ein sich schließender IDE-Diff-Tab während einer erneuten Berechtigungsabfrage konnte die neue Abfrage mit der alten Eingabe beantworten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer Freigaben über einen Channel erteilt, muss sehen, *was* er freigibt — eine Maske, die den Befehl selbst verschluckt, verkehrt den Schutz ins Gegenteil. Der Diff-Tab-Fall war eine stille Fehlfreigabe.
+- **Version:** v2.1.234 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.234: Auto-Modus nach Kompaktierung, redundante Klassifikator-Zeile, Mantle-Probe beim Start
+
+- **Was:** In sehr langen Sessions prüfte der Auto-Modus nach einer Kompaktierung den Netzwerkzugriff gesandboxter Befehle immer wieder neu und lehnte ihn ab — behoben. Die Zeile „Allowed by auto mode classifier", die unter jedem Agent-Tool-Aufruf stand, ist entfernt. Und Mantle überspringt beim Start die Verfügbarkeitsprobe für den Admin-Pin, sobald ein Main-Loop-Modell bereits gewählt ist.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Der erste Punkt machte Auto-Modus in Marathon-Sessions unbrauchbar, weil dieselben Netzbefehle plötzlich scheiterten. Die beiden anderen sparen Bildschirmzeilen und einen Round-Trip beim Start.
+- **Version:** v2.1.234 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.234: Robustheit gegenüber Gateways — `thinking`-Block-Crash, aussagekräftiger Malformed-Response-Fehler, Unicode-Rendering, Remote-Host-Erkennung
+
+- **Was:** Enthielt eine API-Antwort auf dem nicht-streamenden Fallback-Pfad (typisch bei Drittanbieter-Gateways) einen `thinking`-Block ohne `thinking`-Feld oder einen Textblock ohne `text`-Feld, stürzte Claude Code ab. Der Fehler „API returned an empty or malformed response" nennt jetzt, was zurückkam (Content-Type, Art des Bodys, Größe, Request-ID) und warum die ursprüngliche Streaming-Anfrage scheiterte. Außerdem wurde das Markdown-Rendering bei manchen Nachrichten mit ungewöhnlichen Unicode-Sequenzen extrem langsam, und die Repository-Erkennung las bei Git-Remotes mit ungewöhnlichem userinfo-Teil den falschen Host — mit falschen Links und repo-spezifischem Verhalten für den falschen Anbieter.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Wer hinter einem LLM-Gateway arbeitet, bekommt bei kaputten Antworten jetzt eine Diagnose statt eines Absturzes oder einer Einzeiler-Meldung — mit Request-ID für das Ticket beim Gateway-Team.
+- **Version:** v2.1.234 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.234: `selection:clear`, Esc behält Textauswahl, zusammengefasste Shell-Zeilen, gedimmter Zeitzähler, `claude setup-token`
+
+- **Was:** Neue Keybinding-Aktion `selection:clear`, mit der sich eine Taste zum Aufheben der In-App-Textauswahl belegen lässt — auch in der Agent-Ansicht. Passend dazu löscht Esc im Fullscreen-Modus eine Maus-Textauswahl nicht mehr, sondern unterbricht oder schließt wie gewohnt, die Markierung bleibt. Aufeinanderfolgende Shell-Befehle wurden in mehrere „Ran 1 shell command"-Zeilen zerrissen, wenn Todo-/Task-Updates dazwischenlagen. Der Zeitzähler im Kopf eines laufenden Tools ist gedimmt, damit er nicht mit den fetten Zählern konkurriert. Und `claude setup-token` lehnt unerwartete Zusatzargumente ab, statt sie still zu ignorieren.
+- **Einsatz:** In `~/.claude/keybindings.json` z. B. `{"key": "ctrl+shift+c", "action": "selection:clear"}`; `claude setup-token` ohne weitere Argumente.
+- **Mehrwert:** Bisher zerstörte ein reflexhaftes Esc die Auswahl, die man gerade kopieren wollte. Das strenge `setup-token` verhindert, dass ein Tippfehler in Skripten unbemerkt bleibt.
+- **Version:** v2.1.234 (Nachtrag, Token-Abgleich 14.09.)
+
+#### Nachtrag v2.1.234: Kontext-Hygiene — Hintergrund-Benachrichtigungen als `<system-reminder>`, E-Mail nur zur Identifikation, Desktop-Nachrichten nicht mehr still verworfen
+
+- **Was:** Benachrichtigungen von Hintergrund-Tasks, die zwischen zwei Turns eintreffen, gehen jetzt in `<system-reminder>`-Tags an das Modell — genau wie die Zustellung mitten im Turn. Claude wird angewiesen, die Konto-E-Mail-Adresse nur zur Identifikation des Nutzers zu verwenden und sie nicht ohne Aufforderung an fremde Dienste zu schicken. Und Claude-Desktop-Sessions verwarfen eingehende Nachrichten anderer Sessions stillschweigend, wenn Cross-Session-Messaging als deaktiviert galt — die sendende Session hing dann minutenlang im Zustand „thinking".
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Einheitlich getaggte Benachrichtigungen kann das Modell sauber von Nutzer-Eingaben trennen. Die E-Mail-Regel ist eine Datenschutz-Leitplanke für Sessions mit MCP-Konnektoren. Der Desktop-Fix beendet ein Warten ohne Ende.
+- **Version:** v2.1.234 (Nachtrag, Token-Abgleich 14.09.)
 
 #### Automatisches Weiterlaufen nach Usage-Limit-Reset
 - **Was:** Läuft die Session in ein claude.ai-Nutzungslimit, wird sie nach dem Reset automatisch fortgesetzt.
@@ -3294,6 +3371,13 @@
 ---
 
 ### Woche 32 (4. August 2026) — v2.1.221
+
+#### Nachtrag v2.1.221: `/ultrareview` erklärt fehlende gemeinsame Historie und rät nicht mehr zu `git fetch --unshallow`
+
+- **Was:** Teilt ein Repository keine Historie mit seinem Base-Branch, brach `/ultrareview` bisher mit einer wenig hilfreichen Meldung ab. Jetzt wird ein Checkout ganz ohne Branches schon vorab abgewiesen — mit dem Hinweis, zuerst einen Branch anzulegen. Und die Ablehnungs-Hinweise schlagen `git fetch --unshallow` nur noch vor, wenn der Clone tatsächlich flach ist; bei ohnehin vollständigen Clones bleibt der Rat weg.
+- **Einsatz:** Automatisch aktiv; `/ultrareview` wie gewohnt auf dem aktuellen Branch oder mit `/ultrareview <PR#>`.
+- **Mehrwert:** Der alte Rat führte in die Irre: `git fetch --unshallow` auf einem vollständigen Clone meldet nur einen Fehler, und man suchte den Grund weiter beim Netzwerk oder beim Remote. Jetzt nennt die Meldung die eigentliche Ursache — kein Branch oder keine gemeinsame Basis — und den nächsten Schritt.
+- **Version:** v2.1.221 (Nachtrag, Token-Abgleich 14.09.)
 
 ---
 
