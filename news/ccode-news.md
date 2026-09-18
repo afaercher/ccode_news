@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-16 18:00 UTC (**Crawl 16.09. 18:00 UTC — Nachholkrawl nach fuenf abgebrochenen Laeufen: die Wrapper-Laeufe vom 15.09. 06:00/12:00/18:00 und 16.09. 06:00/12:00 endeten alle mit HTTP 504 nach 300 s, ohne Commit. Entsprechend grosser Rueckstand aufgearbeitet.** npm: `latest` = `next` = **2.1.273**, `stable` springt von 2.1.236 auf **2.1.267** (31 Versionen), `time.modified` 15.09. 20:23:25 UTC. Drei neue Versionen: **2.1.271** (14.09. 19:45 UTC, 96 Changelog-Punkte), **2.1.272** (14.09. 23:34 UTC, reiner Platzhalter mit einem Punkt) und **2.1.273** (15.09. 18:06 UTC, 64 Punkte). `CHANGELOG.md` **702 497 Bytes** (von 676 552, +25 945), seit dem 16.09. 06:00-Snapshot byte-identisch. **What's New** 16 070 Bytes und vier Wochen aufgeholt: oben jetzt **Week 37** (7.–11.09., v2.1.263–269), dazu neu **Week 36** (v2.1.251–261) und **Week 35** (v2.1.240–250) — der Rueckstand ist damit abgebaut, `2026-w38` noch HTTP 404. **Platform** 105 966 Bytes mit neuem Eintrag vom 14.09. (Verdichtung auf Zuruf in der Messages API, Beta `compact-2026-09-04`); die einzige Aenderung gegenueber dem 12:00-Abzug ist eine nachgetragene Versionsnummer (`ant` CLI 1.32.0). GitHub-Release oben v2.1.273 (15.09. 20:23:03 UTC, Body 10 404 Bytes). **Blog:** keine neuen Slugs. **Neue Eintraege: 20.**) — Vorheriger **Crawl 14.09. 18:00 UTC — nahezu Leerlauf, ein Blog-Eintrag ohne Claude-Code-Bezug; Commit `1830570`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-18 12:00 UTC (**Crawl 18.09. 12:00 UTC — Leerlauf bei den Neuigkeiten, Nachtrag aus dem Token-Abgleich.** Vorlauf: die Läufe 17.09. 06:00/18:00 und 18.09. 06:00 endeten mit HTTP 504, der 17.09. 12:00 mit HTTP 500 (429, Session-Limit). Der 06:00-Lauf von heute hatte seine Arbeit fertig geschrieben, aber nicht committet — 184 Zeilen mit dem neuen Abschnitt Woche 38 (v2.1.274–276 plus Projects-Blog) lagen im Arbeitsbaum und wurden zu Laufbeginn als eigener Commit `8f3e4c0` gesichert. npm: `latest` = `next` = **2.1.276** (18.09. 01:39 UTC), `stable` unverändert **2.1.267**, `time.modified` 18.09. 02:11:57 UTC; v2.1.277–279 HTTP 404 — **keine neue Version** seit dem 06:00-Lauf. `CHANGELOG.md` **733 121 Bytes** (von 702 497 am 16.09., +30 569), oben 2.1.276 mit genau einem Punkt. **What's New** unverändert 16 070 Bytes, oben weiter **Week 37** (7.–11.09., v2.1.263–269), `2026-w38` und `2026-w39` HTTP 404. **Platform** 106 466 Bytes, oberster Eintrag 18.09. (Compliance API liefert Claude-in-Chrome-Transkripte) — vom 06:00-Lauf bereits aufgenommen. **GitHub-Release** oben v2.1.276 (18.09. 02:12:26 UTC, Body 167 Bytes). **Blog:** 15 Slugs, einziger neuer `projects-redesigned` — ebenfalls schon dokumentiert. Da alle vier Quellen gedeckt waren, ging der Lauf in den Token-Abgleich für 2.1.274–276: 2.1.276 (1 Punkt, 2 Tokens) lückenlos, 2.1.275 sieben und 2.1.274 sieben unbelegte Tokens auf 96 bzw. 108 Changelog-Punkten. Daraus **vier Nachtrag-Einträge**: `/plugin install --marketplace <source>`; @-Mention-Dateivorschläge unter den MCP-Ressourcen bei `@.`/`@./` und eigenem `fileSuggestion`; das Trio verirrter `</ccmemory>`-Tag / `API Error: 400` hinter umschreibenden Gateways / Startabsturz bei kaputtem `mcpNeedsAuthNoticed` in `~/.claude.json`; sowie die Umgebungskanten Git-LFS-Pointer in Plugin-Clones mit `git lfs pull`, `$schema` in `hooks/hooks.json`, `--strict-mcp-config` mit leerem `--mcp-config` bis `MCP_TIMEOUT`, `$XDG_CONFIG_HOME/git/ignore` in VS Code und das sichtbare `mailto:`-Präfix in Claude-Tag-Slack-Antworten. **Neue Einträge: 4.**) — Vorheriger **Crawl 18.09. 06:00 UTC — Woche 38 mit v2.1.274–276 und dem Projects-Neubau; Commit `8f3e4c0`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -347,6 +347,34 @@
 ---
 
 ### What's New: Digests der Wochen 35, 36 und 37 nachgereicht
+
+#### `/plugin install` mit `--marketplace`: Quelle und Installation in einem Schritt
+
+- **Was:** `/plugin install <plugin> --marketplace <source>` nimmt die Marketplace-Quelle gleich mit. Ist der Marketplace noch nicht registriert, bietet Claude Code an, ihn **vor** der Installation hinzuzufügen — statt mit „unbekanntes Plugin" abzubrechen.
+- **Einsatz:** `/plugin install mein-plugin --marketplace github:org/marketplace-repo`
+- **Mehrwert:** Der bisherige Zweischritt (`/plugin marketplace add …`, dann `/plugin install …`) war genau die Hürde, an der geteilte Plugin-Empfehlungen scheiterten: Ein Kollege schickt einen Plugin-Namen, der Marketplace fehlt, und man muss erst nachfragen, woher das Ding kommt. Jetzt steht die Herkunft in derselben Zeile und lässt sich als Einzeiler in eine README oder ein Onboarding-Dokument schreiben.
+- **Version:** v2.1.275
+
+#### @-Mentions: Dateivorschläge rutschten unter die MCP-Ressourcen
+
+- **Was:** Tippte man `@.` oder `@./` — oder war ein eigener `fileSuggestion`-Befehl konfiguriert —, landeten die Datei-Vorschläge im Menü **unterhalb** der MCP-Ressourcen und waren damit praktisch unerreichbar. Die Sortierung stellt Dateien jetzt wieder nach vorn.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Betrifft genau die zwei Fälle, in denen man am gezieltesten arbeitet: der Punkt-Präfix für Dateien im aktuellen Verzeichnis und eine projekteigene Vorschlagsquelle (etwa `fd` oder ein Git-basierter Befehl). Wer MCP-Server mit vielen Ressourcen angebunden hatte, musste vorher durch deren Liste scrollen, um an die eigene Datei zu kommen.
+- **Version:** v2.1.275
+
+#### Drei stille Störer: `</ccmemory>`-Reste, 400er hinter Gateways, kaputte `~/.claude.json`
+
+- **Was:** Drei unabhängige Fixes, die sich im Alltag als Rätsel äußerten. Erstens erschien gelegentlich ein verirrter schließender Tag der Bauart `</ccmemory>` mitten in einer Antwort — ein internes Markup, das durchsickerte. Zweitens meldeten Nutzer hinter einem Netz-Gateway bei **jedem** Turn ein terminalseitiges `API Error: 400`, sobald der Gateway einen abgelehnten Beta-Request-Header in eine eigene Fehlerantwort umschrieb. Drittens stürzte Claude Code beim Start ab, wenn in `~/.claude.json` ein fehlerhafter `mcpNeedsAuthNoticed`-Wert stand.
+- **Einsatz:** Automatisch aktiv nach dem Update auf 2.1.275.
+- **Mehrwert:** Der Gateway-Fall ist der teuerste: Das Symptom (`API Error: 400` bei jedem Turn) zeigt auf Claude Code, die Ursache liegt in der Zwischenstation, und ohne Kenntnis des Mechanismus sucht man im Zweifel tagelang am falschen Ende. Zusammen mit dem 2.1.276-Hotfix ergibt sich die Regel für eigene Gateways: Fehlerantworten der API **unverändert** durchreichen, sonst wird ein behebbarer Header-Hinweis zu einem undiagnostizierbaren Dauerfehler. Der `mcpNeedsAuthNoticed`-Absturz wiederum war ein Start-Blocker, aus dem man ohne Editieren der Config nicht mehr herauskam.
+- **Version:** v2.1.275
+
+#### Plugin- und Umgebungs-Kanten: LFS-Pointer, `$schema`, XDG-Gitignore, MCP-Timeout
+
+- **Was:** Fünf Randfälle aus 2.1.274. Plugin- und Marketplace-Clones laden **Git-LFS-Dateien nicht mehr herunter**, sondern lassen sie als Pointer liegen; wer die Inhalte braucht, holt sie mit `git lfs pull` im Checkout nach. Ein Plugin mit einem `$schema`-Schlüssel auf oberster Ebene in `hooks/hooks.json` löste keine „unknown key"-Warnung mehr aus — der Schlüssel ist für Editor-Autovervollständigung gedacht und gehört dorthin. `--strict-mcp-config` zusammen mit einem leeren `--mcp-config` hielt den ersten nicht-interaktiven Turn bis zu `MCP_TIMEOUT` lang auf, weil beiläufig konfigurierte MCP-Server trotzdem angesprochen wurden. In VS Code ist die globale Gitignore-Datei jetzt `$XDG_CONFIG_HOME/git/ignore`, sofern `XDG_CONFIG_HOME` ein absoluter Pfad ist. Und in Claude Tag zeigten E-Mail-Adressen in Slack-Antworten ein sichtbares `mailto:`-Präfix; sie erscheinen jetzt als schlichte, klickbare Adresse.
+- **Einsatz:** Automatisch aktiv; `git lfs pull` im Plugin-Checkout, falls LFS-Inhalte gebraucht werden.
+- **Mehrwert:** Der LFS-Wechsel ist die Änderung mit Verhaltensfolge: Ein Marketplace-Repo mit großen Binärdateien kostet beim Klonen nicht mehr Bandbreite und Zeit — dafür muss, wer die Dateien wirklich braucht, einmal von Hand nachladen. Der `MCP_TIMEOUT`-Fix ist für Skripte und CI relevant: `--strict-mcp-config` ist genau die Flagge, mit der man Determinismus herstellen will, und ausgerechnet dort hing der erste Turn bis zum Timeout.
+- **Version:** v2.1.274
 
 #### Woche 37 (7.–11. September 2026) — `claude plugin eval` und ausklappbare Desktop-Panes
 
