@@ -7,6 +7,190 @@
 
 ## Neueste Änderungen
 
+### Woche 38 (16.–18. September 2026) — v2.1.274–276: Projects als Koordinator, MCP-Robustheit, Supply-Chain-Härtung
+
+#### Projekte neu gebaut: ein Koordinator, der Cloud-Sessions als Threads dirigiert (Beta)
+
+- **Was:** Anthropic hat „Projects" vom Datei-Ordner zum Auftraggeber umgebaut. Man setzt ein Ziel und hängt Repos, Konnektoren, Plugins, Instruktionen und ein Modell daran; Claude zerlegt die Aufgabe, eröffnet pro Teilstück einen **Thread** — und jeder Thread ist unter der Haube eine vollwertige Claude-Code-Cloud-Session auf einem eigenen Branch und einer eigenen Repo-Kopie. Ein Koordinator verteilt die Arbeit, prüft die Ergebnisse und setzt sie zusammen; Threads können sich per Subagenten, Loops und Workflows weiter aufteilen. Überlappen zwei Threads im selben Code, löst sich das als ganz normaler Merge-Konflikt im PR. Dazu kommen ein **gemeinsames Gedächtnis** über alle Threads (Claude merkt sich „das Release ist auf Freitag gerutscht", „vor dem Billing-Service erst bei X nachfragen") und eine **Library**, die hinzugefügte Dateien und erzeugte Artefakte sammelt.
+- **Einsatz:** Beta, ausgerollt seit 18.09.2026 zunächst an ausgewählte Pro- und Max-Abos, die Cloud-Sessions in Claude Code nutzen und **noch keine** Projekte im Web oder Desktop haben; Erweiterung auf weitere Claude-Code-Nutzer dieser Pläne über die Folgewoche, danach Chat sowie Team/Enterprise. Ohne Zugang kann man sich auf die Warteliste setzen. Bestehende Projekte auf Pro/Max laufen unverändert weiter und werden später migriert. Modell und Effort lassen sich für Koordinator-Chat und Worker-Threads getrennt wählen.
+- **Mehrwert:** Das ist der Schritt von „ich orchestriere mehrere Sessions von Hand" zu „ich briefe einen Stabschef". Typische Beispiele aus der Ankündigung: p75-Latenz des Checkouts senken — Claude profiliert jeden Endpunkt, testet Optimierungen und öffnet die PRs parallel; oder einen deprecateten v1-Endpunkt abräumen über API-, Web- und Mobile-Repo — ein Thread pro Repo, danach die Ansage, welcher PR zuerst gemerged werden muss. Zwei Vorbehalte gehören dazu: Mehrere parallele Vollsessions **verbrauchen das Nutzungslimit deutlich schneller** (es gibt dafür eine projektbezogene Verbrauchsanzeige), und Threads laufen vorerst **nur in der Cloud** — lokale Ausführung neben den eigenen Tools und hinter dem eigenen Netz ist angekündigt, aber noch nicht da.
+- **Version:** Blog-Ankündigung „Projects redesigned: from folder to conversation" vom 18.09.2026, Beta in Claude Code
+
+#### Hotfix: Über Proxy oder Gateway schlug ab 2.1.275 jeder einzelne Request fehl
+
+- **Was:** Zeigte `ANTHROPIC_BASE_URL` auf einen Proxy oder ein Gateway, scheiterte in 2.1.275 **jede** Anfrage mit `400 … Input tag 'advisor_20260301'`. Ein Regressionsfehler, der die betroffenen Installationen komplett lahmlegte; 2.1.276 besteht aus genau diesem einen Punkt.
+- **Einsatz:** Automatisch aktiv nach dem Update. Wer 2.1.275 über ein Gateway fährt, sollte sofort auf 2.1.276 hoch — oder das Update auf 2.1.275 überspringen.
+- **Mehrwert:** Das Muster ist lehrreich für alle, die hinter einem Gateway arbeiten: Ein neuer Tool-Typ (hier das Advisor-Tool mit Datums-Tag) wird von der API akzeptiert, aber von strikt validierenden Zwischenstationen abgelehnt. Wer eine eigene Proxy-Schicht betreibt, tut gut daran, unbekannte `type`-Werte durchzureichen statt zu validieren — sonst ist jedes Claude-Code-Update ein potenzieller Totalausfall.
+- **Version:** v2.1.276 (Regression aus v2.1.275)
+
+#### Warteschlange sofort abschicken: ctrl+enter unterbricht den laufenden Turn
+
+- **Was:** Neue Taste zum Sofort-Senden: `ctrl+enter` (alternativ `ctrl+x ctrl+s`) bricht den gerade laufenden Turn ab und schickt **alle** aufgestauten Nachrichten auf einmal ab. Gesendete und wartende Nachrichten stehen grau in der Konversation, bis das Modell sie tatsächlich bekommen hat.
+- **Einsatz:** Während Claude arbeitet Nachrichten tippen wie gewohnt, dann `ctrl+enter` statt abzuwarten.
+- **Mehrwert:** Bisher gab es nur die harte Wahl zwischen „Esc und alles verwerfen" und „warten, bis der Turn durch ist" — auch wenn man nach drei Sekunden sieht, dass Claude in die falsche Richtung läuft. Die Graustufen-Anzeige beseitigt nebenbei die alte Unsicherheit, ob eine während der Arbeit getippte Nachricht schon angekommen ist oder noch in der Schlange hängt.
+- **Version:** v2.1.275
+
+#### Skills und Plugins vom claude.ai-Konto landen automatisch im Terminal
+
+- **Was:** Die auf dem claude.ai-Konto aktivierten Skills und Plugins werden jetzt in Terminal-Sessions synchronisiert, die mit demselben Konto angemeldet sind. Passend dazu klargestellt: Das `ListPlugins`-Tool listet die **auf dem Konto** aktivierten Plugins, nicht die lokal per `/plugin` installierten — die Beschreibung war vorher missverständlich. Write und Edit auf Dateien im synchronisierten Konto-Skills-Ordner sagen jetzt ausdrücklich, dass die Änderung **nicht** ins Konto zurückgespeichert wird, und wie man das nachholt.
+- **Einsatz:** Standardmäßig an; Abschalten einzeln über `syncClaudeAiSkills: false` bzw. `syncClaudeAiPlugins: false` in den Settings.
+- **Mehrwert:** Wer Skills im Web zusammenstellt und im Terminal arbeitet, musste beides bisher doppelt pflegen. Die Warnung beim Editieren ist der wichtigere Teil: Eine lokal geänderte Konto-Skill sah bisher aus wie gespeichert, wurde aber beim nächsten Sync wieder überschrieben.
+- **Version:** v2.1.275
+
+#### Plugins aus npm laufen keine Install-Skripte mehr — und Tokens verschwinden aus Logs
+
+- **Was:** Zwei Supply-Chain-Härtungen. Erstens: Plugins aus einer npm-Quelle werden jetzt mit `npm pack --ignore-scripts` geholt und auf Integrität geprüft — die `preinstall`/`postinstall`-Skripte des Pakets laufen also nicht mehr. Zweitens: Passwörter und Tokens, die in einer git-, ssh- oder Marketplace-URL stecken, tauchten in Plugin- und Marketplace-Meldungen, in Logs, in der Ausgabe von `claude plugin marketplace list` und im Plugin-Dialog von VS Code im Klartext auf; sie werden jetzt maskiert. Dieselbe Art Leck wurde in 2.1.274 für MCP geschlossen: MCP-Verbindungsfehler und die Beschreibung des MCP-Login-Tools zeigten die aus `${VAR}`-Platzhaltern aufgelösten Secrets.
+- **Einsatz:** Automatisch aktiv. Wer Marketplace-URLs mit eingebettetem Token benutzt, sollte alte Logs und Terminal-Mitschnitte prüfen — und die betroffenen Tokens im Zweifel rotieren.
+- **Mehrwert:** Ein Plugin zu installieren hieß bisher, dem Paket beliebige Skriptausführung zu erlauben, bevor irgendjemand den Code gesehen hat — genau der Weg, über den npm-Supply-Chain-Angriffe laufen. Und ein Token im Klartext-Log ist ein Token im Klartext-Log, egal wie kurz die Session war.
+- **Version:** v2.1.275 (npm-Plugins, URL-Secrets), v2.1.274 (MCP-`${VAR}`-Secrets)
+
+#### Kaputte Transkripte legen Sessions nicht mehr lahm
+
+- **Was:** Ein ganzes Bündel an Robustheitsfixes gegen beschädigte Session-Historien. In 2.1.274 der wichtigste: Sessions hingen in einer **Endlosschleife**, in der sie `unexpected tool_use_id`-400er immer wieder neu versuchten; beschädigte Transkripte heilen sich jetzt selbst, wo es geht, und beenden die Schleife sonst mit einer klaren Fehlermeldung samt `/rewind`-Hinweis. In 2.1.275 folgten: `--resume`, die Vorschau im Resume-Picker, fortgesetzte Hintergrund-Agenten und die Transkript-Ansicht scheiterten an fehlerhaften Task-Reminder- oder @-Datei-Einträgen; Abstürze beim Fortsetzen von Konversationen mit defekten Message-Einträgen (und Fullscreen-Abstürze, wenn so eine Konversation neue Nachrichten bekam, während man hochgescrollt war); Sessions, die wegen eines defekten Content-Blocks gar nicht erst starteten.
+- **Einsatz:** Automatisch aktiv. Bei einer trotzdem nicht startenden Session bleibt `/rewind` das Mittel der Wahl — die Fehlermeldung sagt das jetzt selbst.
+- **Mehrwert:** Eine lange Session ist Arbeitsergebnis, kein Wegwerfartikel. Bisher konnte ein einziger kaputter Eintrag die gesamte Historie unzugänglich machen; die Retry-Schleife verbrannte dabei obendrein Tokens, ohne je voranzukommen.
+- **Version:** v2.1.274 (Retry-Schleife), v2.1.275 (Resume- und Fullscreen-Abstürze)
+
+#### `/rewind` stellte in geforkten Sessions nullgefüllte Dateien wieder her
+
+- **Was:** Konnten die Datei-Backups einer Session nicht vollständig kopiert werden, stellte `/rewind` in einer geforkten oder Hintergrund-Session **nullgefüllte oder abgeschnittene** Dateien wieder her — der Rücksprung machte den Stand also schlimmer statt besser.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Das ist die unangenehmste Sorte Bug: Das Sicherheitsnetz selbst zerstört Daten, und zwar still. Wer `/rewind` in Fork- oder Hintergrund-Sessions benutzt hat und sich über leere Dateien gewundert hat, hat hier die Erklärung.
+- **Version:** v2.1.275
+
+#### Suche und Datei-Tools brechen bei Riesen-Ergebnissen sauber ab
+
+- **Was:** Grep, Glob und die @-Datei-Vorschläge hingen oder liefen aus dem Speicher, sobald eine Suche die 20-MB-Ausgabegrenze sprengte; das System-`ripgrep` meldete nach einer Warnungsflut „keine Treffer" statt eines Fehlers. Ebenfalls behoben: Das Read-Tool hing, statt einen Fehler zu melden, wenn ein Teil einer großen Datei unter Speicherdruck nicht dekodiert werden konnte. Dazu neu in 2.1.274 eine **sichtbare Warnung bei kritischem Speicherverbrauch**, mit Schritten zum Freiräumen oder sicheren Neustart.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** „Keine Treffer" auf eine Suche, die in Wahrheit abgestürzt ist, führt direkt in die falsche Richtung — man schließt auf Abwesenheit, wo nur das Werkzeug versagt hat. In großen Monorepos war das ein realer Fehlerschluss-Generator.
+- **Version:** v2.1.275 (Grep/Glob/Read), v2.1.274 (Speicherwarnung)
+
+#### MCP: Timeouts, Altprotokolle und Scope-Fehler geradegezogen
+
+- **Was:** Vier MCP-Fixes in 2.1.274. Streamable-HTTP-Tool-Aufrufe liefen nach etwa fünf Minuten in einen Timeout, **auch wenn** pro Server ein längerer `timeout` gesetzt war. Als `http` konfigurierte Server, die nur das alte HTTP+SSE sprechen, verbanden sich nicht mehr, wenn sie die erste Anfrage mit 422 oder einem anderen 4xx beantworteten. Prompts und Ressourcen wurden nicht aktualisiert, wenn ein Server List-Changed-Benachrichtigungen schickt, ohne `listChanged` zu deklarieren. Und mit 403 `insufficient_scope` abgelehnte Aufrufe wurden als abgelaufene Anmeldung gemeldet — die Meldung nennt jetzt die fehlenden Rechte und verweist auf `/mcp`. Neu dazu: `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` begrenzt, wie lange der erste nicht-interaktive Turn auf verbindende MCP-Server wartet (`0` = gar nicht).
+- **Einsatz:** `export CLAUDE_CODE_MCP_STARTUP_WAIT_MS=2000` für Skript- und CI-Läufe, die nicht auf trödelnde Server warten sollen. Der Rest ist automatisch aktiv.
+- **Mehrwert:** Der Timeout-Fehler traf genau die Tools, für die man einen langen Timeout setzt — lange Builds, große Abfragen, Migrationen. Und die falsche „Anmeldung abgelaufen"-Diagnose bei fehlendem Scope hat Leute zuverlässig in eine sinnlose Re-Auth-Schleife geschickt, statt sie die fehlende Berechtigung nachtragen zu lassen.
+- **Version:** v2.1.274
+
+#### MCP-v2-Client jetzt auch auf Bedrock, Vertex und Foundry Standard
+
+- **Was:** Installationen auf Bedrock, Vertex, Foundry sowie solche mit abgeschalteter Telemetrie benutzen jetzt standardmäßig den v2-MCP-Client und die Protokollaushandlung `2026-07-28` gegenüber direkten HTTP-Servern — so wie alle anderen Installationen schon vorher. Ebenfalls geändert: `"type": "sdk"`-Einträge in `.mcp.json`, Settings, Plugins und Agent-Dateien werden mit einer Warnung übersprungen, weil sich nur eine SDK-Host-Anwendung als In-Process-Server registrieren kann.
+- **Einsatz:** Rückfallebene bei Problemen: `MCP_SDK_GENERATION=v1` oder `MCP_PROTOCOL_NEGOTIATION=legacy`.
+- **Mehrwert:** Enterprise-Installationen hingen bei MCP dauerhaft eine Generation zurück — Bugfixes und Protokollneuerungen kamen dort zuletzt an. Dass die Angleichung mit zwei dokumentierten Opt-outs kommt, macht sie im Zweifel zurücknehmbar.
+- **Version:** v2.1.274
+
+#### `/goal` überlebt jetzt Verdichtung und Resume
+
+- **Was:** Zwei zusammengehörige Fehler: Ein aktives `/goal` ging verloren, sobald man eine bereits verdichtete Session mit `--continue` oder `--resume` fortsetzte. Und Hook-gesteuerte Sessions — ein laufendes `/goal` ist genau so eine — endeten mit „Prompt is too long", statt zu verdichten, wenn der Kontext nach einer reaktiven Verdichtung erneut überlief.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Ein Ziel, das genau in den langen Sessions verschwindet, für die man es gesetzt hat, ist schlimmer als kein Ziel: Claude arbeitet weiter, nur ohne die Leitplanke — und man merkt es erst am Ergebnis.
+- **Version:** v2.1.274
+
+#### Bash-Tool lud nach jedem Plugin-Reload das Shell-Profil neu
+
+- **Was:** Das Bash-Tool las nach **jedem** Plugin-Reload das Shell-Profil neu ein — ein mehrsekündiger Hänger beim nächsten Kommando. Das passiert jetzt nur noch, wenn sich die `bin/`-Verzeichnisse der Plugins tatsächlich geändert haben. Verwandt: `installed_plugins.json` wurde bei Plugin-Policy aus Remote-Managed-Settings bei fast jedem Start neu geschrieben, was Claude Desktop dazu brachte, die Plugins **jeder offenen Session** neu zu laden.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Zwei klassische „irgendwie ist es zäh geworden"-Ursachen, die man als Nutzer praktisch nicht selbst findet — besonders schmerzhaft bei schweren `.bashrc`/`.zshrc`-Setups mit nvm, pyenv und Konsorten.
+- **Version:** v2.1.274
+
+#### Berechtigungsprüfung: Sonderfälle der Shell schlüpften durch
+
+- **Was:** Bash-Befehle, die über bestimmte **spezielle Shell-Variablen** iterieren oder ihnen zuweisen, umgingen die Berechtigungsprüfung; sie fragen jetzt nach. In worktree-isolierten Sessions wurden Befehle mit bestimmten **verschachtelten Shell-Expansionen** akzeptiert; die werden jetzt abgelehnt. Dazu zwei Sandbox-Fixes aus 2.1.275: Sandboxed-Bash-Befehle unter Linux meldeten mit zsh als Shell für **fehlgeschlagene** Kommandos Exit-Code 0, und sie konnten nicht in Projektverzeichnisse namens `hooks/` oder `config/` schreiben. Außerdem korrigiert: `/update-config` schrieb `Write(path)`-Regeln, auf die die Datei-Berechtigungsprüfung gar nicht anspricht — richtig sind `Edit(path)`-Regeln.
+- **Einsatz:** Automatisch aktiv. Wer sich per `/update-config` Berechtigungen hat schreiben lassen, sollte die `settings.json` einmal auf `Write(...)`-Einträge durchsehen — die haben nie gegriffen.
+- **Mehrwert:** Der `/update-config`-Fehler ist der ärgerlichste: Man bekam eine Regel geschrieben, sah sie in der Konfiguration stehen und wurde trotzdem weiter gefragt — ohne Hinweis darauf, dass die Regel strukturell wirkungslos war. Exit-Code 0 für einen fehlgeschlagenen Befehl wiederum ist Gift für jedes Skript, das auf den Rückgabewert hört.
+- **Version:** v2.1.274 (Shell-Variablen, Worktree-Expansionen), v2.1.275 (zsh-Exit-Code, `hooks/`/`config/`, `/update-config`)
+
+#### `/code-review` arbeitet ohne Subagenten-Schwarm
+
+- **Was:** `/code-review` startet für jedes Modell ohne eigens abgestimmte Einstellungen jetzt **schlankere Inline-Review-Prompts**, statt viele Review-Subagenten zu spawnen. Passend dazu aus 2.1.275: Reviews ließen gelegentlich einen Teil ihrer Analyse fallen, wenn einer der prüfenden Agenten seine Funde in einem unerwarteten Format zurückgab.
+- **Einsatz:** Automatisch aktiv, `/code-review` wie gehabt.
+- **Mehrwert:** Ein Review, das still einen Teil seiner Funde verliert, ist gefährlicher als gar kein Review — man hakt den Schritt ab und glaubt, es sei sauber. Der Verzicht auf den Subagenten-Schwarm senkt nebenbei Kosten und Laufzeit spürbar.
+- **Version:** v2.1.274 (Inline-Prompts), v2.1.275 (verlorene Funde)
+
+#### Prompt-Cache: Altersnotiz der Memory-Datei kippte den Cache
+
+- **Was:** Die Altersangabe einer wiederhergestellten Memory-Datei änderte sich nach Verdichtung oder Resume zwischen den Requests — und weil sich damit der Prompt-Anfang änderte, fiel der Prompt-Cache jedes Mal aus. Ebenfalls verbessert: Enthält ein `--system-prompt` eine `__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__`-Zeile, wird der Text **oberhalb** davon jetzt global gecacht, wie es die Array-Form des SDK schon konnte.
+- **Einsatz:** Automatisch aktiv. Für eigene System-Prompts: den stabilen Teil oben, die `__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__`-Zeile dazwischen, alles Wechselnde darunter.
+- **Mehrwert:** Cache-Misses sind unsichtbar teuer — man sieht nur die Latenz und die Rechnung, nicht die Ursache. Eine wandernde Altersnotiz („vor 3 Minuten gespeichert") als Cache-Killer ist genau die Art Detail, die man selbst nie findet.
+- **Version:** v2.1.275
+
+#### Telemetrie: stille Ausfälle werden gemeldet, Managed-Settings nachvollziehbar
+
+- **Was:** Neu in 2.1.275 eine Startwarnung, wenn ein konfigurierter `otelHeadersHelper` fehlschlägt — bisher exportierten solche Sessions einfach lautlos nichts. In 2.1.274 dazu: das OTel-Event `claude_code.managed_settings_resolved` mit den Quellen der Managed Settings und dem Zustand des Policy-Helpers (mit `OTEL_LOG_MANAGED_SETTINGS=1` zusätzlich redigierte Settings und Digests), das `effort`-Attribut im Trace-Span `claude_code.llm_request` passend zum `api_request`-Event, und für `OTEL_LOG_RAW_API_BODIES=file:<dir>` eine `index.jsonl` plus die Attribute `request_body_id` und `message.id`, die jede Antwort mit ihrer Request-Datei und der Transkript-Nachricht verknüpfen.
+- **Einsatz:** `OTEL_LOG_MANAGED_SETTINGS=1` für die Settings-Herkunft, `OTEL_LOG_RAW_API_BODIES=file:/pfad` für die verknüpften Rohbodies.
+- **Mehrwert:** Eine Telemetrie, die still nichts exportiert, ist schlimmer als keine — man verlässt sich auf Dashboards, die nie gefüllt wurden. Das `managed_settings_resolved`-Event beantwortet für Admins endlich die Dauerfrage „welche Policy hat auf diesem Client tatsächlich gegriffen".
+- **Version:** v2.1.275 (`otelHeadersHelper`-Warnung), v2.1.274 (übrige)
+
+#### Self-hosted Runner: 401-Dauerschleife und verlorene Turn-Ergebnisse
+
+- **Was:** Zwei Runner-Fixes. Nach ein paar fehlgeschlagenen Token-Refreshes scheiterte in Runner-Sessions **jeder** Turn mit einem 401 — und zwar bis zum nächsten planmäßigen Refresh; der Runner versucht es jetzt weiter und holt nach einem 401 aktiv ein neues Token. Und mit `--drain-wait-sec` ging das Endergebnis eines Turns verloren, der während eines SIGTERM-Drains fertig wurde; der Runner wartet jetzt kurz auf die Meldung. Dazu: Ein Repository, das der Git-Host beim Zugriffscheck als schreibgeschützt ablehnt, wird übersprungen statt den Session-Start scheitern zu lassen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Beide Fehler treffen genau dort, wo niemand zuschaut: in der automatisierten Pipeline. Ein Turn, der korrekt durchläuft und dessen Ergebnis beim Herunterfahren verschwindet, ist als Fehlerbild kaum von „hat nichts getan" zu unterscheiden — dieselbe Falle, die bei abgebrochenen Cron-Läufen zu falschen Schlüssen führt.
+- **Version:** v2.1.274
+
+#### Cloud-Sessions: Diff gegen jeden Branch, Routinen geben nicht mehr sofort auf
+
+- **Was:** Die Diff-Ansicht einer Cloud-Session bekommt einen **„Compare against"-Branch-Wähler** — man kann die Änderungen jetzt gegen jeden Branch vergleichen, nicht nur gegen den Base-Branch. Bei den Routinen: Fehlt die GitHub-Verbindung des Besitzers, wird ein Lauf jetzt bis zu **72 Stunden** lang übersprungen und erneut versucht, statt die Routine beim ersten fehlgeschlagenen Check abzuschalten. Dazu behoben: Git-Operationen scheiterten mit „service unavailable", wenn GitHubs Token-Erneuerung kurz stolperte; Commits scheiterten für ein paar Minuten nach einem Credential-Refresh mit einem Signierfehler; das Bearbeiten einer Routine ließ sie gelegentlich doppelt feuern oder reaktivierte eine gerade pausierte; Sessions sprangen nach dem Als-gelesen-Markieren zurück auf ungelesen. Und eine Cloud-Umgebung mit sehr langer Allowed-Domains-Liste ließ sich speichern und scheiterte danach bei jedem Session-Start — das Speichern schlägt jetzt vorn fehl und sagt, wie viel zu kürzen ist.
+- **Einsatz:** Automatisch aktiv; der Branch-Wähler sitzt in der Diff-Ansicht der Cloud-Session.
+- **Mehrwert:** Eine Routine, die sich wegen eines vorübergehenden GitHub-Schluckaufs selbst abschaltet, bemerkt man typischerweise erst Tage später an der ausbleibenden Arbeit — das 72-Stunden-Fenster ist der richtige Umgang mit temporären Störungen.
+- **Version:** v2.1.274
+
+#### Claude-Apps-Gateway: sauberes Herunterfahren, robuster Start, schnellere Limit-Prüfung
+
+- **Was:** Das Gateway trennte bei SIGTERM **jeden offenen Stream** sofort; es lässt laufende Anfragen jetzt bis zu 25 Sekunden zu Ende laufen (`CLAUDE_GATEWAY_DRAIN_TIMEOUT_MS`). Beim Start werden bis zu drei Postgres-Verbindungsversuche unternommen, bevor aufgegeben wird, und `store.connect_timeout_seconds` verlängert den Verbindungs-Timeout (Standard 5 Sekunden); die Boot-Fehlermeldung nennt jetzt `store.postgres_url` und den konfigurierten Timeout. Die Spend-Limit-Prüfung braucht statt vier nur noch **einen** Datenbank-Roundtrip. Dazu eine Warnung, wenn eine Replica mehr Anfragen offen hat als die 256, die sie gleichzeitig nach oben durchreicht, eine abgefangene unbehandelte Promise-Rejection bei Verbindungsabbrüchen während einer Spend-Prüfung, erklärende Rate-Limit-Meldungen bei `/login` und `enduser.sub` (IdP-Subject) in der Telemetrie von Desktop und Cowork.
+- **Einsatz:** In der Gateway-Konfiguration `store.connect_timeout_seconds` setzen; `CLAUDE_GATEWAY_DRAIN_TIMEOUT_MS` als Umgebungsvariable.
+- **Mehrwert:** Der Drain-Fix macht Rolling Deployments für Gateway-Betreiber erst wirklich unterbrechungsfrei — bisher kostete jedes Deployment alle gerade laufenden Turns. Der Drei-Versuche-Start entschärft die klassische Container-Startreihenfolge, bei der die Datenbank ein paar Sekunden später bereit ist als das Gateway.
+- **Version:** v2.1.274
+
+#### Anmeldung am Claude-Apps-Gateway nennt jetzt das Konto
+
+- **Was:** Nennt das Gateway bei der Anmeldung das angemeldete Konto, muss man es vor dem Speichern des Credentials **bestätigen**, und `/status` zeigt es anschließend an. Dazu beendet `/logout` bei Gateway-Anmeldungen die Sitzung jetzt auch **auf** dem Gateway, sofern dieses Token-Widerruf anbietet.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Wer mehrere Konten oder Mandanten über ein Gateway fährt, konnte bisher nicht sehen, mit welchem er eigentlich arbeitet — mit entsprechenden Überraschungen bei Zuordnung und Abrechnung. Dass `/logout` die Sitzung tatsächlich beendet statt nur lokal zu vergessen, ist der eigentliche Sicherheitsgewinn.
+- **Version:** v2.1.275
+
+#### VS Code: Änderungen einzeln annehmen, Memory bearbeiten, Scroll-Verhalten zähmen
+
+- **Was:** Die Extension bekommt in 2.1.275 Annehmen- und Ablehnen-Schaltflächen **unter jeder einzelnen Änderung** im Diff-Tab, sodass ein Edit Stück für Stück durchgesehen werden kann; dazu das Ansehen, Bearbeiten und Löschen gespeicherter Memories direkt im Memory-Dialog, das Senden eines angehängten Bildes ohne Begleittext und ein Retry-Link im MCP-Dialog. In 2.1.274 kamen die Fortsetzung eines von einem Fenster-Reload unterbrochenen Schritts (abschaltbar über „Claude Code: Continue After Reload"), Memory- und Instructions-Einträge im Customize-Menü und `claudeCode.lockEditorGroups` hinzu. Behoben unter anderem: überlappende Settings-Schreibvorgänge machten `~/.claude/settings.json` unlesbar oder verloren eine Einstellung; die Konversation zog einen beim Streamen zurück nach unten, obwohl man hochgescrollt hatte (neu: `claudeCode.scrollToBottomOnSend`); während Claudes Arbeit getippte Slash-Befehle gingen als Text ans Modell statt zu laufen; Umbenennen einer laufenden Session sprang auf den generierten Namen zurück (Regression aus 2.1.269); unlesbarer Code unter den High-Contrast-Themes; Tastaturbedienbarkeit von Plugin- und MCP-Dialogen; Screenreader-Ansage jeder Nachricht als „You" oder „Claude" samt Tool-Namen.
+- **Einsatz:** Neue Einstellungen: `claudeCode.scrollToBottomOnSend`, `claudeCode.lockEditorGroups`, „Claude Code: Continue After Reload".
+- **Mehrwert:** Das Annehmen einzelner Änderungen ist die wichtigste Neuerung — bisher war ein Edit eine Alles-oder-nichts-Entscheidung, obwohl oft nur ein Teil davon passt. Und die zerschossene `settings.json` durch parallele Schreibvorgänge ist der Klassiker, der sich als „meine Konfiguration wird ignoriert" tarnt.
+- **Version:** v2.1.274 und v2.1.275
+
+#### `claude plugin marketplace update` löschte den Marketplace bei fehlgeschlagenem Abruf
+
+- **Was:** Schlug der Abruf fehl und war der Marketplace nach seinem Repository benannt, löschte `claude plugin marketplace update` die **lokale Kopie** — aus einem fehlgeschlagenen Update wurde also eine Deinstallation. Verwandt behoben: Ein Plugin-Reload-Preview ersetzte die entpackten Plugin-Dateien einer **laufenden** Session, wenn das Plugin aus einem `--plugin-dir`- oder `--plugin-url`-Archiv geladen war, und ein aus einer `.zip` geladenes Plugin wurde nach mehreren überlappenden Reloads aus einer veralteten Entpackung bedient.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Ein Update-Befehl, der bei Netzwerkproblemen Daten löscht, verletzt die Grundregel „ein fehlgeschlagener Schritt lässt den Ausgangszustand stehen". Besonders unangenehm im Flugzeug-WLAN oder hinter einem zickigen Proxy.
+- **Version:** v2.1.275
+
+#### Chrome im Auto-Modus: `browser_batch` scheiterte nach jedem Redirect
+
+- **Was:** Claude in Chrome überspringt im Auto-Modus jetzt die Pro-Seite-Prüfung der Extension für Aufrufe, die der Klassifikator freigegeben hat — genau wie der Bypass-Modus es schon tat. Damit ist das „Permission denied" behoben, das `browser_batch` nach einem Redirect zuverlässig traf.
+- **Einsatz:** Automatisch aktiv im Auto-Modus.
+- **Mehrwert:** Ein Redirect ist im Web der Normalfall, nicht die Ausnahme — Login-Flows, Shortlinks, HTTP-auf-HTTPS. Dass jede Weiterleitung die Automatisierung abwürgte, machte den Auto-Modus für genau die Abläufe unbrauchbar, für die man ihn einschaltet.
+- **Version:** v2.1.275
+
+#### `claude agents` verlor nach dem Auto-Update seine Flags
+
+- **Was:** Nach einem Auto-Update samt Neustart gingen `--model`, `--effort`, `--permission-mode`, `--allow-dangerously-skip-permissions` und `--agent` bei `claude agents` verloren — der Prozess kam mit Standardwerten zurück. Aus derselben Ecke: Subagenten mit `model: "opus"` fielen auf Bedrock, Vertex und Foundry auf das Session-Modell zurück, wenn die Modell-ID keine erkennbare Modellfamilie enthält (außer man setzt `ANTHROPIC_DEFAULT_OPUS_MODEL`).
+- **Einsatz:** Automatisch aktiv. Auf Bedrock/Vertex/Foundry mit eigenen Modell-IDs weiterhin `ANTHROPIC_DEFAULT_OPUS_MODEL` setzen.
+- **Mehrwert:** Beide Fehler sind still: Der Lauf geht weiter, nur mit einem anderen Modell oder einem anderen Berechtigungsmodus als angefordert. Bei `--permission-mode` ist das ein Sicherheitsproblem, bei `--model` eines für Qualität und Kosten.
+- **Version:** v2.1.274
+
+#### Weniger überflüssige Modellaufrufe in Headless- und SDK-Sessions
+
+- **Was:** Headless- und SDK-Sessions machten für **jede** fertig gewordene Hintergrundaufgabe einen eigenen Modellaufruf; bereits aufgelaufene Fertigmeldungen werden jetzt in einem Aufruf beantwortet. Passend dazu: Beim Monitor-Tool kommen die Endausgabe eines Skripts und sein Beenden als **eine** Benachrichtigung statt als zwei — das spart einen weiteren Modellturn. Und der erste Turn in `--input-format stream-json`-Sessions wartet nicht mehr bis zu zwei Sekunden auf noch verbindende MCP-Server, deren Tools ohnehin über die Tool-Suche nachgereicht werden.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** In Automatisierungen mit vielen parallelen Hintergrundaufgaben summierten sich diese Einzelaufrufe zu echten Kosten und spürbarer Latenz — für Fertigmeldungen, die inhaltlich nichts erfordern.
+- **Version:** v2.1.274
+
+#### Platform: Compliance API liefert jetzt auch Chrome-Session-Transkripte
+
+- **Was:** Die Endpunkte der Compliance API für lokale Sessions geben jetzt zusätzlich die Transkripte von **Claude-in-Chrome**-Sessions zurück, erkennbar am `product_surface`-Wert `claude_in_chrome`. Beta für Claude-Enterprise-Organisationen, mit dem vorhandenen Compliance Access Key und dem Scope `read:compliance_user_data`.
+- **Einsatz:** Über die bestehenden Endpunkte für lokale Sessions abrufen (Dokumentation: „Sessions on users' machines"); kein neuer Schlüssel und kein neuer Scope nötig.
+- **Mehrwert:** Für Compliance-Teams war die Browser-Extension bisher ein blinder Fleck: Terminal- und Cloud-Sessions waren erfasst, die Arbeit im Browser nicht. Wer Aufbewahrungspflichten oder eDiscovery abbilden muss, schließt damit eine Lücke, ohne die Integration umbauen zu müssen.
+- **Version:** Claude API / Compliance API — Platform-Eintrag vom 18.09.2026 (Beta, Enterprise)
+
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
 #### Gateway-Hinweis-Header für LLM-Gateways
