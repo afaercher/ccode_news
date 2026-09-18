@@ -1,11 +1,211 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-14 18:00 UTC (**Crawl 14.09. 18:00 UTC — nahezu Leerlauf: CHANGELOG, What's New und Platform byte-identisch zum 12:00-Lauf, npm unverändert, einzige Änderung ein neuer Blog-Beitrag.** npm: `latest` = `next` = **2.1.270**, `stable` unverändert **2.1.236**, `time.modified` weiter 12.09. 19:45:49 UTC; Git-Ref `v2.1.271`–`v2.1.273` HTTP 404. `CHANGELOG.md` **676 552 Bytes**, byte-identisch seit dem 13.09. 06:00-Snapshot; **What's New** 14 051 Bytes, oben weiter Week 34, `2026-w35`–`w38` HTTP 404 (Rückstand vier Wochen); **Platform** 105 263 Bytes byte-identisch (über `release-notes/overview.md`); GitHub-Release oben unverändert v2.1.270 (12.09. 19:45:44 UTC, Body 162 Bytes). **Blog:** Slug-Liste weiter 15 Einträge, aber mit Wechsel — neu oben **„Claude for Financial Advisors"** (14.09.), dafür `bringing-mcp-2026-07-28-to-claude` herausgefallen; Beitrag gelesen, kein Claude-Code-Bezug (Plugin aus Konnektoren und acht Workflow-Skills für Beratungsfirmen), als Vollständigkeits-Eintrag aufgenommen. Token-Abgleich bleibt bis 2.1.220 geschlossen, keine offenen Nachträge. **Neue Einträge: 1.**) — Vorheriger **Crawl 14.09. 12:00 UTC — Leerlauf, elf Nachträge 2.1.234–2.1.236 aus dem abgebrochenen 06:00-Lauf übernommen, Token-Abgleich bis 2.1.220 geschlossen, 2.1.221-Lücke gefüllt; 12 Einträge; Commit `6c41d64`.** — Ältere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-16 18:00 UTC (**Crawl 16.09. 18:00 UTC — Nachholkrawl nach fuenf abgebrochenen Laeufen: die Wrapper-Laeufe vom 15.09. 06:00/12:00/18:00 und 16.09. 06:00/12:00 endeten alle mit HTTP 504 nach 300 s, ohne Commit. Entsprechend grosser Rueckstand aufgearbeitet.** npm: `latest` = `next` = **2.1.273**, `stable` springt von 2.1.236 auf **2.1.267** (31 Versionen), `time.modified` 15.09. 20:23:25 UTC. Drei neue Versionen: **2.1.271** (14.09. 19:45 UTC, 96 Changelog-Punkte), **2.1.272** (14.09. 23:34 UTC, reiner Platzhalter mit einem Punkt) und **2.1.273** (15.09. 18:06 UTC, 64 Punkte). `CHANGELOG.md` **702 497 Bytes** (von 676 552, +25 945), seit dem 16.09. 06:00-Snapshot byte-identisch. **What's New** 16 070 Bytes und vier Wochen aufgeholt: oben jetzt **Week 37** (7.–11.09., v2.1.263–269), dazu neu **Week 36** (v2.1.251–261) und **Week 35** (v2.1.240–250) — der Rueckstand ist damit abgebaut, `2026-w38` noch HTTP 404. **Platform** 105 966 Bytes mit neuem Eintrag vom 14.09. (Verdichtung auf Zuruf in der Messages API, Beta `compact-2026-09-04`); die einzige Aenderung gegenueber dem 12:00-Abzug ist eine nachgetragene Versionsnummer (`ant` CLI 1.32.0). GitHub-Release oben v2.1.273 (15.09. 20:23:03 UTC, Body 10 404 Bytes). **Blog:** keine neuen Slugs. **Neue Eintraege: 20.**) — Vorheriger **Crawl 14.09. 18:00 UTC — nahezu Leerlauf, ein Blog-Eintrag ohne Claude-Code-Bezug; Commit `1830570`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
+
+#### Gateway-Hinweis-Header für LLM-Gateways
+
+- **Was:** Claude Code sendet auf Wunsch fünf zusätzliche Request-Header an LLM-Gateways: `x-claude-code-request-class`, `x-claude-code-agent-type`, `x-claude-code-prev-tool-durations`, `x-claude-code-compaction` und `x-claude-code-context-compacted`. Der Gateway erfährt damit, ob gerade ein Hauptturn, ein Subagent oder eine Verdichtung läuft, welcher Agententyp die Anfrage stellt und wie lange die vorherigen Tool-Aufrufe gedauert haben. Standardmäßig aus — die Header gehen nur raus, wenn man sie ausdrücklich einschaltet.
+- **Einsatz:** `export CLAUDE_CODE_GATEWAY_HINT_HEADERS=1` vor dem Start der Session.
+- **Mehrwert:** Wer einen eigenen Gateway vor Bedrock/Vertex/Foundry betreibt, kann Routing, Rate-Limits und Kosten-Zuordnung endlich nach Anfrageart trennen: Subagent-Fluten anders behandeln als interaktive Turns, Compaction-Requests auf ein billigeres Modell legen, Timeouts anhand der gemeldeten Tool-Dauern kalibrieren. Bisher sahen Gateways nur einen undifferenzierten Strom von Messages-Requests.
+- **Version:** v2.1.273
+
+#### Auto-Compact feuerte bei halbem Kontextfenster — Advisor-Turns doppelt gezählt
+
+- **Was:** Das Kontext-Meter und die Auto-Compact-Logik rechneten Turns des Advisor-Tools mit ungefähr der doppelten realen Kontextgröße an. Folge: Die Verdichtung sprang bei etwa der Hälfte des tatsächlich verfügbaren Fensters an, und die Anzeige log entsprechend.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** In Advisor-lastigen Sessions halbierte sich faktisch das nutzbare Kontextfenster — jede Verdichtung kostet Zeit, Tokens und vor allem Gesprächsdetails. Wer sich gewundert hat, warum lange Sessions „viel zu früh" komprimieren, hat hier die Ursache; nach dem Update steht wieder das volle Fenster zur Verfügung.
+- **Version:** v2.1.273
+
+#### Permission-Checker: nicht analysierbare Bash-Zeilen übersprangen die Rückfrage
+
+- **Was:** Zwei zusammenhängende Lücken geschlossen: Bash-Befehle, die der Permission-Checker nicht vollständig zerlegen kann, übersprangen unter `permissions.blockReadsOutsideWorkingDirectories` die Nachfrage, statt sie zu stellen — und im Bypass-Modus konnte eine Subshell ein gefährliches `rm` verstecken. Gegenläufig wurde eine Änderung aus 2.1.268 zurückgenommen: Read- und Edit-Deny-Regeln wurden dort auf nicht analysierbaren Bash-Zeilen (`eval`, `env -C`) geprüft, was harmlose Befehle wie `time -p make build` pauschal verbot; die fragen jetzt wieder nach, statt abgelehnt zu werden.
+- **Einsatz:** Automatisch aktiv. Betrifft alle, die `permissions.blockReadsOutsideWorkingDirectories` gesetzt haben oder im Bypass-Modus arbeiten.
+- **Mehrwert:** Die Grundregel „was ich nicht verstehe, frage ich nach" gilt jetzt in beide Richtungen konsistent. Der zurückgenommene 2.1.268-Versuch ist ein gutes Beispiel für die Abwägung: zu strenges Blocken auf unverstandenen Zeilen macht den Alltag kaputt, zu laxes Durchwinken macht die Sandbox wertlos — die Nachfrage ist der richtige Mittelweg.
+- **Version:** v2.1.273 (Revert einer Änderung aus v2.1.268)
+
+#### Managed-MCP-Sperren wurden bei server-verwalteten Settings ignoriert
+
+- **Was:** `allowManagedMcpServersOnly`, `deniedMcpServers` und `disableClaudeAiConnectors` wurden wirkungslos, sobald zusätzlich server-verwaltete Settings vorhanden waren — die per MDM oder `managed-settings.json` ausgerollten Regeln fielen dann einfach unter den Tisch. Dazu passend: Skills, die von claude.ai synchronisiert wurden, blieben nach dem organisationsweiten Abschalten von Skills weiter verfügbar; sie wandern jetzt in den wiederherstellbaren Papierkorb.
+- **Einsatz:** Automatisch aktiv. Admins sollten nach dem Update stichprobenartig prüfen, ob die Sperren jetzt greifen — auf Clients, die beides kombiniert hatten, war die Durchsetzung bisher nur scheinbar aktiv.
+- **Mehrwert:** Für regulierte Umgebungen ein ernster Fund: Die Admin-Oberfläche meldete eine durchgesetzte Sperre, der Client lud die Server trotzdem. Wer MCP-Zugriff aus Compliance-Gründen begrenzt, sollte dieses Update nicht aufschieben.
+- **Version:** v2.1.273
+
+#### Auth-Fehler nennen jetzt die Anmeldung, die wirklich abgelaufen ist
+
+- **Was:** 401/403-Fehler auf Bedrock, Vertex und Foundry sowie 403er des Claude-Apps-Gateways rieten pauschal zu `/login` — auch dort, wo `/login` gar nichts ändert, weil die Anmeldung über AWS-, GCP- oder Gateway-Credentials läuft. Die Meldung benennt jetzt die konkret zu erneuernde Anmeldung oder verweist auf den Gateway-Administrator. Ebenfalls präzisiert: abgelaufene MCP-Server-Anmeldungen (Verweis auf `/mcp`), SSL-/Proxy-Fehler (mit Fehlercode und Hinweis auf `NODE_EXTRA_CA_CERTS` bei firmeneigener CA), nicht erstellbare Cloud-Sessions bei abgelaufenem Login, `/install-github-app` bei SAML-SSO-Blockade (bisher: „admin permissions required") sowie GitHub-Fehler in Cloud-Sessions bei IP-Allowlist oder gesperrter App-Installation.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Eine ganze Klasse von Fehlersuchen entfällt. Der irreführende `/login`-Rat hat auf Bedrock/Vertex regelmäßig in die falsche Richtung geschickt — man erneuert die Claude-Anmeldung, der Fehler bleibt, weil in Wahrheit das AWS-Token abgelaufen war.
+- **Version:** v2.1.273
+
+#### Prompt-Cache wurde durch /login, /upgrade und /extra-usage zerstört
+
+- **Was:** Die drei Befehle verwarfen das bisherige Thinking aus der Konversation. Der nächste Request musste dadurch den kompletten Prompt-Cache neu schreiben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Ein versehentliches `/upgrade` mitten in einer langen Session kostete den kompletten Cache-Vorteil — spürbar an Latenz und Kosten des Folgeturns. Besonders ärgerlich, weil keiner der drei Befehle inhaltlich etwas mit dem Gesprächsverlauf zu tun hat.
+- **Version:** v2.1.273
+
+#### Subagenten und Hintergrund-Agenten galten grundlos als gescheitert
+
+- **Was:** Subagenten und Hintergrund-Agenten wurden als „failed" gemeldet und ihr Ergebnis nie ausgeliefert, wenn die abschließende gestreamte Antwort keine Token-Nutzung enthielt oder keine Modell-ID mitführte. Verwandt: Im SDK und bei `--output-format stream-json` gingen die restlichen Nachrichten und der Abschlussbericht eines Subagenten verloren, sobald er mitten im Lauf in den Hintergrund verschoben wurde (etwa durch `CLAUDE_AUTO_BACKGROUND_TASKS`).
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Die fertige Arbeit war da, nur die Zustellung scheiterte an einem fehlenden Metadatenfeld — das Ergebnis eines langen Agentenlaufs war schlicht weg. Für SDK-Pipelines, die auf `stream-json` aufsetzen, war das ein stiller Datenverlust mitten im Lauf.
+- **Version:** v2.1.273
+
+#### Auto-Modus auf Bedrock, Vertex und Foundry nutzt vorerst den lokalen Klassifizierer
+
+- **Was:** Der Auto-Modus verwendet auf Bedrock, Vertex und Foundry ab sofort standardmäßig den lokalen Klassifizierer statt des serverseitigen. Wer den Server-Klassifizierer der Plattform weiter nutzen will, schaltet ihn ausdrücklich ein.
+- **Einsatz:** `export CLAUDE_CODE_AUTO_MODE_SERVER=1`
+- **Mehrwert:** Die Formulierung „for now" im Changelog deutet auf eine Übergangslösung hin. Praktisch heißt das: Der Auto-Modus funktioniert auf den drei Cloud-Plattformen ohne zusätzlichen Roundtrip zum Klassifizierungsdienst, dafür mit lokal getroffenen Entscheidungen — wer die serverseitige Bewertung für Audit-Zwecke braucht, muss die Variable setzen.
+- **Version:** v2.1.273
+
+#### OTel-Metriken mit echten Agenten-, Skill- und Plugin-Namen
+
+- **Was:** `OTEL_LOG_TOOL_DETAILS=1` ergänzt die Kosten- und Token-Metriken jetzt zusätzlich um die realen Namen von Agenten, Skills, Plugins und MCP-Servern. Ebenfalls an der Datensparsamkeit gedreht: `/bug` und `/feedback` übermitteln nur noch Parameter, die das Modellverhalten betreffen (Modell, System-Prompt, Tools) aus dem letzten API-Request — Request-Metadaten und `CLAUDE_CODE_EXTRA_BODY`-Felder bleiben draußen.
+- **Einsatz:** `export OTEL_LOG_TOOL_DETAILS=1` (bewusst setzen — die Namen landen damit in der Telemetrie).
+- **Mehrwert:** Endlich lässt sich auswerten, welcher Skill oder welches Plugin die Kosten treibt, statt nur eine Summe pro Session zu sehen. Die `/bug`-Änderung geht in die Gegenrichtung und ist genauso willkommen: `CLAUDE_CODE_EXTRA_BODY` enthält in Firmen-Setups oft interne Kennungen, die in einem Fehlerbericht nichts verloren haben.
+- **Version:** v2.1.273
+
+#### Weitere Korrekturen in v2.1.273
+
+- **Was:** Aus den 64 Punkten der Version die restlichen praxisnahen Fixes: ein `!` am Zeilenanfang wurde im Shell-Modus verschluckt, sodass `! grep …` nicht tippbar war; Read verweigerte auf macOS hereingezogene Screenshots mit „symlink resolution changed after permission was checked"; unter `permissions.blockReadsOutsideWorkingDirectories` wurde ein von den Repository-Settings gewähltes Memory-Verzeichnis weiterhin in den Prompt geladen, indexiert und von der Memory-Extraktion genutzt; eine lange Session legte ein Stub-`.git/info/exclude` neu an, nachdem das `.git`-Verzeichnis entfernt oder verschoben wurde; `/tui` verweigerte den Neustart wegen eines längst fertigen Agent-Team-Mitglieds; gespeicherte geplante Aufgaben liefen in der falschen Session, nachdem `.claude/scheduled_tasks.json` in einen anderen Ordner (etwa ein neues Worktree) kopiert worden war; Remote-Control-Clients an Desktop-, VS-Code- oder JetBrains-Sessions wurden abgewiesen, wenn sie die Kontextfenster-Auslastung abfragten. Dazu Artifact-Verbesserungen (einzelne Felder statt ganzer Dokumente aktualisieren, abgerissene Publishes werden sicher erneut gesendet statt zu scheitern oder zu duplizieren) und Code-Review-Korrekturen: `/ultrareview --post` postet den Findings-Kommentar nach einem GitHub-Fehler jetzt genau einmal statt nie oder zweimal und nennt den geprüften Commit; eine ganze `REVIEW.md` wurde wegen einer @-Erwähnung oder eines umgebrochenen Code-Spans ignoriert. Außerdem: deutlich bessere Reaktionszeiten in langen Sessions, weil Hook-Fortschritt und Subagenten-Aktivität nicht mehr bei jeder Aktualisierung die ganze Konversation neu verarbeiten.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Der Memory-Fix ist der wichtigste der Reihe — er betraf eine Sperre, die man aus Datenschutzgründen setzt, die aber genau an der Stelle nicht griff. Die Performance-Verbesserung bei Hook-Fortschritt macht sich in Sessions mit vielen Hooks unmittelbar bemerkbar.
+- **Version:** v2.1.273
+
+#### v2.1.272 — Platzhalter-Release
+
+- **Was:** Die Version enthält laut Changelog und GitHub-Release ausschließlich „Bug fixes and reliability improvements" — ein einziger Punkt, ohne Aufschlüsselung. Veröffentlicht am 14.09. um 23:34 UTC, gut vier Stunden nach dem umfangreichen 2.1.271.
+- **Einsatz:** Nicht anwendbar.
+- **Mehrwert:** Nur zur Lückenlosigkeit dokumentiert. Solche inhaltslosen Randzeit-Releases direkt nach einer großen Version sind bei Claude Code der Normalfall und meist Nachbesserungen an der vorangegangenen Auslieferung — kein Grund, gezielt auf sie zu aktualisieren.
+- **Version:** v2.1.272
+
+---
+
+### Woche 38 (14. September 2026) — v2.1.271: Fast Mode remote, Sandbox-Domains pro Befehl, Permission-Härtung
+
+#### Fast Mode in Claude-Code-Remote-Sessions
+
+- **Was:** Fast Mode funktioniert jetzt auch in Remote-Sessions — sowohl in der Cloud als auch auf selbst gehosteten Runnern. Es gilt entweder die Fast-Mode-Einstellung des Hosts oder ein in der Session getipptes `/fast`, soweit die Organisation das erlaubt. Zwei zugehörige Fehler sind weg: `/fast off` antwortete „Fast mode unavailable", statt den Modus abzuschalten, wenn die Organisation Fast Mode deaktiviert hatte, und Sessions mit `CLAUDE_CODE_SKIP_FAST_MODE_ORG_CHECK` schickten nach einer API-Ablehnung jeden Turn erneut Fast-Requests; die Ablehnung steht jetzt samt Begründung. Unter `CLAUDE_CODE_RETRY_WATCHDOG` fällt Fast Mode bei einem Usage-Credits-Limit auf Normalgeschwindigkeit zurück, statt den Turn scheitern zu lassen.
+- **Einsatz:** `/fast` in der Remote-Session, oder die Fast-Mode-Einstellung des Hosts greifen lassen.
+- **Mehrwert:** Fast Mode war bisher ein reines Lokal-Feature. Wer Arbeit auf Cloud-Sessions oder eigene Runner auslagert — also gerade bei langen, unbeaufsichtigten Läufen —, bekommt die schnellere Ausgabe jetzt auch dort. Der `/fast off`-Fehler war besonders unangenehm, weil er genau den Weg blockierte, den Modus wieder loszuwerden.
+- **Version:** v2.1.271
+
+#### Sandbox-Netzzugriff pro Befehl statt global
+
+- **Was:** Bash, PowerShell und Monitor bekommen im Auto-Modus mit Sandboxing ein eigenes `allowed_domains` pro Befehl: Die Hosts, die ein konkreter Befehl braucht, werden zusammen mit ihm geprüft und ausschließlich für ihn geöffnet; alle anderen Hosts bleiben gesperrt.
+- **Einsatz:** Automatisch im Auto-Modus mit aktiviertem Sandboxing — Claude gibt die benötigten Domains mit dem Befehl zur Prüfung an.
+- **Mehrwert:** Das ist eine echte Verschärfung nach dem Least-Privilege-Prinzip. Bisher galt eine sitzungsweite Domain-Liste: Wenn ein einziger Befehl `registry.npmjs.org` brauchte, stand der Host für jeden weiteren Befehl der Session offen. Jetzt ist die Freigabe an den Befehl gebunden, dem sie bewilligt wurde.
+- **Version:** v2.1.271
+
+#### `omitClaudeMd`: Subagenten ohne CLAUDE.md-Ballast
+
+- **Was:** Agent-Frontmatter und `--agents`-JSON kennen ein neues Feld `omitClaudeMd`. Damit laufen eigene und Plugin-Subagenten ohne die User-, Projekt- und lokalen CLAUDE.md-Dateien. Verwaltete Policy-Dateien werden weiterhin geladen — die Sperre lässt sich damit also nicht umgehen.
+- **Einsatz:** Im Agent-Frontmatter `omitClaudeMd: true` setzen, oder das Feld im `--agents`-JSON übergeben.
+- **Mehrwert:** Spezialisierte Subagenten — ein reiner Übersetzer, ein Formatierer, ein Klassifizierer — brauchen die Projektkonventionen nicht und werden von ihnen eher verwirrt. Jede CLAUDE.md-Zeile kostet außerdem Kontext in jedem einzelnen Subagenten-Aufruf; bei fan-out über viele Agenten summiert sich das erheblich.
+- **Version:** v2.1.271
+
+#### `--accept-command <sha256>`: Plugin-Installation ohne Blanko-Ja
+
+- **Was:** `claude plugin install` und `claude plugin update` akzeptieren `--accept-command <sha256>`. Damit bestätigt man exakt den Befehl, den ein vorheriger `--json`-Lauf angezeigt hat — statt mit `-y` pauschal alles durchzuwinken. Stimmt der Hash nicht überein, wird nicht installiert.
+- **Einsatz:** Erst `claude plugin install <plugin> --json` laufen lassen, den angezeigten Befehl und seinen SHA-256 prüfen, dann `claude plugin install <plugin> --accept-command <sha256>`.
+- **Mehrwert:** Genau das Puzzleteil, das automatisierte Plugin-Rollouts bisher unsicher machte. In CI musste man `-y` verwenden und damit jedem Befehl zustimmen, den das Plugin zum Installationszeitpunkt mitbringt — ändert der Marketplace ihn zwischen Prüfung und Rollout, lief der neue Befehl ungefragt. Der Hash bindet die Zustimmung an den geprüften Inhalt.
+- **Version:** v2.1.271
+
+#### Bash-Permission-Checker: vier Umgehungswege geschlossen
+
+- **Was:** Der Prüfer übersah bisher (1) die Datei, die `fmt`, `column` und ähnliche Befehle lesen, wenn sie hinter einer unbekannten Option steht; (2) Dateien, auf die ein Wildcard expandiert, wenn dieses im Muster oder Optionswert eines Befehls sitzt (etwa `grep -v dir/* file`); (3) Shell-Variablen-Deklarationsflags, mit denen sich der tatsächlich ausgeführte Befehl verschleiern ließ; (4) Befehle mit zwei Verzeichniswechseln, einer Subshell oder einer `cd`+`git`-Kette, die unter `permissions.blockReadsOutsideWorkingDirectories` im Bypass- und Auto-Modus die Rückfrage übersprangen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Vier Wege, auf denen ein Lesezugriff außerhalb des Arbeitsverzeichnisses an der Prüfung vorbeikam. Zusammen mit den gleichartigen Korrekturen in 2.1.273 zeigt sich hier ein systematisches Aufräumen im Permission-Checker — wer sich auf `blockReadsOutsideWorkingDirectories` als Sicherheitsgrenze verlässt, sollte zügig aktualisieren.
+- **Version:** v2.1.271
+
+#### `/resume` erbte das Datei-Lese-Tracking der Vorgänger-Session
+
+- **Was:** `/resume` und `/teleport` behielten das Datei-Lese-Tracking der vorherigen Konversation bei — Claude konnte dadurch Dateien bearbeiten, die die wiederaufgenommene Konversation nie gelesen hatte. Weitere `/resume`-Korrekturen: `--resume` verlor das 1M-Kontextfenster (`[1m]`), wenn die Modellfamilie der Session vom konfigurierten Standardmodell abwich; mit `/artifacts` angehängte Artefakte verschwanden nach `--resume`; `/resume` und `/continue` zeigten im Fullscreen-Modus auf kurzen Terminals nur ein bis zwei Sessions; und wieder aufgenommene `claude -p`-Sessions, deren Tools alle von MCP-Servern stammen, scheiterten mit „At least one tool must have defer_loading=false".
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Der erste Punkt ist mehr als ein Schönheitsfehler: Die Regel „erst lesen, dann schreiben" ist die Absicherung dagegen, dass Claude eine Datei blind überschreibt. Wenn die aus einer fremden Session geerbt wird, greift sie genau dann nicht, wenn man sie braucht. Der `[1m]`-Verlust wiederum schrumpfte das Kontextfenster beim Wiederaufnehmen stillschweigend auf ein Achtel.
+- **Version:** v2.1.271
+
+#### Monitor-Watches haben jetzt immer eine Frist
+
+- **Was:** Monitor-Beobachtungen bekommen grundsätzlich eine Deadline — höchstens 30 Minuten, in Einzelprompt-Läufen mit `-p` höchstens 10. Läuft sie ab, wird Claude benachrichtigt und kann neu scharfschalten. Die bisherige Option `persistent` ohne Timeout entfällt. Ebenfalls an der Ressourcenbremse gedreht: Die Standardgröße dynamischer Workflows ist auf Pro-Plänen jetzt „small", und die Richtgröße für „medium" sinkt von 15 auf 10 Agenten.
+- **Einsatz:** Automatisch aktiv; `persistent` aus bestehenden Konfigurationen entfernen.
+- **Mehrwert:** Ein zeitlich unbegrenzter Watch, der nie auslöst, ist eine stille Kostenfalle — er hält die Session am Leben, ohne Fortschritt zu machen. Die erzwungene Frist macht daraus einen bewussten Wiedervorlage-Zyklus. Die kleineren Workflow-Vorgaben ziehen dieselbe Konsequenz auf der Agentenseite.
+- **Version:** v2.1.271
+
+#### Organisations-Policy: Cache über Kontowechsel hinweg, MCP-Sperre bei kaputter Datei
+
+- **Was:** Eine zwischengespeicherte Organisations-Policy wurde nach einem Wechsel von Konto, Organisation oder API-Key weiterverwendet, und die Policy aktualisierte sich bei einem Credential-Wechsel mitten in der Session erst beim stündlichen Check. Tool- und Befehlslisten aktualisierten sich nicht, wenn die Policy erst nach dem Start fertig lud oder sich während der Session änderte. Eine Enterprise-`managed-mcp.json`, die nicht gelesen oder geparst werden kann, wurde bisher schlicht ignoriert — sie behält jetzt die exklusive MCP-Kontrolle (User-, Projekt- und Plugin-Server laden nicht) und warnt beim Start. Außerdem wurde die Org-Policy durch lokale Drittanbieter-Proxys via `ANTHROPIC_UNIX_SOCKET` geholt und von diesen abgelehnt.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Das Fail-Open-Verhalten bei kaputter `managed-mcp.json` war die gefährlichste Variante: Ein Tippfehler in der zentral ausgerollten Datei hob die MCP-Beschränkung für die ganze Flotte auf, ohne dass irgendwo etwas aufgefallen wäre. Jetzt gilt Fail-Closed mit sichtbarer Warnung.
+- **Version:** v2.1.271
+
+#### MCP-Stabilität: CPU-Schleife, OAuth-Registrierungen, Tool-Suche
+
+- **Was:** Ein MCP-Server, der `list_changed`-Benachrichtigungen in einer engen Schleife sendet, trieb die CPU-Last dauerhaft hoch und löste laufend neue Tool-Listen-Anfragen aus. MCP-OAuth behandelte Client-Registrierungen falsch: Eine verweigerte Zustimmung erzwang eine neue, eine Registrierung für eine andere Redirect-URI wurde wiederverwendet, und ein gleichzeitiger Schreibvorgang konnte eine gültige löschen oder eine unpassende behalten. Die Tool-Suche fand nichts, wenn Claude ein MCP-Tool über seinen bloßen Namen statt über den vollen `mcp__server__tool`-Namen auswählte. Ctrl+O brach ausstehende MCP-Reconnects ab, und ein per Remote Control gesendetes `/mcp` scheiterte bei geöffneter Transkript-Ansicht.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Die `list_changed`-Schleife war der unangenehmste Fall, weil sie von außen kam: Ein einziger fehlerhafter MCP-Server ließ die Maschine heiß laufen, ohne dass Claude Code selbst etwas falsch machte. Der Tool-Suche-Fix erklärt sporadische „Tool nicht gefunden"-Fehler bei deferred Tools.
+- **Version:** v2.1.271
+
+#### Weitere Korrekturen und Verbesserungen in v2.1.271
+
+- **Was:** Aus den 96 Punkten der Version die weiteren bemerkenswerten: Claude startete nach einer Verdichtung eine zweite Kopie eines noch laufenden Hintergrundbefehls (Watch-Task, Dev-Server); ein liegen gebliebenes `.git/config.lock` legte `git checkout -b`, `git push -u` und `git config` für den Rest der Session lahm, nachdem ein sandboxed Befehl nicht starten konnte (Linux); Settings-Änderungen von außerhalb der Session blieben auf macOS-Maschinen mit ausgelastetem Datei-Event-Dienst unbemerkt (jetzt Fallback auf Polling); Turns scheiterten mit „API returned an empty or malformed response", wenn ein LLM-Gateway die nicht-gestreamte Antwort als `text/plain` lieferte; Cross-Session-Nachrichten, die die Permission-Policy der Empfängersession zurückhielt, hinterließen keine Spur; selbst gehostete Runner verloren stillschweigend die komplette Host-Konfiguration, wenn das Konfigurationsverzeichnis 64 MiB übersteigt (neu: `--host-config-snapshot disk|memory`); das interaktive `/hooks`-Menü stürzte bei einem Hook-Matcher namens `__proto__` oder `constructor` ab; PowerShell-Befehle scheiterten auf Windows mit „Exit code 1" und ohne Ausgabe, sobald der temporäre Ausgabepfad 260 Zeichen erreichte. An Verbesserungen: `claude mcp serve` sendet bei laufenden Tool-Aufrufen alle 30 Sekunden eine Fortschrittsmeldung, damit Idle-Timeouts keinen langen, schweigenden Befehl abbrechen; dynamische Workflows pausieren beim Usage-Limit und laufen nach dem Reset weiter, statt die betroffenen Agenten fallen zu lassen; der Spinner zeigt laufende SessionStart-, UserPromptSubmit-, PreToolUse- und SessionEnd-Hooks samt verstrichener Zeit an und lässt sich mit Esc abbrechen; als Artefakt veröffentlichte Markdown-Dateien werden als gestaltete Dokumentseiten gerendert; und das Terminal-Rendering wurde spürbar beschleunigt (große Diffs, lange Transkripte). Dazu ein umfangreiches VS-Code-Paket: neue Einstellung „Attach Open File", Korrekturen an den Hooks- und Permission-Dialogen, Session-Historie auf Windows-Netzlaufwerken, keine aufblitzenden Konsolenfenster mehr bei Hintergrundbefehlen.
+- **Einsatz:** Automatisch aktiv; `--host-config-snapshot disk|memory` bei selbst gehosteten Runnern mit großer Host-Konfiguration.
+- **Mehrwert:** Der doppelt gestartete Hintergrundbefehl und das hängende `.git/config.lock` sind die beiden, die im Alltag am meisten Zeit gekostet haben — beide äußerten sich als scheinbar unerklärliches Verhalten lange nach der eigentlichen Ursache. Der 64-MiB-Fund bei selbst gehosteten Runnern erklärt Sessions, in denen plötzlich keine Skills, Plugins und MCP-Server mehr da waren.
+- **Version:** v2.1.271
+
+---
+
+### What's New: Digests der Wochen 35, 36 und 37 nachgereicht
+
+#### Woche 37 (7.–11. September 2026) — `claude plugin eval` und ausklappbare Desktop-Panes
+
+- **Was:** Der Digest zur Woche 37 deckt v2.1.263–v2.1.269 ab und hebt zwei Funktionen hervor. **`claude plugin eval`** lässt ein Plugin gegen eine Sammlung von Testfällen laufen, bewertet die Ergebnisse und wiederholt standardmäßig jeden Fall ohne das Plugin, damit dessen tatsächlicher Beitrag sichtbar wird. `claude plugin eval init` fragt, was ein gutes Ergebnis ausmacht, schlägt daraufhin Testfälle und die bewertenden Checks vor, probiert die Sammlung einmal durch und schreibt die Dateien. Zweitens lässt sich in der Claude-Code-Desktop-App jede Pane in ein eigenes Fenster ausklappen — Diff oder Terminal auf den zweiten Bildschirm ziehen, während Claude im Hauptfenster weiterarbeitet, und später wieder andocken.
+- **Einsatz:** `claude plugin eval init` im Wurzelverzeichnis des Plugins, dann die geöffnete Session verlassen und `claude plugin eval .` ausführen. Die Zusammenfassungstabelle erscheint im Terminal, die Detailauswertung pro Lauf steht in `report.html` unter `evals/results/`.
+- **Mehrwert:** Endlich eine belastbare Antwort auf „bringt mein Plugin überhaupt etwas?" — der A/B-Vergleich gegen den Lauf ohne Plugin ist genau die Baseline, die man von Hand nie sauber hinbekommt. Wichtig zu wissen: Jeder Lauf und jeder Check, bei dem ein zweites Modell die Antwort bewertet, ist ein echter Modellaufruf auf eigene Rechnung — eine Suite mit vielen Fällen kostet also spürbar.
+- **Version:** `claude plugin eval` ab v2.1.269; Digest deckt v2.1.263–v2.1.269 ab
+
+#### Woche 36 (31. August – 4. September 2026) — Claude Fable 5.1, Hintergrund-Computer-Use, Live-`/diff`
+
+- **Was:** Der Digest zur Woche 36 deckt v2.1.251–v2.1.261 ab und nennt vier Funktionen. **Claude Fable 5.1** steht in Claude Code mit 1M-Token-Kontextfenster zur Verfügung, der Alias `fable` wählt es aus; in Claude-Apps-Gateway-Sessions zeigt `fable` weiterhin auf Fable 5 — liefert der Gateway 5.1, hilft `/model claude-fable-5-1`. Voraussetzung ist v2.1.257 oder neuer. **Computer Use im Hintergrund** läuft auf macOS in der Desktop-App, während man selbst weiterarbeitet (Beta, Pro- und Max-Pläne). **`/diff`** öffnet im Fullscreen-Rendering ein Live-Panel neben der Konversation, das sich aktualisiert, während Claude Dateien ändert. **`/skill-doctor`** zeigt, was jeder Skill an Kontext kostet und wie oft er tatsächlich zum Einsatz kommt.
+- **Einsatz:** `/model fable` wechselt die laufende Session auf Fable 5.1 und speichert es als Standard. Auf der Anthropic-API listet der Picker Fable erst, wenn der Server es für die Organisation freigemeldet hat — getipptes `/model fable` fragt direkt beim Server nach.
+- **Mehrwert:** `/skill-doctor` ist der unterschätzte Eintrag der Woche: Skills sammeln sich an, jeder kostet Kontext in jeder Session, und ohne Messung fliegt keiner je wieder raus. Das Live-`/diff`-Panel ersetzt das ständige Hin- und Herwechseln zwischen Terminal und Editor bei größeren Umbauten.
+- **Version:** Fable 5.1 ab v2.1.257, Live-`/diff` ab v2.1.260; Digest deckt v2.1.251–v2.1.261 ab
+
+#### Woche 35 (24.–28. August 2026) — `/resume` im Desktop, Claude-entworfenes Feedback, `--restricted`
+
+- **Was:** Der Digest zur Woche 35 deckt v2.1.240–v2.1.250 ab und nennt drei Funktionen. **`/resume` in der Desktop-App**: Im Prompt-Feld der Claude-Code-Desktop-App getippt, holt es jede in der CLI begonnene Session mit vollständiger Konversation und vollem Kontext in die App; die Sessions lassen sich nach Titel, Ordner oder Branch durchsuchen und vor dem Wiederaufnehmen ansehen. **Claude-entworfenes Feedback**: Wenn ein Tool wiederholt scheitert, Claude bei einer Anfrage nicht weiterhelfen kann oder man einen Fehler anspricht, entwirft Claude über das `SendFeedback`-Tool einen Fehlerbericht; eine Karte über dem Prompt zeigt den Entwurf zum Prüfen, Senden oder Verwerfen — nichts geht an Anthropic, bevor man selbst sendet (ab v2.1.238). **`--restricted`** startet eine Session ohne die befehlsausführenden Tools und ohne die eigenen User- und Projekt-Settings, gedacht für Evaluations-Harnesse auf geteilten Maschinen. Dazu steuert die Einstellung **`modelPicker`**, welche Modelle `/model` überhaupt auflistet.
+- **Einsatz:** `/resume` im Desktop-Prompt; `claude --restricted` für Evaluationsläufe; `modelPicker` in den Settings.
+- **Mehrwert:** `--restricted` ist der praktischste Eintrag für alle, die Claude Code auf gemeinsam genutzten Rechnern oder in Benchmarks laufen lassen: Die eigenen Settings und CLAUDE.md-Dateien verfälschen sonst jede Messung, und die befehlsausführenden Tools will man in einem Harness ohnehin nicht. Das Feedback-Feature senkt die Hürde, tatsächlich Bugs zu melden — den Bericht schreibt Claude, man muss ihn nur noch prüfen.
+- **Version:** `SendFeedback` ab v2.1.238; Digest deckt v2.1.240–v2.1.250 ab
+
+---
+
+### Platform Release Notes (14. September 2026) — Verdichtung auf Zuruf in der Messages API
+
+#### Messages API: `compaction`-Parameter verdichtet Konversationen auf Anfrage
+
+- **Was:** Die Messages API kann eine Konversation auf Zuruf verdichten — Beta auf der Claude API mit dem Beta-Header `compact-2026-09-04`. Man sendet den Top-Level-Parameter `compaction`, und die API liefert einen signierten `compaction`-Block zurück, der die übermittelten Nachrichten zusammenfasst. Bei späteren Requests schickt man diesen Block an den Anfang, anstelle der zusammengefassten Nachrichten. Der Zeitpunkt der Verdichtung liegt beim Aufrufer, der Request kann im Hintergrund laufen, und die jüngsten Turns lassen sich nach der Zusammenfassung wortgetreu behalten. Bei Modellen mit erhaltenem Thinking bleibt das Thinking dieser behaltenen Turns gültig.
+- **Einsatz:** Beta-Header `compact-2026-09-04` setzen und den Top-Level-Parameter `compaction` im Messages-Request mitgeben; den zurückgelieferten signierten Block bei Folge-Requests voranstellen.
+- **Mehrwert:** Für alle, die eigene Agenten auf der API bauen, ist das die Ablösung selbstgebauter Zusammenfassungslogik. Entscheidend sind zwei Details: Der Block ist **signiert** — man kann ihn also weiterreichen, ohne dass der Verlauf manipulierbar wird — und das Thinking der wortgetreu behaltenen Turns bleibt gültig, was bei einer selbstgebauten Zusammenfassung verloren geht. Dass die Verdichtung im Hintergrund laufen kann, nimmt sie aus dem kritischen Pfad der Antwortzeit.
+- **Version:** Claude API (Beta `compact-2026-09-04`) — Platform-Eintrag vom 14.09.2026
+
+---
+
+### npm: `stable`-Tag springt von 2.1.236 auf 2.1.267
+
+- **Was:** Der `stable`-Dist-Tag im npm-Registry ist von **2.1.236** auf **2.1.267** vorgerückt — ein Sprung über 31 Versionen, der erste seit dem 12.08. Damit bekommen alle, die bewusst auf dem konservativen Kanal bleiben, in einem Schritt alles von Woche 34 bis einschließlich Woche 37: Fable 5.1, `/skill-doctor`, das Live-`/diff`-Panel, `claude plugin eval`, `--restricted` und den ganzen Strang der Permission- und MCP-Härtung.
+- **Einsatz:** `npm install -g @anthropic-ai/claude-code@stable` installiert jetzt 2.1.267 statt 2.1.236.
+- **Mehrwert:** Wer den `stable`-Kanal in Firmen-Rollouts oder CI-Images pinnt, sollte diesen Sprung einplanen und nicht beiläufig mitnehmen: 31 Versionen auf einmal bedeuten unter anderem geänderte Auto-Modus-Voreinstellungen, die entfallene `persistent`-Option bei Monitor-Watches und verschärfte Sandbox-Domain-Prüfung. Die Lücke zwischen `latest` (2.1.273) und `stable` ist damit von 34 auf sechs Versionen geschrumpft.
+- **Version:** npm-Dist-Tag `stable` = 2.1.267 (Version veröffentlicht 09.09. 18:25 UTC)
+
+---
 
 ### Woche 38 (14. September 2026) — Blog-Ankündigung ohne Claude-Code-Bezug
 
