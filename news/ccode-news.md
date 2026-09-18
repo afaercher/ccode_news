@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-18 12:00 UTC (**Crawl 18.09. 12:00 UTC — Leerlauf bei den Neuigkeiten, Nachtrag aus dem Token-Abgleich.** Vorlauf: die Läufe 17.09. 06:00/18:00 und 18.09. 06:00 endeten mit HTTP 504, der 17.09. 12:00 mit HTTP 500 (429, Session-Limit). Der 06:00-Lauf von heute hatte seine Arbeit fertig geschrieben, aber nicht committet — 184 Zeilen mit dem neuen Abschnitt Woche 38 (v2.1.274–276 plus Projects-Blog) lagen im Arbeitsbaum und wurden zu Laufbeginn als eigener Commit `8f3e4c0` gesichert. npm: `latest` = `next` = **2.1.276** (18.09. 01:39 UTC), `stable` unverändert **2.1.267**, `time.modified` 18.09. 02:11:57 UTC; v2.1.277–279 HTTP 404 — **keine neue Version** seit dem 06:00-Lauf. `CHANGELOG.md` **733 121 Bytes** (von 702 497 am 16.09., +30 569), oben 2.1.276 mit genau einem Punkt. **What's New** unverändert 16 070 Bytes, oben weiter **Week 37** (7.–11.09., v2.1.263–269), `2026-w38` und `2026-w39` HTTP 404. **Platform** 106 466 Bytes, oberster Eintrag 18.09. (Compliance API liefert Claude-in-Chrome-Transkripte) — vom 06:00-Lauf bereits aufgenommen. **GitHub-Release** oben v2.1.276 (18.09. 02:12:26 UTC, Body 167 Bytes). **Blog:** 15 Slugs, einziger neuer `projects-redesigned` — ebenfalls schon dokumentiert. Da alle vier Quellen gedeckt waren, ging der Lauf in den Token-Abgleich für 2.1.274–276: 2.1.276 (1 Punkt, 2 Tokens) lückenlos, 2.1.275 sieben und 2.1.274 sieben unbelegte Tokens auf 96 bzw. 108 Changelog-Punkten. Daraus **vier Nachtrag-Einträge**: `/plugin install --marketplace <source>`; @-Mention-Dateivorschläge unter den MCP-Ressourcen bei `@.`/`@./` und eigenem `fileSuggestion`; das Trio verirrter `</ccmemory>`-Tag / `API Error: 400` hinter umschreibenden Gateways / Startabsturz bei kaputtem `mcpNeedsAuthNoticed` in `~/.claude.json`; sowie die Umgebungskanten Git-LFS-Pointer in Plugin-Clones mit `git lfs pull`, `$schema` in `hooks/hooks.json`, `--strict-mcp-config` mit leerem `--mcp-config` bis `MCP_TIMEOUT`, `$XDG_CONFIG_HOME/git/ignore` in VS Code und das sichtbare `mailto:`-Präfix in Claude-Tag-Slack-Antworten. **Neue Einträge: 4.**) — Vorheriger **Crawl 18.09. 06:00 UTC — Woche 38 mit v2.1.274–276 und dem Projects-Neubau; Commit `8f3e4c0`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-18 18:00 UTC (**Crawl 18.09. 18:00 UTC — erneut Leerlauf bei den vier Quellen, dafuer der Token-Abgleich erstmals unterhalb von v2.1.220.** npm: `latest` weiter **2.1.276**, `stable` weiter **2.1.267**, aber `next` steht neu auf **2.1.277** (18.09. 16:22:26 UTC, `time.modified` 16:22:26 UTC) — eine reine Vorab-Version: kein Changelog-Abschnitt (`CHANGELOG.md` unveraendert **733 121 Bytes**, oben weiter 2.1.276), kein Git-Tag (`git/ref/tags/v2.1.277` HTTP 404, ebenso 278–280) und kein GitHub-Release (oben weiter v2.1.276, Body 167 Bytes). **What's New** unveraendert 16 070 Bytes, oben weiter Week 37, `2026-w38`/`2026-w39` HTTP 404. **Platform** unveraendert 106 466 Bytes, oberster Eintrag weiter 18.09. (Compliance API mit Claude-in-Chrome-Transkripten) — bereits dokumentiert. **Blog:** weiter 15 Slugs, keiner neu. Da das Fenster 2.1.220–2.1.276 geschlossen ist, lief der Abgleich rueckwaerts weiter: 2.1.219 (24 Punkte, 1 unbelegtes Token), 2.1.218 (36/4), 2.1.217 (20/2), 2.1.216 (40/6), 2.1.215 (1/0, lueckenlos), 2.1.214 (47/8), 2.1.212 (48/7); 2.1.213 existiert nicht. Von 28 unbelegten Tokens waren 13 blosse Schreibvarianten bereits beschriebener Punkte (Screenreader-Loeschansagen, `\u`-Windows-Pfade, docker-Daemon-Flags, `dir/**`-Hook-Bedingungen, worktree-isolierte git-Umleitung, Plan-Mode-Bash, `/ultrareview`-PR-Referenzen). Daraus **sieben Nachtrag-Eintraege** in einem eigenen Abschnitt: `CLAUDE_CODE_GIT_BASH_PATH` auf Windows; `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` samt Tiefe-3-Nachzug; klickbares PR-Badge ueber ssh/tmux mit `FORCE_HYPERLINK=0`; Ansage bei Fast-Mode-Wechsel durch `/config model=<x>`; ungueltige `# UNIT`-Zeilen im Prometheus-Exporter; `SessionStart`-Quelle `"fork"` plus PowerShell-Negativantworten und doppelte `message_delta`-Telemetrie; `set_model` mitten im Turn, `N done` in der Fusszeile und `trace_id`/`span_id` in OTLP-Records. **Neue Eintraege: 7.**) — Vorheriger **Crawl 18.09. 12:00 UTC — Leerlauf, vier Nachtrag-Eintraege aus dem Token-Abgleich 2.1.274–276; Commit `b24ab2a`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -191,6 +191,60 @@
 - **Mehrwert:** Für Compliance-Teams war die Browser-Extension bisher ein blinder Fleck: Terminal- und Cloud-Sessions waren erfasst, die Arbeit im Browser nicht. Wer Aufbewahrungspflichten oder eDiscovery abbilden muss, schließt damit eine Lücke, ohne die Integration umbauen zu müssen.
 - **Version:** Claude API / Compliance API — Platform-Eintrag vom 18.09.2026 (Beta, Enterprise)
 
+### Nachtrag aus dem Token-Abgleich — v2.1.212–v2.1.219 (Juli 2026)
+
+> Der Leerlauf-Lauf vom 18.09. 18:00 UTC hat das Abgleichsfenster erstmals unter v2.1.220 fortgesetzt. Die folgenden Punkte standen im Changelog, aber nicht in dieser Datei; die alten Sammel-Einträge der jeweiligen Version bleiben unverändert stehen.
+
+#### Windows: ein falsch gesetztes `CLAUDE_CODE_GIT_BASH_PATH` beendete Claude Code
+
+- **Was:** Zeigte `CLAUDE_CODE_GIT_BASH_PATH` auf etwas, das kein `bash`- oder `sh`-Binary ist, wurde der Pfad trotzdem als Shell benutzt — oder Claude Code beendete sich gleich beim Start. Die Variable wird jetzt ignoriert, und es gibt eine Warnung statt eines stillen Abbruchs.
+- **Einsatz:** Automatisch aktiv. Wer die Variable gesetzt hat, sieht in der Warnung, ob sein Pfad überhaupt akzeptiert wird.
+- **Mehrwert:** Der typische Fehler ist, auf `Git\cmd\git.exe` oder auf das Installationsverzeichnis statt auf `Git\bin\bash.exe` zu zeigen. Vorher war das Symptom „Claude Code startet nicht" ohne jeden Hinweis auf die Ursache — ein Fehlerbild, das man auf Windows leicht der Installation statt einer Umgebungsvariablen zuschreibt.
+- **Version:** v2.1.219
+
+#### Subagenten starten keine Subagenten mehr — `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` hebt die Sperre auf
+
+- **Was:** Mit 2.1.217 dürfen Subagenten standardmäßig **keine** weiteren Subagenten mehr starten. Wer tiefere Ketten braucht, setzt `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` auf die gewünschte Tiefe; zwei Versionen später (2.1.219) wurde die erlaubte Verschachtelung wieder auf bis zu drei Ebenen angehoben. Beides zusammen ergibt den heutigen Stand: eine harte Obergrenze plus einen ausdrücklichen Regler dafür.
+- **Einsatz:** `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=<n>` in der Umgebung, ergänzend zum Concurrency-Cap `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (Default 20) aus derselben Version.
+- **Mehrwert:** Die beiden Grenzen greifen an verschiedenen Stellen desselben Problems: Der Concurrency-Cap begrenzt die Breite, die Spawn-Tiefe die Länge der Kette. Ohne die Tiefengrenze konnte ein einziger unglücklich formulierter Auftrag einen Baum aufspannen, der exponentiell Tokens verbrennt — und zwar unbemerkt, weil jeder einzelne Subagent für sich harmlos aussieht.
+- **Version:** v2.1.217 (Sperre + Env-Regler), v2.1.219 (Default wieder auf Tiefe 3)
+
+#### PR-Badge in der Fußzeile wird auch über ssh und tmux klickbar
+
+- **Was:** Das PR-Badge in der Fußzeile wird jetzt als echter Terminal-Hyperlink ausgegeben, auch wenn sich die Hyperlink-Fähigkeit des Terminals nicht zuverlässig erkennen lässt — genau der Fall über ssh oder in tmux. Wer die Escape-Sequenzen nicht will, setzt `FORCE_HYPERLINK=0`.
+- **Einsatz:** Automatisch aktiv; Abschalten mit `FORCE_HYPERLINK=0` in der Umgebung.
+- **Mehrwert:** Die Erkennung von Terminal-Fähigkeiten über eine ssh- oder tmux-Schicht hinweg schlägt regelmäßig fehl, weil `TERM` dann nicht mehr das echte Terminal beschreibt. Ergebnis war ein Badge, das lokal klickbar war und auf dem Entwicklungsserver nicht — die PR-URL musste man von Hand kopieren. Der Opt-out ist für Terminals gedacht, die die Sequenzen als Buchstabensalat darstellen.
+- **Version:** v2.1.217
+
+#### Ansage, wenn ein Modellwechsel den Fast Mode umlegt
+
+- **Was:** Wechselt man das Modell über `/config model=<x>` oder per Remote Control und ändert sich dadurch der Fast-Mode-Zustand, wird das jetzt ausdrücklich angesagt statt still zu passieren.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Fast Mode hängt am Modell — nicht jedes Modell unterstützt ihn, und der Preis unterscheidet sich deutlich vom Standardtarif. Ein Modellwechsel, der den Fast Mode nebenbei abschaltet (oder einschaltet), war vorher nur an der Abrechnung zu erkennen.
+- **Version:** v2.1.218
+
+#### Prometheus-Endpunkt lieferte ungültige `# UNIT`-Zeilen
+
+- **Was:** Der Prometheus-Metrik-Endpunkt (`OTEL_METRICS_EXPORTER=prometheus`) schrieb `# UNIT`-Zeilen in einer Form aus, die dem Format nicht entspricht.
+- **Einsatz:** Automatisch aktiv, sobald der Prometheus-Exporter konfiguriert ist.
+- **Mehrwert:** Ungültige Metadatenzeilen sind der Grund dafür, dass ein Scrape entweder ganz abgelehnt oder mit Warnungen durchgewinkt wird — je nach Prometheus-Version und Parser-Strenge. Wer Claude-Code-Metriken in ein bestehendes Monitoring hängt, hatte hier eine Fehlerquelle, die weder in Claude Code noch in Prometheus erkennbar protokolliert wurde.
+- **Version:** v2.1.216
+
+#### SessionStart meldet `"fork"`, PowerShell-Negativantworten sind keine Fehler, Token-Telemetrie zählte doppelt
+
+- **Was:** Drei Punkte aus 2.1.214, die für Hook- und Telemetrie-Betreiber zählen. Erstens melden `SessionStart`-Hooks jetzt die Quelle `"fork"`, wenn eine Session als Fork beginnt — vorher kam dafür `"resume"`, ein Fork war also von einem fortgesetzten Lauf nicht zu unterscheiden. Zweitens meldete das PowerShell-Tool `where.exe`, `fc.exe` und `diff.exe` als Fehler, wenn diese Programme eine gültige **negative** Antwort lieferten („nicht gefunden", „keine Unterschiede") — der Exit-Code ist dort Teil des Ergebnisses, nicht ein Scheitern. Drittens zählten Session-Kosten und Token-Telemetrie doppelt, wenn ein Stream mehrere kumulative `message_delta`-Frames schickte.
+- **Einsatz:** Automatisch aktiv; in `SessionStart`-Hooks lässt sich `source == "fork"` jetzt gezielt abfragen.
+- **Mehrwert:** Der Fork-Fall ist der praktisch wichtigste: Ein Hook, der bei `resume` etwas nachlädt oder eine Sperre setzt, tat das bisher auch für jeden Fork — mit der Folge, dass zwei Sessions sich gegenseitig ins Gehege kamen. Die doppelt gezählte Telemetrie wiederum machte jede Kostenauswertung unbrauchbar, ohne dass irgendetwas nach einem Fehler aussah.
+- **Version:** v2.1.214
+
+#### `set_model` greift mitten im Turn, `N done` pulsiert in der Fußzeile, OTLP-Records bekommen ihre Trace-IDs
+
+- **Was:** Drei Nachträge zu 2.1.212. Headless- und SDK-Sessions setzen einen `set_model`-Control-Request jetzt **mitten im Turn** um: Der nächste Modell-Roundtrip läuft bereits mit dem neuen Modell, statt bis zum nächsten Turn zu warten. Die `←`-Fußzeile pulsiert kurz mit `N done`, wenn ein Hintergrund-Agent fertig wird, während gerade nichts auf eine Eingabe wartet. Und OTLP-Event-Log-Records enthalten jetzt `trace_id` und `span_id`, wenn `TRACEPARENT` in SDK- bzw. Headless-Sessions gesetzt ist — die Werte wurden vorher nur für Spans, nicht für Log-Records übernommen.
+- **Einsatz:** `set_model` als Control-Request aus dem SDK; `TRACEPARENT` in der Umgebung der Headless-Session.
+- **Mehrwert:** `set_model` mitten im Turn ist die Voraussetzung für Eskalationsmuster, bei denen ein günstiges Modell die Routine macht und erst beim schwierigen Schritt auf ein stärkeres umgeschaltet wird — vorher kam die Umschaltung immer einen Turn zu spät. Und Log-Records ohne Trace-ID sind in einem verteilten Trace genau das, was man später nicht mehr zuordnen kann.
+- **Version:** v2.1.212
+
+---
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
 #### Gateway-Hinweis-Header für LLM-Gateways
