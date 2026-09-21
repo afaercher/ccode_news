@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-21 12:00 UTC (**Crawl 21.09. 12:00 UTC — Leerlauf bei den Quellen, Nachtrag aus dem Token-Abgleich v2.1.196–204.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC, `time.modified` 19.09. 03:10:16 UTC), `stable` weiter **2.1.267**, `2.1.279` HTTP 404 (npm und Git-Tag) — der Lauf liegt auf Montag 05:00 PT, vor dem üblichen Publish-Fenster. `CHANGELOG.md` unverändert **746 808 Bytes**, oben 2.1.278; GitHub-Release oben v2.1.278 (Body 505 Bytes). **What's New** oben weiter Week 37, `2026-w38`/`2026-w39` HTTP 404. **Platform** oberster Eintrag weiter 18.09. (bereits dokumentiert). **Blog:** weiter 15 Slugs, keiner neu. Leerlauf für den Abgleich 2.1.196–204 genutzt (sechs Versionen lückenlos, 2.1.196 nur Schreibvarianten) — daraus ein neuer Nachtrag-Abschnitt mit **2 Einträgen**: `←` in `claude attach` und abgewiesenes `claude --bg -p` (2.1.198); `manual` als gleichwertiger Wert für `--permission-mode`/`defaultMode` plus Tabellen im Screenreader-Modus (2.1.200). **Neue Einträge: 2.**) — Vorheriger **Crawl 21.09. 06:00 UTC — Leerlauf, Token-Abgleich 2.1.205–211 mit 3 Einträgen; Commit `f03f732`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-21 18:00 UTC (**Crawl 21.09. 18:00 UTC — Leerlauf bei den Quellen, Nachtrag aus dem Token-Abgleich v2.1.170–195.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC, `time.modified` 19.09. 03:10:16 UTC), `stable` weiter **2.1.267**, Git-Tag `v2.1.279` HTTP 404 — auch zum Montags-Publish-Fenster (11:00 PT) noch keine neue Version. `CHANGELOG.md` jetzt **746 701 Bytes** (−107): Commit `8187baa` vom 21.09. 12:12 UTC hat in **2.1.275** nachträglich den Punkt „[VSCode] Fixed some claude.ai/code sessions opening in VS Code as an empty conversation with no messages" **gestrichen** (auch aus `feed.xml`) — der Punkt stand nie in dieser Datei, es ist also nichts zu korrigieren; offenbar war der Fix nicht in der Version enthalten. **What's New** oben weiter Week 37, `2026-w38`/`2026-w39` HTTP 404. **Platform** oberster Eintrag weiter 18.09. **Blog:** weiter 15 Slugs, keiner neu. Leerlauf für den Abgleich 2.1.170–195 genutzt (15 Versionen lückenlos bzw. nur Schreibvarianten) — daraus ein neuer Nachtrag-Abschnitt mit **2 Einträgen** aus 2.1.178: Agent-Teams ohne `TeamCreate`/`TeamDelete` (implizites Team pro Session) und Linux-Sandbox bei symlinkten `.claude/skills`/`.claude/hooks`. **Neue Einträge: 2.**) — Vorheriger **Crawl 21.09. 12:00 UTC — Leerlauf, Token-Abgleich 2.1.196–204 mit 2 Einträgen; Commit `b695ef0`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -388,6 +388,24 @@
 - **Einsatz:** `claude --permission-mode manual` oder in `settings.json`: `"permissions": { "defaultMode": "manual" }` — gleichbedeutend mit `default`. Tabellen-Vorlesen: automatisch aktiv im Screenreader-Modus.
 - **Mehrwert:** Wer Doku und UI abgleicht, findet „Manual" jetzt auch als Konfigurationswert und muss nicht rätseln, ob `default` noch gilt — es gilt, gemischte Teams mit älteren Versionen bleiben bei `default` auf der sicheren Seite (ältere Clients kennen `manual` nicht). Die Tabellen-Umstellung macht Markdown-Tabellen in Antworten für blinde Nutzer überhaupt erst sinnvoll lesbar.
 - **Version:** v2.1.200
+
+### Nachtrag aus dem Token-Abgleich — v2.1.170–v2.1.195 (Mai/Juni 2026)
+
+> Der Leerlauf-Lauf vom 21.09. 18:00 UTC hat das Abgleichsfenster um 26 Versionsnummern nach unten verlängert (existierende Versionen: 2.1.170, 172–176, 178, 179, 181, 183, 185–187, 190, 191, 193, 195). Alle Versionen außer 2.1.178 waren lückenlos oder hatten nur Schreibvarianten bereits beschriebener Punkte (`teammateMode: "iterm2"`, `~~strikethrough~~`, `MEMORY.md`-Verdichtung, `thinking.disabled.display`, `--bg -cn <name>`, `mcp__server__*` in `disallowedTools`). Die folgenden zwei Punkte aus 2.1.178 standen im Changelog, aber nicht in dieser Datei. Die alten Einträge der Version bleiben unverändert stehen.
+
+#### Agent-Teams: `TeamCreate` und `TeamDelete` entfallen — jede Session hat ein implizites Team
+
+- **Was:** Die experimentellen Agent-Teams brauchen keinen Einrichtungsschritt mehr. Die Tools `TeamCreate` und `TeamDelete` sind entfernt; ist `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` gesetzt, besitzt jede Session automatisch **genau ein** Team. Teammates entstehen direkt über das Agent-Tool mit dessen `name`-Parameter. Der frühere `team_name`-Parameter des Agent-Tools wird weiter angenommen, aber **ignoriert**.
+- **Einsatz:** `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, dann Claude einfach bitten, benannte Teammates zu starten („starte einen Teammate `reviewer`, der …"). Eigene Prompts, Skills oder Subagent-Definitionen, die `TeamCreate`/`TeamDelete` in `allowedTools` oder als Arbeitsschritt nennen, sollte man bereinigen.
+- **Mehrwert:** Weniger Zeremonie und weniger Fehlerquellen: Vorher musste das Modell erst ein Team anlegen und am Ende wieder abbauen — vergaß es das, blieben verwaiste Teams zurück, und mehrere Teams in einer Session sorgten für Verwechslungen. Wer noch mit `team_name` arbeitet, merkt vom Umbau nichts, weil der Parameter nicht zum Fehler führt; Logik, die auf getrennte Teams pro Aufgabe gebaut war, fällt dagegen stillschweigend in ein gemeinsames Team zusammen.
+- **Version:** v2.1.178
+
+#### Linux-Sandbox startete nicht, wenn `.claude/skills` oder `.claude/hooks` ein Symlink war
+
+- **Was:** Lag im Projekt statt eines echten Verzeichnisses `.claude/skills` oder `.claude/hooks` ein **Symlink** (etwa auf ein gemeinsames Skill-Repo oder einen Dotfiles-Ordner), scheiterte der Start der Linux-Sandbox. Behoben — dieselbe Fehlerklasse wie der bereits dokumentierte Fix für eine symlinkte `.claude/settings.json`.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Skills und Hooks per Symlink aus einem zentralen Repo in mehrere Projekte einzuhängen ist ein verbreitetes Muster; bisher zwang es unter Linux dazu, die Sandbox abzuschalten oder die Verzeichnisse zu kopieren.
+- **Version:** v2.1.178
 
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
