@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-21 06:00 UTC (**Crawl 21.09. 06:00 UTC — Leerlauf bei den Quellen, Nachtrag aus dem Token-Abgleich v2.1.205–211.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC, `time.modified` 19.09. 03:10:16 UTC), `stable` weiter **2.1.267** — keine neue Version seit dem 20.09.-Lauf (Sonntag, erwartbarer Leertag). `CHANGELOG.md` unverändert **746 808 Bytes**, oben 2.1.278; GitHub-Release oben v2.1.278 (Body 505 Bytes). **What's New** oben weiter Week 37, `2026-w38`/`2026-w39` HTTP 404. **Platform** oberster Eintrag weiter 18.09. (bereits dokumentiert). **Blog:** weiter 15 Slugs, keiner neu. Gegenprobe 2.1.277/278: alle 61 Code-Tokens des Changelogs in dieser Datei belegt. Leerlauf für den Abgleich 2.1.205–211 genutzt (2.1.205/206/207/209 lückenlos; 2.1.208, 2.1.210, 2.1.211 mit Lücken) — daraus ein neuer Nachtrag-Abschnitt mit **3 Einträgen**: Sandbox-Deny-Write für nachträgliche `.claude/*`-Symlinks und Rules trotz ausgeschlossener Projekt-Settings; Headless-Hänger bei nicht-textlichem `set_model` plus `CLAUDE_CODE_FORWARD_SUBAGENT_TEXT` und Workflow-Speicherdialog; Chrome-`save_to_disk` und Upload-Prüfung. **Neue Einträge: 3.**) — Vorheriger **Crawl 20.09. 18:00 UTC — v2.1.277/278 mit 14 Einträgen (Woche 39); Commit `9bdc367`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-21 12:00 UTC (**Crawl 21.09. 12:00 UTC — Leerlauf bei den Quellen, Nachtrag aus dem Token-Abgleich v2.1.196–204.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC, `time.modified` 19.09. 03:10:16 UTC), `stable` weiter **2.1.267**, `2.1.279` HTTP 404 (npm und Git-Tag) — der Lauf liegt auf Montag 05:00 PT, vor dem üblichen Publish-Fenster. `CHANGELOG.md` unverändert **746 808 Bytes**, oben 2.1.278; GitHub-Release oben v2.1.278 (Body 505 Bytes). **What's New** oben weiter Week 37, `2026-w38`/`2026-w39` HTTP 404. **Platform** oberster Eintrag weiter 18.09. (bereits dokumentiert). **Blog:** weiter 15 Slugs, keiner neu. Leerlauf für den Abgleich 2.1.196–204 genutzt (sechs Versionen lückenlos, 2.1.196 nur Schreibvarianten) — daraus ein neuer Nachtrag-Abschnitt mit **2 Einträgen**: `←` in `claude attach` und abgewiesenes `claude --bg -p` (2.1.198); `manual` als gleichwertiger Wert für `--permission-mode`/`defaultMode` plus Tabellen im Screenreader-Modus (2.1.200). **Neue Einträge: 2.**) — Vorheriger **Crawl 21.09. 06:00 UTC — Leerlauf, Token-Abgleich 2.1.205–211 mit 3 Einträgen; Commit `f03f732`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -371,6 +371,24 @@
 - **Version:** v2.1.211
 
 ---
+### Nachtrag aus dem Token-Abgleich — v2.1.196–v2.1.204 (Juni/Juli 2026)
+
+> Der Leerlauf-Lauf vom 21.09. 12:00 UTC hat das Abgleichsfenster um neun Versionen nach unten verlängert. 2.1.197, 2.1.199, 2.1.201, 2.1.202, 2.1.203 und 2.1.204 waren lückenlos, 2.1.196 nur mit Schreibvarianten bereits beschriebener Punkte. Die folgenden Punkte aus 2.1.198 und 2.1.200 standen im Changelog, aber nicht in dieser Datei. Die alten Einträge der jeweiligen Version bleiben unverändert stehen.
+
+#### `claude attach`: `←` führt in die Agent-Ansicht statt zurück in die Shell, `claude --bg` mit `-p` wird abgelehnt
+
+- **Was:** Zwei Punkte rund um Hintergrund-Sessions. Wer in einer mit `claude attach <id>` geöffneten Session `←` drückte, landete bisher wieder in der Shell — gemeint ist die Taste aber als „zurück zur Agent-Ansicht", und so verhält sie sich jetzt. Zweitens erzeugte die Kombination `claude --bg` mit `--print`/`-p` still eine Session, an die man sich nie anhängen konnte; die widersprüchlichen Flags werden jetzt sofort mit einer Fehlermeldung abgewiesen.
+- **Einsatz:** `claude attach <id>` → `←` öffnet die Agent-Ansicht mit allen Hintergrund-Sessions. Für nicht-interaktive Läufe entweder `claude -p "…"` (Vordergrund, Ausgabe auf stdout) oder `claude --bg "…"` (Hintergrund, später per `attach`) — nicht beides.
+- **Mehrwert:** Die `←`-Navigation ist in der Agent-Ansicht überall dieselbe; dass sie ausgerechnet nach `attach` die ganze Oberfläche verließ, kostete jedes Mal einen Neustart von `claude agents`. Und ein Skript, das `--bg -p` kombinierte, produzierte bisher unsichtbare Zombie-Sessions, statt am Start zu scheitern.
+- **Version:** v2.1.198
+
+#### Berechtigungsmodus „Manual": `--permission-mode manual` und `"defaultMode": "manual"` als gleichwertige Schreibweisen, Tabellen für Screenreader
+
+- **Was:** Ergänzung zum Eintrag „Standard-Berechtigungsmodus jetzt ‚Manual'" (v2.1.200): Die Umbenennung von „default" in „Manual" betrifft nur die Anzeige in CLI, `--help`, VS Code und JetBrains — gespeichert und akzeptiert werden **beide** Namen. `--permission-mode manual` und `"defaultMode": "manual"` funktionieren ebenso wie das bisherige `default`; bestehende Settings müssen nicht angepasst werden. Außerdem liest der Screenreader-Modus verschachtelte Tabellen jetzt als Folge von `Header: value.`-Zeilen vor, statt die Tabellengrafik Zeichen für Zeichen auszugeben.
+- **Einsatz:** `claude --permission-mode manual` oder in `settings.json`: `"permissions": { "defaultMode": "manual" }` — gleichbedeutend mit `default`. Tabellen-Vorlesen: automatisch aktiv im Screenreader-Modus.
+- **Mehrwert:** Wer Doku und UI abgleicht, findet „Manual" jetzt auch als Konfigurationswert und muss nicht rätseln, ob `default` noch gilt — es gilt, gemischte Teams mit älteren Versionen bleiben bei `default` auf der sicheren Seite (ältere Clients kennen `manual` nicht). Die Tabellen-Umstellung macht Markdown-Tabellen in Antworten für blinde Nutzer überhaupt erst sinnvoll lesbar.
+- **Version:** v2.1.200
+
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
 #### Gateway-Hinweis-Header für LLM-Gateways
