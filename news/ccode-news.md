@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-22 06:00 UTC (**Crawl 22.09. 06:00 UTC — Leerlauf bei den CLI-Quellen, ein Platform-Nachtrag, Token-Abgleich v2.1.150–169.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC), `stable` weiter **2.1.267**, Git-Tags `v2.1.279`/`v2.1.280` HTTP 404 — kein Montags-Release am 21.09. `CHANGELOG.md` unverändert **746 701 Bytes** (oben 2.1.278). **What's New** byte-gleich (16 070 Bytes), oben Week 37; `2026-w38`/`2026-w39` HTTP 404. **Platform** jetzt **107 149 Bytes** (+683): der Eintrag vom **14.09.** hat nachträglich einen zweiten Punkt bekommen — `thinking_mismatch_allowed` als neuer Typ in `input_transformations` (Beta `thinking-binding-controls-2026-08-01`); oberster Eintrag weiter 18.09. **Blog:** weiter 15 Slugs, keiner neu. GitHub-Release oben v2.1.278 (Body 505 Bytes, deckungsgleich mit dem Changelog). Leerlauf für den Abgleich 2.1.150–169 genutzt (17 Versionen, 344 Punkte, 9 unbelegte Tokens, 7 davon Schreibvarianten) — zwei Nachtrag-Einträge: tmux-Clipboard in `claude agents` (2.1.157) und `$CLAUDE_JOB_DIR` ohne „sensitive file"-Nachfrage (2.1.153). **Neue Einträge: 3.**) — Vorheriger **Crawl 21.09. 18:00 UTC — Leerlauf, Token-Abgleich 2.1.170–195 mit 2 Einträgen; Commit `0f4745c`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-22 12:00 UTC (**Crawl 22.09. 12:00 UTC — Leerlauf bei allen vier Quellen, Token-Abgleich v2.1.131–149.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC), `stable` **2.1.267**, `time.modified` unverändert 19.09. 03:10 UTC; Git-Tags `v2.1.279`/`v2.1.280` HTTP 404. `CHANGELOG.md` byte-gleich (**746 701 Bytes**, oben 2.1.278), **What's New** byte-gleich (16 070 Bytes, oben Week 37; `2026-w38`/`2026-w39` HTTP 404), **Platform** byte-gleich (107 149 Bytes, oben 18.09.), **Blog** 15 Slugs, keiner neu; GitHub-Release oben v2.1.278. Leerlauf für den Abgleich 2.1.131–149 genutzt (16 Versionen, 412 Punkte, 12 unbelegte Tokens, 5 davon Schreibvarianten) — fünf Nachtrag-Einträge: falsche `ConfigChange`-Hooks bei symlinkten Settings (2.1.140), `${var%pattern}` in MCP-Configs (2.1.141), Voice-Push-to-Talk-Umbelegung und WSLg-Hinweis (2.1.141), `skills: ["./"]` in Plugins (2.1.142), `autoScrollEnabled: false` (2.1.136). **Neue Einträge: 5.**) — Vorheriger **Crawl 22.09. 06:00 UTC — Leerlauf bei den CLI-Quellen, Platform-Nachtrag `thinking_mismatch_allowed` (14.09.), Token-Abgleich 2.1.150–169 mit 2 Einträgen; Commit `5e2d2f9`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -435,6 +435,45 @@
 - **Einsatz:** Automatisch aktiv.
 - **Mehrwert:** Eine Hintergrund-Session, die auf eine Bestätigung wartet, ist eine stehende Session: Niemand sieht die Nachfrage, bis man sich mit `claude attach` anhängt. Gerade in `-p`- und Cron-Läufen, die niemand beobachtet, war das ein stiller Stopper. Wer eigene Skripte in Hintergrund-Sessions laufen lässt, sollte für Zwischendateien konsequent `$CLAUDE_JOB_DIR` statt beliebiger Pfade nutzen — dort greift jetzt keine Nachfrage.
 - **Version:** v2.1.153
+
+### Nachtrag aus dem Token-Abgleich — v2.1.131–v2.1.149 (Mai 2026)
+
+> Der Leerlauf-Lauf vom 22.09. 12:00 UTC hat das Abgleichsfenster um 20 Versionsnummern nach unten verlängert (existierende Versionen: 2.1.131–133, 136–145, 147–149; 2.1.130, 134, 135 und 146 haben keinen Changelog-Abschnitt). 16 Versionen mit zusammen 412 Changelog-Punkten und 336 Backtick-Tokens; 12 Tokens waren unbelegt, 5 davon Schreibvarianten bereits beschriebener Punkte (`parentSettingsBehavior`-Werte, `$VISUAL` im Editor-Fix von `claude agents`, der veraltete Modellvorschlag in Usage-Policy-Meldungen, `claude_code.tool`-Spans, die `projectCards`-GraphQL-Query von `/review`). Sieben Tokens gehören zu sechs echten Lücken:
+
+#### Settings-Hot-Reload: symlinkte Settings-Dateien lösten falsche `ConfigChange`-Hooks aus
+
+- **Was:** Eine Regression im Hot-Reload der Settings: War eine Settings-Datei ein Symlink (typisch bei Dotfiles-Setups mit Stow oder chezmoi), wurden Änderungsereignisse der falschen Datei zugeordnet, und der `ConfigChange`-Hook feuerte, obwohl sich an der Konfiguration nichts geändert hatte. Behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** `ConfigChange` ist der Hook für Enterprise-Auditing und das Blockieren von Settings-Änderungen während einer Session. Falsche Treffer machen ihn doppelt unbrauchbar: Das Audit-Log füllt sich mit Rauschen, und ein blockierender Hook kann legitime Arbeit anhalten, obwohl niemand etwas geändert hat. Wer den Hook einsetzt und Settings per Symlink verteilt, sollte ältere Audit-Einträge aus dieser Zeit mit Vorsicht lesen.
+- **Version:** v2.1.140
+
+#### MCP-Konfiguration: POSIX-Parametererweiterungen wie `${var%pattern}` galten als fehlende Umgebungsvariable
+
+- **Was:** MCP-Server-Konfigurationen, die Shell-Parametererweiterungen wie `${var%pattern}` (Suffix abschneiden) nutzen, wurden als „fehlende Umgebungsvariable" gemeldet — der Parser hielt den ganzen Ausdruck für einen Variablennamen. Solche Ausdrücke werden jetzt korrekt erkannt.
+- **Einsatz:** Automatisch aktiv. Betrifft `.mcp.json` und Plugin-MCP-Konfigurationen, in deren `command`/`args` Shell-Syntax steht.
+- **Mehrwert:** Parametererweiterungen sind der übliche Weg, Pfade ohne Hilfsskript zurechtzuschneiden (Dateiendung weg, Präfix weg). Die Falschmeldung sah aus wie ein echtes Konfigurationsproblem und schickte einen auf die Suche nach einer Variable, die es nie gab.
+- **Version:** v2.1.141
+
+#### Voice-Modus: umgebundene Push-to-Talk-Taste und `"space": null` wurden still ignoriert
+
+- **Was:** Drei Voice-Punkte aus einer Version. (1) Eine eigene Belegung für `voice:pushToTalk` in `keybindings.json` sowie das Entbinden der Leertaste mit `"space": null` wurden stillschweigend ignoriert — die Leertaste blieb die Sprechtaste. (2) In VS Code zeigte das Mikrofon im Chat keinerlei Rückmeldung, wenn es nur Stille lieferte; jetzt erscheint „No audio detected". (3) Die WSL-Fehlermeldung des Voice-Modus in VS Code empfiehlt für WSLg-Nutzer die Installation von `sox libsox-fmt-pulse`.
+- **Einsatz:** Automatisch aktiv. Umbelegen in `~/.claude/keybindings.json`, z. B. `voice:pushToTalk` auf `meta+k`; unter WSLg: `sudo apt install sox libsox-fmt-pulse`.
+- **Mehrwert:** Wer die Sprechtaste umbelegt, tut das meist, weil die Leertaste beim Tippen versehentlich die Aufnahme startet — genau das passierte weiter, ohne dass die Konfiguration einen Fehler meldete. Das Paket `libsox-fmt-pulse` ist der nicht offensichtliche Teil unter WSLg: SoX allein findet dort kein Aufnahmegerät, weil der Ton über PulseAudio läuft.
+- **Version:** v2.1.141
+
+#### Plugins mit `skills: ["./"]` meldeten fälschlich „path escapes plugin directory"
+
+- **Was:** Ein Plugin, das in `plugin.json` sein eigenes Wurzelverzeichnis als Skill-Pfad angibt (`"skills": ["./"]`), bekam die Fehlermeldung „path escapes plugin directory", obwohl der Pfad innerhalb des Plugins liegt. Behoben.
+- **Einsatz:** Automatisch aktiv. Ergänzt den bereits beschriebenen Fall aus derselben Version, dass ein Plugin mit einer `SKILL.md` im Wurzelverzeichnis ohne jede Angabe als Skill erkannt wird.
+- **Mehrwert:** Ein-Skill-Plugins legen die `SKILL.md` naheliegenderweise direkt ins Repo-Root. Wer das explizit in `plugin.json` festhielt, bekam eine Sicherheitswarnung, die nach Path-Traversal klang — und hat das Plugin im Zweifel gar nicht erst veröffentlicht.
+- **Version:** v2.1.142
+
+#### Vollbild-Modus: `autoScrollEnabled: false` wurde durch Scrollen ans Ende wieder ausgehebelt
+
+- **Was:** Mit `autoScrollEnabled: false` soll die Konversation im Vollbild-Modus nicht automatisch mitlaufen. Scrollte man aber einmal bis ganz nach unten, schaltete sich das automatische Mitlaufen wieder ein. Behoben — die Einstellung gilt jetzt dauerhaft.
+- **Einsatz:** Automatisch aktiv für alle, die `autoScrollEnabled` in `/config` auf `false` gesetzt haben.
+- **Mehrwert:** Die Einstellung existiert für genau den Fall, dass man während einer langen Ausgabe weiter oben lesen will. Wenn ein einziger Scroll ans Ende sie zurücksetzt, springt die Ansicht beim nächsten Output-Schub wieder weg — also gerade dann, wenn man zurückgescrollt hat, um etwas nachzulesen.
+- **Version:** v2.1.136
 
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
