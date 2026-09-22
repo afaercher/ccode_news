@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-21 18:00 UTC (**Crawl 21.09. 18:00 UTC — Leerlauf bei den Quellen, Nachtrag aus dem Token-Abgleich v2.1.170–195.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC, `time.modified` 19.09. 03:10:16 UTC), `stable` weiter **2.1.267**, Git-Tag `v2.1.279` HTTP 404 — auch zum Montags-Publish-Fenster (11:00 PT) noch keine neue Version. `CHANGELOG.md` jetzt **746 701 Bytes** (−107): Commit `8187baa` vom 21.09. 12:12 UTC hat in **2.1.275** nachträglich den Punkt „[VSCode] Fixed some claude.ai/code sessions opening in VS Code as an empty conversation with no messages" **gestrichen** (auch aus `feed.xml`) — der Punkt stand nie in dieser Datei, es ist also nichts zu korrigieren; offenbar war der Fix nicht in der Version enthalten. **What's New** oben weiter Week 37, `2026-w38`/`2026-w39` HTTP 404. **Platform** oberster Eintrag weiter 18.09. **Blog:** weiter 15 Slugs, keiner neu. Leerlauf für den Abgleich 2.1.170–195 genutzt (15 Versionen lückenlos bzw. nur Schreibvarianten) — daraus ein neuer Nachtrag-Abschnitt mit **2 Einträgen** aus 2.1.178: Agent-Teams ohne `TeamCreate`/`TeamDelete` (implizites Team pro Session) und Linux-Sandbox bei symlinkten `.claude/skills`/`.claude/hooks`. **Neue Einträge: 2.**) — Vorheriger **Crawl 21.09. 12:00 UTC — Leerlauf, Token-Abgleich 2.1.196–204 mit 2 Einträgen; Commit `b695ef0`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-22 06:00 UTC (**Crawl 22.09. 06:00 UTC — Leerlauf bei den CLI-Quellen, ein Platform-Nachtrag, Token-Abgleich v2.1.150–169.** npm: `latest` = `next` = **2.1.278** (19.09. 01:48:59 UTC), `stable` weiter **2.1.267**, Git-Tags `v2.1.279`/`v2.1.280` HTTP 404 — kein Montags-Release am 21.09. `CHANGELOG.md` unverändert **746 701 Bytes** (oben 2.1.278). **What's New** byte-gleich (16 070 Bytes), oben Week 37; `2026-w38`/`2026-w39` HTTP 404. **Platform** jetzt **107 149 Bytes** (+683): der Eintrag vom **14.09.** hat nachträglich einen zweiten Punkt bekommen — `thinking_mismatch_allowed` als neuer Typ in `input_transformations` (Beta `thinking-binding-controls-2026-08-01`); oberster Eintrag weiter 18.09. **Blog:** weiter 15 Slugs, keiner neu. GitHub-Release oben v2.1.278 (Body 505 Bytes, deckungsgleich mit dem Changelog). Leerlauf für den Abgleich 2.1.150–169 genutzt (17 Versionen, 344 Punkte, 9 unbelegte Tokens, 7 davon Schreibvarianten) — zwei Nachtrag-Einträge: tmux-Clipboard in `claude agents` (2.1.157) und `$CLAUDE_JOB_DIR` ohne „sensitive file"-Nachfrage (2.1.153). **Neue Einträge: 3.**) — Vorheriger **Crawl 21.09. 18:00 UTC — Leerlauf, Token-Abgleich 2.1.170–195 mit 2 Einträgen; Commit `0f4745c`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -292,6 +292,17 @@
 - **Mehrwert:** Für Compliance-Teams war die Browser-Extension bisher ein blinder Fleck: Terminal- und Cloud-Sessions waren erfasst, die Arbeit im Browser nicht. Wer Aufbewahrungspflichten oder eDiscovery abbilden muss, schließt damit eine Lücke, ohne die Integration umbauen zu müssen.
 - **Version:** Claude API / Compliance API — Platform-Eintrag vom 18.09.2026 (Beta, Enterprise)
 
+### Platform Release Notes — Nachtrag vom 22.09. zum Eintrag „14. September 2026": `thinking_mismatch_allowed`
+
+> Der Platform-Eintrag vom 14.09. hat nachträglich einen zweiten Punkt bekommen (Seite +683 Bytes gegenüber dem Snapshot vom 20.09.); der erste Punkt (Verdichtung auf Zuruf) ist seit dem 14.09. dokumentiert. Nebenbei wurde der Link auf die Compaction-Doku auf eine eigene Seite `compaction-on-demand` umgehängt.
+
+#### Preserved Thinking: `input_transformations` meldet jetzt auch geduldete Thinking-Prefix-Verstöße
+
+- **Was:** Mit dem Beta-Header `thinking-binding-controls-2026-08-01` kennt das Antwortfeld `input_transformations` einen zweiten Eintragstyp: `thinking_mismatch_allowed`. Er benennt einen Thinking-Block, der die Prefix-Prüfung **nicht** bestanden hat, in einem Request, bei dem die API diese Prüfung (noch) nicht erzwingt — etwa auf Claude Fable 5.1 bei einem Konto, das vor dem 31.08.2026 angelegt wurde und `prefix_mismatch_behavior` nicht gesetzt hat. Der Block erreicht das Modell weiterhin unverändert; die API protokolliert nur, dass sie ihn hätte ablehnen können.
+- **Einsatz:** Beta-Header `thinking-binding-controls-2026-08-01` mitsenden, in der Antwort `input_transformations` auslesen und Einträge vom Typ `thinking_mismatch_allowed` loggen. Doku: „Set the mismatch behavior and read `input_transformations`" auf der Preserved-Thinking-Seite.
+- **Mehrwert:** Für Bestandskonten ist die Prefix-Prüfung heute noch optional, wird aber bei Opt-in per `prefix_mismatch_behavior` hart — dann liefern Requests mit nachträglich geänderter Historie (umgeschriebener System-Prompt, ausgetauschte Tools, gekürzte Turns) einen 400. Der neue Eintragstyp ist der Weg, **vor** dem Umschalten im Produktions-Traffic zu sehen, welche Code-Pfade die Historie editieren, statt es nach dem Umschalten an Fehlerraten zu merken. Für Claude-Code-Nutzer ohne eigene API-Integration ist das ohne Belang.
+- **Version:** Claude API — Platform-Eintrag vom 14.09.2026, nachgetragen (Beta)
+
 ### Nachtrag aus dem Token-Abgleich — v2.1.212–v2.1.219 (Juli 2026)
 
 > Der Leerlauf-Lauf vom 18.09. 18:00 UTC hat das Abgleichsfenster erstmals unter v2.1.220 fortgesetzt. Die folgenden Punkte standen im Changelog, aber nicht in dieser Datei; die alten Sammel-Einträge der jeweiligen Version bleiben unverändert stehen.
@@ -406,6 +417,24 @@
 - **Einsatz:** Automatisch aktiv.
 - **Mehrwert:** Skills und Hooks per Symlink aus einem zentralen Repo in mehrere Projekte einzuhängen ist ein verbreitetes Muster; bisher zwang es unter Linux dazu, die Sandbox abzuschalten oder die Verzeichnisse zu kopieren.
 - **Version:** v2.1.178
+
+### Nachtrag aus dem Token-Abgleich — v2.1.150–v2.1.169 (Mai/Juni 2026)
+
+> Der Leerlauf-Lauf vom 22.09. 06:00 UTC hat das Abgleichsfenster um 20 Versionsnummern nach unten verlängert (existierende Versionen: 2.1.150, 152–154, 156–163, 165–169; 2.1.151, 155 und 164 gibt es nicht). 17 Versionen mit zusammen 344 Changelog-Punkten und 245 Backtick-Tokens; 9 Tokens waren unbelegt, 7 davon Schreibvarianten bereits beschriebener Punkte (bazel/EDR-`$TMPDIR`, `$HOME`-Deny-Regeln, WebFetch-Vorabfreigaben, `claude -p`-stdout, Windows-Hooks mit explizitem `bash`). Zwei echte Lücken bleiben, beide aus dem Umfeld der Hintergrund-Sessions:
+
+#### Copy-on-Select in `claude agents` erreichte unter tmux mit `set-clipboard on` die System-Zwischenablage nicht
+
+- **Was:** In der Agenten-Übersicht `claude agents` landete markierter Text innerhalb von tmux nicht in der System-Zwischenablage, wenn tmux mit `set-clipboard on` läuft — eine Regression aus 2.1.153, wo `/copy` und Copy-on-Select für **angehängte** Hintergrund-Sessions unter tmux repariert wurden und dabei die Übersicht selbst brachen. Seit 2.1.157 funktioniert beides.
+- **Einsatz:** Automatisch aktiv. Voraussetzung wie bisher: `set -g set-clipboard on` in der `~/.tmux.conf` und ein Terminal, das OSC 52 durchreicht.
+- **Mehrwert:** Wer mehrere Hintergrund-Sessions über tmux und SSH betreibt, kopiert aus der Übersicht regelmäßig Session-IDs und Fehlermeldungen; ein stilles Nicht-Kopieren fällt erst beim Einfügen auf. Die Reihe der Clipboard-Fixes (Wayland, GNU screen, WSL, tmux über SSH) zeigt, dass jede Terminal-Schicht ihren eigenen Pfad braucht — die Kombination aus tmux und Agenten-Übersicht war der noch offene.
+- **Version:** v2.1.157
+
+#### Hintergrund-Sessions: Temp-Dateien unter `$CLAUDE_JOB_DIR` lösten keine „sensitive file"-Nachfrage mehr aus
+
+- **Was:** Eine Hintergrund-Session, die eigene Temp-Dateien in ihr Job-Verzeichnis `$CLAUDE_JOB_DIR` schrieb, stieß auf die Permission-Nachfrage für sensible Dateien — obwohl das Verzeichnis Claude Code selbst gehört und pro Job angelegt wird. Der Pfad ist jetzt von dieser Prüfung ausgenommen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Eine Hintergrund-Session, die auf eine Bestätigung wartet, ist eine stehende Session: Niemand sieht die Nachfrage, bis man sich mit `claude attach` anhängt. Gerade in `-p`- und Cron-Läufen, die niemand beobachtet, war das ein stiller Stopper. Wer eigene Skripte in Hintergrund-Sessions laufen lässt, sollte für Zwischendateien konsequent `$CLAUDE_JOB_DIR` statt beliebiger Pfade nutzen — dort greift jetzt keine Nachfrage.
+- **Version:** v2.1.153
 
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
