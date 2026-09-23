@@ -1,11 +1,20 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-23 12:00 UTC (**Crawl 23.09. 12:00 UTC — neues Release v2.1.280 mit Claude Opus 5.5, Platform-Eintrag 22.09.** npm: `latest` = `next` = **2.1.280** (22.09. 15:44:39 UTC), `stable` unverändert **2.1.267**; **v2.1.279 übersprungen** (weder npm noch Git-Tag), Git-Tag/GitHub-Release `v2.1.280` 22.09. 16:38 UTC, `v2.1.281` HTTP 404. `CHANGELOG.md` **763 979 Bytes** (+17 278, oben 2.1.280 mit 116 Punkten → 14 Einträge), **Platform** 110 133 Bytes (+2 984: neuer Block **22.09.** — Opus 5.5, Fast Mode für Opus 5.5, Beta `inline-tools-2026-09-15`), **What's New** byte-gleich (16 070 Bytes, oben Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Blog** 15 Slugs, keiner neu (kein Opus-5.5-Blogpost in den Announcements). Die Läufe 22.09. 18:00 und 23.09. 06:00 UTC haben nicht committet. **Neue Einträge: 14.**) — Vorheriger **Crawl 22.09. 12:00 UTC — Leerlauf bei allen vier Quellen, Token-Abgleich 2.1.131–149 mit 5 Nachtrag-Einträgen; Commit `6c7a208`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-23 18:00 UTC (**Crawl 23.09. 18:00 UTC — neuer Blogpost „Claude Marketplace", sonst Leerlauf.** npm: `latest` **2.1.280** unverändert, `stable` **2.1.267**, `next` jetzt **2.1.281** (23.09. 17:01 UTC) — ohne Git-Tag, ohne GitHub-Release, ohne CHANGELOG-Abschnitt, daher noch kein Eintrag (`next` ist keine Versionsquelle). `CHANGELOG.md` byte-gleich (763 979 Bytes, oben 2.1.280), GitHub-Releases oben weiter `v2.1.280`, **What's New** byte-gleich (16 070 Bytes, Week 37; `2026-w38`/`2026-w39` HTTP 404), **Platform** 110 061 Bytes (−72): nur Formatierung und umgebogene Opus-5-Links (`…/opus-5/overview`), kein neuer Inhalt. **Blog**: neuer Slug `claude-marketplace` (23.09.), `cowork-chrome-side-panel` aus der Übersichtsseite gerutscht. **Neue Einträge: 1.**) — Vorheriger **Crawl 23.09. 12:00 UTC — neues Release v2.1.280 mit Claude Opus 5.5 (14 Einträge); Commit `38dbced`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 39 (23. September 2026) — Blog: Claude Marketplace bündelt Plugins, Connectoren, Agenten und Service-Partner
+
+#### Claude Marketplace: Plugins, Connectoren, Claude-basierte Produkte und Beratungspartner an einem Ort
+
+- **Was:** Anthropic startet den **Claude Marketplace** als zentrale Anlaufstelle für drei Arten von Angeboten: (1) **Connectoren und Plugins** — laut Ankündigung über **2 000** verfügbar, u. a. Atlassian, Google, Microsoft, Notion und Salesforce; (2) **Agenten und Produkte** von Drittanbietern auf Claude-Basis (genannt: CrowdStrike, Cursor, Harvey, Legora, Lovable, Snowflake), die Unternehmen mit einem **Teil ihres zugesagten Anthropic-Budgets (committed spend)** bezahlen können; (3) **Service-Partner** aus dem Claude Partner Network (z. B. Accenture, BCG, Deloitte) für Strategie und Rollout. Für Anbieter gibt es drei Wege hinein: Connector/Plugin auf Basis von **MCP und Agent Skills** bauen, ein Claude-basiertes Produkt zur Listung anmelden oder dem Partner Network beitreten.
+- **Einsatz:** Kein CLI-Feature, sondern ein Katalog auf claude.com („live today"). Für Claude-Code-Nutzer relevant, weil Plugins und Connectoren dieselben Bausteine sind, die Claude Code über Plugin-Marketplaces und MCP lädt. Ankündigung: `claude.com/blog/claude-marketplace`.
+- **Mehrwert:** Teams finden geprüfte Integrationen an einer Stelle, statt sie einzeln zusammenzusuchen. Für Einkauf und Budget ist der Punkt mit dem committed spend der eigentliche Hebel: Wer ohnehin einen Anthropic-Vertrag hat, kann z. B. Snowflake- oder Vercel-Nutzung darüber abrechnen und spart sich einen eigenen Beschaffungsprozess. Wer selbst MCP-Server oder Skills baut, bekommt einen offiziellen Vertriebskanal.
+- **Version:** Anthropic-Blog 23.09.2026 (kein CLI-Release)
 
 ### Woche 39 (22. September 2026) — v2.1.280 und Platform: Claude Opus 5.5 wird Standard-Opus, Inline-Tools per System-Nachricht
 
