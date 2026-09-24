@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-24 06:00 UTC (**Crawl 24.09. 06:00 UTC — neues Release v2.1.281 (176 Changelog-Punkte → 15 Einträge).** npm: `latest` = `next` **2.1.281** (23.09. 17:01 UTC), `stable` jetzt **2.1.273**; GitHub-Release `v2.1.281` 23.09. 19:19 UTC, Body deckungsgleich mit dem CHANGELOG-Abschnitt. `CHANGELOG.md` 792 786 Bytes (+28 807, nur neuer Abschnitt 2.1.281, Rest byte-gleich). **What's New** byte-gleich (16 070 Bytes, Week 37; `2026-w38`/`2026-w39` HTTP 404), **Platform** byte-gleich (110 061 Bytes), **Blog** 15 Slugs unverändert. **Neue Einträge: 15.**) — Vorheriger **Crawl 23.09. 18:00 UTC — Blogpost „Claude Marketplace" (1 Eintrag); Commit `b1a11e2`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-24 12:00 UTC (**Crawl 24.09. 12:00 UTC — Leerlauf bei allen vier Quellen, Token-Abgleich v2.1.110–130.** npm: `latest` = `next` **2.1.281**, `stable` **2.1.273**, `time.modified` unverändert 23.09. 19:29 UTC; GitHub-Release-Top `v2.1.281`. `CHANGELOG.md` (792 786 Bytes), **What's New** (16 070 Bytes, Week 37; `2026-w38`/`2026-w39` HTTP 404), **Platform** (110 061 Bytes) und **Blog** (15 Slugs) byte-gleich zum 06:00-Snapshot. Token-Abgleich: 16 Versionen, 422 Punkte, 405 Tokens, 26 unbelegt — v2.1.120 fehlte komplett. **Neue Einträge: 5.**) — Vorheriger **Crawl 24.09. 06:00 UTC — neues Release v2.1.281 (176 Changelog-Punkte → 15 Einträge); Commit `19a0295`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -690,6 +690,45 @@
 - **Einsatz:** Automatisch aktiv für alle, die `autoScrollEnabled` in `/config` auf `false` gesetzt haben.
 - **Mehrwert:** Die Einstellung existiert für genau den Fall, dass man während einer langen Ausgabe weiter oben lesen will. Wenn ein einziger Scroll ans Ende sie zurücksetzt, springt die Ansicht beim nächsten Output-Schub wieder weg — also gerade dann, wenn man zurückgescrollt hat, um etwas nachzulesen.
 - **Version:** v2.1.136
+
+### Nachtrag aus dem Token-Abgleich — v2.1.110–v2.1.130 (April 2026)
+
+> Der Leerlauf-Lauf vom 24.09. 12:00 UTC hat das Abgleichsfenster um weitere 21 Versionsnummern nach unten verlängert (existierende Versionen: 2.1.110–114, 116–123, 126, 128, 129; 2.1.115, 124, 125, 127 und 130 haben keinen Changelog-Abschnitt). 16 Versionen mit zusammen 422 Changelog-Punkten und 405 Backtick-Tokens; 26 Tokens waren unbelegt. 18 davon sind Schreibvarianten bereits beschriebener Punkte (u. a. `invocation_trigger`-Werte, `/effort auto`, `range-conflict`, `session_name`, `client_secret_post`, `ENABLE_TOOL_SEARCH`, `label (url)`). Die übrigen acht führen zu zwei echten Lücken: **v2.1.120 fehlte komplett** — die Wochenüberschrift „Woche 18 — v2.1.120 / v2.1.121" nannte die Version, alle Einträge darunter gehören aber zu v2.1.121 —, und drei Fixes aus v2.1.110 waren nicht erfasst.
+
+#### Windows ohne Git Bash: Claude Code weicht auf PowerShell aus
+
+- **Was:** **Git for Windows (Git Bash) ist unter Windows keine Voraussetzung mehr.** Fehlt es, nutzt Claude Code PowerShell als Shell-Werkzeug, statt den Start zu verweigern bzw. auf eine Installation zu bestehen.
+- **Einsatz:** Automatisch aktiv. Wer Git Bash installiert hat, behält es als Shell; ohne Git Bash läuft das PowerShell-Tool.
+- **Mehrwert:** Auf verwalteten Windows-Rechnern, auf denen zusätzliche Software nicht ohne Weiteres installiert werden darf, war Git Bash die größte Einstiegshürde. Claude Code läuft jetzt mit dem, was Windows ohnehin mitbringt.
+- **Version:** v2.1.120
+
+#### `claude ultrareview [target]`: Cloud-Code-Review aus CI und Skripten
+
+- **Was:** Neues Unterkommando `claude ultrareview [target]`, das `/ultrareview` **nicht-interaktiv** ausführt. Die Befunde landen auf stdout (mit `--json` als Rohdaten), der Exit-Code ist 0 bei abgeschlossenem Review und 1 bei einem Fehler.
+- **Einsatz:** `claude ultrareview` (aktueller Branch) bzw. `claude ultrareview <PR#>`; für maschinelle Auswertung `claude ultrareview --json > review.json` in einem CI-Schritt.
+- **Mehrwert:** Das Multi-Agenten-Review in der Cloud war bis dahin an eine interaktive Session gebunden. Mit dem Unterkommando lässt es sich als Pipeline-Schritt vor dem Merge einhängen und über den Exit-Code auswerten.
+- **Version:** v2.1.120
+
+#### Skills lesen das Effort-Level per `${CLAUDE_EFFORT}`, Subprozesse bekommen `AI_AGENT`
+
+- **Was:** (1) Skills können im Skill-Text das aktuelle Effort-Level mit **`${CLAUDE_EFFORT}`** referenzieren — das Gegenstück zur Hook-Variable `$CLAUDE_EFFORT`. (2) Claude Code setzt für Subprozesse die Umgebungsvariable **`AI_AGENT`**, damit etwa `gh` den Traffic Claude Code zuordnen kann.
+- **Einsatz:** In `SKILL.md` z. B. „Bei `${CLAUDE_EFFORT}` = low nur die Kurzprüfung ausführen". `AI_AGENT` ist automatisch gesetzt; eigene Skripte können darauf prüfen, ob sie von einem Agenten aufgerufen werden.
+- **Mehrwert:** Ein Skill kann seine Gründlichkeit an die gewählte Effort-Stufe koppeln, statt immer den vollen Ablauf zu fahren. `AI_AGENT` erlaubt Werkzeugen und eigenen Skripten, agentische Aufrufe zu erkennen (z. B. keine interaktiven Rückfragen, kompaktere Ausgabe).
+- **Version:** v2.1.120
+
+#### Kleinere Verbesserungen in v2.1.120: Telemetrie-Opt-out greift, Esc trennt MCP-Server nicht mehr, `find` erschöpft keine Dateideskriptoren
+
+- **Was:** Die übrigen Punkte der Version. **Datenschutz:** `DISABLE_TELEMETRY` bzw. `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` unterdrückten für API- und Enterprise-Nutzer die Nutzungsmetriken nicht — jetzt schon. **Stabilität:** `find` im Bash-Tool erschöpfte auf großen Verzeichnisbäumen die offenen Dateideskriptoren und konnte den **ganzen Host** zum Absturz bringen (native Builds auf macOS/Linux); Esc während eines stdio-MCP-Tool-Aufrufs schloss die komplette Serververbindung (Regression aus 2.1.105). **Auto-Mode:** Kein falscher „Dangerous rm operation"-Prompt mehr bei mehrzeiligen Befehlen mit Pipe und Umleitung; die Ablehnungsmeldung verlinkt die Konfigurations-Doku; Auto-Compact zeigt `auto` statt einer irreführenden Token-Zahl. **Oberfläche:** `/rewind` und andere Overlays reagierten nach `claude --resume` nicht auf Tasten; doppelter Scrollback im Nicht-Vollbild; lange Auswahlmenüs im Vollbild wurden abgeschnitten; Write-Ausgabe klappte bei „+N lines" zu statt auf; der Slash-Command-Picker sprang beim Tippen; Hinweis „use PgUp/PgDn to scroll", wenn das Terminal Pfeiltasten statt Scroll-Events sendet; Spinner-Tipps zu Desktop-App und Skills entfallen, wenn man beides schon hat; schnellerer Start mit vielen nicht autorisierten claude.ai-Connectoren. **Plugins:** `claude plugin validate` akzeptiert `$schema`, `version` und `description` auf oberster Ebene von `marketplace.json` sowie `$schema` in `plugin.json`; ein Marketplace-Eintrag mit unbekanntem Quellformat legt `/plugin` nicht mehr lahm. **VS Code:** `/usage` öffnet den nativen Dialog „Account & Usage"; die Sprachdiktat-Funktion beachtet das `language`-Setting.
+- **Einsatz:** Automatisch aktiv. Wer Telemetrie per Umgebungsvariable abgeschaltet hatte und auf API- oder Enterprise-Konten arbeitete, sollte wissen: Vor v2.1.120 wurden Nutzungsmetriken trotzdem gesendet.
+- **Mehrwert:** Der `find`-Fix und der Telemetrie-Fix sind die gewichtigen: Ersterer konnte bei einer harmlosen Dateisuche in einem Monorepo den Rechner abstürzen lassen, Letzterer verletzte eine ausdrücklich gesetzte Datenschutz-Einstellung.
+- **Version:** v2.1.120
+
+#### Sicherheit in v2.1.110: `PermissionRequest`-Hooks konnten Deny-Regeln umgehen
+
+- **Was:** Drei Fixes. (1) Gab ein `PermissionRequest`-Hook per `updatedInput` eine **geänderte Tool-Eingabe** zurück, wurde diese nicht erneut gegen die `permissions.deny`-Regeln geprüft — ein Hook konnte so einen verbotenen Befehl einschleusen. Außerdem beachten `setMode:'bypassPermissions'`-Rückgaben jetzt die Richtlinie `disableBypassPermissionsMode`. (2) Skills mit `disable-model-invocation: true` scheiterten, wenn man sie per `/<skill>` **mitten in einer Nachricht** aufrief. (3) Headless-/SDK-Sessions schickten für den automatischen Titel eine zusätzliche Haiku-Anfrage, obwohl `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` oder `CLAUDE_CODE_DISABLE_TERMINAL_TITLE` gesetzt war.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Punkt (1) schließt eine Lücke im Berechtigungsmodell: Deny-Regeln gelten jetzt auch für Eingaben, die ein Hook umgeschrieben hat, und eine Organisation, die den Bypass-Modus sperrt, kann ihn nicht mehr über einen Hook aushebeln. Punkt (3) hält gesperrten Zusatz-Traffic tatsächlich fern — relevant in abgeschotteten Umgebungen.
+- **Version:** v2.1.110
 
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
