@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-25 06:00 UTC (**Crawl 25.09. 06:00 UTC — neues Release v2.1.282, zwei Blogposts, zwei Platform-Blöcke.** npm: `latest` = `next` **2.1.282** (24.09. 15:56 UTC), `stable` **2.1.274**; GitHub-Release `v2.1.282` 24.09. 18:38 UTC. `CHANGELOG.md` 806 789 Bytes (+14 003; 86 Punkte → 14 Einträge, Token-Abgleich 54/54 belegt). **Blog:** Opus 5.5 für lange Coding-Sessions (Kategorie Claude Code) und Claude Tag mit persönlichen Connectoren (beide 24.09.). **Platform** (112 113 Bytes): 24.09. Refusal-Abrechnung, 23.09. Cache Diagnostics GA, Nachträge 18.09./09.09. **What's New** byte-gleich (Week 37; `2026-w38`/`2026-w39` HTTP 404). Der 18:00-Lauf vom 24.09. brach am Session-Limit (429) ab. **Neue Einträge: 18.**) — Vorheriger **Crawl 24.09. 12:00 UTC — Leerlauf, Token-Abgleich v2.1.110–130; Commit `3452a4a`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-25 12:00 UTC (**Crawl 25.09. 12:00 UTC — Leerlauf bei allen vier Quellen, Token-Abgleich v2.1.90–109.** npm: `latest` = `next` **2.1.282**, `stable` **2.1.274**, `time.modified` unverändert 24.09. 20:01 UTC; GitHub-Release-Top `v2.1.282`. `CHANGELOG.md` (806 789 Bytes), **What's New** (16 070 Bytes, Week 37; `2026-w38`/`2026-w39` HTTP 404), **Platform** (112 113 Bytes) und **Blog** (15 Slugs) byte- bzw. mengengleich zum 06:00-Snapshot. Abgleich: 12 Versionen, 291 Punkte, 283 Tokens, 68 unbelegt → **v2.1.96 fehlte komplett**, dazu Sicherheits-/Sandbox-Fixes aus v2.1.90–101; nach dem Nachtrag 9 unbelegte Tokens, alle Schreibvarianten. **Neue Einträge: 7.**) — Vorheriger **Crawl 25.09. 06:00 UTC — neues Release v2.1.282 (86 Punkte → 14 Einträge), zwei Blogposts, zwei Platform-Blöcke; Commit `e56b002`.** — Vorheriger **Crawl 24.09. 12:00 UTC — Leerlauf, Token-Abgleich v2.1.110–130; Commit `3452a4a`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
@@ -861,6 +861,59 @@
 - **Einsatz:** Automatisch aktiv.
 - **Mehrwert:** Punkt (1) schließt eine Lücke im Berechtigungsmodell: Deny-Regeln gelten jetzt auch für Eingaben, die ein Hook umgeschrieben hat, und eine Organisation, die den Bypass-Modus sperrt, kann ihn nicht mehr über einen Hook aushebeln. Punkt (3) hält gesperrten Zusatz-Traffic tatsächlich fern — relevant in abgeschotteten Umgebungen.
 - **Version:** v2.1.110
+
+### Nachtrag aus dem Token-Abgleich — v2.1.90–v2.1.109 (April 2026)
+
+> Der Leerlauf-Lauf vom 25.09. 12:00 UTC hat das Abgleichsfenster um weitere 20 Versionsnummern nach unten verlängert (existierende Versionen: 2.1.90–92, 94, 96–98, 101, 105, 107–109; die übrigen Nummern haben keinen Changelog-Abschnitt). 12 Versionen mit zusammen 291 Changelog-Punkten und 283 Backtick-Tokens; 68 Tokens waren unbelegt. Die April-Einträge im Abschnitt „Woche 15+" und „Woche 14" sind knapp gehalten und haben vor allem Sicherheits- und Berechtigungs-Fixes aus v2.1.97–101 übergangen. **v2.1.96 fehlte komplett** (ein einziger Punkt, Bedrock-Regression). Die folgenden sieben Einträge schließen die Lücken; die danach noch unbelegten Tokens sind Schreibvarianten bereits beschriebener Punkte.
+
+#### Sicherheit in v2.1.98 und v2.1.101: Deny-Regeln schlagen Hook-„ask", Umgebungsvariablen-Präfixe fragen nach
+
+- **Was:** (1) **v2.1.101:** `permissions.deny`-Regeln setzten sich nicht gegen einen PreToolUse-Hook durch, der `permissionDecision: "ask"` zurückgab — ein Hook konnte ein Verbot so zu einer bloßen Rückfrage herabstufen. Jetzt gewinnt die Deny-Regel. (2) **v2.1.98:** Lesebefehle mit vorangestellter Umgebungsvariable (`FOO=bar cat …`) liefen ohne Rückfrage, auch wenn die Variable nicht als harmlos bekannt ist; jetzt wird nur bei bekannten Variablen wie `LANG`, `TZ` oder `NO_COLOR` nicht gefragt. `grep -f FILE` bzw. `rg -f FILE` lasen eine Musterdatei außerhalb des Arbeitsverzeichnisses ohne Rückfrage. (3) Umgekehrt matchten Wildcard-Regeln wie `Bash(cmd:*)` oder `Bash(git commit *)` nicht, wenn der Befehl doppelte Leerzeichen oder Tabs enthielt, und `cut -d /`, `paste -d /`, `column -s /`, `awk '{print $1}' file` sowie Dateinamen mit `%` lösten unnötige Rückfragen aus.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Punkt (1) ist der gewichtige: Wer Deny-Regeln als harte Grenze nutzt und zugleich Hooks einsetzt (etwa aus einem Plugin), konnte sich vor v2.1.101 nicht darauf verlassen, dass „deny" auch „deny" bleibt. Die übrigen Fixes schließen zwei Wege, Dateien am Berechtigungsmodell vorbei zu lesen, und ersparen Rückfragen bei alltäglichen Textwerkzeugen.
+- **Version:** v2.1.98, v2.1.101
+
+#### Sandbox und Windows-Härtung: `apply-seccomp`, PowerShell-Prüfungen, `.husky` geschützt
+
+- **Was:** (1) **v2.1.92:** Die Linux-Sandbox liefert den Helfer **`apply-seccomp`** jetzt in npm- und nativen Builds mit; damit greift die Sperre von Unix-Sockets für sandboxed Befehle wieder. (2) **v2.1.90:** Die Berechtigungsprüfung des PowerShell-Tools ist gehärtet: ein angehängtes `&` (Hintergrund-Job) umging die Prüfung, `-ErrorAction Break` konnte im Debugger hängen bleiben, beim Entpacken von Archiven gab es eine TOCTOU-Lücke, und scheiterte das Parsen, fielen Deny-Regeln auf eine schwächere Prüfung zurück. `Get-DnsClientCache` und `ipconfig /displaydns` sind nicht mehr automatisch erlaubt (DNS-Cache verrät besuchte Hosts). `.husky` zählt im acceptEdits-Modus zu den geschützten Verzeichnissen. (3) **v2.1.98/v2.1.101:** `sandbox.network.allowMachLookup` wirkte unter macOS nicht; sandboxed Bash-Befehle scheiterten nach einem frischen Boot mit `mktemp: No such file or directory`.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Ohne `apply-seccomp` war die Unix-Socket-Sperre unter Linux still wirkungslos — ein sandboxed Befehl konnte etwa den Docker-Socket ansprechen. Der `.husky`-Schutz verhindert, dass Claude im acceptEdits-Modus unbemerkt Git-Hooks umschreibt, die bei jedem Commit laufen.
+- **Version:** v2.1.90, v2.1.92, v2.1.98, v2.1.101
+
+#### `--exclude-dynamic-system-prompt-sections`: Prompt-Cache über Nutzer hinweg teilen
+
+- **Was:** Neues Flag für den Print-Modus (`-p`), das die dynamischen, pro Nutzer oder Umgebung wechselnden Abschnitte des System-Prompts weglässt. Damit bleibt der Prompt-Anfang für verschiedene Nutzer identisch und kann aus demselben Prompt-Cache bedient werden. Ebenfalls in v2.1.98: Claude Code meldet sich bei Language-Servern per **`clientInfo`** im Initialize-Request.
+- **Einsatz:** `claude -p --exclude-dynamic-system-prompt-sections "…"` in Skripten und CI-Jobs, die viele gleichartige Aufrufe von verschiedenen Konten oder Maschinen absetzen.
+- **Mehrwert:** Bei vielen kurzen Headless-Aufrufen ist der System-Prompt ein großer Teil der Eingabe. Wenn er für alle Aufrufe gleich ist, sinken Kosten und Latenz durch Cache-Treffer spürbar.
+- **Version:** v2.1.98
+
+#### Plugins: `keep-coding-instructions` für Output-Styles, Slack-Kopfzeile, Plugin-Fehler
+
+- **Was:** (1) **v2.1.94:** Output-Styles aus Plugins unterstützen das Frontmatter-Feld **`keep-coding-instructions`**. Damit behält ein Output-Style die eingebauten Coding-Anweisungen von Claude Code, statt sie zu ersetzen. Aufrufe des Send-Message-Tools im Slack-MCP zeigen eine kompakte Kopfzeile `Slacked #channel` mit klickbarem Kanal-Link. (2) **v2.1.101:** Slash-Befehle landeten bei doppeltem `name:` im Frontmatter beim falschen Plugin; `/plugin update` scheiterte mit `ENAMETOOLONG`; Discover zeigte bereits installierte Plugins; Plugins aus einer Verzeichnis-Quelle luden eine veraltete Version aus dem Cache; Skills beachteten die Frontmatter-Felder `context: fork` und `agent` nicht.
+- **Einsatz:** In der Output-Style-Datei eines Plugins `keep-coding-instructions: true` ins Frontmatter setzen.
+- **Mehrwert:** Ein Output-Style, der nur Ton oder Format ändern soll (etwa knapper, auf Deutsch, mit Erklärungen), musste bisher die Coding-Anweisungen mitliefern oder verlor sie. Mit dem Feld lässt sich der Stil ändern, ohne dass Claude schlechter programmiert.
+- **Version:** v2.1.94, v2.1.101
+
+#### Bedrock: 403-Regression aus v2.1.94, leere Variablen in GitHub Actions, ungültige Modell-IDs außerhalb der USA
+
+- **Was:** (1) **v2.1.96:** Bedrock-Anfragen scheiterten mit `403 "Authorization header is missing"`, wenn `AWS_BEARER_TOKEN_BEDROCK` oder `CLAUDE_CODE_SKIP_BEDROCK_AUTH` gesetzt war — eine Regression aus v2.1.94. v2.1.96 enthält nur diesen Fix. (2) **v2.1.97:** Die SigV4-Anmeldung scheiterte, wenn `AWS_BEARER_TOKEN_BEDROCK` oder `ANTHROPIC_BEDROCK_BASE_URL` als **leerer String** gesetzt waren, wie GitHub Actions es für nicht belegte Inputs tut. (3) **v2.1.105:** Der `/model`-Picker speicherte in Bedrock-Regionen außerhalb der USA ungültige `us.*`-Modell-IDs in `settings.json`, wenn die Erkennung der Inference-Profile noch lief.
+- **Einsatz:** Automatisch aktiv. Wer mit v2.1.105 oder älter in einer EU- oder APAC-Region `/model` benutzt hat, sollte in `settings.json` nach einer `us.`-Modell-ID sehen.
+- **Mehrwert:** Bedrock-Nutzer mit Bearer-Token waren mit v2.1.94/95 komplett ausgesperrt. Der GitHub-Actions-Fix betrifft jeden Workflow, der die Bedrock-Variablen als optionale Inputs durchreicht.
+- **Version:** v2.1.96, v2.1.97, v2.1.105
+
+#### Deep Links mit mehrzeiligen Prompts, kürzere Edit-Anker, Stop-Hooks
+
+- **Was:** (1) **v2.1.91:** Deep Links `claude-cli://open?q=` dürfen mehrzeilige Prompts enthalten; kodierte Zeilenumbrüche (`%0A`) werden nicht mehr abgewiesen. Das Edit-Tool nutzt kürzere `old_string`-Anker und spart so Ausgabe-Tokens. `cmd+delete` löschte in iTerm2, kitty, WezTerm, Ghostty und Windows Terminal nicht bis zum Zeilenanfang; die JSON-Schema-Prüfung lehnte `permissions.defaultMode: "auto"` ab; `stripAnsi` läuft unter Bun schneller über `Bun.stripANSI`. (2) **v2.1.92:** Prompt-basierte Stop-Hooks scheiterten, wenn das kleine schnelle Modell `ok:false` lieferte; für prompt-basierte Hooks außerhalb von Stop gilt `preventContinuation:true` wieder.
+- **Einsatz:** Deep Link z. B. `claude-cli://open?q=Zeile%201%0AZeile%202` aus einem Ticket-System oder Wiki verlinken.
+- **Mehrwert:** Mehrzeilige Deep Links erlauben vorformulierte Aufträge mit Kontext, etwa „Fix Issue #123" plus Fehlermeldung. Die kürzeren Edit-Anker sparen bei jeder Dateiänderung Tokens, ohne dass man etwas tun muss.
+- **Version:** v2.1.91, v2.1.92
+
+#### Kleinere Fixes in v2.1.97–v2.1.108: Arbeitsverzeichnisse, MCP, Sessions, Tastatur
+
+- **Was:** Die übrigen Punkte. **Berechtigungen/Verzeichnisse:** Accept-Edits genehmigt Dateisystem-Befehle mit harmlosem Präfix jetzt automatisch (`LANG=C rm foo`, `timeout 5 mkdir out`; v2.1.97). Änderungen an `permissions.additionalDirectories` wirken ohne Neustart, entfernte Verzeichnisse verlieren den Zugriff sofort, und das Entfernen dort widerrief nicht mehr den Zugriff auf dasselbe per `--add-dir` übergebene Verzeichnis (v2.1.97/98). Schreibvorgänge wie `/add-dir --remember` oder `/config` aktualisierten den Einstellungs-Stand im Speicher nicht (v2.1.101). Subagents mit Worktree-Isolation oder `cwd:`-Override vererbten ihr Arbeitsverzeichnis an das Bash-Tool der Hauptsession (v2.1.97). **MCP:** `oauth.authServerMetadataUrl` wurde beim Token-Refresh nach einem Neustart ignoriert (ADFS u. ä., v2.1.98); `claude mcp serve` scheiterte in Clients, die `outputSchema` prüfen; die `run`-Aktion des `RemoteTrigger`-Tools schickte einen leeren Body (beide v2.1.101). **Sessions:** `claude --continue -p` setzte per `-p` oder SDK erstellte Sessions nicht richtig fort; `claude -w <name>` scheiterte mit „already exists" an einem Rest-Verzeichnis (beide v2.1.101); `claude --resume <session-id>` verlor den per `/rename` gesetzten Namen und die Farbe; das Bash-Tool gab nichts aus, wenn `CLAUDE_ENV_FILE` (z. B. `~/.zprofile`) mit einem `#`-Kommentar endete (beide v2.1.108). **Kontext:** `CLAUDE_CODE_MAX_CONTEXT_TOKENS` beachtet `DISABLE_COMPACT`, `/compact`-Hinweise entfallen dann; `/effort max` wurde für unbekannte oder künftige Modell-IDs abgelehnt (v2.1.98). **Telemetrie:** Beta-Tracing beachtet `OTEL_LOG_USER_PROMPTS`, `OTEL_LOG_TOOL_DETAILS` und `OTEL_LOG_TOOL_CONTENT`; sensible Span-Attribute gibt es nur noch nach Opt-in (v2.1.101). **Tastatur/Remote Control:** `ctrl+]`, `ctrl+\` und `ctrl+^` lösten in Terminal.app, iTerm2 (Standard) und xterm nichts aus; `/remote-control` scheiterte über SSH, wenn nur `CLAUDE_CODE_ORGANIZATION_UUID` gesetzt war, und Worktrees wurden bei einem Session-Absturz gelöscht (v2.1.101).
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Am wichtigsten sind der Subagent-Fix (ein Subagent im Worktree konnte die Hauptsession im falschen Verzeichnis weiterarbeiten lassen) und das Tracing-Opt-in (Prompts und Tool-Inhalte landen nicht mehr ungefragt in Traces). Der `CLAUDE_ENV_FILE`-Fix erklärt rückwirkend Bash-Aufrufe ohne jede Ausgabe.
+- **Version:** v2.1.97, v2.1.98, v2.1.101, v2.1.108
 
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
