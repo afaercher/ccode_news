@@ -1,11 +1,143 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-24 12:00 UTC (**Crawl 24.09. 12:00 UTC — Leerlauf bei allen vier Quellen, Token-Abgleich v2.1.110–130.** npm: `latest` = `next` **2.1.281**, `stable` **2.1.273**, `time.modified` unverändert 23.09. 19:29 UTC; GitHub-Release-Top `v2.1.281`. `CHANGELOG.md` (792 786 Bytes), **What's New** (16 070 Bytes, Week 37; `2026-w38`/`2026-w39` HTTP 404), **Platform** (110 061 Bytes) und **Blog** (15 Slugs) byte-gleich zum 06:00-Snapshot. Token-Abgleich: 16 Versionen, 422 Punkte, 405 Tokens, 26 unbelegt — v2.1.120 fehlte komplett. **Neue Einträge: 5.**) — Vorheriger **Crawl 24.09. 06:00 UTC — neues Release v2.1.281 (176 Changelog-Punkte → 15 Einträge); Commit `19a0295`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-25 06:00 UTC (**Crawl 25.09. 06:00 UTC — neues Release v2.1.282, zwei Blogposts, zwei Platform-Blöcke.** npm: `latest` = `next` **2.1.282** (24.09. 15:56 UTC), `stable` **2.1.274**; GitHub-Release `v2.1.282` 24.09. 18:38 UTC. `CHANGELOG.md` 806 789 Bytes (+14 003; 86 Punkte → 14 Einträge, Token-Abgleich 54/54 belegt). **Blog:** Opus 5.5 für lange Coding-Sessions (Kategorie Claude Code) und Claude Tag mit persönlichen Connectoren (beide 24.09.). **Platform** (112 113 Bytes): 24.09. Refusal-Abrechnung, 23.09. Cache Diagnostics GA, Nachträge 18.09./09.09. **What's New** byte-gleich (Week 37; `2026-w38`/`2026-w39` HTTP 404). Der 18:00-Lauf vom 24.09. brach am Session-Limit (429) ab. **Neue Einträge: 18.**) — Vorheriger **Crawl 24.09. 12:00 UTC — Leerlauf, Token-Abgleich v2.1.110–130; Commit `3452a4a`.** — Aeltere Crawl-Historie in den Git-Commits.
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 39 (24. September 2026) — v2.1.282: `maxProseWidth`, Telemetrie- und Managed-Settings-Härtung, reservierte Skill-Namensräume
+
+#### `maxProseWidth`: Fließtext in breiten Terminals begrenzen
+
+- **Was:** Die neue Einstellung **`maxProseWidth`** begrenzt, wie breit Claudes Fließtext in einem breiten Terminal läuft. Tabellen und Codeblöcke nutzen weiter die volle Breite.
+- **Einsatz:** `"maxProseWidth": <Spaltenzahl>` in `~/.claude/settings.json`.
+- **Mehrwert:** Auf Ultrawide-Monitoren oder im Vollbild-Terminal werden Antworten sonst zu Zeilen mit 200+ Zeichen, die sich schlecht lesen. Mit dem Limit bleibt Text lesbar, ohne dass breite Tabellen oder Diffs umbrechen.
+- **Version:** v2.1.282 (npm `latest` seit 24.09.2026 15:56 UTC, GitHub-Release 24.09.2026 18:38 UTC)
+
+#### Telemetrie: Projekt-Settings können Export nicht mehr einschalten, ignorierte Variablen werden angezeigt
+
+- **Was:** Projekt- und lokale Settings (`.claude/settings.json`, `.claude/settings.local.json`) ignorieren jetzt OpenTelemetry-Variablen, die den Export einschalten, seinen Endpoint setzen oder Inhalte mitschneiden, etwa **`CLAUDE_CODE_ENABLE_TELEMETRY`** und **`OTEL_LOG_*`**. Neu ist dazu ein Hinweis beim Start sowie Einträge in **`/status`** und **`claude doctor`**, die auflisten, welche Telemetrie-Variablen in den Settings-Dateien eines Projekts ignoriert wurden oder die Telemetrie abgeschaltet haben.
+- **Einsatz:** Automatisch aktiv. Telemetrie gehört jetzt in User- oder Managed-Settings bzw. in die Umgebung; `claude doctor` zeigt, was ein Repo versucht hat.
+- **Mehrwert:** Bisher konnte ein fremdes Repo mit einer eingecheckten `settings.json` Telemetrie samt Prompt-Inhalten an einen eigenen Endpoint umleiten. Diese Lücke ist zu. Wer selbst Telemetrie per Projekt-Settings konfiguriert hatte, sieht durch den Hinweis sofort, warum sie nicht mehr ankommt.
+- **Version:** v2.1.282
+
+#### Managed Settings: Tippfehler und Teilfehler hebeln Sperren nicht mehr aus, Chrome neben `managed-mcp.json`
+
+- **Was:** Mehrere Lücken, in denen Admin-Richtlinien still wirkungslos waren, sind geschlossen. Boolesche Sperr-Keys wie **`disableClaudeAiConnectors`** oder **`allowManagedPermissionRulesOnly`** wurden bei einem falsch getippten Wert ignoriert; jetzt greift die Sperre und der Start nennt den Key. Die Blöcke `permissions`, `autoMode`, `worktree` und `attribution` wurden komplett verworfen, sobald ein einzelner verschachtelter Wert ungültig war; jetzt gilt der Rest. Unter `allowManagedPermissionRulesOnly` konnten Skills, Commands und Plugin-Manifeste aus Repo, User-Verzeichnis oder `--add-dir` ihre eigenen Tools per `allowed-tools` vorab freigeben — das ist vorbei. Unter Windows/WSL verhindert eine vorhandene, aber ungültige oder unlesbare Admin-Richtlinie (HKLM, `managed-settings.json`) jetzt, dass die vom Nutzer beschreibbaren Quellen HKCU und WSL-`/etc/claude-code` stattdessen greifen. **`sandbox.excludedCommands`** aus Projekt- und lokalen Settings wird ignoriert, wenn Managed Settings oder `--settings` `allowUnsandboxedCommands: false` setzen oder Managed `allowManagedDomainsOnly: true` gilt. Neu: **`allowClaudeInChromeWithManagedMcp`** erlaubt `claude --chrome` neben einer exklusiven `managed-mcp.json`; die Fehlermeldung bei blockiertem Chrome nennt den Key.
+- **Einsatz:** Automatisch aktiv; `"allowClaudeInChromeWithManagedMcp": true` in den Managed Settings, falls Claude in Chrome trotz zentraler MCP-Liste erlaubt sein soll.
+- **Mehrwert:** Für Admins das wichtigste Paket dieses Releases: Richtlinien fallen nicht mehr durch einen Tippfehler oder einen einzigen falschen Wert komplett aus, und ein Repo kann Sandbox-Ausnahmen oder Tool-Freigaben nicht mehr an der Organisation vorbei einschleusen.
+- **Version:** v2.1.282
+
+#### Reservierte Namensräume `anthropic-skills` und `claude-ai`
+
+- **Was:** Die Namensräume **`anthropic-skills`** und **`claude-ai`** sind jetzt für von claude.ai synchronisierte Skills reserviert. Allow-Regeln wie **`Skill(anthropic-skills:*)`** und **`Skill(claude-ai:*)`** decken nur noch diese synchronisierten Skills ab, nicht Plugins oder andere Skills, die nur so heißen. Skill-Ordner, Command-Dateien und Workflow-Commands in diesen Namensräumen werden nicht mehr geladen; ein Plugin mit diesem Namen lädt noch, verliert aber Namenskonflikte gegen synchronisierte Skills. MCP-Server, die unter dem Namen `anthropic-skills` oder `claude-ai` konfiguriert sind, listen keine Skills und Prompts mehr (ihre Tools funktionieren weiter).
+- **Einsatz:** Automatisch aktiv. Wer einen eigenen MCP-Server so benannt hat, benennt ihn in der MCP-Konfiguration um, damit Skills und Prompts wieder erscheinen.
+- **Mehrwert:** Schließt einen Weg, mit dem sich ein Plugin oder Repo als offizieller Skill ausgeben und so eine bestehende Allow-Regel mitnutzen konnte.
+- **Version:** v2.1.282
+
+#### Extended Thinking und Resume: kein Verlust früherer Überlegungen mehr, keine 400er durch Websuche-Ergebnisse
+
+- **Was:** Jede Anfrage scheiterte mit **400**, wenn der Verlauf Websuche-Ergebnisse enthielt, die die API nicht entschlüsseln kann (z. B. aus einem Turn über ein Drittanbieter-Gateway). Weitere Fälle, in denen `--continue`/`--resume` frühere Nachrichten verändert erneut schickten und die API dadurch Claudes Überlegungen verwarf, sind behoben. Extended Thinking ging verloren, wenn während der Arbeit `/model`, `/rename`, `/artifacts` oder ein anderer Sofort-Befehl benutzt wurde, oder wenn ein fortgesetztes Gespräch mit einer **`--tools`**-Liste neu gestartet wurde, der ein früher angebotenes eingebautes Tool fehlte. Sessions, die bei jedem Turn mit „Invalid `data` in `redacted_thinking` block" scheiterten, verwerfen jetzt die Thinking-Blöcke und versuchen es einmal neu. Wird die Zusammenfassungs-Anfrage beim Compacting abgelehnt, weicht Claude Code auf ein Fallback-Modell aus. Nach einem sicherheitsbedingten Modellwechsel scheiterte ein Turn mit „Effort 'xhigh' isn't available with thinking turned off". Sehr große Sessions, auch nie kompaktierte, laden beim Resume schneller; unter Windows erklärt der Fehler **EBADF** (Transkript nicht lesbar) jetzt mögliche Ursachen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Lange Sessions behalten ihren Denkfaden, auch wenn man zwischendurch das Modell wechselt oder die Session neu startet — das spart Tokens und verhindert, dass Claude nach dem Resume Entscheidungen neu herleitet. Die 400er-Schleife durch Websuche-Ergebnisse machte betroffene Sessions bisher komplett unbrauchbar.
+- **Version:** v2.1.282
+
+#### Anmeldung, Fable-Guthaben und Modellwahl
+
+- **Was:** Anfragen scheiterten bis zu einer Minute lang mit „another Claude Code process is refreshing it", nachdem der andere Prozess mitten im Token-Refresh beendet wurde. Sessions, die starteten, während ein anderes Fenster die Anmeldung erneuerte (typisch bei mehreren VS-Code-Fenstern), holten die Organisationsrichtlinie nicht erneut. In SDK-gehosteten Sessions wie Claude Desktop wechselte eine unbeantwortete Rückfrage zu Fable-Nutzungsguthaben still das Modell; jetzt endet der Turn, und Remote-Control-Clients sehen den Hinweis zum Modellwechsel. `/model` mit der vollen Fable-Modell-ID endete in einem API-Fehler statt die Guthaben-Rückfrage zu öffnen. Der Fehler zu unbekannten Modellen in Claude Desktop schlägt jetzt vor, ein anderes Modell zu wählen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Wer mehrere Claude-Code-Fenster parallel nutzt, stolpert seltener über kurze Anmelde-Ausfälle. Und niemand landet mehr unbemerkt auf einem anderen Modell, nur weil eine Rückfrage nicht beantwortet wurde.
+- **Version:** v2.1.282
+
+#### Berechtigungen und Auto-Mode: `:*` mitten im Muster, keine doppelte Ausführung, Server-Klassifizierer auch ohne Telemetrie
+
+- **Was:** Bash-Berechtigungsregeln mit **`:*` mitten im Muster** wurden in Settings-Dateien übersprungen, während `--allowedTools` sie beachtete; jetzt gelten sie aus jeder Quelle, und beim Start erklärt eine Warnung, wie sie matchen. Ein auf einer wiederhergestellten Rückfrage genehmigter Befehl lief doppelt, wenn der Worker einer Remote-Session neu startete. CLAUDE.md und Regeln wurden beim Start über einen Repo-Symlink gelesen, der per `..` oder über einen `/.vol`-Kernelpfad bis zu macOS' `/Network` reichte; ein Regel-Link auf macOS' `/home` wurde gelistet. **Auto-Mode** nutzt bei direkter Anthropic-API-Verbindung jetzt standardmäßig den serverseitigen Klassifizierer, **auch wenn Telemetrie aus ist**.
+- **Einsatz:** Opt-out für den Server-Klassifizierer: **`CLAUDE_CODE_AUTO_MODE_SERVER=0`**. Bestehende `:*`-Regeln in den Settings prüfen — sie greifen jetzt.
+- **Mehrwert:** Achtung beim `:*`-Fix: Regeln, die bisher still wirkungslos waren, gelten ab jetzt — eine Allow-Regel kann also plötzlich mehr freigeben als bisher beobachtet. Die Startwarnung zeigt, welche das sind.
+- **Version:** v2.1.282
+
+#### Gateway, Bedrock und Vertex AI
+
+- **Was:** Das Claude apps gateway bekommt **`store.readiness_grace_seconds`**: `/readyz` meldet während eines kurzen Postgres-Ausfalls (z. B. Datenbank-Failover) weiter „bereit". Safeguard-Blockmeldungen auf Amazon Bedrock und Bedrock Mantle zeigen wieder eine Request-ID und zusätzlich die Message-ID. Auf **Vertex AI** wurde Websuche für Modelle, die Claude Code noch nicht kennt (z. B. frisch veröffentlichte), nicht angeboten.
+- **Einsatz:** `store.readiness_grace_seconds: <Sekunden>` in der Gateway-Konfiguration.
+- **Mehrwert:** Ein geplanter DB-Failover lässt den Load Balancer das Gateway nicht mehr aus der Rotation nehmen. Mit Request- und Message-ID lassen sich Bedrock-Blocks beim Support nachverfolgen.
+- **Version:** v2.1.282
+
+#### Tools und Befehle: klarere Fehler, Abbrechen bricht wirklich ab
+
+- **Was:** Bash und PowerShell versteckten ein volles **Disk-Quota** hinter „Exit code 1" und ließen große Ausgabedateien im Temp liegen. Validierungsfehler bei Tool-Eingaben nennen jetzt **alle** ungültigen Parameter eines Aufrufs, nicht nur den ersten. Fehlermeldungen beim Lesen von PDF-Seiten zeigen Pfade mit Akzenten oder nicht-lateinischen Zeichen lesbar, und ein Ordner namens „password" oder „invalid" führt nicht mehr zur falschen Ursache. **`/install-github-app`** meldete „cancelled" und pushte trotzdem den Branch und speicherte das API-Key-Secret; jetzt stoppt der Abbruch die restlichen Schritte und meldet, was schon passiert ist. `/feedback`, `/bug` und `/share` speicherten auf Bedrock, Vertex und anderen Drittanbietern trotz Abbruch die Berichtsdatei. **`claude remote-control --debug`** scheiterte mit „Unknown argument: --debug", obwohl der Eignungsfehler von Remote Control genau dazu rät. Artifact-Veröffentlichungen scheiterten bei einem Versions-Label über 60 Zeichen; es wird jetzt gekürzt.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Besonders der `/install-github-app`-Fix zählt: Ein Abbruch, der trotzdem ein Secret im Repo anlegt, ist genau das Verhalten, das man beim Abbrechen vermeiden wollte.
+- **Version:** v2.1.282
+
+#### Plugins: Deinstallieren löscht keine Optionen und Secrets mehr auf Verdacht
+
+- **Was:** Die Plugin-Deinstallation meldete Erfolg und löschte die gespeicherten Optionen des Plugins, obwohl eine Settings-Datei es noch aktivierte oder nicht lesbar war; jetzt bricht sie ab und nennt die Datei. War die Liste installierter Plugins nach dem Entfernen nicht lesbar, wurden Optionen und Secrets gelöscht; jetzt bleiben sie erhalten, und die Deinstallation sagt das.
+- **Einsatz:** Automatisch aktiv (`claude plugin uninstall …` bzw. `/plugin`).
+- **Mehrwert:** Kein Neu-Eintippen von API-Keys und Plugin-Optionen mehr, nur weil eine Settings-Datei gerade gesperrt oder kaputt war.
+- **Version:** v2.1.282
+
+#### Terminal-Oberfläche: Einfügen, Rendering, Listen und `/artifacts`
+
+- **Was:** Mehrzeilig eingefügter Text wurde Zeile für Zeile abgeschickt, nachdem der Bracketed-Paste-Modus des Terminals mitten in der Session zurückgesetzt wurde. Der Beispieltext im Prompt flackerte beim Start in Projekten mit `SessionStart`-Hook. Im Vollbildmodus blitzte vor dem ersten Frame ein leerer Bildschirm auf. Der Nicht-Vollbild-Renderer zeigte verschobene Zeilen, wenn der Bildschirm kürzer wurde (z. B. beim Löschen einer Prompt-Zeile während ein Shell-Befehl streamt). In Diffs blieb ein Zeichen in der letzten Spalte stehen, wenn ein CJK-Zeichen oder Emoji umbrach. Der Cursor landete bei einem Prompt mit Tab aus der History nicht am Ende. Der Send-now-Hinweis zeigte Ctrl+Enter auch auf Terminals, die das als Zeilenumbruch senden (Windows Terminal vor 1.25) — dort steht jetzt Ctrl+X Ctrl+S. In `/skills` landete ein direkt nach `/` getippter Buchstabe in der Liste statt im Suchfeld, und der Cursor sprang beim Tippen aus dem Suchfeld (IME-Eingaben landeten falsch). Listen mit Scrollbalken wie `/skills` und `/mcp` waren außerhalb des Vollbilds zwei Spalten schmaler. Der Footer des Agent-Panels brach bei langen umbelegten Tasten um, und „Esc to collapse" ignorierte eine umbelegte Taste; im `/tasks`-Footer stand ein doppeltes ` · `, wenn der Stop-all-Shortcut in `keybindings.json` nicht belegt ist. Screenreader-Modus, zitierte und sehr lange Listen verloren Leerzeilen am Anfang eines Codeblocks in einem Listenpunkt. Neu: Scrollbalken in der `/feedback`-Entwurfsliste im Vollbild. **`/artifacts`** zeigt Titel in einer Spalte, lässt Details ganz weg statt mitten im Wort abzuschneiden und unterstützt PgUp/PgDn, Home/End, Mausrad und Klicks. Ungewöhnliches Unicode in Berechtigungsrückfragen wird besser dargestellt. Die `ultracode`-Optik in `/effort` und im Prompt ist jetzt schlicht (keine Welle, kein Rahmen-Effekt, kein Glitzern), und der Spinner-Tipp zu dynamischen Workflows entfällt. Die Füße des Clawd-Maskottchens im Startbanner stehen jetzt unter den Ecken seines Körpers.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Der Paste-Fix ist der wichtigste: Mehrzeiliger Code, der als einzelne Prompts abgeschickt wird, startet im schlimmsten Fall mehrere halbe Aufträge hintereinander.
+- **Version:** v2.1.282
+
+#### Vim-Modus: Zählpräfixe, Cursorposition, `>>` und `.` korrigiert
+
+- **Was:** `>>` rückte leere Zeilen ein, `r` mit einer Zahl größer als die Zeile änderte Text, `2J` verband eine Zeile zu viel, und eine Zahl auf der letzten Zeile (`2dd`, `2>>`) verschob oder löschte sie. Nach `dd`, `dj`, `dG` oder zeilenweisem `p`/`P` landet der Cursor auf dem ersten Nicht-Leerzeichen, `yy` bewegt ihn nicht mehr, und Esc nach einem Emoji lässt ihn nicht mehr im Emoji stehen. Eine vor `.` getippte Zahl wird beim Wiederholen von `x`, `s`, `p`, `d` oder `c` beachtet; zeilenweises `p`/`P`, `o`, `O`, `J`, `>>` und `<<` wirkten auf die falsche Zeile, wenn eine Zeile darüber umbrach. Ein aus der History oder der Warteschlange geholter Prompt ließ den Cursor im Normal-Modus hinter dem Ende stehen, sodass `x` nichts tat.
+- **Einsatz:** Automatisch aktiv im Vim-Modus (`/vim` bzw. `editorMode: "vim"`).
+- **Mehrwert:** Vim-Nutzer können sich wieder auf ihr Muskelgedächtnis verlassen — besonders Zählpräfixe und `.` taten bisher oft etwas anderes als erwartet.
+- **Version:** v2.1.282
+
+#### `claude-api`-Skill: Refusal-Abrechnung und `ant apply`
+
+- **Was:** Der mitgelieferte `claude-api`-Skill verlinkt bei der Abrechnung von Ablehnungen vor jeder Ausgabe jetzt auf die Doku „How refusals are billed", sagt, dass Ablehnungen mitten im Stream zu normalen Preisen abgerechnet werden und Ablehnungen vor der Ausgabe gegen Rate-Limits zählen (siehe Platform-Eintrag vom 24.09.). Außerdem empfiehlt er **`ant apply`**, um Managed-Agents-Ressourcen als versionierte Dateien zu pflegen.
+- **Einsatz:** Automatisch aktiv, wenn Claude Code beim Arbeiten mit der Claude API den Skill lädt.
+- **Mehrwert:** Code, den Claude für API-Integrationen schreibt, berücksichtigt die neue Abrechnungsregel, und Managed-Agents-Konfiguration landet als Infrastructure-as-Code im Repo statt nur in der Console.
+- **Version:** v2.1.282
+
+#### VS Code, Cloud-Sessions und Claude Tag
+
+- **Was:** **VS Code:** Lange Antworten hinkten dem Stream hinterher, weil das Panel bei jedem Update die ganze Antwort neu parste. Der Diktier-Button verdeckte den Scrollbalken eines hohen Eingabefelds. Lokal gestartete Remote-Control-Sessions öffneten sich nicht über ihren Web-Eintrag in der Session-Liste; jetzt öffnet sich das lokale Gespräch, sofern es nicht anderswo läuft. Der Anmeldebildschirm eines Editor-Tabs hing nach einem Neustart des Extension-Hosts still. **Cloud-Sessions:** Unter Settings › Connectors › GitHub steht jetzt der Status der Claude GitHub App (installiert und erreichbar?) samt Schritten zum Verbinden, Installieren oder Neuverbinden. Für Repos auf anderen Git-Servern als GitHub gibt es „Open repository" und „Open compare page" im Repository-Menü. Einer laufenden Cloud-Session lässt sich ein Repository eines anderen GitHub-Owners anhängen (z. B. das Upstream eines Forks), auch bei Sessions aus Slack. Die nächste Laufzeit stündlicher Routinen war in Zeitzonen mit halbstündigem Versatz (z. B. Indien) um 30 Minuten falsch; Routines-Seite und die Scheduled-Liste laden schneller. **Claude Tag (Slack):** Mehrere Enterprise-Grid-Fixes (Auto-Join-Kanalmuster, zwischen Workspaces geteilte Kanäle, „Couldn't check this channel just now" nennt jetzt den Workspace, der die App braucht). Der Fortschritts-Card der früheren Claude-in-Slack-App nennt bei GitHub-Enterprise-Server-Repos das Repository und bietet einen funktionierenden Create-PR-Button. Threads mit ausgemustertem Modell wechseln jetzt dauerhaft auf ein funktionierendes Modell statt bei jeder Antwort neu auszuweichen. Datei-Uploads können Bildunterschriften mit Tabellen tragen, Threads erscheinen in der Agents-&-tools-Ansicht unter ihrem Namen (auch nach Umbenennen), das Entfernen einer GitHub-Organisation aus einem Access-Bundle lässt sich wieder speichern, und die Kosten-/Token-Summen im Antwort-Footer waren nach einem Worker-Neustart um ein Vielfaches zu hoch. Karten für Pläne, Tabellen und Details sind standardmäßig breit, und neu verbundene Workspaces folgen dem aktuellen Standardmodell.
+- **Einsatz:** Automatisch aktiv; Fork-Upstream in Cloud-Sessions über das Repository-Menü anhängen.
+- **Mehrwert:** Das Anhängen des Upstream-Repos macht Fork-basierte Beiträge in Cloud-Sessions praktikabel, ohne eine neue Session zu starten. Die VS-Code-Stream-Optimierung macht sich bei langen Antworten sofort bemerkbar.
+- **Version:** v2.1.282
+
+### Woche 39 (24. September 2026) — Blog: Was Opus 5.5 in langen Coding-Sessions spart, persönliche Connectoren für Claude Tag
+
+#### Opus 5.5 und lange Sessions: Cache-Reads 60 % billiger, halb so viele Cache-Misses in Claude Code
+
+- **Was:** Ein Anthropic-Blogpost erklärt, warum **Claude Opus 5.5** laut Anthropic bei typischen tokenbasiert abgerechneten Workloads rund **40 % weniger** kostet als Opus 5 — und dass der Vorteil in langen, kontextreichen Claude-Code-Sessions am größten ist. Nutzungsdaten März bis September 2026: Claude arbeitet **3,3× länger** pro Prompt mit über 40 % mehr Modellaufrufen, es gibt 68 % weniger Unterbrechungen, der Kontext pro Anfrage ist um das **2,6-Fache** gewachsen, das Input-zu-Output-Verhältnis stieg von 189:1 auf 324:1. Drei Hebel: (1) **Preis** — Input und Output 20 % günstiger, **gecachte Tokens 60 % günstiger**; (2) **Harness** — in Claude Code ist der Input, der den Cache verfehlt, um **über 50 %** gesunken: Login-Refresh, Anweisungen mitten im Gespräch und bei Bedarf nachgeladene Tools brechen den Cache nicht mehr, bei Opus 5.5 und Fable 5.1 lässt sich der Effort mitten in der Session ändern, ohne den Cache zu verlieren, API-Key- und Cloud-Nutzer können eine einstündige Cache-Lebensdauer setzen, und geforkte Subagenten starten aus dem Cache des Parents; (3) **Modell** — oft weniger Turns pro Aufgabe (vor allem bei offenen Aufgaben) und über 30 % schnellere Ausgabe als Opus 5.
+- **Einsatz:** `/usage` zeigt, welcher Anteil der Nutzung gecachte Reads sind. Empfehlungen: Modell zu Beginn der Session wählen statt mittendrin wechseln, vor einer Pause kompaktieren statt danach, und mit API-Key oder Cloud-Provider für lange Sessions die einstündige Cache-Lebensdauer setzen. Artikel: `claude.com/blog/claude-opus-5-5-built-for-coding-sessions-that-use-more-context`.
+- **Mehrwert:** Konkrete Gewohnheiten, die bei langen Agenten-Sessions direkt Geld sparen. Der wichtigste Punkt: Cache-Reads machen inzwischen den Großteil der Kosten aus, also lohnt es sich mehr, den Cache zu schützen, als an einzelnen Prompts zu sparen.
+- **Version:** Anthropic-Blog 24.09.2026 (Kategorie Claude Code, kein CLI-Release)
+
+#### Claude Tag: persönliche Connectoren in Slack-Kanälen
+
+- **Was:** **Claude Tag** (Beta, Claude als `@Claude` in Slack-Kanälen) kann jetzt die **eigenen Connectoren** des Anfragenden nutzen — z. B. Kalender, Drive, zugewiesene CRM-Accounts oder Staging-Deploys —, nicht nur die vom Admin an den Kanal gehängten. Niemand sonst im Kanal kann diese Connectoren verwenden. Man entscheidet selbst, was gepostet wird: im **Review-Modus** sieht man jede Antwort vorher, im **Auto-Modus** postet Claude direkt, außer es erkennt sensible Inhalte. Auf Enterprise-Plänen sollen Admins Review für alle erzwingen können. Zugriffe über einen persönlichen Connector erscheinen im Log des jeweiligen Tools unter dem eigenen Account; die Arbeit des Kanals läuft weiter unter dessen Service-Account. Persönliche Connectoren laufen **nicht unbeaufsichtigt**: Geplante Routinen und alles, was Claude selbst startet, nutzen nur die Kanal-Connectoren.
+- **Einsatz:** Nichts zu installieren. In einem Kanal `@Claude` nach etwas fragen, das nur man selbst erreicht; beim ersten Mal fragt Claude, ob es den Connector nutzen darf. Rollout jetzt auf Team-Plänen, Enterprise folgt.
+- **Mehrwert:** Zugriffe folgen der Person statt dem Kanal — Admins müssen keine breiten Kanal-Connectoren mehr freigeben, nur damit einzelne Mitglieder ihre eigenen Daten einbeziehen können. Gut für eng begleitete Arbeit wie RFP-Antworten mit sensiblen Preisdaten; für Automatisierung wie On-Call-Triage bleiben geteilte Kanal-Connectoren nötig.
+- **Version:** Anthropic-Blog 24.09.2026 (Product announcements, kein CLI-Release)
+
+### Woche 39 (23.–24. September 2026) — Platform: Ablehnungen vor der Ausgabe werden teils berechnet, Cache Diagnostics allgemein verfügbar
+
+#### Abrechnung: Ablehnungen der Kategorien `bio`, `frontier_llm` und `reasoning_extraction` kosten jetzt Geld
+
+- **Was:** Laut Platform-Release-Notes vom 24.09. werden jetzt auch Ablehnungen **vor jeder Ausgabe** berechnet, wenn `stop_details.category` **`"bio"`**, **`"frontier_llm"`** oder **`"reasoning_extraction"`** ist — die Kategorien, in denen Anthropic wenige Fehlalarme misst. Abgerechnet wird wie bei jeder anderen Anfrage zu den Preisen des ausführenden Modells. Ablehnungen mitten im Stream wurden schon vorher berechnet. Ablehnungen vor der Ausgabe in anderen Kategorien bleiben kostenlos, und die Fallback-Gutschrift ändert sich nicht. Gilt auf allen Plattformen.
+- **Einsatz:** Automatisch aktiv. In eigenen API-Clients `stop_details.category` auswerten, um berechnete Ablehnungen zu erkennen; Details unter `platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#how-refusals-are-billed`.
+- **Mehrwert:** Wichtig für Kostenschätzungen und Monitoring: Eine Ablehnung ist nicht mehr automatisch gratis. Wer Anfragen massenhaft automatisiert, sollte diese Kategorien im Blick behalten.
+- **Version:** Platform Release Notes 24.09.2026
+
+#### Cache Diagnostics ohne Beta-Header, `diagnostics`-Feld jetzt immer in der Antwort
+
+- **Was:** **Cache Diagnostics** (erklärt per `cache_miss_reason`, warum der Prompt-Cache verfehlt wurde) ist seit 23.09. auf der Claude API **aus der Beta**: Der Header `cache-diagnosis-2026-04-07` wird nicht mehr gebraucht; man schaltet die Funktion ein, indem man das `diagnostics`-Objekt im Messages-Request mitschickt. Anfragen, die den Header weiter senden, funktionieren wie bisher. Antworten von `POST /v1/messages` enthalten jetzt **immer** ein `diagnostics`-Feld, das `null` ist, wenn der Request kein `diagnostics`-Objekt hatte. Nachgetragen wurden zwei ältere Änderungen: Seit 18.09. enthält die Antwort bei gesetztem Beta-Header das Feld immer (vorher fehlte es); seit 09.09. speichert die API den Fingerprint einer Anfrage nur noch, wenn sie das `diagnostics`-Objekt enthält — eine Anfrage nur mit Beta-Header wird akzeptiert, aber ein späterer Turn, der mit `previous_message_id` auf sie zeigt, bekommt `previous_message_not_found`.
+- **Einsatz:** `diagnostics` bei **jedem** Turn mitschicken, beim ersten mit `"previous_message_id": null`. Doku: `platform.claude.com/docs/en/build-with-claude/cache-diagnostics`.
+- **Mehrwert:** Cache-Misses lassen sich jetzt ohne Beta-Opt-in produktiv analysieren — passend zum Opus-5.5-Blogpost, nach dem Cache-Reads den Großteil der Kosten ausmachen. Achtung für bestehende Clients: Wer das Feld bisher nur bei Bedarf erwartete, muss mit `null` umgehen können, und wer nur den Header setzt, bekommt bei Folge-Turns `previous_message_not_found`.
+- **Version:** Platform Release Notes 23.09.2026 (nachgetragen: 18.09. und 09.09.2026)
 
 ### Woche 39 (23. September 2026) — v2.1.281: Gateway-Ausbau für Bedrock, `"attribution": false`, robustere Sessions hinter Proxys
 
