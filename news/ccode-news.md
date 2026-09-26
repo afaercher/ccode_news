@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-26 12:00 UTC (**Crawl 26.09. 12:00 UTC — Leerlauf bei allen vier Quellen, Token-Abgleich v2.1.83–89.** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs) byte-gleich zum 06:00-Snapshot. Der Nachabgleich hat das Fenster bis an den Dateianfang verlängert: 2.1.83–87 und 89 (225 Punkte, 148 Tokens, 51 unbelegt). v2.1.87 fehlte komplett. Nachgetragen sind u. a. die `--mcp-config`-Policy-Lücke, `sandbox.failIfUnavailable`, Symlink-Prüfung bei `Edit(//path/**)`, `if`-Hooks bei Befehlsketten, `X-Claude-Code-Session-Id` und `cleanupPeriodDays: 0`, außerdem ein Restpunkt aus v2.1.283. Neue Einträge: 8.)
+> Letzte Aktualisierung: 2026-09-26 18:00 UTC (**Crawl 26.09. 18:00 UTC: Leerlauf bei allen vier Quellen, Nachabgleich Changelog und Platform.** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs) byte-gleich zum 12:00-Snapshot. Token-Abgleich v2.1.280–283 (471 Punkte, 396 Tokens): vollständig belegt. Alle 160 Changelog-Versionen ab v2.1.83 sind in der Datei genannt, und jede npm-Version ab 2.1.270 hat einen Changelog-Abschnitt (2.1.279 gibt es nicht). Beim Platform-Abgleich ab 19.08. fielen zwei Compliance-API-Punkte vom 24.09. auf, die am 25.09. zwischen 12:00 und 18:00 UTC rückdatiert ergänzt wurden. Der 18:00-Lauf an dem Tag brach mit Timeout ab, daher fehlten sie bisher. Nachgetragen: M365-Sessions lokal GA und Activity Feed ohne Datei-/Artefaktnamen. Neue Einträge: 2.)
 
 ---
 
@@ -230,6 +230,20 @@
 - **Einsatz:** Automatisch aktiv. In eigenen API-Clients `stop_details.category` auswerten, um berechnete Ablehnungen zu erkennen; Details unter `platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#how-refusals-are-billed`.
 - **Mehrwert:** Wichtig für Kostenschätzungen und Monitoring: Eine Ablehnung ist nicht mehr automatisch gratis. Wer Anfragen massenhaft automatisiert, sollte diese Kategorien im Blick behalten.
 - **Version:** Platform Release Notes 24.09.2026
+
+#### Compliance API: lokale Sessions aus Microsoft 365 allgemein verfügbar
+
+- **Was:** Laut Platform-Release-Notes vom 24.09. sind die Compliance-API-Endpunkte für **lokale Sessions**, also Sessions auf den Rechnern der Nutzer, für **Claude für Microsoft 365** in **Excel, PowerPoint, Word und Outlook** **aus der Beta**. Erkennbar sind diese Sessions an `product_surface`-Werten, die mit `office_agents` beginnen. Seit dem 26.08. waren sie als Beta abrufbar.
+- **Einsatz:** Wie bisher die Endpunkte für lokale Sessions mit dem Compliance Access Key (Scope `read:compliance_user_data`) abfragen und nach `product_surface` filtern. Doku: `platform.claude.com/docs/en/manage-claude/compliance-sessions#retrieve-local-sessions`.
+- **Mehrwert:** Enterprise-Organisationen können Office-Sessions jetzt mit GA-Zusage in ihre Archivierung und eDiscovery übernehmen, nicht mehr nur als Beta-Datenquelle.
+- **Version:** Platform Release Notes 24.09.2026 (am 25.09. zwischen 12:00 und 18:00 UTC rückdatiert ergänzt, nachgetragen am 26.09.)
+
+#### Compliance API: Activity Feed liefert keine Datei- und Artefaktnamen mehr
+
+- **Was:** Der **Activity Feed** der Compliance API gibt keine Dateinamen, Namen von Projektdokumenten oder Artefakttitel mehr zurück. Die Felder `filename` und `title` bei Datei-, Projektdokument- und Artefakt-Aktivitäten sind jetzt immer leer oder fehlen ganz. Das gilt **rückwirkend auch für Aktivitäten**, die vor der Änderung aufgezeichnet wurden.
+- **Einsatz:** Wer den Namen braucht, schlägt ihn über die ID der Aktivität nach, mit einem Compliance Access Key mit Scope `read:compliance_user_data`. Doku: `platform.claude.com/docs/en/manage-claude/compliance-activity-feed#understand-the-activity-object`.
+- **Mehrwert:** Namen können vertrauliche Informationen enthalten und stecken jetzt nicht mehr im breit lesbaren Aktivitätsstrom. **Breaking** für SIEM- und Audit-Pipelines, die `filename`/`title` direkt auswerten: Sie zeigen ab sofort leere Werte und brauchen einen Nachschlage-Schritt mit dem stärkeren Scope.
+- **Version:** Platform Release Notes 24.09.2026 (am 25.09. zwischen 12:00 und 18:00 UTC rückdatiert ergänzt, nachgetragen am 26.09.)
 
 #### Cache Diagnostics ohne Beta-Header, `diagnostics`-Feld jetzt immer in der Antwort
 
