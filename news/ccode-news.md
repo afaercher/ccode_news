@@ -1,11 +1,110 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-25 12:00 UTC (**Crawl 25.09. 12:00 UTC — Leerlauf bei allen vier Quellen, Token-Abgleich v2.1.90–109.** npm: `latest` = `next` **2.1.282**, `stable` **2.1.274**, `time.modified` unverändert 24.09. 20:01 UTC; GitHub-Release-Top `v2.1.282`. `CHANGELOG.md` (806 789 Bytes), **What's New** (16 070 Bytes, Week 37; `2026-w38`/`2026-w39` HTTP 404), **Platform** (112 113 Bytes) und **Blog** (15 Slugs) byte- bzw. mengengleich zum 06:00-Snapshot. Abgleich: 12 Versionen, 291 Punkte, 283 Tokens, 68 unbelegt → **v2.1.96 fehlte komplett**, dazu Sicherheits-/Sandbox-Fixes aus v2.1.90–101; nach dem Nachtrag 9 unbelegte Tokens, alle Schreibvarianten. **Neue Einträge: 7.**) — Vorheriger **Crawl 25.09. 06:00 UTC — neues Release v2.1.282 (86 Punkte → 14 Einträge), zwei Blogposts, zwei Platform-Blöcke; Commit `e56b002`.** — Vorheriger **Crawl 24.09. 12:00 UTC — Leerlauf, Token-Abgleich v2.1.110–130; Commit `3452a4a`.** — Aeltere Crawl-Historie in den Git-Commits.
+> Letzte Aktualisierung: 2026-09-26 06:00 UTC (**Crawl 26.09. 06:00 UTC — neues Release v2.1.283 und neuer Blogpost.** npm: `latest` = `next` **2.1.283** (25.09. 18:46 UTC), `stable` **2.1.274**; GitHub-Release `v2.1.283` 25.09. 21:50 UTC. `CHANGELOG.md` 821 156 Bytes (+14 367, **94 Punkte → 11 Einträge**). Blog: neuer Slug `build-plugins-for-claude` (Directory Submission Portal); außerdem den offenen Post „What a task costs on Opus 5.5" nachgetragen (claude.dev, 301-Weiterleitung). **What's New** (16 070 Bytes, Week 37; `2026-w38`/`2026-w39` HTTP 404) und **Platform** (113 182 Bytes) byte-gleich zum Vorlauf. **Neue Einträge: 13.**) — Vorheriger **Crawl 25.09. 12:00 UTC — Leerlauf, Token-Abgleich v2.1.90–109, 7 Nachträge; Commit `fdf8902`.** — Vorheriger **Crawl 25.09. 06:00 UTC — v2.1.282, 18 Einträge; Commit `e56b002`.** — Ältere Crawl-Historie in den Git-Commits.
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 39 (25. September 2026) — v2.1.283: Modell-Sperren für Admins, `/doctor prompt-audit`, Auto-Mode als Standard bei Drittanbietern
+
+#### Managed Settings: `deniedModels` und `availableModelsMatch: "exact"`
+
+- **Was:** Zwei neue Managed Settings für die Modellwahl. **`deniedModels`** sperrt einzelne Modelle, selbst wenn `availableModels` sie erlauben würde. Mit **`availableModelsMatch: "exact"`** gibt ein `availableModels`-Eintrag nur genau die genannte Modellversion frei, neue Releases bleiben also gesperrt, bis sie ausdrücklich in der Liste stehen. Außerdem gilt: Ist in den Managed Settings ein einzelner verschachtelter Wert im **`sandbox`**-Block ungültig, wurde bisher der ganze Block ignoriert. Jetzt fällt nur dieser Wert geschlossen aus, der Rest greift.
+- **Einsatz:** In `managed-settings.json` z. B. `"deniedModels": ["<modell-id>"]` bzw. `"availableModelsMatch": "exact"` zusammen mit `availableModels`.
+- **Mehrwert:** Organisationen können ein neues Modell erst freigeben, wenn sie es geprüft haben (Kosten, Compliance, Datenregion). Einzelne Modelle lassen sich gezielt ausschließen, ohne die ganze Allowlist umzubauen. Ein Tippfehler im Sandbox-Block schaltet die Sandbox-Richtlinie nicht mehr komplett ab.
+- **Version:** v2.1.283 (npm `latest` = `next` seit 25.09.2026 18:46 UTC, GitHub-Release 25.09.2026 21:50 UTC)
+
+#### `/doctor prompt-audit`: CLAUDE.md, Skills und Agenten auf veraltete Prompt-Muster prüfen
+
+- **Was:** Das neue Unterkommando **`/doctor prompt-audit`** (auch `/checkup prompt-audit`) prüft CLAUDE.md-Dateien, Skills, Agenten und Commands auf Prompt-Muster, die für ältere Modelle geschrieben wurden. Veraltete Pfade, veraltete Befehle und sich widersprechende Anweisungsdateien stehen oben im Bericht. Thinking-Schlüsselwörter, die Claude Code selbst dokumentiert, werden nicht beanstandet.
+- **Einsatz:** `/doctor prompt-audit` in der Session.
+- **Mehrwert:** Gewachsene Setups mit vielen Anweisungsdateien sammeln Altlasten wie Pfade, die es nicht mehr gibt, oder Regeln, die einander widersprechen. Solche Reste kosten Kontext und führen Claude in die Irre. Der Audit findet sie ohne manuelles Durchlesen.
+- **Version:** v2.1.283
+
+#### Auto-Mode als Standard bei Drittanbietern und ohne Telemetrie, `claude-ai`-Reservierung zurückgenommen
+
+- **Was:** Interaktive Sessions über **Drittanbieter** (Bedrock, Vertex AI, Foundry …) oder mit **abgeschalteter Telemetrie** starten jetzt im **Auto-Mode**, wenn kein Berechtigungsmodus konfiguriert ist; `permissions.defaultMode` hat weiter Vorrang. Die in v2.1.282 eingeführte Reservierung des Namens **`claude-ai`** ist zurückgenommen: Skills, Commands, Workflows und MCP-Skills/Prompts mit diesem Namen laden wieder, und `Skill(claude-ai:*)`-Regeln sind gewöhnliche Präfixregeln. `Skill(anthropic-skills:<name>)`-Deny-Regeln sperren den Skill jetzt auch, wenn Claude Desktop ihn als Plugin ausliefert, und `Skill(skill:<name>)`-Denies treffen auch Alias und Anzeigename.
+- **Einsatz:** Automatisch aktiv. Wer den bisherigen Modus behalten will: `"permissions": {"defaultMode": "default"}` in den Settings.
+- **Mehrwert:** Wer über Bedrock oder Vertex arbeitet, bekommt denselben Auto-Mode-Start wie Nutzer der Anthropic-API. Man sollte aber wissen, dass sich das Verhalten ohne eigene Konfiguration ändert. Eigene Skills mit dem Namen `claude-ai`, die seit v2.1.282 nicht mehr luden, funktionieren wieder.
+- **Version:** v2.1.283
+
+#### Gateway und Telemetrie: Prompt-ID im Header, Lasttest-Modus, Bedrock Mantle
+
+- **Was:** Die Gateway-Hint-Header enthalten jetzt **`x-claude-code-prompt-id`**, damit LLM-Gateways alle Anfragen gruppieren können, die zu einem Nutzer-Prompt gehören (Opt-in mit **`CLAUDE_CODE_GATEWAY_HINT_HEADERS=1`**). Das Claude-Apps-Gateway bekommt einen optionalen **`load_test_mode`**-Block: Anfragen werden gebaut und signiert, aber nicht an den Upstream geschickt, und Clients erhalten eine feste Antwort. Neu ist außerdem der Upstream-Provider **`mantle`** für den Mantle-Endpoint von Amazon Bedrock. Mit `OTEL_LOG_TOOL_CONTENT=1` landen jetzt auch die Ausgaben von MCP-Tools, WebFetch und WebSearch im OpenTelemetry-Span-Event `tool.output`.
+- **Einsatz:** `CLAUDE_CODE_GATEWAY_HINT_HEADERS=1`; im Gateway-Config `load_test_mode` bzw. Provider `mantle`; `OTEL_LOG_TOOL_CONTENT=1`.
+- **Mehrwert:** Kosten und Latenz lassen sich im Gateway pro Prompt statt pro Einzelanfrage auswerten. Ein Gateway-Deployment kann unter Last getestet werden, ohne echte Tokens zu verbrauchen. Das OTel-Audit erfasst jetzt auch Inhalte aus externen Tools.
+- **Version:** v2.1.283
+
+#### MCP: Fortschritt im Hintergrund, kurze 404er, hängende stdio-Server, `/context` zählt Server-Anweisungen
+
+- **Was:** Fortschrittsmeldungen eines lang laufenden MCP-Tools gingen verloren, sobald der Aufruf in den Hintergrund wanderte; jetzt zeigt die Hintergrundaufgabe den aktuellen Stand. Ein kurzer **HTTP 404** eines zustandslosen Remote-MCP-Servers (z. B. ein Proxy mitten im Redeploy) machte den Server bisher für den Rest der Session unbrauchbar, obwohl er als verbunden angezeigt wurde; das ist behoben. stdio-Server, die beim Sessionende noch starteten, liefen weiter; auch das ist behoben. Die Anmeldung bei einem Server ohne gültige URL scheiterte mit einem undurchsichtigen SDK-Fehler, jetzt bietet `/mcp` dafür gar kein „Authenticate" mehr an. `claude mcp add`, `add-json` und `remove` meldeten Erfolg, obwohl die Konfigurationsdatei nicht geschrieben werden konnte (etwa in einer Sandbox). **`/context`** zählt MCP-Server-Anweisungen jetzt als eigene Zeile mit. Bilder aus MCP-Tool-Ergebnissen werden zusätzlich als Datei gespeichert, sodass Bash, Read & Co. sie öffnen können. Die Tool-Liste in `/mcp` zeigt mehr auf einmal, scrollt und markiert Tools, die die Organisation gesperrt hat.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Remote-MCP-Server hinter Proxys oder Load-Balancern überstehen Deployments. `/context` zeigt jetzt auch den Kontext, den MCP-Server-Anweisungen belegen und der bisher unsichtbar blieb. Bilder aus MCP-Tools, etwa Screenshots, lassen sich direkt weiterverarbeiten.
+- **Version:** v2.1.283
+
+#### SDK, Workflows und Modellwahl
+
+- **Was:** SDK-Sessions verloren einen aufgeschobenen Tool-Aufruf oder ein fertiges Tool-Ergebnis, wenn ein Turn früh endete, außerdem eine gehaltene Freigabe-Rückfrage nach einem Worker-Neustart und das `result.usage` eines nicht-streamenden Fallbacks; alles behoben. Dynamische Workflows, die während eines Modell-Fallbacks gestartet wurden, ließen jeden Agenten auf dem Fallback-Modell laufen, statt das konfigurierte Modell erneut zu versuchen. `DISABLE_PROMPT_CACHING_HAIKU` wirkte nicht, wenn Haiku das Hauptmodell war. `/model` akzeptierte Sonnet 4.6/5 mit `[1m]`, wenn die ID ein Datum oder `-v1:0` trug, und zeigte eine fest verdrahtete Haiku-Version samt Preis trotz `ANTHROPIC_DEFAULT_HAIKU_MODEL`. Das Wochenlimit für **Fable** fehlte bei abgeschalteter Telemetrie in `/usage` und in VS Code. Opus-Zeile und Default-Name im `/model`-Picker verlieren den Zusatz „(1M context)", das Kontextfenster bleibt gleich. `--system-prompt` bzw. `--append-system-prompt` lassen sich jetzt mit ihrer `-file`-Variante kombinieren; der Dateitext kommt zuerst. `--plugin-dir`-Ladefehler im stream-json-`system/init` tragen jetzt ein `path`-Feld.
+- **Einsatz:** Automatisch aktiv; z. B. `claude -p --append-system-prompt-file regeln.md --append-system-prompt "Zusatz"`.
+- **Mehrwert:** Headless- und SDK-Integrationen verlieren keine Tool-Ergebnisse mehr und bekommen korrekte Usage-Zahlen. Workflows kehren nach einem Fallback zum gewünschten Modell zurück. Beim Prompt kann man eine feste Datei mit einem dynamischen Zusatz verbinden.
+- **Version:** v2.1.283
+
+#### Plugins: strengere Validierung, Wiederherstellung von `installed_plugins.json`, Devcontainer
+
+- **Was:** `claude plugin validate` lehnt Plugin- und Marketplace-Namen ab, die Claude Code gar nicht installieren kann, und prüft, ob die Pfade für `outputStyles`, `themes`, `monitors` und `lspServers` existieren und im Plugin-Verzeichnis liegen. `claude plugin uninstall` konnte bei zwei Plugins, deren IDs sich nur in Groß-/Kleinschreibung unterscheiden, das **falsche** samt Optionen und Secrets löschen; behoben. Plugins ohne Version wurden bei fehlendem Cache still auf den neuesten Commit statt auf den installierten gesetzt. Nutzer-Plugins scheiterten mit „cache-miss", nachdem Home- oder Config-Verzeichnis verschoben wurden, etwa in **bind-gemounteten Devcontainern**. `installed_plugins.json` mit einem ungültigen oder unlesbaren Eintrag wurde leer angezeigt oder unter Datenverlust überschrieben; jetzt nennen die Befehle den Eintrag samt Rettungsweg, und eine gar nicht lesbare Datei wird vor dem Neuaufbau daneben gesichert. `claude plugin details` zählt MCP-Server aus `plugin.json`, `marketplace remove` listet die mitentfernten Plugins, und `claude plugin eval` verlangt git ≥ 2.31.
+- **Einsatz:** Automatisch aktiv; vor dem Veröffentlichen `claude plugin validate <pfad>` laufen lassen.
+- **Mehrwert:** Kaputte Plugins fallen bei der Validierung auf und nicht erst beim Nutzer. In Devcontainern mit gemountetem Home bleiben installierte Plugins erhalten, und eine beschädigte Plugin-Registry geht nicht mehr still verloren.
+- **Version:** v2.1.283
+
+#### Sicherheit und Sandbox: PowerShell-Löschschutz, Git-Zertifikate, Auto-Memory in Unterordnern
+
+- **Was:** Unter Windows konnte das PowerShell-Tool mit **`cmd /c rd`**, `rmdir`, `del` oder `erase` Laufwerkswurzeln, den Home-Ordner und andere Ordner löschen, die `Remove-Item` verweigert; jetzt gilt derselbe Schutz. Worktree-Checkouts scheiterten an der Zertifikatsprüfung (z. B. bei Git-LFS-Downloads), wenn das CA-Zertifikat per `GIT_CONFIG_COUNT`-Umgebungspaaren an git übergeben wurde. Sandboxed `git` bat Credential-Helper, das Login des Sandbox-Proxys zu speichern, was „failed to store" ausgab. Wurde Claude Code in einem Unterordner eines Git-Repos gestartet, wurden Claudes Änderungen an den eigenen Auto-Memory-Notizen als Schreibzugriffe auf sensible Dateien blockiert. Im Screenreader-Modus lasen Berechtigungsdialoge zitierte Befehle und Pfade so vor, als wären sie Text des Dialogs. Beim Self-hosted Runner überspringt das git der Lifecycle-Hooks den Git-LFS-`pre-push`-Hook, ignoriert ein beschreibbares System-`core.hooksPath` und signiert ohne `--configure-git` keine Commits; `GIT_SSL_CAINFO`/`GIT_SSL_NO_VERIFY` gelten nicht mehr für Anthropics eigene Git-Route. Der Startdialog von `/ultrareview` weist darauf hin, dass beim Review eines lokalen Branches auch uncommittete Änderungen an getrackten Dateien hochgeladen werden können.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Schließt einen gefährlichen Umweg um den Windows-Löschschutz. Firmen-CAs funktionieren auch in Worktrees, und Auto-Memory klappt unabhängig davon, in welchem Ordner man startet. Beim Ultrareview weiß man vorher, dass auch nicht committeter Code die Maschine verlässt.
+- **Version:** v2.1.283
+
+#### Terminal-Oberfläche, Keybindings und Vim-Modus
+
+- **Was:** Die Listen in `/help`, `/hooks`, `/copy`, `/chrome`, `/memory`, `/ide`, `/release-notes`, `/rewind`, `/diff`, `/remote-env`, `/plugin` und weiteren Pickern unterstützen Bild-Tasten, Mausrad und Klicks. **`/tasks`** zeigt Status-Icons, vollständige Namen und blättert. `/rewind` und `/diff` nutzen dieselben `select:*`-Aktionen wie alle anderen Listen, alte `messageSelector:*`/`diff:*`-Belegungen funktionieren weiter. Der Kompaktierungs-Spinner zählt jetzt die Tokens der Zusammenfassung mit, statt einen Prozentbalken zu zeigen. Im Vollbildmodus lassen sich abgeschnittene Nachrichten anderer Sessions per Klick aufklappen. Prompt-Vorschläge erscheinen seltener, wenn 20 in Folge ungenutzt blieben. Markdown-Links sind in **Warp** klickbar. `keybindings.json` warnt bei falsch geschriebenen Modifiern wie `ctl+k`, schnell getippte Tasten (Type-ahead, tmux, ssh) werden nicht mehr gegen veralteten Zustand verarbeitet, und die Keybinding-Anleitung nennt den korrekten Chord-Timeout von 3 s. Vim-Modus: `.` nach Shift+Enter, `3J`/Visual-`J` in der letzten Zeile, Leerzeichen beim `J`-Verbinden wie in Vim und Cursorposition nach `V` + `p` sind korrigiert.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Die Oberfläche lässt sich durchgängig bedienen: Man kann überall blättern und klicken, und Tastenkürzel verhalten sich unter tmux und ssh verlässlich. Vim-Nutzer stoßen seltener auf Abweichungen vom gewohnten Verhalten.
+- **Version:** v2.1.283
+
+#### Startzeit und Latenz
+
+- **Was:** `claude -p` und Claude Code Remote laden die interaktive Oberfläche nicht mehr. Die Regeln des Auto-Mode-Klassifizierers und das Artifact-Tool werden erst bei Bedarf geladen. Die erste Anfrage nutzt die bereits vorab aufgebaute API-Verbindung. Ein Pattern-Compile-Schritt am Ende der ersten Antwort läuft jetzt parallel zum Streaming. Bei claude.ai-Konten mit noch unbekannten Artifact-Features wartet der Prompt nicht mehr bis zu 1,5 s beim Start.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Schnellere Skripte und CI-Läufe mit `claude -p`, und die erste Antwort kommt im interaktiven Betrieb spürbar früher.
+- **Version:** v2.1.283
+
+#### Remote Control, Artifacts, VS Code, Cloud-Sessions, Claude Tag und Code Review
+
+- **Was:** **Remote Control** war auf bezahlten Plänen nicht verfügbar, wenn Telemetrie per `DISABLE_TELEMETRY` oder `DO_NOT_TRACK` abgeschaltet war; behoben. Ein automatisch gesetzter Artifact-Watch endet nach 3,5 Stunden ohne Aktivität. Geordnete Datenbankabfragen auf Artifacts sagen bei voller Seite, dass es eine Seite ist und wie man weiterliest. **VS Code:** Die Modusanzeige zeigte „Default", obwohl die Session nach einem gescheiterten automatischen Wechsel weiter in Auto- oder Bypass-Mode lief; der Wechsel wird jetzt wiederholt, bis er greift. Dazu Fixes für aus dem Web teleportierte Sessions, versteckte Web-Sessions, zurückgespulte Turns und die Eingabeanzeige. **Cloud-Sessions:** Ein Repo, das man nur lesen darf, lässt sich jetzt lesend anhängen. Nach einem serverseitigen Neustart wurden bereits erledigte Schritte (Kommentar, Push) nicht mehr doppelt ausgeführt. Neue Routinen starten standardmäßig einige Minuten nach der vollen Stunde. **Claude Tag:** Die neue Admin-Einstellung „Channels Claude can search" beschränkt die Slack-Suche auf öffentliche Kanäle, in denen Claude Mitglied ist. Doppelte Antworten und gestoppte Kanal-Routinen nach Slack-Connect-Freigaben sind behoben. **Code Review:** Ein Review, das am Zeitlimit ohne verifizierte Befunde stoppte, gilt als unvollständig, wird **nicht berechnet** und einmal wiederholt; „@claude review" bleibt nicht mehr stumm, wenn GitHub den PR nicht liefert.
+- **Einsatz:** Automatisch aktiv; Claude-Tag-Suchbereich in den Admin-Einstellungen pro Organisation, Workspace oder Kanal.
+- **Mehrwert:** Datenschutzbewusste Setups ohne Telemetrie verlieren nicht mehr Remote Control. In VS Code zeigt die Anzeige, ob Bypass wirklich aktiv ist, und das ist sicherheitsrelevant. Abgebrochene Code Reviews kosten nichts mehr.
+- **Version:** v2.1.283
+
+---
+
+### Woche 39 (25. September 2026) — Blog: Plugin-Einreichungsportal für das Claude-Verzeichnis, was eine Aufgabe auf Opus 5.5 kostet
+
+#### Directory Submission Portal: Plugins einreichen, prüfen lassen, Nutzung auswerten
+
+- **Was:** Laut Anthropic-Blogpost vom 25.09.2026 („Build plugins for Claude with the directory submission portal") können Entwickler auf bezahlten Claude-Plänen Plugins über ein neues **Directory Submission Portal** im Claude-Verzeichnis einreichen. Es gibt zwei Wege: einen **einzelnen MCP-Connector** (Verweis auf den Remote-MCP-Server) oder ein **Plugin-Bundle** aus MCP-Servern und Skills als GitHub-Repo; in Claude Code dürfen Plugins zusätzlich LSPs, Commands, Hooks und Agenten enthalten. Jede Einreichung wird sofort automatisch validiert und einem Sicherheitsscan unterzogen. Das Portal zeigt Review-Status und empfohlene Änderungen, und nach der Freigabe entscheidet der Entwickler selbst, wann veröffentlicht wird. Live-Plugins bekommen Nutzungsanalysen (Installationen nach Oberfläche und Version, Aufrufe des Listings, Suchbegriffe). Claude unterstützt **MCP 2.0** mit zustandslosem Kern sowie die Erweiterungen **MCP Apps** (interaktive UI im Chat) und **Enterprise Managed Auth** (OAuth ohne Nutzerinteraktion für Unternehmen). In den kommenden Wochen soll ein einheitliches Discovery-Erlebnis für Claude und Claude Code ausgerollt werden. Bestehende Skills, Connectoren und Plugins im Verzeichnis brauchen keine Änderung.
+- **Einsatz:** Plugin bauen, mit `claude plugin validate` prüfen und über das Directory Submission Portal einreichen.
+- **Mehrwert:** Wer eigene Plugins für Claude Code baut, erreicht über das offizielle Verzeichnis alle Claude-Oberflächen. Der Sicherheitsscan liefert früh Rückmeldung, und die Analysen zeigen, welche Version wo genutzt wird. Passt zu den Validierungs-Verschärfungen in v2.1.283.
+- **Version:** Blogpost 25.09.2026 (claude.com/blog/build-plugins-for-claude)
+
+#### „What a task costs on Opus 5.5": Kosten pro Aufgabe statt pro Token, Effort vor Modellwechsel
+
+- **Was:** Ein Blogpost auf claude.dev (25.09.2026; `claude.com/blog/what-a-task-costs-on-opus-5-5` leitet per 301 dorthin) rechnet vor, wovon die Kosten einer Claude-Code-Aufgabe abhängen: von der Zahl der Turns (jeder Turn schickt das ganze Gespräch erneut), der Cache-Trefferquote, den Output-Tokens inklusive Thinking und vom Modellpreis. Beispiel mit Opus-5.5-Listenpreisen ($4 / $20 / $0,20 Cache-Read pro MTok): 40 Turns bei 20K → 120K Kontext ergeben rund 2,8M Input-Tokens. Bei 90 % Cache kostet der Input etwa **$1,62**, ohne Cache **$11,20**. Output kostet auf Opus 5.5 das **100-Fache** eines Cache-Reads. Die Preise liegen 20 % (Input/Output) bzw. 60 % (Cache-Reads) unter Opus 5. Auf Pro/Max/Team reichen die Limits deshalb etwa 25 % weiter; die Fünf-Stunden-Limits wurden angehoben, und berechtigte Abonnenten bekommen einen Limit-Reset (unter Settings > Usage im Web oder in Claude Desktop). Tipps: Claude eine Möglichkeit zur Selbstprüfung geben (Test, Build), weil das Retries spart. Den Standard-Effort von Opus 5.5 (**medium**, eine Stufe unter Opus 5) nicht blind vom Vorgänger übernehmen. Erst `/effort high` versuchen, bevor man zu einem größeren Modell wechselt. xhigh und max nur einsetzen, wo ein Gewinn gemessen wurde.
+- **Einsatz:** `/usage` am Ende einer Aufgabe (Input, Output, Cache der Session), `/effort status`, `/effort high` bei Fixes, die „nur eine Schicht tief" bleiben.
+- **Mehrwert:** Liefert eine Rechengrundlage für die Frage, ob sich höherer Effort lohnt: 20K zusätzliche Thinking-Tokens kosten auf Opus 5.5 etwa $0,40, ungefähr so viel wie eine Retry-Schleife von zehn Turns. Ergänzt den Blogpost vom 24.09. über lange Sessions um die Sicht pro Aufgabe.
+- **Version:** Blogpost 25.09.2026 (claude.dev/blog/what-a-task-costs-on-opus-5-5)
+
+---
 
 ### Woche 39 (24. September 2026) — v2.1.282: `maxProseWidth`, Telemetrie- und Managed-Settings-Härtung, reservierte Skill-Namensräume
 
