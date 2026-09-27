@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-27 12:00 UTC (**Crawl 27.09. 12:00 UTC: Leerlauf bei allen vier Quellen (Sonntag).** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs, gleiche Menge) byte-gleich zum 06:00-Snapshot. Changelog, Platform-Notes ab 19.08. und What's-New-Wochenseiten w35–w37 sind aus den Vorläufen vollständig abgeglichen. Neue Einträge: 0.)
+> Letzte Aktualisierung: 2026-09-27 18:00 UTC (**Crawl 27.09. 18:00 UTC: Leerlauf bei allen vier Quellen (Sonntag).** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs, gleiche Menge) byte-gleich zum 12:00-Snapshot. Nachabgleich der 15 Blog-Slugs gegen die Datei: zwei Beiträge fehlten und sind nachgetragen (Cowork und Chat werden ein Claude, 16.09.; Claude for Small Business, 15.09.). Neue Einträge: 2.)
 
 ---
 
@@ -1087,6 +1087,22 @@
 - **Einsatz:** Automatisch aktiv; eigene Belegung von `Ctrl+F` für das Stoppen der Agents ggf. in `keybindings.json` zurücksetzen.
 - **Mehrwert:** Am relevantesten im Alltag sind der Sandbox-Pipe-Hänger, der Zählbefehle scheinbar `0` liefern ließ und so zu falschen Schlüssen führen konnte, und der `caffeinate`-Fix für Laptops. Wer OpenTelemetry nur teilweise nutzt und einzelne Exporter mit `none` abschaltet, braucht mindestens v2.1.85.
 - **Version:** v2.1.83, v2.1.84, v2.1.85, v2.1.86, v2.1.87, v2.1.89, v2.1.283
+
+### Woche 38 (15.–16. September 2026) — Blog (Nachtrag): Cowork und Chat werden ein Claude, Claude for Small Business mit 43 Workflows
+
+#### Claude Cowork und Chat verschmelzen zu einem Claude — dazu Claude Docs und Claude Slides
+
+- **Was:** Seit dem 16.09.2026 werden **Claude Cowork** und der **Chat** zu einer einzigen Oberfläche zusammengeführt. Man muss nicht mehr entscheiden, wo eine Aufgabe hingehört: Claude erkennt selbst, ob eine Frage eine schnelle Antwort oder eine längere Aufgabe ist, und arbeitet Aufgaben auch weiter, wenn der Laptop zu ist. Was Cowork und **Claude Design** können, steht damit in jeder Unterhaltung bereit, mit den vorhandenen Skills, Connectoren und dem Kontext. Neu sind **Claude Docs** (Dokumente gemeinsam mit Claude schreiben) und **Claude Slides** (Präsentationen entwerfen, direkt präsentieren oder als PowerPoint/PDF herunterladen); Claude Design funktioniert jetzt auch in der Unterhaltung. Alle drei sind Beta auf bezahlten Plänen, jedes Ergebnis liegt unter einem teilbaren Link. Standardmäßig fragt Claude vor jeder Aktion; wer will, lässt es weiterarbeiten und nur bei Bedarf nachfragen. Bestehende Cowork-Chats, Projekte, Artifacts, Connectoren und Skills bleiben erhalten.
+- **Einsatz:** Nichts einzuschalten. Rollout zuerst für **Pro und Max** in der Claude-App (Web, Desktop, Mobile) über die folgenden Wochen, Team und Free folgen; Enterprise-Admins werden mindestens 30 Tage vor einer Änderung informiert und schalten Docs/Slides/Design selbst frei. Artikel: `claude.com/blog/cowork-is-now-claude`.
+- **Mehrwert:** **Kein direkter Claude-Code-Bezug** — die CLI bleibt unverändert. Für den Alltag rund um Code relevant: Berichte, Doku-Entwürfe und Folien zu einem Projekt entstehen jetzt in derselben Unterhaltung, ohne zwischen Cowork, Design und Chat zu wechseln, und wiederkehrende Berichte lassen sich einplanen.
+- **Version:** Anthropic-Blog 16.09.2026 (Product announcements, kein CLI-Release)
+
+#### Claude for Small Business: 43 Workflows, 27 neue Integrationen
+
+- **Was:** Das im Mai gestartete Paket **Claude for Small Business** (Plugin für Claude Cowork, laut Anthropic über 900 000 Installationen) umfasst jetzt **43 Workflows** und **27 neue Integrationen**, u. a. Shopify, Salesforce, TikTok, Atlassian, Zoom, Xero, Gusto, Square, Stripe und Zapier. Die neuen Workflows zielen auf Wachstum statt nur Buchhaltung: ein **Wochenbericht** (Kasse, Umsatz, Pipeline, überfällige Rechnungen auf einer Seite), **Antworten auf eingehende Anfragen** mit Terminvorschlägen und CRM-Eintrag, **Angebote aus Sprachnotizen** mit Preisen aus früheren Aufträgen, Marketing-Posts und **Monatsabschluss**. Workflows lassen sich einplanen; standardmäßig wartet Claude vor dem Senden, Posten oder Bezahlen auf Freigabe. Ohne Connectoren genügt eine hochgeladene Tabelle. Dazu kommt eine Herbst-Tour mit kostenlosen Workshops in 10 US-Städten und Partner-Webinaren.
+- **Einsatz:** In Claude Cowork das Plugin installieren und `/smb-onboard` ausführen (oder „help me get set up"). Weitere Befehle: `/monday-brief`, `/speed-to-lead`, `/proposal-builder`. Artikel: `claude.com/blog/claude-for-small-business-launches-new-workflows-integrations-and-training-programs`.
+- **Mehrwert:** **Kein Claude-Code-Bezug** — Zielgruppe sind Inhaber kleiner Firmen. Für Plugin-Autoren interessant als Vorlage: Branchenpaket aus Slash-Befehlen, Connectoren und geplanten Workflows mit Freigabe vor jeder Außenwirkung, wie schon bei Commerce Agents, Teachers und Financial Advisors.
+- **Version:** Anthropic-Blog 15.09.2026 (Product announcements, kein CLI-Release)
 
 ### Woche 38 (15. September 2026) — v2.1.273: Gateway-Header, Permission-Härtung, Auto-Compact-Rechenfehler
 
