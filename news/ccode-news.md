@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-27 06:00 UTC (**Crawl 27.09. 06:00 UTC: Leerlauf bei allen vier Quellen (Sonntag), Nachabgleich der What's-New-Wochenseiten.** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs) byte-gleich zum 18:00-Snapshot vom 26.09. Token-Abgleich der Wochenseiten `2026-w35` bis `2026-w37` gegen die Datei: alle Backtick-Tokens belegt; einzig das Beispiel `--tools "Bash,Read,Edit"` aus w35 steht nicht wörtlich drin, der zugehörige Hinweis (`--restricted` entfernt Tools, `--tools` als Allowlist holt sie zurück) ist aber dokumentiert. Neue Einträge: 0.)
+> Letzte Aktualisierung: 2026-09-27 12:00 UTC (**Crawl 27.09. 12:00 UTC: Leerlauf bei allen vier Quellen (Sonntag).** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs, gleiche Menge) byte-gleich zum 06:00-Snapshot. Changelog, Platform-Notes ab 19.08. und What's-New-Wochenseiten w35–w37 sind aus den Vorläufen vollständig abgeglichen. Neue Einträge: 0.)
 
 ---
 
