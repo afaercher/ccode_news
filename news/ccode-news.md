@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-28 06:00 UTC (**Crawl 28.09. 06:00 UTC: Leerlauf bei allen vier Quellen (Montagmorgen).** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs) byte-gleich zum 27.09.-18:00-Snapshot. Nachabgleich der Platform-Notes vom 14.07. bis 18.08. gegen die Datei: der Compliance-API-Punkt vom 03.08. (Transkripte von Cowork-Sessions aus claude.ai Web/Mobil, `sessions/remote`) fehlte und ist nachgetragen. Neue Einträge: 1.)
+> Letzte Aktualisierung: 2026-09-28 12:00 UTC (**Crawl 28.09. 12:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283`. `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs) byte-gleich zum 06:00-Snapshot. Nachabgleich der Platform-Notes vom 02.06. bis 13.07. gegen die Datei: vier Punkte fehlten und sind nachgetragen (02.07. Beta-Header `agent-memory-2026-07-22`, 22.06. Umzug der MCP-Tunnels-API auf `/v1/tunnels`, 09.06. Compliance Activity Feed auf Claude Platform on AWS, 09.06. Swift-Paket für Apples Foundation Models). Neue Einträge: 4. — Vorheriger Crawl 28.09. 06:00 UTC: **Crawl 28.09. 06:00 UTC: Leerlauf bei allen vier Quellen (Montagmorgen).** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs) byte-gleich zum 27.09.-18:00-Snapshot. Nachabgleich der Platform-Notes vom 14.07. bis 18.08. gegen die Datei: der Compliance-API-Punkt vom 03.08. (Transkripte von Cowork-Sessions aus claude.ai Web/Mobil, `sessions/remote`) fehlte und ist nachgetragen. Neue Einträge: 1.)
 
 ---
 
@@ -763,6 +763,36 @@
 - **Einsatz:** Beta-Header `thinking-binding-controls-2026-08-01` mitsenden, in der Antwort `input_transformations` auslesen und Einträge vom Typ `thinking_mismatch_allowed` loggen. Doku: „Set the mismatch behavior and read `input_transformations`" auf der Preserved-Thinking-Seite.
 - **Mehrwert:** Für Bestandskonten ist die Prefix-Prüfung heute noch optional, wird aber bei Opt-in per `prefix_mismatch_behavior` hart — dann liefern Requests mit nachträglich geänderter Historie (umgeschriebener System-Prompt, ausgetauschte Tools, gekürzte Turns) einen 400. Der neue Eintragstyp ist der Weg, **vor** dem Umschalten im Produktions-Traffic zu sehen, welche Code-Pfade die Historie editieren, statt es nach dem Umschalten an Fehlerraten zu merken. Für Claude-Code-Nutzer ohne eigene API-Integration ist das ohne Belang.
 - **Version:** Claude API — Platform-Eintrag vom 14.09.2026, nachgetragen (Beta)
+
+### Platform Release Notes — Nachtrag aus dem Abgleich 02.06.–13.07.2026
+
+#### Managed Agents: Beta-Header `agent-memory-2026-07-22` ändert das Auflisten von Memories
+
+- **Was:** Der neue Beta-Header `agent-memory-2026-07-22` ändert das Verhalten von `GET /v1/memory_stores/{memory_store_id}/memories`: Ergebnisse kommen in einer stabilen, serverseitig festgelegten Reihenfolge, `order_by` und `order` werden ignoriert, `depth` akzeptiert nur noch `0`, `1` oder gar keinen Wert (sonst 400), und `path_prefix` muss auf `/` enden und trifft ganze Pfadsegmente statt Teilstrings. Seiten-Cursor ohne den Header sind mit ihm ungültig. Auf Memory-Store-Endpunkten ersetzt der Header `managed-agents-2026-04-01`; beide zusammen liefern einen 400. Am 22.07.2026 übernahm auch `managed-agents-2026-04-01` das neue Listenverhalten. Die SDKs (Python 0.116.0, TypeScript 0.110.0, Go 1.56.0, Java 2.48.0, Ruby 1.55.0, PHP 0.36.0, C# 12.35.0, CLI 1.16.0) senden ihn automatisch bei allen Memory-Store-Aufrufen.
+- **Einsatz:** SDK aktualisieren. Wer `betas` bei Memory-Store-Aufrufen explizit übergibt, ersetzt dort `managed-agents-2026-04-01` durch `agent-memory-2026-07-22`, statt einen zweiten Wert anzuhängen. Paginierung beim Umstieg ab der ersten Seite neu starten; `path_prefix`-Werte mit abschließendem `/` versehen.
+- **Mehrwert:** Deterministische Listen und saubere Pfad-Präfix-Treffer machen Memory-Abfragen reproduzierbar. Wer sich auf Teilstring-Treffer oder eigene Sortierung verlassen hat, muss vor dem 22.07. umstellen.
+- **Version:** Claude API — Platform-Eintrag vom 02.07.2026, nachgetragen (Beta)
+
+#### MCP Tunnels: Verwaltungs-API zieht von der Admin API auf die Claude API um
+
+- **Was:** Die Verwaltungs-API der MCP Tunnels (Research Preview) liegt nicht mehr unter `/v1/organizations/tunnels` in der Admin API, sondern unter `/v1/tunnels` in der Claude API. Die neue Schnittstelle nutzt den Header `anthropic-beta: mcp-tunnels-2026-06-22` und den WIF-Scope `workspace:manage_tunnels`. Die alte Schnittstelle bleibt während eines Migrationsfensters erreichbar.
+- **Einsatz:** Tunnel-Automatisierung auf `/v1/tunnels` mit Beta-Header `mcp-tunnels-2026-06-22` umstellen und der Workload-Identity den Scope `workspace:manage_tunnels` geben. Referenz: Tunnels API unter `platform.claude.com/docs/en/api/beta/tunnels`.
+- **Mehrwert:** Tunnels lassen sich pro Workspace mit normalen API-Credentials verwalten statt nur mit einem Admin-Key. Die Umstellung vor Ende des Migrationsfensters verhindert, dass Skripte gegen die alte Admin-Route plötzlich brechen.
+- **Version:** Claude API — Platform-Eintrag vom 22.06.2026, nachgetragen (Research Preview)
+
+#### Compliance API: Activity Feed auf Claude Platform on AWS
+
+- **Was:** Der Activity Feed der Compliance API (`GET /v1/compliance/activities`) ist auch auf der Claude Platform on AWS verfügbar. Autorisiert wird er über die IAM-Action `ListComplianceActivities`.
+- **Einsatz:** In der IAM-Policy die Action `ListComplianceActivities` freigeben und den Endpunkt wie auf der Claude API abfragen.
+- **Mehrwert:** Organisationen, die Claude über AWS beziehen, bekommen dieselbe Audit-Spur für SIEM- und eDiscovery-Anbindungen, ohne einen zweiten Zugang zur Claude API zu brauchen.
+- **Version:** Claude Platform on AWS — Platform-Eintrag vom 09.06.2026, nachgetragen
+
+#### Swift-Paket: Claude als `LanguageModel` in Apples Foundation Models Framework (Beta)
+
+- **Was:** Ein Swift-Paket (Beta) bindet Claude als serverseitiges `LanguageModel` in Apples Foundation Models Framework ein. Claude wird über dieselbe `LanguageModelSession`-API aufgerufen wie Apples On-Device-Modell, auf iOS 27, macOS 27, visionOS 27 und watchOS 27 (Beta). Der Blog-Eintrag „Claude in Apples Foundation Models Framework" vom 08.06. beschreibt das Vorhaben; dies ist das veröffentlichte Paket dazu.
+- **Einsatz:** Paket laut Doku unter `platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models` per Swift Package Manager einbinden und statt des On-Device-Modells Claude in der `LanguageModelSession` verwenden.
+- **Mehrwert:** Apple-Apps können zwischen lokalem Modell und Claude wechseln, ohne ihren Aufrufcode umzubauen, etwa lokal für einfache und Claude für anspruchsvolle Aufgaben.
+- **Version:** SDK-Bibliothek — Platform-Eintrag vom 09.06.2026, nachgetragen (Beta)
 
 ### Nachtrag aus dem Token-Abgleich — v2.1.212–v2.1.219 (Juli 2026)
 
