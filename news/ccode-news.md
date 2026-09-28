@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-09-27 18:00 UTC (**Crawl 27.09. 18:00 UTC: Leerlauf bei allen vier Quellen (Sonntag).** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs, gleiche Menge) byte-gleich zum 12:00-Snapshot. Nachabgleich der 15 Blog-Slugs gegen die Datei: zwei Beiträge fehlten und sind nachgetragen (Cowork und Chat werden ein Claude, 16.09.; Claude for Small Business, 15.09.). Neue Einträge: 2.)
+> Letzte Aktualisierung: 2026-09-28 06:00 UTC (**Crawl 28.09. 06:00 UTC: Leerlauf bei allen vier Quellen (Montagmorgen).** npm: `latest` = `next` **2.1.283** (unverändert, `time.modified` 25.09. 21:49 UTC), `stable` **2.1.274**; neuestes GitHub-Release weiter `v2.1.283` (25.09. 21:50 UTC). `CHANGELOG.md` 821 156 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`2026-w39` weiter HTTP 404), **Platform** 113 182 Bytes und Blog-Seite (15 Slugs) byte-gleich zum 27.09.-18:00-Snapshot. Nachabgleich der Platform-Notes vom 14.07. bis 18.08. gegen die Datei: der Compliance-API-Punkt vom 03.08. (Transkripte von Cowork-Sessions aus claude.ai Web/Mobil, `sessions/remote`) fehlte und ist nachgetragen. Neue Einträge: 1.)
 
 ---
 
@@ -4517,6 +4517,12 @@
 - **Einsatz:** Verbliebene Aufrufe von `claude-opus-4-1-20250805` auf `claude-opus-5` umstellen (Migration Guide in der Modell-Doku).
 - **Mehrwert:** Der angekündigte Stichtag ist damit vollzogen — wer noch alte Pipelines, Skripte oder Fallback-Ketten mit Opus 4.1 betreibt, sieht jetzt harte Fehler statt stiller Degradierung und sollte die Modell-ID sofort ersetzen. Aktualisiert die frühere Deprecation-Notiz, die noch Opus 4.8 als Migrationsziel nannte.
 - **Version:** Platform-Release-Notes 05.08.2026 (Claude API) — keine CLI-Version
+
+### [Compliance API liefert Transkripte von Cowork-Sessions aus claude.ai Web und Mobil]
+- **Was:** Die **Compliance API** gibt in **Beta** für Claude-Enterprise-Organisationen jetzt die Transkripte von **Cowork-Sessions** zurück, die in claude.ai im Web oder in der Mobil-App gestartet wurden, also in der Cloud laufen. `GET /v1/compliance/apps/sessions/remote` listet die Sessions, `GET /v1/compliance/apps/sessions/remote/{session_id}/messages` liefert das Transkript einer Session. Das war der erste Session-Endpunkt der Compliance API; die lokalen Sessions (`…/sessions/local`) folgten am 11.08.
+- **Einsatz:** Vorhandenen Compliance Access Key mit dem Scope `read:compliance_user_data` nutzen. Doku: `platform.claude.com/docs/en/manage-claude/compliance-sessions#retrieve-remote-sessions`.
+- **Mehrwert:** Compliance- und eDiscovery-Teams können Cowork-Arbeit in der Cloud archivieren und durchsuchen, ohne einen eigenen Export zu bauen. Die Integration läuft über denselben Schlüssel wie der Activity Feed.
+- **Version:** Platform-Release-Notes 03.08.2026 (Claude API, Beta, Enterprise) — keine CLI-Version
 
 ### [Dreams unterstützt Claude Opus 5]
 - **Was:** Die Managed-Agents-Funktion **Dreams** (Research Preview) läuft jetzt auch auf **Claude Opus 5** — bislang war die Modellauswahl auf Fable 5 und Sonnet 5 beschränkt.
