@@ -1,7 +1,7 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-10-03 12:00 UTC (**Crawl 03.10. 12:00 UTC: Leerlauf bei allen vier Quellen, Platform-Nachabgleich Juni bis August 2025.** npm: `latest` = `next` **2.1.288**, `stable` **2.1.285** (`time.modified` unverändert 02.10. 20:20 UTC); neuestes GitHub-Release weiter `v2.1.288`. `CHANGELOG.md` 900 935 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Nachabgleich der Platform-Notes vom 11.06. bis 27.08.2025 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind 13 Einträge (27.08. PHP-SDK; 12./26.08. 1M-Kontext für Sonnet 4; 19.08. Request-ID im Fehler-Body; 18.08. Usage & Cost API; 13.08. 1-Stunden-Cache ohne Beta-Header samt Abkündigung Sonnet 3.5; 11.08. 429 statt 529; 05.08. Opus 4.1; 03.07./08.08. Suchergebnis-Blöcke; 28.07. `text_editor_20250728`; 17./24.07. höhere Rate-Limits; 21.07. Claude 2.x/Sonnet 3 abgeschaltet samt Abkündigung Opus 3; 23.06. Developer-Rolle sieht Kosten; 11.06. Fine-grained Tool Streaming Beta). Neue Einträge: 13. — Vorheriger Crawl 03.10. 06:00 UTC: **Crawl 03.10. 06:00 UTC: v2.1.288 erschienen – Prompt-Entwurf nach Ctrl+C zurückholen, `/code-review --max-findings`, Fortsetzung nach API-Timeouts, Fix für gefährliches `rm` in `bash -c`.** npm: `latest` = `next` **2.1.288** (npm 02.10. 18:30 UTC, `time.modified` 20:20 UTC), `stable` weiter **2.1.285**; GitHub-Release `v2.1.288` vom 02.10. 20:19 UTC. `CHANGELOG.md` (900 935 Bytes, zuvor 887 716) hat den Abschnitt 2.1.288 mit 89 Punkten, deckungsgleich mit dem Release-Text: `$.ui.selection()` für Mods, eingebautes `gh api` in Cloud-Sessions, Ctrl+F/Alt+↑/↓ in der Agents-Ansicht, Re-Authentifizierung bei fehlendem OAuth-Scope, `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS`, `claude purge`, Auto-Compact-Fenster pro Modell, Zeitlimit für Hintergrundbefehle nur noch unbeaufsichtigt, Pfad-Regeln auch bei Write/Edit, dazu viele Fixes. 14 Einträge; Token-Abgleich gegen den Abschnitt ohne Lücke. **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 02.10.-18:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Neue Einträge: 14. — Vorheriger Crawl 02.10. 18:00 UTC: **Crawl 02.10. 18:00 UTC: Leerlauf bei Claude Code, Platform-Nachabgleich September/Oktober 2025.** npm: `latest` = `next` **2.1.287**, `stable` **2.1.285** (`time.modified` unverändert 01.10. 17:59 UTC); neuestes GitHub-Release weiter `v2.1.287`. `CHANGELOG.md` 887 716 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 12:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. **Platform** (`overview.md`, 115 708 Bytes, zuvor 115 698) ändert nur einen Link beim Punkt „Memory Stores in self-hosted Sandboxes“ (neue Doku-Seite `managed-agents/self-hosted-sandboxes-memory`), inhaltlich gleich, der Eintrag steht schon drin. Nachabgleich der Platform-Notes vom 02.09. bis 28.10.2025 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind 15 Einträge (28.10. Sonnet 3.7 abgekündigt/Sonnet 3.5 abgeschaltet, `clear_thinking_20251015`; 16.10. Agent Skills Beta; 15.10. Haiku 4.5; 29.09. Sonnet 4.5 mit Global-Endpoint-Preisen, `model_context_window_exceeded`, Memory Tool und Context Editing; 17.09. Tool Helpers; 16.09. Marke Claude; 10.09. Web Fetch Tool, Claude Code Analytics API; 08.09. C#-SDK; 05.09. Rate-Limit-Diagramme; 03.09. zitierfähige Dokumente in Tool-Ergebnissen; 02.09. Code-Execution-Tool v2). Neue Einträge: 15. — Vorheriger Crawl 02.10. 12:00 UTC: **Crawl 02.10. 12:00 UTC: Leerlauf bei allen vier Quellen, Platform-Nachabgleich November 2025 bis Januar 2026.** npm: `latest` = `next` **2.1.287**, `stable` **2.1.285** (`time.modified` unverändert 01.10. 17:59 UTC); neuestes GitHub-Release weiter `v2.1.287`. `CHANGELOG.md` 887 716 Bytes, **Platform** (`overview.md`) 115 698 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs in anderer Reihenfolge, weiter kein Sonnet-5.5-Post. Nachabgleich der Platform-Notes vom 14.11.2025 bis 29.01.2026 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind elf Einträge (29.01. Structured Outputs GA mit `output_config.format`, 12.01. Umleitung `console.anthropic.com`, 05.01. Opus 3 abgeschaltet samt Abkündigung Haiku 3.5 vom 19.12., 24.11. Opus 4.5, Programmatic Tool Calling und Tool Search Tool als Beta, Effort-Parameter als Beta, client-seitige Kompaktierung in den SDKs, 21.11. Suchergebnis-Blöcke auf Bedrock, 19.11. neue Doku-Plattform, 18.11. Claude in Microsoft Foundry, 14.11./04.12. Structured Outputs als Beta). Neue Einträge: 11. — Vorheriger Crawl 02.10. 06:00 UTC: **Crawl 02.10. 06:00 UTC: Blogpost zu Claude Code Mods, CHANGELOG-Abschnitt 2.1.287 nachgezogen.** npm: `latest` = `next` **2.1.287**, `stable` **2.1.285** (`time.modified` unverändert 01.10. 17:59 UTC); neuestes GitHub-Release weiter `v2.1.287`. `CHANGELOG.md` (887 716 Bytes, zuvor 872 057) hat jetzt den Abschnitt 2.1.287 mit 106 Punkten; Abgleich gegen den GitHub-Release-Text: alle 106 Punkte gleich, nur „You should know“ heißt jetzt „built-in mod“ statt „opt-in plugin“ – keine neuen Einträge daraus. Die Blog-Seite (15 Slugs) hat den neuen Post `claude-code-mods` vom 01.10. („Customize Claude Code with mods“), dafür fällt `anthropics-approach-to-teaching-and-learning-ai` heraus; dazu die neue Doku-Seite `plugins/mods/overview` gelesen: zwei Einträge (Mods als TypeScript-Event-Handler mit eingebauten Mods, Schutz-Mod `sec-default` für Organisationen). **Platform** (`overview.md`, 115 698 Bytes, zuvor 115 699) nur Formatänderung (Aufzählungszeichen beim Admin-API-Punkt), inhaltlich gleich. **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich. Neue Einträge: 2. — Vorheriger Crawl 01.10. 18:00 UTC: **Crawl 01.10. 18:00 UTC: v2.1.287 erschienen – Claude Mods, Plugin „You should know“, 1M-Kontext als Standard auf Bedrock/Vertex/Foundry.** npm: `latest` = `next` **2.1.287** (npm 01.10. 16:59 UTC, `time.modified` 17:59 UTC), `stable` weiter **2.1.285**; GitHub-Release `v2.1.287` vom 01.10. 18:00 UTC mit 106 Punkten. `CHANGELOG.md` hatte zum Crawl-Zeitpunkt noch **keinen** Abschnitt 2.1.287 (872 057 Bytes, byte-gleich zum 12:00-Snapshot, auch nach erneutem Abruf) – die Einträge stützen sich deshalb auf den Text des GitHub-Release (`rel_1001c_v2.1.287.md`). Inhalt: Claude Mods (Plugins ändern tieferes Verhalten), eingebautes Plugin `cc-plugin-you-should-know`, Filter `n:<text>` in der Agents-Ansicht, `prompt_text` im OTel-Event `user_prompt`, URL-Abfragen von MCP-Servern (Protokoll 2025-11-25, Ausweg `bareElicitationCapability`), Opus 4.7+/Fable mit 1M-Kontext standardmäßig bei Drittanbietern, `alwaysLoad: false` verschiebt alle Tools, Berechtigungsabfragen älteste zuerst, VS-Code „Run in background“, dazu viele Fixes. 13 Einträge; Token-Abgleich gegen den Release-Text ohne Lücke. **Platform** (`overview.md`) 115 699 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) und Blog-Seite (15 Slugs, weiter kein Sonnet-5.5-Post) byte-gleich zum 12:00-Snapshot. Neue Einträge: 13. — Vorheriger Crawl 01.10. 12:00 UTC: **Crawl 01.10. 12:00 UTC: Leerlauf bei allen vier Quellen, Platform-Nachabgleich Februar.** npm: `latest` = `next` **2.1.286**, `stable` **2.1.285** (`time.modified` unverändert 30.09. 19:10 UTC); neuestes GitHub-Release weiter `v2.1.286`. `CHANGELOG.md` 872 057 Bytes, **Platform** (`overview.md`) 115 699 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) und Blog-Seite (15 Slugs, weiter kein Sonnet-5.5-Post) byte-gleich zum 06:00-Snapshot. Nachabgleich der Platform-Notes vom 05.02. bis 19.02. gegen die Datei: elf Punkte fehlten und sind nachgetragen (19.02. automatisches Prompt-Caching, Abschaltung Sonnet 3.7/Haiku 3.5; 17.02. Sonnet 4.6, Code-Execution kostenlos mit Web Search/Fetch, Tools ohne Beta-Header; 07.02. Fast Mode als Research Preview; 05.02. Opus 4.6, Effort-Parameter GA, Compaction API, `inference_geo`, Fine-grained Tool Streaming). Neue Einträge: 11. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-10-03 18:00 UTC (**Crawl 03.10. 18:00 UTC: Leerlauf bei allen vier Quellen, Platform-Nachabgleich Februar bis Mai 2025.** npm: `latest` = `next` **2.1.288**, `stable` **2.1.285** (`time.modified` unverändert 02.10. 20:20 UTC); neuestes GitHub-Release weiter `v2.1.288`. `CHANGELOG.md` 900 935 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 12:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Nachabgleich der Platform-Notes vom 24.02. bis 22.05.2025 gegen die Datei (30.06. Abkündigung Opus 3 stand schon drin): keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind 21 Einträge (22.05. Opus 4/Sonnet 4, zusammengefasstes Thinking mit `signature`, Interleaved Thinking, Files API, Code-Execution-Tool und MCP-Connector als Beta, `top_p` 0.99, Go-SDK stabil, Usage-Seite pro Minute/Stunde; 21.05./09.04. Ruby-SDK; 07.05. Web-Search-Tool; 01.05. Cache Control am Elternblock; 31.03. Java-SDK stabil; 27.02. Bilder/PDFs per URL, `tool_choice: none`, OpenAI-kompatibler Endpunkt; 24.02. Sonnet 3.7, Vision für Haiku 3.5, token-effiziente Tool-Nutzung, Console-Temperatur 1, `bash_20250124`/`text_editor_20250124`/`computer_20250124`). Neue Einträge: 21. — Vorheriger Crawl 03.10. 12:00 UTC: **Crawl 03.10. 12:00 UTC: Leerlauf bei allen vier Quellen, Platform-Nachabgleich Juni bis August 2025.** npm: `latest` = `next` **2.1.288**, `stable` **2.1.285** (`time.modified` unverändert 02.10. 20:20 UTC); neuestes GitHub-Release weiter `v2.1.288`. `CHANGELOG.md` 900 935 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Nachabgleich der Platform-Notes vom 11.06. bis 27.08.2025 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind 13 Einträge (27.08. PHP-SDK; 12./26.08. 1M-Kontext für Sonnet 4; 19.08. Request-ID im Fehler-Body; 18.08. Usage & Cost API; 13.08. 1-Stunden-Cache ohne Beta-Header samt Abkündigung Sonnet 3.5; 11.08. 429 statt 529; 05.08. Opus 4.1; 03.07./08.08. Suchergebnis-Blöcke; 28.07. `text_editor_20250728`; 17./24.07. höhere Rate-Limits; 21.07. Claude 2.x/Sonnet 3 abgeschaltet samt Abkündigung Opus 3; 23.06. Developer-Rolle sieht Kosten; 11.06. Fine-grained Tool Streaming Beta). Neue Einträge: 13. — Vorheriger Crawl 03.10. 06:00 UTC: **Crawl 03.10. 06:00 UTC: v2.1.288 erschienen – Prompt-Entwurf nach Ctrl+C zurückholen, `/code-review --max-findings`, Fortsetzung nach API-Timeouts, Fix für gefährliches `rm` in `bash -c`.** npm: `latest` = `next` **2.1.288** (npm 02.10. 18:30 UTC, `time.modified` 20:20 UTC), `stable` weiter **2.1.285**; GitHub-Release `v2.1.288` vom 02.10. 20:19 UTC. `CHANGELOG.md` (900 935 Bytes, zuvor 887 716) hat den Abschnitt 2.1.288 mit 89 Punkten, deckungsgleich mit dem Release-Text: `$.ui.selection()` für Mods, eingebautes `gh api` in Cloud-Sessions, Ctrl+F/Alt+↑/↓ in der Agents-Ansicht, Re-Authentifizierung bei fehlendem OAuth-Scope, `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS`, `claude purge`, Auto-Compact-Fenster pro Modell, Zeitlimit für Hintergrundbefehle nur noch unbeaufsichtigt, Pfad-Regeln auch bei Write/Edit, dazu viele Fixes. 14 Einträge; Token-Abgleich gegen den Abschnitt ohne Lücke. **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 02.10.-18:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Neue Einträge: 14. — Vorheriger Crawl 02.10. 18:00 UTC: **Crawl 02.10. 18:00 UTC: Leerlauf bei Claude Code, Platform-Nachabgleich September/Oktober 2025.** npm: `latest` = `next` **2.1.287**, `stable` **2.1.285** (`time.modified` unverändert 01.10. 17:59 UTC); neuestes GitHub-Release weiter `v2.1.287`. `CHANGELOG.md` 887 716 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 12:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. **Platform** (`overview.md`, 115 708 Bytes, zuvor 115 698) ändert nur einen Link beim Punkt „Memory Stores in self-hosted Sandboxes“ (neue Doku-Seite `managed-agents/self-hosted-sandboxes-memory`), inhaltlich gleich, der Eintrag steht schon drin. Nachabgleich der Platform-Notes vom 02.09. bis 28.10.2025 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind 15 Einträge (28.10. Sonnet 3.7 abgekündigt/Sonnet 3.5 abgeschaltet, `clear_thinking_20251015`; 16.10. Agent Skills Beta; 15.10. Haiku 4.5; 29.09. Sonnet 4.5 mit Global-Endpoint-Preisen, `model_context_window_exceeded`, Memory Tool und Context Editing; 17.09. Tool Helpers; 16.09. Marke Claude; 10.09. Web Fetch Tool, Claude Code Analytics API; 08.09. C#-SDK; 05.09. Rate-Limit-Diagramme; 03.09. zitierfähige Dokumente in Tool-Ergebnissen; 02.09. Code-Execution-Tool v2). Neue Einträge: 15. — Vorheriger Crawl 02.10. 12:00 UTC: **Crawl 02.10. 12:00 UTC: Leerlauf bei allen vier Quellen, Platform-Nachabgleich November 2025 bis Januar 2026.** npm: `latest` = `next` **2.1.287**, `stable` **2.1.285** (`time.modified` unverändert 01.10. 17:59 UTC); neuestes GitHub-Release weiter `v2.1.287`. `CHANGELOG.md` 887 716 Bytes, **Platform** (`overview.md`) 115 698 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs in anderer Reihenfolge, weiter kein Sonnet-5.5-Post. Nachabgleich der Platform-Notes vom 14.11.2025 bis 29.01.2026 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind elf Einträge (29.01. Structured Outputs GA mit `output_config.format`, 12.01. Umleitung `console.anthropic.com`, 05.01. Opus 3 abgeschaltet samt Abkündigung Haiku 3.5 vom 19.12., 24.11. Opus 4.5, Programmatic Tool Calling und Tool Search Tool als Beta, Effort-Parameter als Beta, client-seitige Kompaktierung in den SDKs, 21.11. Suchergebnis-Blöcke auf Bedrock, 19.11. neue Doku-Plattform, 18.11. Claude in Microsoft Foundry, 14.11./04.12. Structured Outputs als Beta). Neue Einträge: 11. — Vorheriger Crawl 02.10. 06:00 UTC: **Crawl 02.10. 06:00 UTC: Blogpost zu Claude Code Mods, CHANGELOG-Abschnitt 2.1.287 nachgezogen.** npm: `latest` = `next` **2.1.287**, `stable` **2.1.285** (`time.modified` unverändert 01.10. 17:59 UTC); neuestes GitHub-Release weiter `v2.1.287`. `CHANGELOG.md` (887 716 Bytes, zuvor 872 057) hat jetzt den Abschnitt 2.1.287 mit 106 Punkten; Abgleich gegen den GitHub-Release-Text: alle 106 Punkte gleich, nur „You should know“ heißt jetzt „built-in mod“ statt „opt-in plugin“ – keine neuen Einträge daraus. Die Blog-Seite (15 Slugs) hat den neuen Post `claude-code-mods` vom 01.10. („Customize Claude Code with mods“), dafür fällt `anthropics-approach-to-teaching-and-learning-ai` heraus; dazu die neue Doku-Seite `plugins/mods/overview` gelesen: zwei Einträge (Mods als TypeScript-Event-Handler mit eingebauten Mods, Schutz-Mod `sec-default` für Organisationen). **Platform** (`overview.md`, 115 698 Bytes, zuvor 115 699) nur Formatänderung (Aufzählungszeichen beim Admin-API-Punkt), inhaltlich gleich. **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) byte-gleich. Neue Einträge: 2. — Vorheriger Crawl 01.10. 18:00 UTC: **Crawl 01.10. 18:00 UTC: v2.1.287 erschienen – Claude Mods, Plugin „You should know“, 1M-Kontext als Standard auf Bedrock/Vertex/Foundry.** npm: `latest` = `next` **2.1.287** (npm 01.10. 16:59 UTC, `time.modified` 17:59 UTC), `stable` weiter **2.1.285**; GitHub-Release `v2.1.287` vom 01.10. 18:00 UTC mit 106 Punkten. `CHANGELOG.md` hatte zum Crawl-Zeitpunkt noch **keinen** Abschnitt 2.1.287 (872 057 Bytes, byte-gleich zum 12:00-Snapshot, auch nach erneutem Abruf) – die Einträge stützen sich deshalb auf den Text des GitHub-Release (`rel_1001c_v2.1.287.md`). Inhalt: Claude Mods (Plugins ändern tieferes Verhalten), eingebautes Plugin `cc-plugin-you-should-know`, Filter `n:<text>` in der Agents-Ansicht, `prompt_text` im OTel-Event `user_prompt`, URL-Abfragen von MCP-Servern (Protokoll 2025-11-25, Ausweg `bareElicitationCapability`), Opus 4.7+/Fable mit 1M-Kontext standardmäßig bei Drittanbietern, `alwaysLoad: false` verschiebt alle Tools, Berechtigungsabfragen älteste zuerst, VS-Code „Run in background“, dazu viele Fixes. 13 Einträge; Token-Abgleich gegen den Release-Text ohne Lücke. **Platform** (`overview.md`) 115 699 Bytes, **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40` weiter HTTP 404) und Blog-Seite (15 Slugs, weiter kein Sonnet-5.5-Post) byte-gleich zum 12:00-Snapshot. Neue Einträge: 13. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
@@ -1810,6 +1810,157 @@
 - **Einsatz:** Beta-Header `fine-grained-tool-streaming-2025-05-14`. Doku: `platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming`.
 - **Mehrwert:** Große Tool-Eingaben (z. B. ganze Dateien) kommen schneller an, die Oberfläche kann früher reagieren.
 - **Version:** Claude API — Platform-Eintrag vom 11.06.2025, nachgetragen
+
+### Platform Release Notes — Nachtrag aus dem Abgleich 24.02.–22.05.2025
+
+> Der Leerlauf-Lauf vom 03.10.2026 18:00 UTC hat den Platform-Nachabgleich unter dem 11.06.2025 fortgesetzt. Keiner der folgenden Punkte stand als eigener Eintrag in der Datei.
+
+#### Claude Opus 4 und Claude Sonnet 4 veröffentlicht
+
+- **Was:** Anthropic brachte am 22.05.2025 Claude Opus 4 und Claude Sonnet 4 heraus, die neue Modellgeneration mit Extended Thinking.
+- **Einsatz:** Modell in der Messages API wählen. Übersicht: `platform.claude.com/docs/en/models/overview`.
+- **Mehrwert:** Mit dieser Generation begann die Claude-4-Reihe, auf der Claude Code lange lief. Heute sind beide Modelle längst von neueren Versionen abgelöst.
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### Extended Thinking liefert bei Claude-4-Modellen eine Zusammenfassung
+
+- **Was:** Bei Claude-4-Modellen gibt Extended Thinking standardmäßig eine Zusammenfassung des Denkprozesses zurück. Der vollständige Gedankengang kommt verschlüsselt im Feld `signature` des `thinking`-Blocks.
+- **Einsatz:** Automatisch aktiv. Doku: `platform.claude.com/docs/en/build-with-claude/extended-thinking`.
+- **Mehrwert:** Wer `thinking`-Blöcke anzeigt oder speichert, sieht kürzeren Text als bei Sonnet 3.7. Die `signature` muss unverändert zurückgeschickt werden, wenn Thinking-Blöcke in Folgeanfragen mitlaufen.
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### Interleaved Thinking als Public Beta
+
+- **Was:** Claude kann zwischen Tool-Aufrufen weiterdenken, statt nur einmal am Anfang der Antwort.
+- **Einsatz:** Beta-Header `interleaved-thinking-2025-05-14`. Doku: `platform.claude.com/docs/en/build-with-claude/thinking#interleaved-thinking`.
+- **Mehrwert:** Agenten werten Tool-Ergebnisse überlegter aus und planen den nächsten Schritt danach, was bei mehrstufigen Aufgaben weniger Fehlgriffe bringt.
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### Files API als Public Beta
+
+- **Was:** Dateien lassen sich einmal hochladen und danach in der Messages API und im Code-Execution-Tool per ID referenzieren.
+- **Einsatz:** Beta-Header `files-api-2025-04-14`. Doku: `platform.claude.com/docs/en/build-with-claude/files`.
+- **Mehrwert:** Große PDFs oder Datensätze müssen nicht bei jeder Anfrage erneut base64-kodiert mitgeschickt werden. Die allgemeine Verfügbarkeit folgte am 19.08. (eigener Eintrag „Platform: Files API allgemein verfügbar").
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### Code-Execution-Tool als Public Beta
+
+- **Was:** Ein Tool, mit dem Claude Python-Code in einer abgeschotteten Sandbox ausführt.
+- **Einsatz:** Beta-Header `code-execution-2025-05-22`. Doku: `platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool`.
+- **Mehrwert:** Claude rechnet, wertet Daten aus und erzeugt Diagramme selbst, ohne dass man eine eigene Ausführungsumgebung betreiben muss. Die zweite Version mit Bash und Dateizugriff kam im September 2025 (eigener Eintrag).
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### MCP-Connector als Public Beta
+
+- **Was:** Die Messages API kann sich direkt mit entfernten MCP-Servern verbinden, ohne dass der eigene Client das MCP-Protokoll umsetzt.
+- **Einsatz:** Beta-Header `mcp-client-2025-04-04` (inzwischen gibt es neuere Versionen des Headers). Doku: `platform.claude.com/docs/en/agents-and-tools/mcp-connector`.
+- **Mehrwert:** Vorhandene MCP-Server lassen sich mit einer einzigen API-Anfrage einbinden, ohne eigene MCP-Client-Bibliothek.
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### Standardwert von `top_p` von 0.999 auf 0.99 gesenkt
+
+- **Was:** Für alle Modelle gilt in der Messages API `top_p` = 0.99 als Standard statt 0.999. Mit Extended Thinking darf `top_p` jetzt zwischen 0.95 und 1 liegen.
+- **Einsatz:** Wer das alte Verhalten will, setzt `top_p: 0.999`.
+- **Mehrwert:** Laut Anthropic bessere Antwortqualität und weniger Tool-Fehler. Wer Ausgaben reproduzierbar vergleicht, sollte von dieser Änderung wissen.
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### Go-SDK: erst Beta, dann stabil
+
+- **Was:** Das Go-SDK wechselte am 31.03.2025 von Alpha zu Beta und erschien am 22.05.2025 als erste stabile Version.
+- **Einsatz:** `github.com/anthropics/anthropic-sdk-go`.
+- **Mehrwert:** Go-Dienste können die Claude API mit einem offiziell gepflegten Client mit stabiler Schnittstelle ansprechen.
+- **Version:** Claude API — Platform-Einträge vom 31.03. und 22.05.2025, nachgetragen
+
+#### Console: Usage-Seite pro Minute und Stunde, mit 429-Fehlerraten
+
+- **Was:** Die Usage-Seite der Console zeigt den Verbrauch auch pro Minute und pro Stunde und dazu die Rate der 429-Fehler.
+- **Einsatz:** Console → Settings → Usage.
+- **Mehrwert:** Lastspitzen und Rate-Limit-Treffer sind zeitlich genau zuzuordnen, was beim Anpassen von Batch-Größen oder Retries hilft.
+- **Version:** Claude API — Platform-Eintrag vom 22.05.2025, nachgetragen
+
+#### Ruby-SDK: Beta, dann stabil
+
+- **Was:** Am 09.04.2025 erschien das Ruby-SDK als Beta, am 21.05.2025 die erste stabile Version.
+- **Einsatz:** `github.com/anthropics/anthropic-sdk-ruby`.
+- **Mehrwert:** Rails- und andere Ruby-Projekte bekommen einen offiziellen Client statt Community-Gems.
+- **Version:** Claude API — Platform-Einträge vom 09.04. und 21.05.2025, nachgetragen
+
+#### Web-Search-Tool in der API
+
+- **Was:** Ein Tool, mit dem Claude im Web nach aktuellen Informationen sucht.
+- **Einsatz:** Tool in der Messages API mitgeben. Doku: `platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool`.
+- **Mehrwert:** Antworten können sich auf Informationen nach dem Trainingsstand stützen, ohne eigene Such-Integration.
+- **Version:** Claude API — Platform-Eintrag vom 07.05.2025, nachgetragen
+
+#### Cache Control gehört an den übergeordneten Block von `tool_result` und `document.source`
+
+- **Was:** `cache_control` muss direkt am übergeordneten `content`-Block von `tool_result` und `document.source` stehen. Steht es am letzten Block in `tool_result.content` bzw. `document.source.content`, wird es automatisch nach oben übertragen. An jeder anderen Stelle darin führt es zu einem Validierungsfehler.
+- **Einsatz:** `cache_control` am Elternblock setzen.
+- **Mehrwert:** Wer Cache-Breakpoints mitten in Tool-Ergebnissen gesetzt hatte, bekommt seitdem einen Fehler und muss die Anfrage umbauen.
+- **Version:** Claude API — Platform-Eintrag vom 01.05.2025, nachgetragen
+
+#### Java-SDK stabil
+
+- **Was:** Das Java-SDK wechselte von Beta zur ersten stabilen Version.
+- **Einsatz:** `github.com/anthropics/anthropic-sdk-java`.
+- **Mehrwert:** JVM-Projekte (Java, Kotlin) bekommen einen offiziell gepflegten Client mit stabiler Schnittstelle.
+- **Version:** Claude API — Platform-Eintrag vom 31.03.2025, nachgetragen
+
+#### Bilder und PDFs per URL statt base64
+
+- **Was:** Die Messages API nimmt Bilder und PDFs als URL-Quellblock an.
+- **Einsatz:** Quelle mit Typ URL statt base64 angeben. Doku: `platform.claude.com/docs/en/build-with-claude/vision` und `…/pdf-support`.
+- **Mehrwert:** Kleinere Anfragen und weniger Code, wenn die Dateien ohnehin öffentlich erreichbar liegen.
+- **Version:** Claude API — Platform-Eintrag vom 27.02.2025, nachgetragen
+
+#### `tool_choice: none` und Tool-Blöcke ohne `tools`
+
+- **Was:** `tool_choice` kennt die Option `none`, die Tool-Aufrufe ganz unterbindet. Außerdem darf `tools` fehlen, wenn der Verlauf `tool_use`- und `tool_result`-Blöcke enthält.
+- **Einsatz:** `"tool_choice": {"type": "none"}`.
+- **Mehrwert:** Eine reine Textantwort lässt sich erzwingen, etwa für eine Zusammenfassung am Ende einer Agentenschleife, ohne den Tool-Verlauf zu entfernen.
+- **Version:** Claude API — Platform-Eintrag vom 27.02.2025, nachgetragen
+
+#### OpenAI-kompatibler API-Endpunkt
+
+- **Was:** Ein Endpunkt, der die Chat Completions der OpenAI-API nachbildet. Bestehende OpenAI-Integrationen sprechen Claude an, wenn man nur API-Key, Base-URL und Modellnamen tauscht.
+- **Einsatz:** Doku: `platform.claude.com/docs/en/cli-sdks-libraries/libraries/openai-sdk`.
+- **Mehrwert:** Claude lässt sich in vorhandenen Tools schnell testen. Für den vollen Funktionsumfang bleibt die native Messages API nötig.
+- **Version:** Claude API — Platform-Eintrag vom 27.02.2025, nachgetragen
+
+#### Claude Sonnet 3.7 mit sichtbarem Extended Thinking
+
+- **Was:** Am 24.02.2025 erschien Claude Sonnet 3.7. Es antwortet wahlweise fast sofort oder denkt mit Extended Thinking sichtbar Schritt für Schritt.
+- **Einsatz:** Modell in der Messages API wählen, Extended Thinking per `thinking`-Parameter einschalten.
+- **Mehrwert:** Das erste Claude-Modell mit Extended Thinking. Abgeschaltet ist es inzwischen (eigener Eintrag „Claude Sonnet 3.7 und Haiku 3.5 abgeschaltet").
+- **Version:** Claude API — Platform-Eintrag vom 24.02.2025, nachgetragen
+
+#### Claude Haiku 3.5 versteht Bilder
+
+- **Was:** Claude Haiku 3.5 bekam Vision-Unterstützung und kann Bilder analysieren.
+- **Einsatz:** Bild-Blöcke an Haiku 3.5 schicken.
+- **Mehrwert:** Günstige Bildauswertung ohne Umstieg auf ein größeres Modell. Haiku 3.5 ist inzwischen abgeschaltet.
+- **Version:** Claude API — Platform-Eintrag vom 24.02.2025, nachgetragen
+
+#### Token-effiziente Tool-Nutzung
+
+- **Was:** Anthropic veröffentlichte eine token-effizientere Umsetzung der Tool-Nutzung, die die Gesamtleistung beim Arbeiten mit Tools verbessert.
+- **Einsatz:** Doku: `platform.claude.com/docs/en/agents-and-tools/tool-use/overview`.
+- **Mehrwert:** Weniger Token pro Tool-Aufruf senkt Kosten und Latenz in Agentenschleifen.
+- **Version:** Claude API — Platform-Eintrag vom 24.02.2025, nachgetragen
+
+#### Console: neue Prompts mit Temperatur 1 statt 0
+
+- **Was:** In der Console starten neue Prompts mit der Temperatur 1 statt 0, passend zum Standardwert der API. Gespeicherte Prompts bleiben unverändert.
+- **Einsatz:** Automatisch aktiv. Wer deterministischere Ausgaben will, stellt die Temperatur im Workbench von Hand zurück.
+- **Mehrwert:** Was man im Workbench ausprobiert, verhält sich wie der spätere API-Aufruf mit Standardwerten.
+- **Version:** Claude API — Platform-Eintrag vom 24.02.2025, nachgetragen
+
+#### `bash_20250124`, `text_editor_20250124` und `computer_20250124`
+
+- **Was:** Neue Tool-Versionen trennen den Texteditor und Bash vom System-Prompt für Computer Use. `bash_20250124` und `text_editor_20250124` funktionieren wie bisher, brauchen aber keinen Beta-Header mehr. `computer_20250124` bringt neue Befehle wie `hold_key`, `left_mouse_down`, `left_mouse_up`, `scroll`, `triple_click` und `wait` und braucht den Beta-Header `computer-use-2025-01-24`.
+- **Einsatz:** Tool-Typ in `tools` auf die neue Version setzen.
+- **Mehrwert:** Bash und Texteditor lassen sich ohne Computer Use und ohne Beta-Flag einsetzen. Computer-Use-Agenten können feiner scrollen, ziehen und warten.
+- **Version:** Claude API — Platform-Eintrag vom 24.02.2025, nachgetragen
 
 ### Nachtrag aus dem Token-Abgleich — v2.1.212–v2.1.219 (Juli 2026)
 
