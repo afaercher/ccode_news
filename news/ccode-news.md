@@ -1,11 +1,219 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-10-07 18:00 UTC (**Crawl 07.10. 18:00 UTC: Claude Haiku 5.5 erschienen, günstigere Sonnet-5.5-Cache-Reads, API-Guthaben für Max/Team; drei neue Artikel.** npm: `next` jetzt **2.1.293** (`time.modified` 07.10. 17:18 UTC, noch ohne GitHub-Release und ohne CHANGELOG-Abschnitt), `latest` weiter **2.1.292**, `stable` **2.1.285**; neuestes GitHub-Release weiter `v2.1.292`. `CHANGELOG.md` 945 458 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 12:00-Snapshot. **Platform** (`overview.md`) 119 405 Bytes (zuvor 117 265): drei neue Abschnitte „October 7, 2026“ – Claude Haiku 5.5 (`claude-haiku-5-5`, 1M Kontext, 128k Ausgabe, Adaptive Thinking, ab $0,10/$0,50) samt Breaking Changes gegenüber Haiku 4.5, Cache-Reads auf Sonnet 5.5 von $0,20 auf $0,10 pro Mio. Tokens, monatliches API-Guthaben für Max und Team. **Announcements:** neuer Artikel zu Comcast/Booz Allen mit Claude Mythos (06.10.), „Cowork is now Claude“ aus der Liste gefallen; nachgetragen die claude.dev-Posts „Claude Code in the cloud“ (06.10., `/claim-credit`-Bonus bis 07.10.) und „Getting started with Claude Code mods“ (01.10.). Neue Einträge: 7. — Vorheriger Crawl 07.10. 12:00 UTC: **Crawl 07.10. 12:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.292**, `stable` **2.1.285** (`time.modified` unverändert 06.10. 19:00 UTC); neuestes GitHub-Release weiter `v2.1.292` (06.10. 18:59 UTC). `CHANGELOG.md` 945 458 Bytes, **Platform** (`overview.md`) 117 265 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 06:00-Snapshot; die Announcements-Seite (`/resources/articles?categories=product-announcements`) ist ebenfalls byte-gleich, dieselben 11 Artikel-Slugs und claude.dev-Links. Neue Einträge: 0. — Vorheriger Crawl 07.10. 06:00 UTC: **Crawl 07.10. 06:00 UTC: v2.1.292 (92 Punkte) erschienen – `claude plugin install --marketplace`, `effort` für Subagenten, `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS`, MCP-Protokoll 2026-07-28 als stdio-Standard, Security-Fix für UNC-Pfade, viele Mod-, Cloud-, Claude-Tag- und Code-Review-Fixes; zwei rückdatierte Platform-Nachträge.** npm: `latest` = `next` **2.1.292** (`time.modified` 06.10. 19:00 UTC), `stable` weiter **2.1.285**; GitHub-Release `v2.1.292` (06.10. 18:59 UTC). `CHANGELOG.md` 945 458 Bytes (zuvor 931 749) mit Abschnitt 2.1.292 (92 Punkte), deckungsgleich mit dem Release-Text; 13 Einträge. **Platform** (`overview.md`) 117 265 Bytes (zuvor 116 210): neuer Abschnitt „October 5, 2026" (`capabilities.thinking.types.disabled` in der Models API) und nachgetragener Punkt unter „September 30, 2026" (Admin API außerhalb der Beta, `client.organization`/`ant organization`); sonst nur eine geänderte Linkadresse beim Managed-Agents-Eintrag zu `web_search`/`web_fetch`-Domains. **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich; die Announcements-Seite hat dieselben 11 Artikel-Slugs, der ältere claude.dev-Link „What a task costs on Opus 5.5" ist aus der Liste gefallen. Neue Einträge: 15. — Vorheriger Crawl 06.10. 18:00 UTC: **Crawl 06.10. 18:00 UTC: Announcements-Seite umgezogen, 7 Blog-Nachträge; CLI, CHANGELOG, Platform und What's New ohne Änderung.** npm: `next` jetzt **2.1.292** (veröffentlicht 06.10. 17:10 UTC, noch ohne GitHub-Release und ohne CHANGELOG-Abschnitt), `latest` weiter **2.1.291**, `stable` **2.1.285**; neuestes GitHub-Release weiter `v2.1.291`. `CHANGELOG.md` 931 749 Bytes, **Platform** (`overview.md`) 116 210 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 12:00-Snapshot. **Blog:** `claude.com/blog-category/announcements` leitet jetzt per **308** auf `/resources/articles?categories=product-announcements` um (11 Artikel-Slugs statt 15 Blog-Slugs). Neu: Claude for Google Workspace (Beta) und erweitertes Claude-Startups-Programm (beide 06.10.), Managed Agents mit NVIDIA OpenShell (28.09.), Marketplace-Fallbeispiel Snowflake/Vercel (23.09.). Die Seite verlinkt außerdem claude.dev-Posts; nachgetragen sind „Building with Claude Sonnet 5.5" (28.09., damit liegt der lange vermisste Sonnet-5.5-Post vor), `/claude-api build-eval`/`hillclimb` (28.09.) und „Spending your effort" (25.09.). Neue Einträge: 7. — Vorheriger Crawl 06.10. 12:00 UTC: **Crawl 06.10. 12:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.291**, `stable` **2.1.285** (`time.modified` unverändert 06.10. 03:55 UTC); neuestes GitHub-Release weiter `v2.1.291` (06.10. 03:55 UTC). `CHANGELOG.md` 931 749 Bytes, **Platform** (`overview.md`) 116 210 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Neue Einträge: 0. — Vorheriger Crawl 06.10. 06:00 UTC: **Crawl 06.10. 06:00 UTC: v2.1.290 (190 Punkte) und v2.1.291 erschienen – Sitzungsnamen für `claude attach`/`logs`, `/claude-api managed-agents-onboard`, WebFetch mit `offset`, stündlich auffüllendes WebSearch-Budget, viele Berechtigungs-, Mod- und `/loop`-Fixes.** npm: `latest` = `next` **2.1.291** (`time.modified` 06.10. 03:55 UTC; 2.1.290 auf npm seit 05.10. 18:12 UTC, 2.1.291 seit 06.10. 03:32 UTC), `stable` weiter **2.1.285**; GitHub-Releases `v2.1.290` (05.10. 23:33 UTC) und `v2.1.291` (06.10. 03:55 UTC). `CHANGELOG.md` 931 749 Bytes (zuvor 904 319) mit den Abschnitten 2.1.291 (2 Punkte) und 2.1.290 (190 Punkte), deckungsgleich mit den Release-Texten; 15 Einträge, Abgleich gegen alle 192 Punkte ohne Lücke. **Platform** (`overview.md`) 116 210 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 05.10.-18:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Neue Einträge: 15. — Vorheriger Crawl 05.10. 18:00 UTC: **Crawl 05.10. 18:00 UTC: Platform-Nachtrag vom 01.10. (Models API liefert `line`), sonst Leerlauf.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289` (03.10. 23:07 UTC). `CHANGELOG.md` 904 319 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 12:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. **Platform** (`overview.md`) 116 210 Bytes (zuvor 115 708): einziger Zusatz ist ein rückdatierter Abschnitt „October 1, 2026" mit dem neuen Feld `line` in `GET /v1/models`. Montag 05.10. ohne CLI-Release. Neue Einträge: 1. — Vorheriger Crawl 05.10. 12:00 UTC: **Crawl 05.10. 12:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289` (03.10. 23:07 UTC). `CHANGELOG.md` 904 319 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Montag 05.10. bisher ohne Release. Neue Einträge: 0. — Vorheriger Crawl 05.10. 06:00 UTC: **Crawl 05.10. 06:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289` (03.10. 23:07 UTC). `CHANGELOG.md` 904 319 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 18:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Sonntag 04.10. ohne Release (Montag 05.10. noch vor dem Werktags-Fenster). Neue Einträge: 0. — Vorheriger Crawl 04.10. 18:00 UTC: **Leerlauf bei allen vier Quellen, Platform-Nachabgleich bis zum ältesten Eintrag (Mai 2024) abgeschlossen.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289`. `CHANGELOG.md` 904 319 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 12:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Nachabgleich der Platform-Notes vom 10.05. bis 04.12.2024 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind 21 Einträge (04.12. Usage/Cost nach API-Key; 21.11. Admin API; 20.11. getrennte Input-/Output-Token-Limits, Tool Use in der Workbench; 01./13.11. PDF für Sonnet 3.5 und Token Counting; 04.09./06.11. Claude 1/Instant abgeschaltet; 04.11. Haiku 3.5; 22.10. neues Sonnet 3.5 mit Computer Use; 08.10. Message Batches Beta, lockerere Turn-Reihenfolge, Build/Scale-Pläne abgelöst; 03.10. `disable_parallel_tool_use`; 10.09. Workspaces; 22.08. CORS/`dangerouslyAllowBrowser`; 15.07./19.08. 8192 Ausgabe-Tokens; 14.08. Prompt-Caching Beta; 09.07. Testfälle/Vergleichsmodus; 27.06. Usage-/Cost-/Limits-Tabs; 20.06. Sonnet 3.5; 30.05. Tool Use GA; 10.05. Prompt Generator). Damit ist der Platform-Nachabgleich vollständig. Neue Einträge: 21. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-10-08 06:00 UTC (**Crawl 08.10. 06:00 UTC: v2.1.293 (56 Punkte) und v2.1.294 erschienen – Haiku 5.5 als Standard-Haiku, `agentType` in der Subagenten-Statuszeile, `isDeferred` für Mod-Tools, Kompaktierungs-, Hintergrund- und Hook-Fixes; sechs Platform-Nachträge.** npm: `latest` **2.1.293**, `next` **2.1.294** (`time.modified` 08.10. 03:42 UTC), `stable` **2.1.285**; GitHub-Releases `v2.1.293` (07.10. 18:10 UTC) und `v2.1.294` (08.10. 05:03 UTC). `CHANGELOG.md` 954 183 Bytes (zuvor 945 458) mit den Abschnitten 2.1.294 (2 Punkte) und 2.1.293 (56 Punkte). **Platform** (`overview.md`) 123 199 Bytes (zuvor 119 405): neuer Abschnitt „October 8, 2026“ (Compliance API mit Chats aus der vereinheitlichten Claude-Oberfläche), unter „October 7“ nachgetragen SDK-Toolsets für Browser/Computer Use sowie drei Managed-Agents-Punkte (`allowed_hosts` für Web-Tools, 400 bei abweichendem `allowed_domains`, `web_fetch` nur für bereits bekannte URLs), neuer Abschnitt „October 6“ (`capabilities.server_tools`), unter „October 1“ Dreams für Opus 5.5/Fable 5.1/Sonnet 5.5; sonst nur geänderte Doku-Links. **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich. **Announcements:** keine neuen Artikel, „Projects redesigned“ und der Comcast/Booz-Allen-Artikel sind aus der Liste gefallen. Neue Einträge: 28. — Vorheriger Crawl 07.10. 18:00 UTC: **Crawl 07.10. 18:00 UTC: Claude Haiku 5.5 erschienen, günstigere Sonnet-5.5-Cache-Reads, API-Guthaben für Max/Team; drei neue Artikel.** npm: `next` jetzt **2.1.293** (`time.modified` 07.10. 17:18 UTC, noch ohne GitHub-Release und ohne CHANGELOG-Abschnitt), `latest` weiter **2.1.292**, `stable` **2.1.285**; neuestes GitHub-Release weiter `v2.1.292`. `CHANGELOG.md` 945 458 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 12:00-Snapshot. **Platform** (`overview.md`) 119 405 Bytes (zuvor 117 265): drei neue Abschnitte „October 7, 2026“ – Claude Haiku 5.5 (`claude-haiku-5-5`, 1M Kontext, 128k Ausgabe, Adaptive Thinking, ab $0,10/$0,50) samt Breaking Changes gegenüber Haiku 4.5, Cache-Reads auf Sonnet 5.5 von $0,20 auf $0,10 pro Mio. Tokens, monatliches API-Guthaben für Max und Team. **Announcements:** neuer Artikel zu Comcast/Booz Allen mit Claude Mythos (06.10.), „Cowork is now Claude“ aus der Liste gefallen; nachgetragen die claude.dev-Posts „Claude Code in the cloud“ (06.10., `/claim-credit`-Bonus bis 07.10.) und „Getting started with Claude Code mods“ (01.10.). Neue Einträge: 7. — Vorheriger Crawl 07.10. 12:00 UTC: **Crawl 07.10. 12:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.292**, `stable` **2.1.285** (`time.modified` unverändert 06.10. 19:00 UTC); neuestes GitHub-Release weiter `v2.1.292` (06.10. 18:59 UTC). `CHANGELOG.md` 945 458 Bytes, **Platform** (`overview.md`) 117 265 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 06:00-Snapshot; die Announcements-Seite (`/resources/articles?categories=product-announcements`) ist ebenfalls byte-gleich, dieselben 11 Artikel-Slugs und claude.dev-Links. Neue Einträge: 0. — Vorheriger Crawl 07.10. 06:00 UTC: **Crawl 07.10. 06:00 UTC: v2.1.292 (92 Punkte) erschienen – `claude plugin install --marketplace`, `effort` für Subagenten, `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS`, MCP-Protokoll 2026-07-28 als stdio-Standard, Security-Fix für UNC-Pfade, viele Mod-, Cloud-, Claude-Tag- und Code-Review-Fixes; zwei rückdatierte Platform-Nachträge.** npm: `latest` = `next` **2.1.292** (`time.modified` 06.10. 19:00 UTC), `stable` weiter **2.1.285**; GitHub-Release `v2.1.292` (06.10. 18:59 UTC). `CHANGELOG.md` 945 458 Bytes (zuvor 931 749) mit Abschnitt 2.1.292 (92 Punkte), deckungsgleich mit dem Release-Text; 13 Einträge. **Platform** (`overview.md`) 117 265 Bytes (zuvor 116 210): neuer Abschnitt „October 5, 2026" (`capabilities.thinking.types.disabled` in der Models API) und nachgetragener Punkt unter „September 30, 2026" (Admin API außerhalb der Beta, `client.organization`/`ant organization`); sonst nur eine geänderte Linkadresse beim Managed-Agents-Eintrag zu `web_search`/`web_fetch`-Domains. **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich; die Announcements-Seite hat dieselben 11 Artikel-Slugs, der ältere claude.dev-Link „What a task costs on Opus 5.5" ist aus der Liste gefallen. Neue Einträge: 15. — Vorheriger Crawl 06.10. 18:00 UTC: **Crawl 06.10. 18:00 UTC: Announcements-Seite umgezogen, 7 Blog-Nachträge; CLI, CHANGELOG, Platform und What's New ohne Änderung.** npm: `next` jetzt **2.1.292** (veröffentlicht 06.10. 17:10 UTC, noch ohne GitHub-Release und ohne CHANGELOG-Abschnitt), `latest` weiter **2.1.291**, `stable` **2.1.285**; neuestes GitHub-Release weiter `v2.1.291`. `CHANGELOG.md` 931 749 Bytes, **Platform** (`overview.md`) 116 210 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 12:00-Snapshot. **Blog:** `claude.com/blog-category/announcements` leitet jetzt per **308** auf `/resources/articles?categories=product-announcements` um (11 Artikel-Slugs statt 15 Blog-Slugs). Neu: Claude for Google Workspace (Beta) und erweitertes Claude-Startups-Programm (beide 06.10.), Managed Agents mit NVIDIA OpenShell (28.09.), Marketplace-Fallbeispiel Snowflake/Vercel (23.09.). Die Seite verlinkt außerdem claude.dev-Posts; nachgetragen sind „Building with Claude Sonnet 5.5" (28.09., damit liegt der lange vermisste Sonnet-5.5-Post vor), `/claude-api build-eval`/`hillclimb` (28.09.) und „Spending your effort" (25.09.). Neue Einträge: 7. — Vorheriger Crawl 06.10. 12:00 UTC: **Crawl 06.10. 12:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.291**, `stable` **2.1.285** (`time.modified` unverändert 06.10. 03:55 UTC); neuestes GitHub-Release weiter `v2.1.291` (06.10. 03:55 UTC). `CHANGELOG.md` 931 749 Bytes, **Platform** (`overview.md`) 116 210 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Neue Einträge: 0. — Vorheriger Crawl 06.10. 06:00 UTC: **Crawl 06.10. 06:00 UTC: v2.1.290 (190 Punkte) und v2.1.291 erschienen – Sitzungsnamen für `claude attach`/`logs`, `/claude-api managed-agents-onboard`, WebFetch mit `offset`, stündlich auffüllendes WebSearch-Budget, viele Berechtigungs-, Mod- und `/loop`-Fixes.** npm: `latest` = `next` **2.1.291** (`time.modified` 06.10. 03:55 UTC; 2.1.290 auf npm seit 05.10. 18:12 UTC, 2.1.291 seit 06.10. 03:32 UTC), `stable` weiter **2.1.285**; GitHub-Releases `v2.1.290` (05.10. 23:33 UTC) und `v2.1.291` (06.10. 03:55 UTC). `CHANGELOG.md` 931 749 Bytes (zuvor 904 319) mit den Abschnitten 2.1.291 (2 Punkte) und 2.1.290 (190 Punkte), deckungsgleich mit den Release-Texten; 15 Einträge, Abgleich gegen alle 192 Punkte ohne Lücke. **Platform** (`overview.md`) 116 210 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38` bis `w42` HTTP 404) byte-gleich zum 05.10.-18:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Neue Einträge: 15. — Vorheriger Crawl 05.10. 18:00 UTC: **Crawl 05.10. 18:00 UTC: Platform-Nachtrag vom 01.10. (Models API liefert `line`), sonst Leerlauf.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289` (03.10. 23:07 UTC). `CHANGELOG.md` 904 319 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 12:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. **Platform** (`overview.md`) 116 210 Bytes (zuvor 115 708): einziger Zusatz ist ein rückdatierter Abschnitt „October 1, 2026" mit dem neuen Feld `line` in `GET /v1/models`. Montag 05.10. ohne CLI-Release. Neue Einträge: 1. — Vorheriger Crawl 05.10. 12:00 UTC: **Crawl 05.10. 12:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289` (03.10. 23:07 UTC). `CHANGELOG.md` 904 319 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 06:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Montag 05.10. bisher ohne Release. Neue Einträge: 0. — Vorheriger Crawl 05.10. 06:00 UTC: **Crawl 05.10. 06:00 UTC: Leerlauf bei allen vier Quellen.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289` (03.10. 23:07 UTC). `CHANGELOG.md` 904 319 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 18:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Sonntag 04.10. ohne Release (Montag 05.10. noch vor dem Werktags-Fenster). Neue Einträge: 0. — Vorheriger Crawl 04.10. 18:00 UTC: **Leerlauf bei allen vier Quellen, Platform-Nachabgleich bis zum ältesten Eintrag (Mai 2024) abgeschlossen.** npm: `latest` = `next` **2.1.289**, `stable` **2.1.285** (`time.modified` unverändert 03.10. 23:08 UTC); neuestes GitHub-Release weiter `v2.1.289`. `CHANGELOG.md` 904 319 Bytes, **Platform** (`overview.md`) 115 708 Bytes und **What's New** 16 070 Bytes (Week 37; `2026-w38`/`w39`/`w40`/`w41` HTTP 404) byte-gleich zum 12:00-Snapshot; die Blog-Seite hat dieselben 15 Slugs, weiter kein Sonnet-5.5-Post. Nachabgleich der Platform-Notes vom 10.05. bis 04.12.2024 gegen die Datei: keiner der Punkte stand als eigener Eintrag drin, nachgetragen sind 21 Einträge (04.12. Usage/Cost nach API-Key; 21.11. Admin API; 20.11. getrennte Input-/Output-Token-Limits, Tool Use in der Workbench; 01./13.11. PDF für Sonnet 3.5 und Token Counting; 04.09./06.11. Claude 1/Instant abgeschaltet; 04.11. Haiku 3.5; 22.10. neues Sonnet 3.5 mit Computer Use; 08.10. Message Batches Beta, lockerere Turn-Reihenfolge, Build/Scale-Pläne abgelöst; 03.10. `disable_parallel_tool_use`; 10.09. Workspaces; 22.08. CORS/`dangerouslyAllowBrowser`; 15.07./19.08. 8192 Ausgabe-Tokens; 14.08. Prompt-Caching Beta; 09.07. Testfälle/Vergleichsmodus; 27.06. Usage-/Cost-/Limits-Tabs; 20.06. Sonnet 3.5; 30.05. Tool Use GA; 10.05. Prompt Generator). Damit ist der Platform-Nachabgleich vollständig. Neue Einträge: 21. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 41 (8. Oktober 2026) — v2.1.294: Prompt- und Agent-Hooks blockieren wieder zuverlässig
+
+#### Prompt-/Agent-Hooks: als Anweisung formulierte Regeln greifen richtig
+
+- **Was:** Hooks vom Typ `prompt` und `agent`, deren Text als Anweisung formuliert ist (etwa „Block commands that…“), haben bisher teils genau das durchgelassen, was sie blockieren sollten. Das ist behoben. Außerdem werden `prompt`-Hooks auf `Stop` und `SubagentStop`, die als Anweisung geschrieben sind (z. B. „Carry on if the build is broken“), besser beurteilt, sodass Claude seltener zu früh aufhört.
+- **Einsatz:** Automatisch aktiv. Betrifft Hooks mit `"type": "prompt"` bzw. `"type": "agent"` in `settings.json` oder Plugins.
+- **Mehrwert:** Wer Sicherheits- oder Qualitäts-Gates als LLM-Hooks in natürlicher Sprache formuliert, kann sich wieder darauf verlassen. Vorher konnte ein „Blockiere …“-Hook still durchwinken.
+- **Version:** v2.1.294 (GitHub-Release 08.10.2026 05:03 UTC; npm `next` 2.1.294)
+
+---
+
+### Woche 41 (7. Oktober 2026) — v2.1.293: Haiku 5.5 als Standard-Haiku, `agentType` in der Subagenten-Statuszeile, `isDeferred` für Mod-Tools, über 50 Fixes
+
+#### Claude Haiku 5.5 wird Standard-Haiku in Claude Code
+
+- **Was:** Claude Code kennt jetzt **Claude Haiku 5.5** (`claude-haiku-5-5`). Auf der Anthropic API ist es das neue **Standard-Haiku-Modell**, also das Modell hinter dem Alias `haiku` und für Hintergrundaufgaben, die Haiku nutzen. 1M Kontext, $0,10/$0,50 pro Mio. Tokens (über 100k Prompt-Tokens $0,50/$2,50).
+- **Einsatz:** `/model haiku`, `claude --model haiku` oder `model: haiku` im Subagenten-Frontmatter. Wer Haiku 4.5 festhalten will, setzt `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-haiku-4-5`.
+- **Mehrwert:** Günstige Subagenten und Hintergrundaufrufe bekommen ohne Konfiguration 1M Kontext und Adaptive Thinking.
+- **Version:** v2.1.293 (GitHub-Release 07.10.2026 18:10 UTC; npm `latest` seit 08.10.2026)
+
+#### `agentType` im `subagentStatusLine`-Payload
+
+- **Was:** Das JSON, das an ein `subagentStatusLine`-Skript geht, enthält jetzt das Feld `agentType`. Damit lassen sich eigene Subagenten-Typen voneinander unterscheiden.
+- **Einsatz:** Im Statuszeilen-Skript z. B. `jq -r '.agentType'` auswerten und je Agent-Typ anders formatieren.
+- **Mehrwert:** Eine Statuszeile kann zeigen, ob gerade `reviewer`, `tester` oder ein anderer eigener Agent läuft, statt nur „Agent“.
+- **Version:** v2.1.293
+
+#### Mods: `isDeferred` bei `$.tool.register`
+
+- **Was:** Beim Registrieren eines Tools aus einem Mod gibt es die Option `isDeferred`. Mit `false` steht das Schema des Tools von Anfang an im Prompt, statt erst über Tool Search gefunden zu werden.
+- **Einsatz:** `$.tool.register({ name: …, isDeferred: false, … })` im Hooks-Modul des Mods.
+- **Mehrwert:** Für Tools, die Claude fast immer braucht, entfällt der Umweg über die Tool-Suche, und Claude nutzt sie zuverlässiger von selbst.
+- **Version:** v2.1.293
+
+#### Nach der Kompaktierung keine erledigte Arbeit mehr zurücknehmen oder wiederholen
+
+- **Was:** Claude hielt seine eigenen letzten Aktionen vor einer Kontext-Kompaktierung manchmal für Dinge, die erst danach passiert sind, und nahm fertige Arbeit zurück oder machte sie noch einmal. Behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Lange Sitzungen mit Auto-Compact laufen sauberer weiter, ohne doppelte Commits, zurückgesetzte Edits oder wiederholte Befehle.
+- **Version:** v2.1.293
+
+#### Pfadbezogene Regeln und verschachtelte CLAUDE.md auch beim Lesen per Bash
+
+- **Was:** Pfadbezogene Regeln (`.claude/rules` mit `paths:`) und verschachtelte `CLAUDE.md`-Dateien wurden nicht geladen, wenn Claude eine Datei per `cat`, `head`, `tail`, `sed -n` oder `grep` auf eine einzelne Datei im Bash-Tool ansah statt mit dem Read-Tool. Jetzt werden sie auch dann geladen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Projektregeln für Unterverzeichnisse greifen unabhängig davon, wie Claude die Datei liest. Das ist vor allem bei Bash-lastigen Arbeitsweisen und im Bypass-Modus wichtig.
+- **Version:** v2.1.293
+
+#### Speicherleck bei HTTP-MCP-Verbindungen behoben
+
+- **Was:** Eine HTTP-MCP-Verbindung hielt jede gesendete Anfrage im Speicher, bis sie geschlossen wurde. Behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Lange Sitzungen mit vielen MCP-Aufrufen über HTTP wachsen nicht mehr ungebremst im Speicher.
+- **Version:** v2.1.293
+
+#### Sitzung mit `←` in den Hintergrund: keine verlorenen Nachrichten mehr
+
+- **Was:** Mehrere Fixes für das Verschieben einer Sitzung in den Hintergrund mit `←`. Eine Nachricht, die während der Arbeit geschickt wurde, ging dabei verloren; kann eine wartende Nachricht nicht mit umziehen, bleibt die Sitzung jetzt stehen und sagt das. Mit ungesendetem Text im Prompt oder offener Rückfrage wurde die Sitzung nach 10 Sekunden trotzdem verschoben; jetzt wird der Umzug abgebrochen. Esc oder „No“ ohne Feedback an einem Berechtigungsdialog stoppt den Turn jetzt auch direkt nach `←`.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Wer Sitzungen oft in den Hintergrund schickt, verliert keine Eingaben mehr und kann eine laufende Aktion weiterhin sicher abbrechen.
+- **Version:** v2.1.293
+
+#### `/model`: Effort-Regler springt nicht mehr über die Enden
+
+- **Was:** Mit `←`/`→` im Effort-Regler von `/model` sprang die Auswahl über die höchste bzw. niedrigste Stufe hinaus zum anderen Ende. So konnte versehentlich „Low“ als Standard-Effort eines Modells gespeichert werden. Behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Kein ungewollt niedriger Standard-Effort mehr, der sonst unbemerkt die Antwortqualität drückt.
+- **Version:** v2.1.293
+
+#### Subagenten und `SendMessage`: korrekte Hinweise zu entfernten Tools
+
+- **Was:** Claude wurde aufgefordert, Subagenten mit `SendMessage` fortzusetzen oder anzuschreiben, obwohl ein Host, eine Berechtigungsregel oder eine `--tools`-Liste das Tool entfernt hatte (auch in fortgesetzten Sitzungen). Subagenten und `--agent`-Sitzungen bekamen außerdem gesagt, ein eingebautes Tool sei für die ganze Sitzung deaktiviert, obwohl nur ihre eigene Tool-Liste es ausließ. Beides behoben. Zudem zeigt ein eigener Agent namens `worker` beim Start wieder seinen Namen statt „Agent“, und der Detaildialog behält den Agent-Typ nach dem Ende.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Weniger fehlgeschlagene Tool-Aufrufe und weniger Verwirrung bei eingeschränkten Tool-Sets in Agenten und SDK-Hosts.
+- **Version:** v2.1.293
+
+#### Keine ungewollte Abmeldung bei `claude logs`, `stop`, `kill`, `rm` und `claude daemon`
+
+- **Was:** `claude logs`, `stop`, `kill`, `rm` sowie `claude daemon status`, `stop` und `uninstall` haben einen manchmal abgemeldet, wenn der Login abgelaufen war oder bald ablief. Behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Verwaltungsbefehle für Hintergrund-Sitzungen zerstören keine Anmeldung mehr.
+- **Version:** v2.1.293
+
+#### `claude purge` meldet nicht löschbare Dateien und endet mit Exit 1
+
+- **Was:** `claude purge` hörte still auf (Exit 0 oder hängendes Terminal), wenn eine Datei oder ein Ordner nicht gelöscht werden konnte. Jetzt löscht es den Rest, listet, was nicht ging, und endet mit Exit-Code 1.
+- **Einsatz:** `claude purge`; in Skripten auf den Exit-Code prüfen.
+- **Mehrwert:** Aufräum-Skripte erkennen Teilfehler, statt einen unvollständigen Purge für erfolgreich zu halten.
+- **Version:** v2.1.293
+
+#### `claude agents`: Bypass-Zustimmung wird vorher abgefragt
+
+- **Was:** `claude agents` bot den Bypass-Berechtigungsmodus an, den Hintergrund-Sitzungen dann ignorierten, wenn die Zustimmung nur in `.claude/settings.local.json` oder einer `--settings`-Datei gespeichert war. Jetzt wird zuerst nach der Zustimmung gefragt. Eine Sitzung, die Bypass ignoriert, zeigt einen kurzen, bleibenden Hinweis.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Kein falscher Eindruck mehr, ein Hintergrund-Agent laufe ohne Rückfragen, während er in Wahrheit auf Freigaben wartet.
+- **Version:** v2.1.293
+
+#### Remote Control und Cloud-Sitzungen: Streaming und Uploads repariert
+
+- **Was:** Antworten in sehr langen Remote-Control- und Cloud-Sitzungen erschienen teils noch blockweise statt gestreamt. Remote Control lud die Anfangshistorie einer Sitzung nach jeder Wiederherstellung der Zugangsdaten erneut hoch. PushNotification meldete in Sitzungen, die mit `claude remote-control` gestartet wurden, „Remote Control inactive“. Alles behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Flüssigeres Mitlesen von unterwegs, weniger Datenverkehr und funktionierende Push-Benachrichtigungen.
+- **Version:** v2.1.293
+
+#### Zwei Rücknahmen: Auto-Mode-Ablehnungstext und `/loop`-Weckruf in Cloud-Sitzungen
+
+- **Was:** Die Änderung aus 2.1.281, die Claude bei einer Auto-Mode-Ablehnung sagte, die Ablehnung gelte für das Ergebnis und nicht nur den exakten Befehl, ist zurückgenommen. Ebenso der Fix aus 2.1.290 für Cloud-Sitzungen, die nach einem Container-Neustart mit verlorenem `/loop`-Weckruf oder geplanter Aufgabe schlafen blieben: Claude wird nicht mehr informiert, und die Sitzung bleibt schlafen.
+- **Einsatz:** Automatisch aktiv. Bei Cloud-Sitzungen mit `/loop` nach einem Container-Neustart selbst prüfen, ob die Schleife noch läuft.
+- **Mehrwert:** Wer sich auf das Verhalten aus 2.1.281 oder 2.1.290 verlassen hat, weiß, dass es wieder weg ist.
+- **Version:** v2.1.293
+
+#### Mods und Plugin-Tests: `mock.session`, `classic.*`-Hooks, `plugin eval` mit Docker Desktop
+
+- **Was:** `claude plugin test` schlug bei Mods fehl, die `$.session.append` aufrufen; Tests können die angehängten Zeilen jetzt über das neue `mock.session` zurücklesen. Hooks eines Mods auf `classic.*`-Events wurden übersprungen, während der Plugin-Hooks-Worker neu startete. `claude plugin eval` lehnte auf Macs mit Docker Desktop (Links unter `~/.docker/bin`) jeden Lauf mit Bash-Rechten ab; die Ablehnung nennt jetzt auch, welcher Teil eines Credential-Stores den Link enthielt.
+- **Einsatz:** `claude plugin test` / `claude plugin eval`; in Tests `mock.session` nutzen.
+- **Mehrwert:** Mods mit Session-Ausgaben lassen sich jetzt testen, und Hooks fallen beim Worker-Neustart nicht mehr still aus.
+- **Version:** v2.1.293
+
+#### `/ultrareview`-Upload: falsche Ablehnungen unter Linux behoben
+
+- **Was:** Der Upload von `/ultrareview` lehnte unter Linux manche Repositories (z. B. eines in einem anderen Checkout) wegen einer angeblich nicht lesbaren Settings-Datei ab, während ein Sandbox-Befehl lief. Außerdem empfahl die Ablehnung bei Split-Index-Dateien einen Git-Befehl, nach dem Git seinen Index nicht mehr lesen konnte. Beides behoben.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Cloud-Reviews starten zuverlässiger, und der Hinweis bei Split-Index richtet keinen Schaden mehr an.
+- **Version:** v2.1.293
+
+#### Skills aus claude.ai: Sync alle 40 Minuten, geänderte Beschreibungen kommen sofort an
+
+- **Was:** Die Beschreibung eines aus claude.ai synchronisierten Skills erreichte das Modell nach einer Änderung teils erst nach neuer Unterhaltung oder `/clear`; behoben. Ohne aktive Sitzung prüft Claude Code jetzt nur noch etwa alle 40 statt alle 10 Minuten auf Änderungen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Skill-Änderungen wirken in laufenden Sitzungen, und im Leerlauf gibt es weniger Hintergrund-Anfragen.
+- **Version:** v2.1.293
+
+#### Schnellerer Start für Team und Enterprise, robusteres Claude in Chrome
+
+- **Was:** Richtlinien und Managed Settings werden für Team- und Enterprise-Organisationen früher geladen, eine hängende Anfrage wird nach 3 Sekunden wiederholt. Claude in Chrome lehnt weniger Seitenaktionen ab, wenn der Browser seine Tabs langsam meldet, und erklärt in Cloud-Sitzungen bei mehreren Organisationen, dass die Erweiterung in derselben Organisation angemeldet sein muss. `/tui` trennt Claude in Chrome nicht mehr in mit `--chrome` gestarteten Sitzungen und beachtet `--no-chrome`. Die Claude-Apps-Gateway startet jetzt auch, wenn eine `desktop`-Richtlinie die Browser-Schlüssel von Claude Desktop setzt (z. B. `builtinBrowserEnabled`).
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Kürzere Startzeiten in verwalteten Umgebungen und weniger Abbrüche bei Browser-Automatisierung.
+- **Version:** v2.1.293
+
+#### Eingabe, Vim-Modus und Tastenbelegung: kleinere Fixes
+
+- **Was:** Eingefügter Text, der mit denselben Wörtern beginnt und endet, wurde manchmal wie getippt gesendet. Ein Skill-Name in eingefügtem Text galt als getippt, wenn ein direkt danach eingegebener Akzent mit dem letzten Buchstaben verschmolz. Vim-Modus: `>>`/`<<` auf reinen Leerzeichen-Zeilen und `V` + `d` setzen den Cursor jetzt richtig, `.` wirkt auf die Cursor-Zeile. `keybindings.json`-Prüfung: ein einzelnes `" "` (Leertaste) ist kein Fehler mehr, Schreibweisen wie `"ctrl+ k"` erzeugen eine Warnung. `/feedback` kehrte nach Ctrl+O/Ctrl+Z während des Sendens zur Entwurfsliste zurück, sodass sich das Senden nicht mehr abbrechen ließ. Unter Windows konnte das Beenden einer Statuszeile, eines Hooks oder Shell-Befehls einen fremden Prozess mit wiederverwendeter Prozess-ID treffen.
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Weniger Überraschungen beim Einfügen und Editieren, und unter Windows keine versehentlich beendeten fremden Prozesse mehr.
+- **Version:** v2.1.293
+
+#### Kleinere Änderungen: Sortierung, OpenTelemetry, Artefakte, Self-hosted Runner
+
+- **Was:** Agentenlisten und dem Modell gemeldete MCP-Server sortieren Namen mit Nicht-ASCII-Zeichen jetzt hinter ASCII-Namen. Das OpenTelemetry-Event `claude_code.at_mention` wird pro gelesenem Prompt höchstens 100-mal für Agenten und 100-mal für MCP-Ressourcen ausgegeben. Artefakte pinnen Bibliotheken auf exakte Versionen, die mindestens zwei Wochen alt sind. Der Orchestrator des Self-hosted Runners wartet zwischen Abfragen 4 bis 6 statt konstant 5 Sekunden. Der Hinweis zu Bash-Edit-Diffs sagt jetzt, dass die Dateien während des Befehls geändert wurden, auch durch andere Prozesse. Die Agentenzahl in der Fußzeile und die Sitzungsliste verschwinden nicht mehr bei kurzzeitigen Lesefehlern (z. B. zu viele offene Dateien).
+- **Einsatz:** Automatisch aktiv.
+- **Mehrwert:** Stabilere Reihenfolgen (gut für Prompt-Caching), weniger Telemetrie-Rauschen, reproduzierbarere Artefakte und keine synchron pollenden Runner-Replikas mehr.
+- **Version:** v2.1.293
+
+#### Claude Tag und Code Review: Slack-, Admin- und Repository-Fixes
+
+- **Was:** Claude in Slack meldet in workspace-übergreifenden Enterprise-Grid-Kanälen nicht mehr fälschlich einen nicht eingerichteten Workspace und bricht nicht mehr mitten in einer Aufgabe ab, wenn ein Admin Connectors, Plugins, Skills oder Regeln des Kanals ändert (die Änderung gilt danach). Eine Routine mit Zusatznotizen läuft jetzt im selben Thread weiter. Die Admin-Einstellungen listen nicht verbundene Enterprise Grids mit Connect-Button, zeigen Google-Connectors korrekt an und erlauben 50 statt 20 Kanalregeln pro Workspace bzw. organisationsweit. In Ankündigungskanälen tritt Claude ohne Vorstellungsnachricht bei. Code Review listet im Dialog „Add a repository“ jedes Repository, das nicht hinzugefügt werden konnte, mit Grund (z. B. fehlende GitHub-Schreibrechte).
+- **Einsatz:** Automatisch aktiv; Kanalregeln in den Claude-Tag-Admin-Einstellungen.
+- **Mehrwert:** Zuverlässigere Slack-Integration in großen Organisationen und nachvollziehbare Fehler beim Einrichten von Code Review.
+- **Version:** v2.1.293
+
+---
+
+### Woche 41 (8. Oktober 2026) — Platform: SDK-Toolsets für Browser und Computer Use, strengere Web-Tools in Managed Agents, Compliance API für Chats
+
+#### Compliance API liefert Chats aus der vereinheitlichten Claude-Oberfläche
+
+- **Was:** Die Chat-Endpunkte der Compliance API geben jetzt auch Chats aus der „unified Claude experience“ zurück, in Beta für Claude-Enterprise-Organisationen und mit dem vorhandenen Compliance Access Key.
+- **Einsatz:** Bestehende Compliance-Abfragen weiter nutzen; Doku: `/docs/en/manage-claude/compliance-content-data`.
+- **Mehrwert:** Audit- und Löschprozesse erfassen auch Unterhaltungen aus der neuen Claude-Oberfläche, ohne neue Zugangsdaten.
+- **Version:** Platform Release Notes 08.10.2026 (Beta, Enterprise)
+
+#### SDK-Toolsets für Browser Use und Computer Use (Python/TypeScript, Beta)
+
+- **Was:** Die Python- und TypeScript-SDKs enthalten in Beta Klassen für das **Browser-Use-Tool** und das **Computer-Use-Tool**. Man leitet eine Klasse ab und schreibt pro Tool eine Methode gegen die eigene Browser- oder Desktop-Automatisierung. Das SDK übernimmt die Tool-Schleife, die festgelegten URL- und Dateirichtlinien für den Browser und den eigenen Freigabe-Callback.
+- **Einsatz:** Toolset-Klasse im SDK ableiten (z. B. mit Playwright dahinter). Doku: „Browser and computer use with the SDK toolsets“ (`/docs/en/agents-and-tools/tool-use/browser-use-sdk`).
+- **Mehrwert:** Statt die Tool-Schleife samt Sicherheitsprüfungen selbst zu bauen, schreibt man nur die eigentlichen Aktionen. Das passt gut zum Browser-Use-Tool von Haiku 5.5.
+- **Version:** Platform Release Notes 07.10.2026 (nachgetragen, Beta)
+
+#### Managed Agents: `allowed_hosts` gilt jetzt auch für `web_search` und `web_fetch`
+
+- **Was:** In Cloud-Umgebungen mit `limited`-Netzwerk beschränkt `allowed_hosts` jetzt auch die Tools `web_search` und `web_fetch`. Ein `web_fetch` auf einen nicht erlaubten Host liefert den Fehler `url_not_allowed`, `web_search` lässt solche Treffer weg. Ist `allowed_hosts` leer, liefern beide nichts. `allow_package_managers` und `allow_mcp_servers` erweitern die Liste dafür nicht. Eine Session (oder ein Session-Update) schlägt mit HTTP 400 fehl, wenn ein `allowed_domains`-Eintrag eines Web-Tools nicht in `allowed_hosts` liegt; Einträge gelten exakt, außer sie beginnen mit `*.` (`docs.example.com` liegt also nicht in `["example.com"]`). `unrestricted`-Netzwerk und Self-hosted-Umgebungen sind nicht betroffen.
+- **Einsatz:** Benötigte Hosts in `allowed_hosts` der Umgebung eintragen (öffnet sie auch für die Sandbox); `allowed_domains` der Web-Tools darauf abstimmen.
+- **Mehrwert:** Eine Netzwerk-Liste regelt Sandbox und Web-Tools gemeinsam. Bestehende Umgebungen mit `limited`-Netzwerk sollte man prüfen, weil Web-Tools dort sonst plötzlich leer bleiben oder Sessions mit 400 scheitern.
+- **Version:** Platform Release Notes 07.10.2026 (nachgetragen; Verhaltensänderung)
+
+#### Managed Agents: `web_fetch` holt nur noch bereits bekannte URLs
+
+- **Was:** Das `web_fetch`-Tool in Claude Managed Agents ruft nur noch URLs ab, die schon in der Session vorkamen, etwa im Text einer User-Nachricht, in einem `web_search`-Ergebnis oder auf einer zuvor geholten Seite. URLs, die nur in Claudes eigener Ausgabe, im System-Prompt, einem angehängten Dokument oder der Ausgabe von `bash`, `read` oder MCP-Tools stehen, zählen nicht; der Aufruf liefert dann `url_not_in_prior_context`.
+- **Einsatz:** URLs, die der Agent abrufen soll, im Text eines `user.message`-Events mitschicken.
+- **Mehrwert:** Erschwert Datenabfluss per selbst gebauter URL (z. B. durch Prompt-Injection). Agenten, die URLs aus Tool-Ausgaben weiterverfolgen, müssen allerdings angepasst werden.
+- **Version:** Platform Release Notes 07.10.2026 (nachgetragen; Verhaltensänderung)
+
+#### Models API: `capabilities.server_tools`
+
+- **Was:** `GET /v1/models` und `GET /v1/models/{model_id}` melden jetzt unter `capabilities.server_tools`, ob ein Modell das Web-Search- und das Code-Execution-Tool akzeptiert. `capabilities.server_tools.code_execution` sagt, ob das Code-Execution-Tool erlaubt ist; das bestehende `capabilities.code_execution` auf oberster Ebene sagt dagegen, ob Code die anderen Tools der Anfrage aufrufen kann.
+- **Einsatz:** `curl https://api.anthropic.com/v1/models/claude-haiku-5-5 …` und `.capabilities.server_tools` auswerten.
+- **Mehrwert:** Clients können Server-Tools je Modell dynamisch an- oder abschalten, statt eine Kompatibilitätstabelle zu pflegen.
+- **Version:** Platform Release Notes 06.10.2026 (nachgetragen)
+
+#### Dreams unterstützt Opus 5.5, Fable 5.1 und Sonnet 5.5
+
+- **Was:** Die Managed-Agents-Funktion **Dreams** (Research Preview), die Memory Stores anhand früherer Sessions neu ordnet, läuft jetzt auch auf **Claude Opus 5.5**, **Claude Fable 5.1** und **Claude Sonnet 5.5**.
+- **Einsatz:** Modell in der Dreams-Konfiguration setzen; Doku: `/docs/en/managed-agents/dreams#limits`.
+- **Mehrwert:** Gedächtnis-Konsolidierung läuft auf den aktuellen Modellen statt auf der Vorgänger-Generation.
+- **Version:** Platform Release Notes 01.10.2026 (nachgetragen)
+
+---
 
 ### Woche 41 (7. Oktober 2026) — Platform: Claude Haiku 5.5, günstigere Cache-Reads für Sonnet 5.5, API-Guthaben für Max und Team
 
