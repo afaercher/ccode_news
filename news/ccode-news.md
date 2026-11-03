@@ -1,11 +1,185 @@
 # Claude Code News
 
 > Automatisch kuratierte Zusammenfassung der neuesten Claude Code Änderungen.
-> Letzte Aktualisierung: 2026-11-02 18:00 UTC (**Crawl 02.11. 18:00 UTC: Leerlauf bei allen vier Quellen (Montag 10:00 PT, Beginn des üblichen Release-Fensters), achter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC; 2.1.317/318 HTTP 404); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38`, `w44` bis `w46` HTTP 404) byte-gleich zum Snapshot von 12:00; Announcements-Seite (593 712 Bytes) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 (198 Tokens, ohne Kopfzeile): einziger Fehltreffer weiter `/review look at /tmp/shot.png` (v2.1.311). Neue Einträge: 0. — Vorheriger Crawl 02.11. 12:00 UTC: **Crawl 02.11. 12:00 UTC: Leerlauf bei allen vier Quellen (Montagmittag UTC, vor dem üblichen Release-Fenster), siebter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich (JSON nur mit neuen `download_count`-Werten). `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w46` stichprobenartig HTTP 404) byte-gleich zum Snapshot von 06:00; Announcements-Seite (593 712 Bytes, sichtbarer Text unverändert) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 (198 Tokens, ohne Kopfzeile): einziger Fehltreffer weiter `/review look at /tmp/shot.png` (v2.1.311). Neue Einträge: 0. — Vorheriger Crawl 02.11. 06:00 UTC: **Crawl 02.11. 06:00 UTC: Leerlauf bei allen vier Quellen (Montagmorgen), sechster Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w45` HTTP 404) byte-gleich zum Snapshot vom 01.11. 18:00; Announcements-Seite (593 712 Bytes, sichtbarer Text unverändert) mit denselben 13 Slugs, alle per Titel-/Stichwort-grep belegt. Token-Abgleich v2.1.310–316 (198 Tokens, ohne Kopfzeile): einziger Fehltreffer (`/review look at /tmp/shot.png`, v2.1.311) ist bereits inhaltlich erfasst. Neue Einträge: 0. — Vorheriger Crawl 01.11. 18:00 UTC: **Crawl 01.11. 18:00 UTC: Leerlauf bei allen vier Quellen (Sonntag), fünfter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w45` HTTP 404) byte-gleich zum 12:00-Snapshot; Announcements-Seite (593 712 Bytes) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 (198 Tokens) ohne Fehltreffer. Neue Einträge: 0. — Vorheriger Crawl 01.11. 12:00 UTC: **Crawl 01.11. 12:00 UTC: Leerlauf bei allen vier Quellen (Sonntag), vierter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases in der Länge unverändert. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w44` HTTP 404) byte-gleich zum 06:00-Snapshot; Announcements-Seite (593 712 Bytes, nur Nonce-/Build-Unterschiede) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 gegen die Datei: einziger Fehltreffer (`/review look at /tmp/shot.png`, v2.1.311) ist bereits inhaltlich erfasst; alle 13 Blog-Slugs per Titel-/Stichwort-grep belegt. Neue Einträge: 0. — Vorheriger Crawl 01.11. 06:00 UTC: **Crawl 01.11. 06:00 UTC: Leerlauf bei allen vier Quellen (Sonntag), dritter Lauf in Folge ohne Änderung seit v2.1.316.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases in der Länge unverändert. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w44` HTTP 404) byte-gleich zum 31.10.-18:00-Snapshot; Announcements-Seite (593 712 Bytes, nur Nonce-/Build-Unterschiede) mit denselben 13 Slugs. Neue Einträge: 0. — Vorheriger Crawl 31.10. 18:00 UTC: **Crawl 31.10. 18:00 UTC: Leerlauf bei allen vier Quellen (Samstag), zweiter Lauf in Folge ohne Änderung seit v2.1.316.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases in der Länge unverändert. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w44` HTTP 404) byte-gleich zum 12:00-Snapshot; Announcements-Seite (593 712 Bytes) mit denselben 13 Slugs. v2.1.316 wurde bereits um 12:00 per Token-Abgleich vollständig nachgeprüft. Neue Einträge: 0. — Ältere Crawl-Historie in den Git-Commits.)
+> Letzte Aktualisierung: 2026-11-03 06:00 UTC (**Crawl 03.11. 06:00 UTC: neue Version v2.1.317 (87 Changelog-Punkte) und Message Threads (Beta).** npm `latest` = `next` **2.1.317** (02.11. 23:57 UTC), `stable` springt von 2.1.309 auf **2.1.311**; GitHub-Release `v2.1.317` 03.11. 01:25 UTC, Body deckungsgleich mit dem CHANGELOG, ältere Bodies byte-gleich. `CHANGELOG.md` 1 142 787 Bytes (nur Abschnitt 2.1.317 neu). **Platform** 136 891 Bytes: neu „November 2, 2026“ (Message Threads), sonst nur ein Listenzeichen geändert. **What's New** 14 997 Bytes (Week 37; `2026-w38`, `w45`, `w46` HTTP 404) byte-gleich. Announcements mit 13 Slugs: neu `message-threads`, herausgefallen `code-review-is-now-generally-available`. Korrigiert: 2.1.315 existiert auf npm (30.10. 21:05 UTC), fehlt nur in CHANGELOG und Releases. Neue Einträge: 24. — Vorheriger Crawl 02.11. 18:00 UTC: **Crawl 02.11. 18:00 UTC: Leerlauf bei allen vier Quellen (Montag 10:00 PT, Beginn des üblichen Release-Fensters), achter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC; 2.1.317/318 HTTP 404); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38`, `w44` bis `w46` HTTP 404) byte-gleich zum Snapshot von 12:00; Announcements-Seite (593 712 Bytes) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 (198 Tokens, ohne Kopfzeile): einziger Fehltreffer weiter `/review look at /tmp/shot.png` (v2.1.311). Neue Einträge: 0. — Vorheriger Crawl 02.11. 12:00 UTC: **Crawl 02.11. 12:00 UTC: Leerlauf bei allen vier Quellen (Montagmittag UTC, vor dem üblichen Release-Fenster), siebter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich (JSON nur mit neuen `download_count`-Werten). `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w46` stichprobenartig HTTP 404) byte-gleich zum Snapshot von 06:00; Announcements-Seite (593 712 Bytes, sichtbarer Text unverändert) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 (198 Tokens, ohne Kopfzeile): einziger Fehltreffer weiter `/review look at /tmp/shot.png` (v2.1.311). Neue Einträge: 0. — Vorheriger Crawl 02.11. 06:00 UTC: **Crawl 02.11. 06:00 UTC: Leerlauf bei allen vier Quellen (Montagmorgen), sechster Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w45` HTTP 404) byte-gleich zum Snapshot vom 01.11. 18:00; Announcements-Seite (593 712 Bytes, sichtbarer Text unverändert) mit denselben 13 Slugs, alle per Titel-/Stichwort-grep belegt. Token-Abgleich v2.1.310–316 (198 Tokens, ohne Kopfzeile): einziger Fehltreffer (`/review look at /tmp/shot.png`, v2.1.311) ist bereits inhaltlich erfasst. Neue Einträge: 0. — Vorheriger Crawl 01.11. 18:00 UTC: **Crawl 01.11. 18:00 UTC: Leerlauf bei allen vier Quellen (Sonntag), fünfter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases byte-gleich. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w45` HTTP 404) byte-gleich zum 12:00-Snapshot; Announcements-Seite (593 712 Bytes) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 (198 Tokens) ohne Fehltreffer. Neue Einträge: 0. — Vorheriger Crawl 01.11. 12:00 UTC: **Crawl 01.11. 12:00 UTC: Leerlauf bei allen vier Quellen (Sonntag), vierter Lauf in Folge ohne Änderung seit v2.1.316; Nachabgleich ohne Nachtrag.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases in der Länge unverändert. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w44` HTTP 404) byte-gleich zum 06:00-Snapshot; Announcements-Seite (593 712 Bytes, nur Nonce-/Build-Unterschiede) mit denselben 13 Slugs. Token-Abgleich v2.1.310–316 gegen die Datei: einziger Fehltreffer (`/review look at /tmp/shot.png`, v2.1.311) ist bereits inhaltlich erfasst; alle 13 Blog-Slugs per Titel-/Stichwort-grep belegt. Neue Einträge: 0. — Vorheriger Crawl 01.11. 06:00 UTC: **Crawl 01.11. 06:00 UTC: Leerlauf bei allen vier Quellen (Sonntag), dritter Lauf in Folge ohne Änderung seit v2.1.316.** npm `latest` = `next` **2.1.316**, `stable` **2.1.309** (`time.modified` unverändert 31.10. 01:03 UTC); neuestes GitHub-Release weiter `v2.1.316` (31.10. 01:01 UTC), Release-Bodies der letzten fünf Releases in der Länge unverändert. `CHANGELOG.md` 1 130 515 Bytes, **Platform** (`overview.md`) 136 068 Bytes und **What's New** 14 997 Bytes (Week 37; `2026-w38` bis `w44` HTTP 404) byte-gleich zum 31.10.-18:00-Snapshot; Announcements-Seite (593 712 Bytes, nur Nonce-/Build-Unterschiede) mit denselben 13 Slugs. Neue Einträge: 0. — Ältere Crawl-Historie in den Git-Commits.)
 
 ---
 
 ## Neueste Änderungen
+
+### Woche 45 (3. November 2026) — v2.1.317: Rückfrage vor Abfluss der Konto-E-Mail, Kostenbericht im Gateway, `onFailure: "block"`, Read-Stub entfernt, Subagenten mit eigenem Effort; `stable` springt auf 2.1.311
+
+#### Rückfrage, bevor die Konto-E-Mail das Netz erreicht
+
+- **Was:** Neue Prüfung: Will ein Web- oder Shell-Tool-Aufruf die E-Mail-Adresse deines Kontos ins Netz senden, fragt Claude Code vorher nach.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Die eigene Adresse landet nicht unbemerkt in URLs, Headern oder Request-Bodies fremder Dienste, etwa durch eine manipulierte Webseite oder einen unbedachten `curl`.
+- **Version:** v2.1.317
+
+#### `/schedule` warnt vor ungefragten Connectors; Korrekturen an geplanten Aufgaben und `/loop`
+
+- **Was:** `/schedule` warnt jetzt, wenn eine neue geplante Cloud-Aufgabe Connectors erhält, die du nicht angefordert hast, und sagt, wie du sie entfernst. Behoben: `/schedule` ließ nächste Laufzeit und Link in den Ergebnissen weg; gespeicherte Aufgaben ließen sich nach dem Abschalten geplanter Aufgaben weder auflisten noch löschen; neue Aufgaben ignorierten die Standard-Umgebung der Organisation (das Formular startet jetzt auf der vom Admin gewählten statt auf der von Anthropic gehosteten); selbstgetaktete `/loop`-Wakeups wurden teils nicht geplant, wenn Claude ein Feld im Request ausließ.
+- **Einsatz:** `/schedule` wie gewohnt; die Warnung erscheint beim Anlegen.
+- **Mehrwert:** Geplante Agents bekommen nicht still mehr Zugriff als gewollt, und Aufgaben laufen in der Umgebung, die der Admin vorgesehen hat.
+- **Version:** v2.1.317
+
+#### Claude-Apps-Gateway: Kostenbericht per Admin-API und Tagesprotokoll der IdP-Gruppen
+
+- **Was:** Neuer Endpunkt `GET /v1/organizations/analytics/cost` liefert vergangene Ausgaben über einen Zeitraum, insgesamt, je Entwickler, je Tag oder je IdP-Gruppe. Dafür zeichnen Gateways mit gesetztem `admin:` täglich die IdP-Gruppen jedes Entwicklers auf, Aufbewahrung über `admin.identity_retention_days`. Behoben: Bedrocks Fehler „Input is too long." wurde verdeckt, Sessions scheiterten dann in jedem Turn mit „upstream rejected the request", statt zu kompaktieren; Statuszeile und `/usage` zeigten das eigene Limit als 100 % verbraucht, nachdem nur das gepoolte Gruppen-Budget aufgebraucht war. Die Startfehlermeldung bei nicht erreichbarem Pflicht-Gateway verweist jetzt aufs Netzwerk statt auf eine Anmeldung und nennt ein nicht prüfbares TLS-Zertifikat.
+- **Einsatz:** `admin:`-Block in der Gateway-Konfiguration setzen, dann `GET /v1/organizations/analytics/cost` abfragen.
+- **Mehrwert:** Kostenzuordnung nach Team ohne eigenes Reporting, auch wenn Leute später die Gruppe wechseln; lange Sessions über Bedrock laufen wieder durch.
+- **Version:** v2.1.317
+
+#### `onFailure: "block"` für Agent-SDK-Hook-Callbacks
+
+- **Was:** Hook-Callbacks im Agent SDK können jetzt mit `onFailure: "block"` festlegen, dass ein fehlschlagender Callback die Aktion blockiert, statt sie durchzulassen.
+- **Einsatz:** Option `onFailure: "block"` an der Hook-Definition im SDK setzen.
+- **Mehrwert:** Sicherheits-Hooks arbeiten „fail closed": Ein Absturz des Prüfcodes öffnet keine Lücke mehr.
+- **Version:** v2.1.317
+
+#### Read-Tool: Stub „file unchanged since your last Read" entfällt
+
+- **Was:** Liest Claude eine unveränderte Datei erneut, kommt jetzt der Inhalt zurück statt des Hinweises, die Datei sei seit dem letzten Lesen unverändert.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Claude arbeitet nach einer Kompaktierung oder bei verdrängtem Kontext nicht mehr ohne den Dateiinhalt weiter; dafür kostet das erneute Lesen wieder die vollen Tokens.
+- **Version:** v2.1.317
+
+#### Subagenten und Teammates: eigener Effort je Modell, `SendMessage` erreicht laufende Agents früher
+
+- **Was:** Subagenten und Teammates auf einem anderen Modell als die Hauptunterhaltung nutzen jetzt die gespeicherte Effort-Stufe dieses Modells oder dessen Standard statt der Session-Stufe. `SendMessage` an einen laufenden Hintergrund-Agent kommt früher an: Dessen laufender Befehl wandert in den Hintergrund, ohne gestoppt zu werden. Behoben: Teammates in tmux- oder iTerm2-Panes starteten im Auto-Modus, obwohl der Lead im manuellen Modus lief; Strg+C zum Leeren des Eingabetexts stoppte alle laufenden Hintergrund-Agents; gelöschte Team-Inboxes wurden durch eine späte Teammate-Nachricht neu angelegt; ein neu angelegter Teammate flog durch eine ältere Shutdown-Freigabe wieder aus dem Team; eine Hintergrund-Session verlor teils einen eben gewechselten Berechtigungsmodus beim Upgrade oder Stilllegen. Beim Beenden entfällt die Rückfrage „Background work is running" für Plugin-Monitore.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Teammates bleiben im gewählten Berechtigungsmodus, und ein Strg+C an der Eingabe kostet keine laufende Hintergrundarbeit mehr.
+- **Version:** v2.1.317
+
+#### Auto-Modus: Meldung bei fehlender Prüfantwort, Fixes für LLM-Gateways und Artifacts
+
+- **Was:** Hat die Prüfung des Auto-Modus keine Antwort zum Tool-Aufruf eines Subagenten, erscheint nun ein Hinweis, vorher stand in der Hauptansicht nichts. Behoben: Der Auto-Modus scheiterte in jedem Turn, wenn ein als Base-URL gesetztes LLM-Gateway die serverseitige Sicherheitsprüfung mit 403 oder 422 beantwortete (403 mit `apiKeyHelper` bleibt unverändert); in Cloud-Sessions stoppte er zur Freigabe, wenn das Artifact-Tool hochlud, in eine Datenbank schrieb oder eine Datei über den Outputs-Ordner speicherte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Auto-Modus läuft auch hinter eigenen LLM-Gateways, und unbeantwortete Subagenten-Aufrufe werden sichtbar.
+- **Version:** v2.1.317
+
+#### `CLAUDE_CODE_DISABLE_NESTED_SESSION_ID` und korrektes `claude -p` in Runner-Sessions
+
+- **Was:** `claude -p` innerhalb einer Cloud- oder Self-hosted-Runner-Session teilte bisher deren ID: Es schrieb ins Transkript der Session, und ein Neustart konnte das falsche Gespräch fortsetzen. Zudem erzeugte es einen eigenen Titel und schickte ihn an die Session. Beides ist behoben. Wer das alte Verhalten braucht, setzt die neue Variable.
+- **Einsatz:** `CLAUDE_CODE_DISABLE_NESTED_SESSION_ID=1` auf dem Self-hosted Runner: `claude -p` nutzt dann wieder ID und Transkript der umgebenden Session.
+- **Mehrwert:** Skripte, die in einer Session `claude -p` aufrufen, beschädigen deren Verlauf nicht mehr.
+- **Version:** v2.1.317
+
+#### `claude -p` meldet verlorene Schreibvorgänge: Exit 1 bei vollem Datenträger
+
+- **Was:** `claude -p` beendete sich mit Exit 0, obwohl wegen vollem Datenträger oder Quota das Transkript oder Schreibvorgänge in `~/.claude.json` verloren gingen. Jetzt gibt es eine Fehlermeldung und in den Ausgabeformaten `text` und `json` Exit 1. Volle NFS-Exports können laut Changelog unerkannt bleiben. Außerdem beendete sich `claude auth status` vor dem Speichern einer langsamen Token-Erneuerung, was beim nächsten Lauf abmelden konnte.
+- **Einsatz:** Automatisch aktiv; CI-Skripte sollten den Exit-Code auswerten.
+- **Mehrwert:** Automatisierungen merken volle Platten sofort und verlieren keine Anmeldung durch einen Statusabruf.
+- **Version:** v2.1.317
+
+#### OpenTelemetry: neue Attribute und drei Proxy-Fixes
+
+- **Was:** Metriken, Events und Spans tragen jetzt `anthropic.plan`, `anthropic.seat_type`, `anthropic.provider` und `anthropic.custom_base_url`. Behoben: Exporte an einen `https://`-Endpunkt über einen Proxy gingen nie raus, wenn sie während eines laufenden Exports starteten; Verbindungsflut gegen einen Proxy, der Exporte an einen `http://`-Endpunkt mit 403 blockiert; Exporte hingen unbegrenzt hinter einem Proxy, der nie antwortet. Sie brechen jetzt nach 10 Sekunden ab, oder nach `OTEL_EXPORTER_OTLP_TIMEOUT` bis maximal 30 Sekunden.
+- **Einsatz:** Attribute in Dashboards nutzen; optional `OTEL_EXPORTER_OTLP_TIMEOUT` setzen.
+- **Mehrwert:** Nutzung lässt sich nach Plan, Seat und Provider auswerten, und Telemetrie hinter Firmen-Proxys hält die Arbeit nicht mehr auf.
+- **Version:** v2.1.317
+
+#### Self-hosted Runner: Wiederanlauf nach Serverfehlern, keine verlorenen Turns
+
+- **Was:** Nach einem 5xx außer 501 oder 529 öffnen Runner beim nächsten Poll und Sessions für ihre Anfragen neue Verbindungen, statt die fehlgeschlagene wiederzuverwenden. Bleibt ein Heartbeat unbeantwortet, öffnet die Session neue Verbindungen, statt jede Idle-Verbindung einzeln durchzuprobieren. Behoben: Sessions verloren beim Neustart während einer wartenden Plan-Freigabe die letzten Turns oder das ganze Gespräch; beim Umzug auf einen neuen Runner sah Claude den unterbrochenen Tool-Aufruf nicht, wenn der Turn älter als `CLAUDE_CODE_RESUME_INTERRUPTED_TURN_MAX_AGE_MS` war; ein abgeschalteter MCP-Server kam nach dem Umzug wieder an, wenn der Session-Dienst das Speichern des Schalters abgelehnt hatte.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Eigene Runner erholen sich schneller von Störungen und behalten den Gesprächsstand über Neustarts und Umzüge.
+- **Version:** v2.1.317
+
+#### Cloud-Sessions: Link-Karte für MCP, Schutz vor überschriebenen Netzwerk-Secrets
+
+- **Was:** Neue Link-Karte: Bittet ein MCP-Server um den Besuch eines Links, kannst du ihn öffnen oder ablehnen, statt dass die Anfrage ungesehen bleibt. Der Dialog für Organisations-Umgebungen in den Admin-Einstellungen übernimmt das kurze Layout der persönlichen Dialoge (Abschnitte öffnen über Zeilen, ungespeicherte Eingaben fragen vor dem Schließen). Behoben: Ein neues Netzwerk-Secret für einen Host mit vorhandenem Secret ersetzte dieses still, das Formular lehnt jetzt ab und verweist darauf; Sessions verloren den Titel, wenn während der Titelerzeugung eine Nachricht oder ein Stop eintraf (auch im SDK); Claude meldete einen funktionierenden claude.ai-Connector als unautorisiert oder fehlgeschlagen, wenn ein synchronisiertes Plugin denselben Server enthielt.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Link-Anfragen von MCP-Servern gehen in Cloud-Sessions nicht mehr unter, und Secrets werden nicht versehentlich ersetzt.
+- **Version:** v2.1.317
+
+#### Remote Control, claude.ai und Mobile: Fork-Namen, Neustart, Berechtigungsdialoge
+
+- **Was:** Forks ohne vom App gesetzten Namen behalten auch bei langen Namen die Endung „(fork)", in mit `claude remote-control` gestarteten Sessions heißt ein Fork von „Name (fork)" nun „Name (fork 2)". Behoben: Die nächste Nachricht an eine Idle-Session blieb unbeantwortet, wenn sie nach einem Neustart von `claude remote-control` binnen einer Minute nach der vorigen Nachricht kam; `/remote-control` antwortete „Unknown command", statt auf die Abschaltung durch die Einstellung `disableRemoteControl` hinzuweisen; der zweite von zwei gleichzeitigen Berechtigungsdialogen zeigte auf claude.ai und in den Mobile-Apps keinen Dateipfad und keinen Befehl; Remote-Control- und SDK-Hosts boten „don't ask again" für Tool-Aufrufe einer Mod an.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Freigaben vom Handy zeigen immer, was genau genehmigt wird, und Tool-Aufrufe von Mods lassen sich dort nicht mehr pauschal freigeben.
+- **Version:** v2.1.317
+
+#### Kompaktierung und große Sessions: drei Fixes
+
+- **Was:** Behoben: „Prompt is too long" nach automatischer Kompaktierung in Sessions, deren sehr große CLAUDE.md sich seit dem letzten Senden geändert hatte; sehr lange Gespräche verloren die frühere Zusammenfassung, wenn die Kompaktierung ihre eigene Anfrage kürzen musste; hoher Speicherverbrauch und langsamer Start in Headless-Sessions mit vielen Plugins, die Befehle registrieren.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Lange Sessions bleiben benutzbar und behalten ihren Kontext; Headless-Läufe mit vielen Plugins starten schneller.
+- **Version:** v2.1.317
+
+#### Netzwerk und Authentifizierung: Regionssperren klar benannt, TLS-Proxy, Bedrock-Token für MCP
+
+- **Was:** Eine Regions- oder Netzwerksperre (HTTP 403) erschien als Anmeldefehler, jetzt erklärt der Fehler die Sperre. In VS Code öffnet sich dabei auch nicht mehr der Anmeldebildschirm. Behoben: API-Anfragen scheiterten nach einer Root-Zertifikat-Erneuerung hinter manchen TLS-inspizierenden Proxys mit „unable to get local issuer certificate"; Stdio-MCP-Server erhielten ein leeres `AWS_BEARER_TOKEN_BEDROCK`, wenn ihre Env-Konfiguration es leer setzte. Die Variable wird nun entfernt, sodass der Server die AWS-Credentials der Maschine nutzen kann. Auf Microsoft Foundry sagt der Fehler bei nicht ladbaren Azure-Credentials nun, dass sie zu prüfen oder zu erneuern sind, und meldet `cloud_credential_error`.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Niemand sucht mehr Stunden nach einem Login-Problem, das in Wahrheit eine Netzwerksperre ist.
+- **Version:** v2.1.317
+
+#### Einstellungen, Modelle und Prompt-Caching: `effortLevel`, `DISABLE_PROMPT_CACHING_*`, Desktop-Hinweise
+
+- **Was:** Claude Desktop zeigt im Code-Tab einen Hinweis, wenn die Remote-Managed-Settings der Organisation für die Session nicht geladen sind, und einen zweiten, sobald sie es sind. Behoben: Das `effortLevel` eines Projekts wurde von Sessions ignoriert, die eine App vorab startet und dann im Projekt öffnet, etwa neue Sessions im Code-Tab; `DISABLE_PROMPT_CACHING_OPUS` und `DISABLE_PROMPT_CACHING_SONNET` wirkten nicht auf `[1m]`-, Fremdregions- und undatierte Schreibweisen des Standardmodells; Änderungen an Settings-Dateien in etwa der ersten Sekunde nach dem Start griffen erst nach der nächsten Änderung; Projekt- und lokale MCP-Server trennten sich in manchen Desktop-Sessions nach dem ersten Turn; von claude.ai synchronisierte Skills gingen verloren oder wurden alle zehn Minuten neu geladen, wenn sie nicht auf die Platte geschrieben werden konnten.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Organisationsvorgaben werden sichtbar, und Projekt-Einstellungen gelten auch in vorab gestarteten Desktop-Sessions.
+- **Version:** v2.1.317
+
+#### Suche, Resume und Tools: unvollständige Grep-Treffer, `--from-pr`, Transkript-Bereinigung
+
+- **Was:** Behoben: Claude hielt Grep- und Glob-Ergebnisse für vollständig, obwohl die Suche ins Zeitlimit lief; PDF-Metadaten konnten Read und @-Erwähnungen zu wenige Seiten zählen lassen; `claude --from-pr` meldete in Projekten mit vielen Sessions „No conversations found", wenn die verknüpfte Session älter als die erste Seite war; fortgesetzte Sessions meldeten Claude erneut eine schon bekannte Dateiänderung; Claude nutzte in einer fortgesetzten Session teils ein eingebautes Tool nicht mehr, nachdem ein früherer Aufruf am abgeschalteten Tool gescheitert war; alte Transkripte wurden nicht bereinigt, wenn einzelne Läufe die Bereinigung auslassen (z. B. mit `--setting-sources`); Kindprozesse eines gestoppten Shell-Befehls bekamen teils zweimal SIGTERM, wodurch manche Programme ihr Aufräumen übersprangen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Vor allem der Grep-Fix zählt: Claude zieht aus einer abgebrochenen Suche keine falschen „kommt nicht vor"-Schlüsse mehr.
+- **Version:** v2.1.317
+
+#### Artifacts, `/team-onboarding`, `/design-sync` und Kleinigkeiten
+
+- **Was:** `/artifacts` und die geteilte Liste des Artifact-Tools zeigten nichts Geteiltes, wenn du 200 oder mehr eigene Artifacts hast. Bei `/team-onboarding` löschte Claude die zuletzt aktualisierte Anleitung, wenn du ohne Namensnennung um das Löschen batest, und behauptete eine Löschung, obwohl der Server sie abgelehnt hatte; beides behoben. `/design-sync` sagt jetzt vorab, wenn dein Design-System zu Claude umgezogen ist, und stoppt vor dem Build, statt beim Upload zu scheitern. Der Hinweis „Resume this session with" beim Beenden wiederholt deine Startflags (z. B. `--chrome --debug`) vor `--resume`. Das eingebaute Skill `plugin-authoring` bietet einmalig an, eine funktionierende Mod teilen zu helfen. `/feedback` zeigte während des Sendens „Enter to confirm"; im Screenreader-Modus wurden Laufzeit und Token-Zahl laufender Subagenten bei jeder Änderung vorgelesen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Keine versehentlich gelöschten Onboarding-Anleitungen, und der Resume-Hinweis lässt sich direkt kopieren.
+- **Version:** v2.1.317
+
+#### VS Code: verlorene Nachrichten in Forks und beim Start, Link- und Schriftgrößen-Fixes
+
+- **Was:** Geforkte Gespräche verloren Nachrichten: Von parallelen Tool-Aufrufen blieb nur einer, und die letzten von einer Kompaktierung behaltenen Nachrichten fehlten, sodass Antworten ohne ihre Frage dastehen konnten. Eine Nachricht ging verloren, wenn Claude nicht rechtzeitig startete; die Extension startet es jetzt einmal neu, bevor sie den Fehler zeigt. Dateilinks in einem Claude-Tab öffneten sich über dem Chat statt in einer anderen Editorgruppe. Chips, Menüs, Banner und Dialoge im Panel blieben bei größerem `chat.fontSize` klein. Im Account-Panel stand das zweite Wort des Plannamens klein. `ultrathink` hob bei abgeschalteter Telemetrie weder den Effort an noch zeigte es den Regenbogen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Forks in VS Code sind wieder vollständig, und Nutzer mit größerer Schrift bekommen ein durchgängig lesbares Panel.
+- **Version:** v2.1.317
+
+#### Windows: Tool-Aufrufe auf bestimmten Volumes, 260-Zeichen-Grenze
+
+- **Was:** Auf manchen Volumes, auf denen die native Pfadauflösung scheitert, wurde jeder Tool-Aufruf abgelehnt; die Prüfung des Arbeitsverzeichnisses vergleicht jetzt die Identität des Ordners. Scratchpad und andere temporäre Pfade wuchsen in nicht von Claude Desktop gestarteten Sessions mit der Länge des Projektpfads, sodass dort geklonte Repositories an die 260-Zeichen-Grenze stießen.
+- **Einsatz:** Automatisch aktiv
+- **Mehrwert:** Claude Code bleibt auf solchen Volumes benutzbar, und tiefe Projektpfade brechen keine Klone mehr.
+- **Version:** v2.1.317
+
+#### Claude Tag (Slack): einfachere Karte für Artifact-Links
+
+- **Was:** Neu eingefügte Artifact-Links in Slack zeigen eine einfachere Karte mit Open-Button, der das Artifact in Claude öffnet, statt Slacks Seitenleiste.
+- **Einsatz:** Artifact-Link in Slack einfügen.
+- **Mehrwert:** Artifacts öffnen sich in voller Ansicht in Claude statt im schmalen Seitenpanel.
+- **Version:** v2.1.317
+
+#### npm-Kanäle: `latest`/`next` = 2.1.317, `stable` springt auf 2.1.311
+
+- **Was:** npm `latest` = `next` = **2.1.317** (npm 02.11. 23:57 UTC, GitHub-Release 03.11. 01:25 UTC). Der `stable`-Kanal rückt von 2.1.309 auf **2.1.311** vor und lässt 2.1.310 aus; damit gelten dort nun auch `ultrathink` = xhigh und die Runner-Änderungen aus v2.1.311. **Korrektur zum Eintrag zu v2.1.316:** 2.1.315 fehlt nur im CHANGELOG und bei den GitHub-Releases, auf npm ist die Version seit 30.10. 21:05 UTC vorhanden.
+- **Einsatz:** Automatisch aktiv (`claude update`; Nutzer mit `autoUpdatesChannel: "stable"` bekommen 2.1.311).
+- **Mehrwert:** Wer auf `stable` bleibt, liegt jetzt sieben Tage hinter dem neuesten Release und bekommt dessen Fixes erst nach dieser Bewährungszeit.
+- **Version:** v2.1.317 / v2.1.311 (stable)
+
+### Woche 45 (2. November 2026) — Platform: Message Threads (Beta) für die Messages API
+
+#### Message Threads: nur noch neue Nachrichten senden, schnelleres erstes Token
+
+- **Was:** Mit dem neuen Parameter `thread` hält die API das Gespräch serverseitig vor. Die erste Anfrage enthält wie bisher alles samt `system` und `tools` plus `"thread": {"type": "create"}`, jede weitere nur die neuen Nachrichten plus `"thread": {"type": "continue", "previous_message_id": "<id>"}`. Ein Thread läuft 5 Minuten nach der letzten Anfrage ab und wird spätestens 1 Stunde nach der letzten Nutzung gelöscht; danach liefert `continue` einen 404, und man sendet das Gespräch per `create` neu. Abrechnung und Rate Limits ändern sich nicht. Der Inhalt liegt verschlüsselt nur im Speicher und ist nicht ZDR-fähig. Nicht unterstützt: Message Batches, Token Counting, Compaction, Context Editing (außer `clear_thinking_20251015` mit `keep: "all"`) und Organisationen mit HIPAA Readiness oder Inference Hooks; solche Anfragen scheitern meist mit `thread_unsupported_request`. Pro Anfrage höchstens 4 `cache_control`-Breakpoints; Prompt-Caching wird nicht automatisch aktiviert.
+- **Einsatz:** Beta-Header `message-threads-2026-08-12`, oder im SDK der Helfer `client.beta.messages.thread(...)`, der den Header setzt und das Neusenden nach einem Ablauf übernimmt. Verfügbar auf Claude API, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed) und Claude in Microsoft Foundry. Die eigene Kopie des Gesprächs bleibt Pflicht.
+- **Mehrwert:** Lange Agent-Schleifen laden nicht mehr bei jedem Schritt Hunderttausende Tokens hoch; die Wartezeit bis zum ersten Token bleibt auch bei großem Kontext niedrig.
+- **Version:** Platform Release Notes (2. November 2026)
+
+### Woche 45 (2. November 2026) — Blog: „Message threads" und was es für Claude Code bringt
+
+#### Blog: Message Threads in der öffentlichen Beta, in Claude Code meist schon aktiv
+
+- **Was:** Die Ankündigung ergänzt die Platform-Notiz um Praxiszahlen: Für die meisten Claude-Code-Nutzer ist die Funktion bereits standardmäßig an, bei Anfragen mit 500k bis 1M Tokens sinkt die mediane Zeit bis zum ersten Token um etwa 35 %. Der Tokenverbrauch bleibt gleich, weil Claude weiterhin das ganze Gespräch liest. Als beste Einsatzfelder nennt der Beitrag lang laufende Coding-Agents, Computer-Use-Agents (Screenshots müssen nicht bei jedem Schritt neu hochgeladen werden) und dokument- oder bildlastige Abläufe.
+- **Einsatz:** In Claude Code automatisch aktiv (für die meisten Nutzer, laut Beitrag); eigene Agents siehe Eintrag zur Platform-Notiz.
+- **Mehrwert:** Spürbar schnellere Antworten in sehr langen Sessions, ohne Mehrkosten.
+- **Version:** Blog Announcements (2. November 2026)
 
 ### Woche 44 (31. Oktober 2026) — v2.1.316: `CLAUDE_CODE_SUBAGENT_EFFORT`, `CLAUDE_CODE_DISABLE_ULTRATHINK`, Gruppen-Budgets und geschichtete Policies im Gateway, Fast Mode für Opus 4.8 abgekündigt; `stable` springt auf 2.1.309
 
